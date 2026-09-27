@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>kolaymetin — Kolay Dil denetim masası</title>
+<meta name="description" content="Türkçe Kolay Dil ve Sade Dil denetim aracı. Metin bilgisayarınızdan çıkmaz.">
+<link rel="icon" href="/static/ikon/rehber.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/style.css">
+<script src="/static/tema.js"></script>
+<script src="/static/app.js" defer></script>
+<script src="/static/manzara.js" defer></script>
+</head>
+<body>
+<a class="atla" href="#metin">Metin alanına geç</a>
+
+<header class="kunye">
+  <div>
+    <h1 class="kunye__ad"><a href="/">kolaymetin</a></h1>
+    <p class="kunye__alt">Kolay Dil denetim masası</p>
+  </div>
+  <div class="kunye__sahne" aria-hidden="true">
+    <span class="dither dither--kirmizi dither--gunes"></span>
+    <canvas class="manzara" id="manzara"></canvas>
+  </div>
+  <div class="kunye__sag">
+    <p class="kunye__bilgi"><span id="bugun">—</span><br>Sayı 1.0.0</p>
+    <div class="arac-cubugu" role="toolbar" aria-label="Görünüm">
+      <button type="button" class="dugme dugme--kucuk" id="tema-dugmesi" aria-pressed="false">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-tema"></use></svg>
+        <span>Koyu tema</span>
+      </button>
+      <button type="button" class="dugme dugme--kucuk dugme--ikon" id="yazi-kucult" aria-label="Yazıyı küçült">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yazi-kucult"></use></svg>
+      </button>
+      <button type="button" class="dugme dugme--kucuk dugme--ikon" id="yazi-buyut" aria-label="Yazıyı büyüt">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yazi-buyut"></use></svg>
+      </button>
+      <a class="dugme dugme--kucuk" href="/rehber">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-rehber"></use></svg>
+        <span>Rehber</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<p class="not-seridi" role="note">
+  <span><strong>Bu araç yardımcıdır.</strong> Metni hedef okurlarla test edin.</span>
+  <span>Metniniz hiçbir yerde saklanmaz. Yalnızca denetim sırasında bu bilgisayarın belleğinde kalır.</span>
+</p>
+
+<main class="izgara" id="ana">
+  <section class="izgara__sol" aria-labelledby="masa-baslik">
+    <h2 id="masa-baslik" class="gorunmez">Metin</h2>
+    <div class="denetim-cubugu">
+      <div class="alan">
+        <span class="etiket" id="yukle-etiket">Belge</span>
+        <button type="button" class="dugme" id="yukle-dugmesi" aria-describedby="yukle-etiket">
+          <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yukle"></use></svg>
+          <span>Dosya yükle</span>
+        </button>
+        <input type="file" id="dosya" class="gorunmez" accept=".txt,.md,.docx,.pdf" tabindex="-1" aria-hidden="true">
+      </div>
+      <div class="alan">
+        <label for="ornek">Örnek metin</label>
+        <span class="secim"><select id="ornek"><option value="">Seçin…</option></select></span>
+      </div>
+      <div class="alan">
+        <label for="profil">Profil</label>
+        <span class="secim"><select id="profil">
+          <option value="kolay-dil">Kolay Dil</option>
+          <option value="sade-dil">Sade Dil</option>
+        </select></span>
+      </div>
+      <label class="kutu"><input type="checkbox" id="otomatik" checked> Yazarken denetle</label>
+      <button type="button" class="dugme dugme--birincil" id="denetle">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
+        <span>Denetle</span>
+      </button>
+    </div>
+
+    <div class="hata-kutusu" id="hata" role="alert" hidden></div>
+
+    <div class="masa" id="masa">
+      <div class="masa__kenar" id="kenar" aria-hidden="true"></div>
+      <div class="masa__yazi">
+        <div class="masa__arka" id="arka" aria-hidden="true"></div>
+        <div class="masa__secim" id="secim-katmani" aria-hidden="true"></div>
+        <label for="metin" class="gorunmez">Denetlenecek metin</label>
+        <textarea class="masa__alan" id="metin" spellcheck="false" autocomplete="off"
+          aria-describedby="metin-yardim"></textarea>
+        <div class="masa__bos" id="bos">
+          <span class="dither dither--bos-durum" aria-hidden="true"></span>
+          <p>Metninizi buraya yapıştırın.</p>
+        </div>
+      </div>
+    </div>
+    <p id="metin-yardim" class="etiket">Dosyayı bu alana sürükleyip bırakabilirsiniz. İşaretli bir yere tıklayınca ilgili not açılır.</p>
+  </section>
+
+  <aside class="izgara__sag" aria-labelledby="sonuc-baslik">
+    <h2 id="sonuc-baslik" class="gorunmez">Denetim sonucu</h2>
+    <div class="durum" id="yukleniyor" hidden>
+      <div class="tarama" aria-hidden="true"></div>
+      <span>Denetleniyor…</span>
+    </div>
+    <p class="gorunmez" id="duyuru" role="status" aria-live="polite"></p>
+
+    <div class="skorlar">
+      <div class="skor skor--buyuk">
+        <h3 class="skor__baslik">Kolay Dil Uyum Skoru</h3>
+        <div class="skor__deger"><span id="uyum">—</span><span class="etiket"> / 100</span></div>
+        <div class="cubuk-satir">
+          <div class="cubuk" aria-hidden="true"><div class="cubuk__dolgu d-00" id="uyum-cubuk"></div></div>
+          <span class="cubuk__deger" id="uyum-sayi">—</span>
+        </div>
+        <p class="skor__not" id="uyum-not" hidden></p>
+        <ul class="kategori-listesi" id="kategoriler" aria-label="Kategorilere göre skor"></ul>
+        <details class="aciklama-paneli" id="nasil">
+          <summary>Bu skor nasıl hesaplandı?</summary>
+          <div id="nasil-icerik"><p>Önce bir metin denetleyin.</p></div>
+        </details>
+      </div>
+      <div class="skor">
+        <h3 class="skor__baslik">Ateşman</h3>
+        <div class="skor__deger" id="atesman">—</div>
+        <p class="skor__duzey" id="atesman-duzey"></p>
+      </div>
+      <div class="skor">
+        <h3 class="skor__baslik">Çetinkaya-Uzun</h3>
+        <div class="skor__deger" id="cetinkaya">—</div>
+        <p class="skor__duzey" id="cetinkaya-duzey"></p>
+      </div>
+      <div class="skor">
+        <h3 class="skor__baslik">Bezirci-Yılmaz</h3>
+        <div class="skor__deger" id="bezirci">—</div>
+        <p class="skor__duzey" id="bezirci-duzey"></p>
+      </div>
+    </div>
+    <p class="etiket">Bu üç formülün amacı Kolay Dil değildir. Formüller yalnızca hece ve cümle uzunluğunu ölçer.</p>
+    <dl class="sayilar">
+      <div><dt>Kelime</dt><dd id="s-kelime">—</dd></div>
+      <div><dt>Cümle</dt><dd id="s-cumle">—</dd></div>
+      <div><dt>Ortalama cümle</dt><dd id="s-ortalama">—</dd></div>
+      <div><dt>En uzun cümle</dt><dd id="s-enuzun">—</dd></div>
+    </dl>
+
+    <div class="sekmeler" role="tablist" aria-label="Sonuç görünümü">
+      <button type="button" class="sekme" role="tab" id="sekme-bulgular" aria-selected="true" aria-controls="panel-bulgular">Bulgular <span id="bulgu-sayisi" class="mono"></span></button>
+      <button type="button" class="sekme" role="tab" id="sekme-cumleler" aria-selected="false" aria-controls="panel-cumleler" tabindex="-1">Cümleler</button>
+    </div>
+
+    <div class="sekme-paneli" role="tabpanel" id="panel-bulgular" aria-labelledby="sekme-bulgular">
+      <div class="suzgecler">
+        <fieldset>
+          <legend>Önem</legend>
+          <label class="kutu"><input type="checkbox" name="onem" value="hata" checked>
+            <svg class="ikon ikon--kirmizi" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-hata"></use></svg> Hata</label>
+          <label class="kutu"><input type="checkbox" name="onem" value="uyarı" checked>
+            <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-uyari"></use></svg> Uyarı</label>
+          <label class="kutu"><input type="checkbox" name="onem" value="bilgi" checked>
+            <svg class="ikon ikon--mavi" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-bilgi"></use></svg> Bilgi</label>
+        </fieldset>
+        <fieldset>
+          <legend>Kategori</legend>
+          <label class="kutu"><input type="checkbox" name="kategori" value="cümle" checked> Cümle</label>
+          <label class="kutu"><input type="checkbox" name="kategori" value="kelime" checked> Kelime</label>
+          <label class="kutu"><input type="checkbox" name="kategori" value="biçim" checked> Biçim</label>
+          <label class="kutu"><input type="checkbox" name="kategori" value="metin" checked> Metin</label>
+        </fieldset>
+      </div>
+      <span class="dither dither--kapak dither--kelime dither--mavi dither--bulgu-yok" id="bulgu-yok-gorsel" aria-hidden="true"></span>
+      <p class="bos-not" id="bulgu-yok">Metin yazın ya da yapıştırın. Bulgular burada görünür.</p>
+      <ol class="bulgu-listesi" id="bulgular" aria-label="Bulgular"></ol>
+    </div>
+
+    <div class="sekme-paneli" role="tabpanel" id="panel-cumleler" aria-labelledby="sekme-cumleler" hidden>
+      <p class="lejant"><span>Her satır bir cümle. Çubuk uzunluğu kelime sayısını gösterir.</span>
+        <span>Kesik çizgi: profilin uyarı eşiği.</span></p>
+      <ol class="cumleler" id="cumleler" aria-label="Cümleler"></ol>
+    </div>
+
+    <div class="disa-aktar" role="group" aria-label="Dışa aktar">
+      <span class="etiket tam-genislik">Raporu indir</span>
+      <button type="button" class="dugme dugme--kucuk" data-bicim="html">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-disa-aktar"></use></svg> HTML (yazdırılabilir)</button>
+      <button type="button" class="dugme dugme--kucuk" data-bicim="md">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-disa-aktar"></use></svg> Markdown</button>
+      <button type="button" class="dugme dugme--kucuk" data-bicim="json">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-disa-aktar"></use></svg> JSON</button>
+      <button type="button" class="dugme dugme--kucuk" id="yoksay-temizle" hidden>
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yoksay"></use></svg> Yoksayılanları geri al</button>
+    </div>
+  </aside>
+</main>
+
+<footer class="altbilgi">
+  <p>kolaymetin 1.0.0 · Kod: Apache-2.0 · Rehber ve sözlük: CC BY 4.0 · Yazı tipi: Atkinson Hyperlegible (SIL OFL)</p>
+  <nav aria-label="Alt bağlantılar"><a href="/rehber">Kural rehberi</a> · <a href="/stil-rehberi">Stil rehberi</a></nav>
+</footer>
+</body>
+</html>

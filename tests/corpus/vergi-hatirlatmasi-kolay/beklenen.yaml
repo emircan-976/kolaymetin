@@ -1,0 +1,20 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+skor_en_az: 85
+hata_yok: true
+tetiklenmeli: []
+tetiklenmemeli:
+- KD-C01
+- KD-C02
+- KD-C03
+- KD-C05
+- KD-C07
+- KD-C11
+- KD-K01
+- KD-K02
+- KD-K03
+- KD-K07
+- KD-B04
+- KD-B05
+- KD-B06
+- KD-B07

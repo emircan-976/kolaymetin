@@ -1,0 +1,33 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+tetiklenmeli:
+- kural: KD-C01
+  cumle: 2
+- kural: KD-K04
+  cumle: 2
+  ifade: Meteoroloji
+- kural: KD-C05
+  cumle: 7
+- kural: KD-C04
+  cumle: 7
+  ifade: Gerekmedikçe
+- kural: KD-K05
+  cumle: 7
+  ifade: yola çıkmayın
+- kural: KD-K03
+  cumle: 8
+  ifade: AFAD
+- kural: KD-C03
+  cumle: 9
+  ifade: Toplanma
+tetiklenmemeli:
+- KD-C02
+- KD-C07
+- KD-C11
+- KD-K01
+- KD-K02
+- KD-K07
+- KD-B04
+- KD-B05
+- KD-B06
+- KD-B07

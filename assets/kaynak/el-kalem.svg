@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180">
+  <!-- "Metin" kategorisi kapağı: kalem tutan el ve düzeltme işareti. Gri tonlu kaynak. -->
+  <defs>
+    <linearGradient id="ten" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eaeaea"/>
+      <stop offset="1" stop-color="#7c7c7c"/>
+    </linearGradient>
+    <linearGradient id="kalem" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2c2c2c"/>
+      <stop offset="0.5" stop-color="#9a9a9a"/>
+      <stop offset="1" stop-color="#3a3a3a"/>
+    </linearGradient>
+    <linearGradient id="zemin" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d0d0d0"/>
+      <stop offset="1" stop-color="#ffffff"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="180" fill="url(#zemin)"/>
+  <rect x="30" y="40" width="150" height="8" fill="#777"/>
+  <rect x="30" y="62" width="120" height="8" fill="#777"/>
+  <rect x="30" y="84" width="140" height="8" fill="#777"/>
+  <rect x="30" y="106" width="90" height="8" fill="#777"/>
+  <!-- düzeltme halkası ve çizgi -->
+  <rect x="60" y="80" width="56" height="4" fill="#111"/>
+  <rect x="60" y="94" width="56" height="4" fill="#111"/>
+  <rect x="56" y="80" width="4" height="18" fill="#111"/>
+  <rect x="116" y="80" width="4" height="18" fill="#111"/>
+  <!-- kalem -->
+  <polygon points="150,120 262,20 280,38 168,138" fill="url(#kalem)"/>
+  <polygon points="150,120 168,138 140,146" fill="#222"/>
+  <!-- el -->
+  <ellipse cx="236" cy="104" rx="56" ry="38" fill="url(#ten)"/>
+  <ellipse cx="196" cy="96" rx="20" ry="12" fill="url(#ten)"/>
+  <rect x="208" y="128" width="80" height="40" fill="url(#ten)"/>
+</svg>

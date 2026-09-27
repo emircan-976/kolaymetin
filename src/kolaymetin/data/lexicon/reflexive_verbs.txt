@@ -1,0 +1,41 @@
+# Dönüşlü okunabilen fiiller (edilgen/dönüşlü belirsizliği için istisna listesi)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# Bu fiillerin -(I)n- biçimi çoğunlukla "kendi kendine yapmak" anlamındadır.
+# Araç bu kelimeleri edilgen sayarsa yalnızca "bilgi" düzeyinde ve düşük güvenle uyarır.
+yıkanmak
+giyinmek
+soyunmak
+taranmak
+süslenmek
+sevinmek
+övünmek
+dövünmek
+hazırlanmak
+görünmek
+sarınmak
+örtünmek
+kuşanmak
+dinlenmek
+eğlenmek
+silkinmek
+gerinmek
+kaşınmak
+korunmak
+temizlenmek
+ısınmak
+yakınmak
+çekinmek
+kıvranmak
+gizlenmek
+saklanmak
+sakınmak
+özenmek
+bezenmek
+beslenmek
+kapanmak
+uzanmak
+dayanmak
+bulunmak
+yetinmek
+tanınmak
+toplanmak

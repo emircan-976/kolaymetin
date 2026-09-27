@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Künye sahnesi: ufuktan doğan, alt yarısı şeritlerle kesilmiş güneş. Gri tonlu kaynak;
+       kırmızı ikinci renk olarak basılır (dither.py → gorsel/kunye-gunes.png). -->
+  <defs>
+    <radialGradient id="kure" cx="0.36" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#f4f4f4"/>
+      <stop offset="0.35" stop-color="#9a9a9a"/>
+      <stop offset="0.8" stop-color="#2e2e2e"/>
+      <stop offset="1" stop-color="#101010"/>
+    </radialGradient>
+  </defs>
+  <rect width="200" height="200" fill="#ffffff"/>
+  <circle cx="100" cy="100" r="92" fill="url(#kure)"/>
+  <!-- alt yarıdaki şeritler: aşağı indikçe kalınlaşır -->
+  <rect x="0" y="112" width="200" height="4" fill="#ffffff"/>
+  <rect x="0" y="126" width="200" height="6" fill="#ffffff"/>
+  <rect x="0" y="142" width="200" height="8" fill="#ffffff"/>
+  <rect x="0" y="160" width="200" height="11" fill="#ffffff"/>
+  <rect x="0" y="180" width="200" height="20" fill="#ffffff"/>
+</svg>

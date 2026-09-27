@@ -1,0 +1,47 @@
+# Eş anlamlı kelime grupları (KD-K08: terim tutarlılığı)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# Kolay Dil'de aynı şeye hep aynı adı verin. tercih: önerilen kelime.
+# Bir grubun iki farklı üyesi aynı metinde geçerse araç uyarır.
+- {grup: [başvuru, müracaat], tercih: başvuru}
+# "ücret", "bedel", "fiyat", "tutar" grubu yok: aynı metinde çoğu zaman başka şeyleri anlatırlar
+# ("iade edilecek bedelden kargo ücreti düşülür", "asgari ödeme tutarı" ile "kart ücreti").
+- {grup: [belge, doküman, evrak, vesika], tercih: belge}
+- {grup: [kimlik kartı, nüfus cüzdanı, kimlik belgesi], tercih: kimlik kartı}
+- {grup: [adres, ikametgâh, ikamet adresi], tercih: adres}
+- {grup: [ödeme, tediye], tercih: ödeme}
+- {grup: [borç, tahakkuk], tercih: borç}
+- {grup: [son gün, son tarih, bitiş tarihi], tercih: son gün}
+- {grup: [aşı, aşılama, bağışıklama], tercih: aşı}
+- {grup: [hastane, sağlık kuruluşu, sağlık tesisi], tercih: hastane}
+- {grup: [doktor, hekim, tabip], tercih: doktor}
+- {grup: [çalışan, personel, görevli, memur], tercih: görevli}
+- {grup: [deprem, sarsıntı, zelzele], tercih: deprem}
+- {grup: [toplanma alanı, toplanma yeri, toplanma noktası], tercih: toplanma alanı}
+- {grup: [çöp, atık], tercih: çöp}
+- {grup: [izin, ruhsat, müsaade], tercih: izin}
+- {grup: [ceza, yaptırım, müeyyide], tercih: ceza}
+# "Yönetmelik" çoğu zaman bir adın parçasıdır ("Mesafeli Sözleşmeler Yönetmeliği").
+- {grup: [kural, mevzuat], tercih: kural}
+- {grup: [engelli, özürlü, sakat], tercih: engelli}
+- {grup: [randevu, rezervasyon], tercih: randevu}
+- {grup: [yaşlı, ihtiyar], tercih: yaşlı}
+- {grup: [e-posta, e-mail, mail, elektronik posta], tercih: e-posta}
+- {grup: [internet sitesi, web sitesi, web sayfası], tercih: internet sitesi}
+- {grup: [cep telefonu, mobil telefon, GSM], tercih: cep telefonu}
+- {grup: [şikâyet, yakınma], tercih: şikâyet}
+- {grup: [indirim, tenzilat, iskonto], tercih: indirim}
+- {grup: [kira, icar], tercih: kira}
+- {grup: [emekli aylığı, emekli maaşı], tercih: emekli aylığı}
+- {grup: [aile sağlığı merkezi, sağlık ocağı], tercih: aile sağlığı merkezi}
+- {grup: [sel, taşkın, su baskını], tercih: sel}
+- {grup: [afet, felaket], tercih: afet}
+- {grup: [tahliye, boşaltma], tercih: boşaltma}
+- {grup: [süre, müddet], tercih: süre}
+- {grup: [neden, sebep, gerekçe], tercih: neden}
+- {grup: [sorun, problem, mesele], tercih: sorun}
+- {grup: [önlem, tedbir], tercih: önlem}
+- {grup: [gıda, yiyecek, erzak], tercih: yiyecek}
+- {grup: [giysi, kıyafet, elbise], tercih: giysi}
+- {grup: [mahalle, semt], tercih: mahalle}
+- {grup: [otopark, park yeri], tercih: otopark}
+- {grup: [aile, hane], tercih: aile}

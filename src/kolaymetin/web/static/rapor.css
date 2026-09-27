@@ -1,0 +1,33 @@
+/* Bağımsız HTML rapor düzeni. style.css ile birlikte satır içine gömülür. */
+.rapor { max-width: 980px; margin: 0 auto; padding: 0 var(--aralik) var(--aralik); }
+.rapor .kunye { padding-left: 0; padding-right: 0; }
+.rapor .not-seridi { padding-left: 0; padding-right: 0; }
+.rapor section { padding: var(--aralik) 0; border-bottom: 1px dashed var(--murekkep-soluk); }
+.rapor h2 { font-size: var(--t-28); }
+.rapor-skorlar { display: grid; grid-template-columns: 2fr 1fr; gap: var(--aralik); align-items: start; }
+.rapor-okunabilirlik { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 12px; }
+.isaretli-metin { white-space: pre-wrap; overflow-wrap: break-word; line-height: 1.9; max-width: 68ch; padding: 12px 16px; border: 1px solid var(--murekkep); background: var(--kagit); }
+.isaretli-metin .imi { color: var(--murekkep); }
+.imi-no { font-family: var(--f-mono); font-size: 0.7em; font-weight: 700; vertical-align: super; line-height: 0; }
+.imi-no--hata { color: var(--kirmizi); }
+.imi-no--bilgi { color: var(--mavi); }
+.cumle-grubu { margin: 0 0 var(--aralik); }
+.cumle-grubu > blockquote { margin: 0 0 10px; padding: 8px 14px; border-left: 6px solid var(--murekkep); background: var(--kagit-2); line-height: 1.9; }
+.cumle-grubu > blockquote .imi { color: var(--murekkep); }
+.rapor .not-kagidi__govde { display: block; }
+.rapor-lejant { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 8px 0 0; font-size: var(--t-14); }
+.lejant-ornek { padding: 0 4px; }
+@media (max-width: 700px) {
+  .rapor-skorlar, .rapor-okunabilirlik { grid-template-columns: 1fr; }
+}
+@media print {
+  @page {
+    size: A4; margin: 18mm;
+    @top-left { content: "kolaymetin — Kolay Dil denetim raporu"; font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 8pt; }
+    @bottom-right { content: "Sayfa " counter(page) " / " counter(pages); font-family: "Atkinson Hyperlegible Mono", monospace; font-size: 8pt; }
+  }
+  .rapor { max-width: none; padding: 0; }
+  .rapor section { break-inside: auto; }
+  .cumle-grubu { break-inside: avoid; }
+  details.aciklama-paneli > *:not(summary) { display: block; }
+}

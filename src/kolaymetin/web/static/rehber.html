@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{baslik}} — kolaymetin rehberi</title>
+<link rel="icon" href="/static/ikon/rehber.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/style.css">
+<script src="/static/tema.js"></script>
+<script src="/static/manzara.js" defer></script>
+</head>
+<body>
+<a class="atla" href="#icerik">İçeriğe geç</a>
+<header class="kunye">
+  <div>
+    <p class="kunye__ad"><a href="/rehber">kolaymetin</a></p>
+    <p class="kunye__alt">Kolay Dil kural rehberi</p>
+  </div>
+  <div class="kunye__sahne" aria-hidden="true">
+    <span class="dither dither--kirmizi dither--gunes"></span>
+    <canvas class="manzara" id="manzara"></canvas>
+  </div>
+  <div class="kunye__sag">
+    <p class="kunye__bilgi">Açık kaynak rehber · CC BY 4.0<br>Sayı {{surum}}</p>
+    <div class="arac-cubugu">
+      <a class="dugme dugme--kucuk" href="/">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-onceki"></use></svg>
+        <span>Denetim masasına dön</span>
+      </a>
+    </div>
+  </div>
+</header>
+<p class="not-seridi" role="note"><span><strong>Araç yardımcıdır.</strong> Kolay Dil metnini her zaman hedef okurlarla test edin.</span></p>
+<div class="rehber">
+  <aside class="rehber__menu">{{menu}}</aside>
+  <main class="rehber__icerik" id="icerik">
+{{icerik}}
+  </main>
+</div>
+<footer class="altbilgi">
+  <p>Rehber metni: CC BY 4.0 · Kod: Apache-2.0</p>
+  <nav aria-label="Alt bağlantılar"><a href="/">Denetim masası</a> · <a href="/stil-rehberi">Stil rehberi</a></nav>
+</footer>
+</body>
+</html>

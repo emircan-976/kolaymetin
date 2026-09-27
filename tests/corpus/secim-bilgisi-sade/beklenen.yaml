@@ -1,0 +1,22 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+tetiklenmeli:
+- kural: KD-K02
+  cumle: 1
+  ifade: kontrol
+- kural: KD-K04
+  cumle: 2
+  ifade: kullanacaksanız
+- kural: KD-C07
+  cumle: 9
+tetiklenmemeli:
+- KD-C02
+- KD-C03
+- KD-C05
+- KD-C11
+- KD-K01
+- KD-K03
+- KD-K07
+- KD-B05
+- KD-B06
+- KD-B07

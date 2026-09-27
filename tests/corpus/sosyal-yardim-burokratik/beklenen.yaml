@@ -1,0 +1,34 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+skor_en_cok: 40
+tetiklenmeli:
+- kural: KD-B07
+  cumle: 1
+- kural: KD-K01
+  cumle: 1
+  ifade: MÜRACAATLARI
+- kural: KD-C01
+  cumle: 2
+- kural: KD-C07
+  cumle: 2
+- kural: KD-B04
+  cumle: 2
+  ifade: 01.12.2026
+- kural: KD-C03
+  cumle: 2
+  ifade: alınmaya
+- kural: KD-C11
+  cumle: 3
+  ifade: hak sahiplerinin
+- kural: KD-K03
+  cumle: 3
+  ifade: SGK
+- kural: KD-K08
+  cumle: 4
+  ifade: evrakla
+tetiklenmemeli:
+- KD-C02
+- KD-C05
+- KD-K02
+- KD-B05
+- KD-B06

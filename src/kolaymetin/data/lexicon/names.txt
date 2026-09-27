@@ -1,0 +1,50 @@
+# Sık kullanılan Türkçe kişi adları ve soyadları
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# Büyük harfle başlayan bu kelimeler cümle başında da özel ad sayılır. Böylece "Korkmaz",
+# "Sönmez", "Yaşar", "Güler", "Doğan" gibi fiile benzeyen adlar olumsuz ya da çekimli fiil,
+# "Ali", "Ayşe" gibi adlar seyrek kelime sayılmaz. Küçük harfle yazılabilir.
+#
+# --- fiile benzeyen soyadları ve adlar
+yılmaz korkmaz sönmez durmaz dönmez kaçmaz solmaz yanmaz batmaz bilmez ölmez tükenmez yenilmez
+yıkılmaz ağlamaz sarmaz kırmaz bozmaz yorulmaz usanmaz yılmazer korkmazer sönmezer yaşar güler
+sever yener yeter sezer uçar doğan duran kalkan erdoğan aydoğan aydoğdu gündoğdu tanrıverdi
+allahverdi korkut güngör yurtsever gönülsever öğüt olcay coşar coşkun yücel yüceler
+sevinç tunçer gönenç ertürk erkoç
+# --- sık erkek adları
+ali ahmet mehmet mustafa hüseyin hasan ibrahim ismail osman yusuf murat ömer halil süleyman
+abdullah mahmut recep ramazan kemal emre fatih burak serkan hakan orhan metin kadir yakup salih
+adem tuncay tuncer cem can cengiz erkan ercan erhan erol ersin ertan eren enes emir efe berk
+berkay baran barış batuhan bayram bekir bilal bülent cemal cevdet cihan cüneyt davut deniz
+doğukan eyüp ferhat fikret furkan gökhan gökay gürkan hamza harun haydar hikmet hilmi hüsnü
+ilhan ilker irfan kaan kenan kerem koray levent mert mesut muhammet muharrem mümin necati
+nevzat nihat nuri oğuz oğuzhan okan onur ozan önder özcan özgür rıza rüştü sabri sadık sait
+selim selçuk semih sercan sinan soner şahin şükrü tahir tamer taner tarık tayfun tolga tuğrul
+turgut ufuk uğur umut utku ümit vedat volkan yasin yavuz yiğit yunus zafer zeki ziya alp alper
+arda arif atakan ayhan aykut aytaç bahadır bora cahit celal cemil çağlar çağrı derya doğan dursun
+ekrem engin erdem erdal ergün erkut fahri faruk feridun fuat gazi gökmen hakkı hayati hayri
+ışık kamil kazım kurtuluş lütfi mazlum melih nazım necdet necmi nurettin nusret orhun rasim
+recai refik rahmi sami savaş seyfi seyit şaban şefik şener şenol şevket talat tevfik turan
+vahit yahya yaşar yılmaz yücel zeynel muammer mücahit mücahit nail oktay ozan polat rüzgar
+sezai sedat sefa selahattin serdar serhat sezgin şemsettin taylan tekin timur toygar tunç
+# --- sık kadın adları
+ayşe fatma emine hatice zeynep elif meryem şerife sultan zehra hanife merve özlem yasemin
+hülya esra leyla gülsüm filiz aysel sevgi songül sibel melek cennet nurcan gül gülay gülşen
+gülten gülizar gülnur hacer havva hande hilal ilknur ilayda irem kübra lale melike meltem
+müge nazlı nesrin nilgün nihal nur nuray nurhan nursel oya öznur pınar rabia reyhan rukiye
+sabiha sema semra serap serpil sevda sevil sevim seda selin selma sena şeyma şule tuba tuğba
+tülay türkan ümran ülkü yeliz yıldız zerrin zübeyde ayten aynur aysun aylin ayla arzu aslı
+aslıhan asiye azra banu begüm belgin berna betül beyza buket burcu büşra canan cansu ceren
+ceyda çiğdem damla defne derya didem dilek dilara duygu ebru ecem eda ekin elçin elvan emel
+esin esma ezgi feride figen funda gamze gizem gökçe gözde gülbahar güler gülşah hale hacer
+ipek jale kader kevser mine mualla nazan nermin neslihan nevin nilay nilüfer perihan rana
+saadet sakine seher selda semiha sevinç şengül şükran tansu tülin ülker yağmur yeşim zekiye
+zuhal zümrüt
+# --- sık soyadları
+öztürk kaya demir şahin çelik yıldız yıldırım aydın özdemir arslan aslan doğan kılıç aslan
+çetin kara koç kurt özkan şimşek polat özer korkmaz erdoğan yavuz can acar aksoy tekin güneş
+bulut keskin türkmen ateş kaplan akın ünal aktaş kocaman güler erdem bozkurt çakır özgür uçar
+tunç sarı karaca başaran kalkan kahraman kurtuluş duman yiğit ay alkan aktaş akgün avcı sönmez
+güzel coşkun karakaya uysal akyüz bayram çiftçi turan ekinci akbulut erol ince toprak özkaya
+yurt yalçın yazıcı taş tan gündüz şen oral ok elmas turgut köse ışık bilgin bilgiç oğuz demirci
+kılınç aksu aydoğan günay çınar gök sezgin karataş ergün tuna yücel dağ kurtoğlu aydemir
+altun altın genç yaman savaş sevim önal ural gürbüz ayhan karakuş çakmak kocabaş ayaz uğur

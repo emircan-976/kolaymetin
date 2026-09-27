@@ -1,0 +1,46 @@
+# Sade Dil profili
+# Genel okur için açık ve anlaşılır kamu dili (ISO 24495-1 "plain language" yaklaşımı).
+# Kolay Dil'den daha esnektir: cümleler biraz daha uzun olabilir, bazı kurallar yalnızca bilgi verir.
+name: sade-dil
+title: Sade Dil
+description: >-
+  Genel okur için açık kamu dili. Eşikler Kolay Dil'den daha geniştir.
+compliance_k: 0.5
+weights: {hata: 3, uyarı: 1, bilgi: 0.25}
+rules:
+  # --- Cümle düzeyi
+  KD-C01: {enabled: true, params: {warn_above: 15, error_above: 22}}
+  KD-C02: {enabled: true, severity: uyarı, params: {max_predicates: 2}}
+  KD-C03: {enabled: true, severity: uyarı}
+  KD-C04: {enabled: true, severity: bilgi}
+  KD-C05: {enabled: true, severity: hata}
+  KD-C06: {enabled: true, severity: uyarı, params: {threshold: 3}}
+  KD-C07: {enabled: true, severity: uyarı, params: {threshold: 3}}
+  KD-C08: {enabled: true, severity: uyarı, params: {chain: 4}}
+  KD-C09: {enabled: true, severity: uyarı}
+  KD-C10: {enabled: true, severity: bilgi, params: {max_gap: 10}}
+  KD-C11: {enabled: true, severity: uyarı}
+  # --- Kelime düzeyi
+  KD-K01: {enabled: true, severity: uyarı}
+  KD-K02: {enabled: true, severity: bilgi}
+  KD-K03: {enabled: true, severity: uyarı}
+  KD-K04: {enabled: true, severity: bilgi, params: {max_syllables: 5, max_suffixes: 4}}
+  KD-K05: {enabled: true, severity: bilgi}
+  KD-K06: {enabled: false, severity: bilgi}
+  KD-K07: {enabled: true, severity: bilgi}
+  KD-K08: {enabled: true, severity: bilgi}
+  # --- Biçim ve sayı
+  KD-B01: {enabled: true, severity: bilgi, params: {min_value: 1000}}
+  KD-B02: {enabled: true, severity: bilgi}
+  KD-B03: {enabled: false, severity: bilgi}
+  KD-B04: {enabled: true, severity: bilgi, params: {suggest_weekday: false}}
+  KD-B05: {enabled: true, severity: bilgi}
+  KD-B06: {enabled: true, severity: uyarı, params: {max_colons: 1}}
+  KD-B07: {enabled: true, severity: uyarı, params: {max_words: 3}}
+  KD-B08: {enabled: false, severity: bilgi}
+  # --- Metin düzeyi
+  KD-M01: {enabled: true, severity: uyarı, params: {max_sentences: 8}}
+  KD-M02: {enabled: true, severity: bilgi, params: {min_words: 150}}
+  KD-M03: {enabled: true, severity: bilgi, params: {min_items: 4}}
+  KD-M04: {enabled: true, severity: bilgi, params: {first_fraction: 0.3}}
+  KD-M05: {enabled: false, severity: bilgi, params: {max_words: 400}}

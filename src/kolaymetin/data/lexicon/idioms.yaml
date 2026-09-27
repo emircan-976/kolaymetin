@@ -1,0 +1,103 @@
+# Deyim ve mecaz listesi (KD-K05)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# ifade: sözlük biçimi (çekimli hâller kökten eşleşir), anlam: düz söyleyiş önerisi
+# iki_anlamli: true → ifade gerçek anlamıyla da sık kullanılır ("Otobüs yola çıktı"); araç
+#   yalnızca "bilgi" verir ve "mecaz anlamda kullandıysanız" der.
+# gercek: [...] → cümlede bu kelimelerden biriyle başlayan bir kelime varsa ifade gerçek
+#   anlamıyla kullanılmıştır; uyarı verilmez ("otobüs", "kapıyı", "ekran").
+- {ifade: göz yummak, anlam: "görmezden gelmek, izin vermek", iki_anlamli: true, gercek: [uyu, gözlerini, yorgun]}
+- {ifade: göz atmak, anlam: "kısaca bakmak"}
+- {ifade: göze almak, anlam: "tehlikeyi kabul etmek"}
+- {ifade: göz ardı etmek, anlam: "dikkate almamak"}
+- {ifade: gözden geçirmek, anlam: "incelemek, kontrol etmek"}
+- {ifade: göz önünde bulundurmak, anlam: "dikkate almak"}
+- {ifade: göz önüne almak, anlam: "dikkate almak"}
+- {ifade: gözden kaçırmak, anlam: "fark etmemek"}
+- {ifade: el atmak, anlam: "bir işe başlamak"}
+- {ifade: el koymak, anlam: "almak, zorla almak", iki_anlamli: true, gercek: [omz, omuz, alnı, alın, kalb, göğs, masa, başın]}
+- {ifade: el uzatmak, anlam: "yardım etmek", iki_anlamli: true, gercek: [tut, bardağ, kapı, uzattı ve]}
+- {ifade: elden geçirmek, anlam: "onarmak, düzeltmek"}
+- {ifade: el ele vermek, anlam: "birlikte çalışmak", iki_anlamli: true}
+- {ifade: elini çabuk tutmak, anlam: "acele etmek"}
+- {ifade: kulak asmak, anlam: "dikkate almak"}
+- {ifade: kulak vermek, anlam: "dikkatle dinlemek"}
+- {ifade: kulağına küpe olmak, anlam: "ders almak"}
+- {ifade: ağzı kulaklarında, anlam: "çok mutlu"}
+- {ifade: ayak uydurmak, anlam: "uyum sağlamak"}
+- {ifade: ayağa kalkmak, anlam: "harekete geçmek", iki_anlamli: true, gercek: [sandalye, yatak, yerden, düş, otur, saygı, marş, istiklal]}
+- {ifade: ayakta tutmak, anlam: "sürdürmek", iki_anlamli: true}
+- {ifade: baş göstermek, anlam: "ortaya çıkmak"}
+- {ifade: başa çıkmak, anlam: "üstesinden gelmek"}
+- {ifade: baş vurmak, anlam: başvurmak}
+- {ifade: başı sıkışmak, anlam: "zor durumda kalmak"}
+- {ifade: başını ağrıtmak, anlam: "sorun çıkarmak"}
+- {ifade: dile getirmek, anlam: söylemek}
+- {ifade: dilinin ucunda olmak, anlam: "hatırlayamamak"}
+- {ifade: dikkat çekmek, anlam: "dikkatini istemek"}
+- {ifade: dört gözle beklemek, anlam: "çok istemek"}
+- {ifade: gün ışığına çıkmak, anlam: "ortaya çıkmak", iki_anlamli: true, gercek: [bahçe, dışarı, sokak]}
+- {ifade: hayata geçmek, anlam: "başlamak, uygulanmak"}
+- {ifade: ışık tutmak, anlam: "açıklamak, yol göstermek", iki_anlamli: true, gercek: [fener, lamba, karanlık, gece, mum]}
+- {ifade: iki ayağı bir pabuca girmek, anlam: "çok telaşlanmak"}
+- {ifade: içi rahat etmek, anlam: "endişesi kalmamak"}
+- {ifade: kafa yormak, anlam: "çok düşünmek"}
+- {ifade: kapı açmak, anlam: "fırsat vermek", iki_anlamli: true, gercek: [kapıyı, kapıları, kapısını, anahtar, zil, kilid, kilit, misafir]}
+- {ifade: kapısını çalmak, anlam: "yardım istemek", iki_anlamli: true, gercek: [zil, komşu, misafir, gece, sabah, tık]}
+- {ifade: kolları sıvamak, anlam: "işe başlamak", iki_anlamli: true, gercek: [yıka, bulaşık, sabun]}
+- {ifade: masaya yatırmak, anlam: "ayrıntılı incelemek", iki_anlamli: true, gercek: [hasta, ameliyat, bebeğ, çocuğ]}
+- {ifade: meyvesini vermek, anlam: "sonuç vermek"}
+- {ifade: nabız tutmak, anlam: "düşünceyi öğrenmek"}
+- {ifade: omuz omuza, anlam: birlikte, iki_anlamli: true}
+- {ifade: omuz vermek, anlam: "yardım etmek"}
+- {ifade: önünü açmak, anlam: "kolaylaştırmak"}
+- {ifade: önünü almak, anlam: "engellemek"}
+- {ifade: pabucu dama atılmak, anlam: "değerini yitirmek"}
+- {ifade: parmak basmak, anlam: "özellikle belirtmek"}
+- {ifade: rafa kaldırmak, anlam: "ertelemek, bırakmak", iki_anlamli: true, gercek: [kitap, kavanoz, tabak, bardak, kutu, dolab, dolap]}
+- {ifade: sabrı taşmak, anlam: "dayanamamak"}
+- {ifade: seferber olmak, anlam: "hep birlikte çalışmak"}
+- {ifade: sil baştan, anlam: "yeniden"}
+- {ifade: su yüzüne çıkmak, anlam: "ortaya çıkmak", iki_anlamli: true, gercek: [balık, dalgıç, yüzücü, deniz, havuz, göl]}
+- {ifade: taş çatlasa, anlam: "en fazla"}
+- {ifade: tepki çekmek, anlam: "eleştirilmek"}
+- {ifade: yakından takip etmek, anlam: "dikkatle izlemek"}
+- {ifade: yol açmak, anlam: "neden olmak"}
+- {ifade: yol göstermek, anlam: "anlatmak, öğretmek", iki_anlamli: true, gercek: [adres, sokak, cadde, harita, tabela, kaybol]}
+- {ifade: yola çıkmak, anlam: "başlamak", iki_anlamli: true, gercek: [otobüs, tren, uçak, gemi, vapur, araç, araba, yolcu, sefer, kervan, bisiklet, yürü, orman, köy, şehre, eve, okula, doğru, erkenden, bavul, valiz]}
+- {ifade: yüz çevirmek, anlam: "ilgilenmemek", iki_anlamli: true}
+- {ifade: yüz yüze gelmek, anlam: "karşılaşmak"}
+- {ifade: yüzünü güldürmek, anlam: "sevindirmek"}
+- {ifade: zemin hazırlamak, anlam: "olanak sağlamak"}
+- {ifade: can alıcı, anlam: "en önemli"}
+- {ifade: canla başla, anlam: "çok isteyerek"}
+- {ifade: çığır açmak, anlam: "yenilik getirmek"}
+- {ifade: çözüme kavuşturmak, anlam: çözmek}
+- {ifade: düğmeye basmak, anlam: başlamak, iki_anlamli: true, gercek: [kırmızı, yeşil, ekran, cihaz, telefon, makine, kumanda, asansör, zil, açma, kapatma, acil, yardım, uzaktan]}
+- {ifade: eli kulağında, anlam: "çok yakında"}
+- {ifade: el altından, anlam: gizlice}
+- {ifade: gözü gibi bakmak, anlam: "çok iyi korumak"}
+- {ifade: hız kesmeden, anlam: durmadan}
+- {ifade: kaş göz etmek, anlam: "işaret etmek"}
+- {ifade: kılı kırk yarmak, anlam: "çok titiz olmak"}
+- {ifade: köşeye sıkışmak, anlam: "zor durumda kalmak", iki_anlamli: true}
+- {ifade: mercek altına almak, anlam: "dikkatle incelemek"}
+- {ifade: nefes aldırmak, anlam: "rahatlatmak", iki_anlamli: true, gercek: [hasta, bebek, oksijen, cihaz]}
+- {ifade: ön ayak olmak, anlam: "başlatmak"}
+- {ifade: sırt çevirmek, anlam: "yardım etmemek", iki_anlamli: true}
+- {ifade: sırtını dayamak, anlam: "güvenmek", iki_anlamli: true, gercek: [duvar, ağaç, sandalye, koltuk, yastık]}
+- {ifade: soluk almak, anlam: "dinlenmek", iki_anlamli: true, gercek: [burun, ağız, derin, nefes, ciğer, hava]}
+- {ifade: tadı kaçmak, anlam: "bozulmak", iki_anlamli: true, gercek: [yemek, çorba, tuz, şeker, lezzet, çay, kahve]}
+- {ifade: tavşan kanı, anlam: "açık kırmızı"}
+- {ifade: uçan kuşa borçlu, anlam: "çok borçlu"}
+- {ifade: yağmurdan kaçarken doluya tutulmak, anlam: "daha kötü duruma düşmek"}
+- {ifade: yangından mal kaçırır gibi, anlam: "çok aceleyle"}
+- {ifade: yeşil ışık yakmak, anlam: "izin vermek, onaylamak", iki_anlamli: true, gercek: [trafik, lamba, sinyal, kavşak]}
+- {ifade: kırmızı çizgi, anlam: "asla kabul edilmeyen sınır", iki_anlamli: true, gercek: [zemin, boya, çiz, kalem, harita, şerit]}
+- {ifade: buzdağının görünen yüzü, anlam: "sorunun küçük bir parçası"}
+- {ifade: bardağı taşıran son damla, anlam: "sabrı bitiren son olay"}
+- {ifade: tünelin ucundaki ışık, anlam: "umut"}
+- {ifade: taşın altına elini koymak, anlam: "sorumluluk almak"}
+- {ifade: kemerleri sıkmak, anlam: "az harcamak", iki_anlamli: true, gercek: [pantolon]}
+- {ifade: suya düşmek, anlam: "gerçekleşmemek", iki_anlamli: true, gercek: [havuz, deniz, göl, nehir, dere, bot, tekne, gemi, köprü, iskele, kurtar, boğul]}
+- {ifade: havada kalmak, anlam: "sonuçsuz kalmak", iki_anlamli: true, gercek: [uçak, balon, kuş, top, uçurtma, drone]}
+- {ifade: açık kapı bırakmak, anlam: "olanak bırakmak"}

@@ -1,0 +1,34 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+skor_en_cok: 40
+tetiklenmeli:
+- kural: KD-B07
+  cumle: 1
+- kural: KD-C01
+  cumle: 2
+- kural: KD-C07
+  cumle: 2
+- kural: KD-K04
+  cumle: 2
+  ifade: koordineli
+- kural: KD-C06
+  cumle: 2
+- kural: KD-K02
+  cumle: 2
+  ifade: risk
+- kural: KD-C03
+  cumle: 2
+  ifade: aşılanması
+- kural: KD-K08
+  cumle: 2
+  ifade: aşı
+- kural: KD-C11
+  cumle: 3
+  ifade: hak sahiplerinin
+- kural: KD-K01
+  cumle: 3
+  ifade: hak sahiplerinin
+tetiklenmemeli:
+- KD-C02
+- KD-B05
+- KD-B06

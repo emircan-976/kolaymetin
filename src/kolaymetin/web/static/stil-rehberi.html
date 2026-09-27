@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stil rehberi — kolaymetin</title>
+<link rel="icon" href="/static/ikon/rehber.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/static/style.css">
+<script src="/static/tema.js"></script>
+<script src="/static/manzara.js" defer></script>
+</head>
+<body>
+<a class="atla" href="#icerik">İçeriğe geç</a>
+<header class="kunye">
+  <div>
+    <p class="kunye__ad"><a href="/">kolaymetin</a></p>
+    <p class="kunye__alt">Stil rehberi: "Düzeltmen Masası"</p>
+  </div>
+  <div class="kunye__sahne" aria-hidden="true">
+    <span class="dither dither--kirmizi dither--gunes"></span>
+    <canvas class="manzara" id="manzara"></canvas>
+  </div>
+  <div class="kunye__sag">
+    <p class="kunye__bilgi">Arayüzün bütün parçaları<br>Sayı 1.0.0</p>
+  </div>
+</header>
+<p class="not-seridi" role="note"><span><strong>Kural:</strong> Arayüzdeki her bileşen yalnızca bu sayfadaki parçalardan kurulur.</span></p>
+
+<main class="rapor" id="icerik">
+  <section class="bolum" aria-labelledby="b-renk">
+    <h2 id="b-renk">1. Renk: kâğıt, mürekkep, iki nokta renk</h2>
+    <p>Aynı ekranda en fazla iki nokta renk ve fosforlu kalem bulunur. Renkler yalnızca CSS değişkeniyle kullanılır.</p>
+    <div class="ornekler">
+      <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-kagit"></div><p>--kagit<br>zemin</p></div>
+      <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-kagit-2"></div><p>--kagit-2<br>panel</p></div>
+      <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-murekkep"></div><p>--murekkep<br>metin</p></div>
+      <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-murekkep-soluk"></div><p>--murekkep-soluk<br>ikincil</p></div>
+      <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-kirmizi"></div><p>--kirmizi<br>hata</p></div>
+      <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-mavi"></div><p>--mavi<br>bilgi, bağlantı</p></div>
+      <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-sari"></div><p>--sari<br>yalnızca kalem</p></div>
+    </div>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-yazi">
+    <h2 id="b-yazi">2. Tipografi</h2>
+    <p>Tek aile: Atkinson Hyperlegible Next ve Mono. Hiyerarşi boyut ve kalınlıkla kurulur.</p>
+    <p class="olcek-ornegi" style="font-size:var(--t-55);font-weight:800;letter-spacing:-0.02em">55 · Başlık</p>
+    <p class="olcek-ornegi" style="font-size:var(--t-44);font-weight:800;letter-spacing:-0.02em">44 · Başlık</p>
+    <p class="olcek-ornegi" style="font-size:var(--t-35);font-weight:800;letter-spacing:-0.02em">35 · Başlık</p>
+    <p class="olcek-ornegi" style="font-size:var(--t-28);font-weight:700">28 · Ara başlık</p>
+    <p class="olcek-ornegi" style="font-size:var(--t-22);font-weight:700">22 · Küçük başlık</p>
+    <p class="olcek-ornegi" style="font-size:var(--t-18)">18 · Gövde metni. Kısa cümle, doğrudan hitap.</p>
+    <p class="olcek-ornegi etiket">14 · Mono etiket · KD-C01 · 72 / 100</p>
+    <p><em>İtalik yalnızca örnek cümlelerde: "Başvurular alınacaktır."</em></p>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-dugme">
+    <h2 id="b-dugme">3. Düğmeler ve form öğeleri</h2>
+    <div class="ornekler">
+      <button type="button" class="dugme dugme--birincil"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg><span>Denetle</span></button>
+      <button type="button" class="dugme"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yukle"></use></svg><span>Dosya yükle</span></button>
+      <button type="button" class="dugme dugme--kucuk">Küçük düğme</button>
+      <button type="button" class="dugme dugme--kucuk" aria-pressed="true">Basılı düğme</button>
+      <button type="button" class="dugme dugme--ikon" aria-label="Yazıyı büyüt"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yazi-buyut"></use></svg></button>
+      <button type="button" class="baglanti-dugme">Bağlantı düğmesi</button>
+    </div>
+    <div class="ornekler" style="margin-top:16px">
+      <div class="alan"><label for="o-profil">Profil</label><span class="secim"><select id="o-profil"><option>Kolay Dil</option><option>Sade Dil</option></select></span></div>
+      <label class="kutu"><input type="checkbox" checked> Seçili kutu</label>
+      <label class="kutu"><input type="checkbox"> Boş kutu</label>
+    </div>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-isaret">
+    <h2 id="b-isaret">4. Düzeltmen işaretleri</h2>
+    <p>Her önem düzeyinin üç ayrı göstergesi vardır: renk, çizgi biçimi ve kenar işareti.</p>
+    <table class="katki-tablosu">
+      <thead><tr><th>Önem</th><th>Metin üstünde</th><th>Kenar boşluğunda</th></tr></thead>
+      <tbody>
+        <tr><td><span class="onem onem--hata"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-hata"></use></svg>Hata</span></td>
+          <td><span class="imi imi--hata imi--gorunur">düz kalın alt çizgi</span></td>
+          <td><span class="kenar-isaret kenar-isaret--hata"><svg class="ikon ikon--kirmizi" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-hata"></use></svg>KD-C01</span></td></tr>
+        <tr><td><span class="onem onem--uyari"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-uyari"></use></svg>Uyarı</span></td>
+          <td><span class="imi imi--uyari imi--gorunur">fosforlu kalem ve ince çizgi</span></td>
+          <td><span class="kenar-isaret"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-uyari"></use></svg></span></td></tr>
+        <tr><td><span class="onem onem--bilgi"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-bilgi"></use></svg>Bilgi</span></td>
+          <td><span class="imi imi--bilgi imi--gorunur">noktalı alt çizgi</span></td>
+          <td><span class="kenar-isaret kenar-isaret--bilgi"><svg class="ikon ikon--mavi" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-bilgi"></use></svg></span></td></tr>
+        <tr><td>Seçili</td><td><span class="imi imi--uyari imi--gorunur imi--secili">"şurası" kutusu</span></td><td>—</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-kart">
+    <h2 id="b-kart">5. Bulgu kartı</h2>
+    <article class="not-kagidi not-kagidi--hata">
+      <div class="not-kagidi__ust"><span class="onem onem--hata"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-hata"></use></svg>Hata</span><span class="kimlik kimlik--hata">KD-C01</span><span class="not-kagidi__ad">Uzun cümle</span></div>
+      <button type="button" class="not-kagidi__mesaj" aria-expanded="true">Bu cümle çok uzun: 20 kelime. En fazla 8 kelime yazın.</button>
+      <div class="not-kagidi__govde"><p>Uzun cümleyi okumak ve akılda tutmak zordur. Her cümlede tek bir bilgi verin.</p>
+        <p class="not-kagidi__oneri"><span>'nedeniyle' kelimesinden sonra nokta koyun.</span></p>
+        <div class="not-kagidi__eylem"><button type="button" class="baglanti-dugme">Metinde göster</button><a href="/rehber/KD-C01">Neden? → rehber</a><button type="button" class="baglanti-dugme">Yoksay</button></div></div>
+    </article>
+    <article class="not-kagidi not-kagidi--uyari not-kagidi--secili">
+      <div class="not-kagidi__ust"><span class="onem onem--uyari"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-uyari"></use></svg>Uyarı</span><span class="kimlik kimlik--uyari">KD-C03</span><span class="not-kagidi__ad">Edilgen yapı · seçili kart</span></div>
+      <button type="button" class="not-kagidi__mesaj" aria-expanded="false">Bu cümlede işi kimin yaptığı belli değil. Yapanı söyleyin.</button>
+    </article>
+    <article class="not-kagidi not-kagidi--bilgi">
+      <div class="not-kagidi__ust"><span class="onem onem--bilgi"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-bilgi"></use></svg>Bilgi</span><span class="kimlik kimlik--bilgi">KD-K06</span><span class="not-kagidi__ad">Seyrek kelime · güven 0,80</span></div>
+      <button type="button" class="not-kagidi__mesaj" aria-expanded="false">'isale' az kullanılan bir kelime olabilir.</button>
+    </article>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-skor">
+    <h2 id="b-skor">6. Skor kartı ve dither çubuklar</h2>
+    <div class="skorlar">
+      <div class="skor skor--buyuk">
+        <h3 class="skor__baslik">Kolay Dil Uyum Skoru</h3>
+        <div class="skor__deger">72<span class="etiket"> / 100</span></div>
+        <div class="cubuk-satir"><div class="cubuk" aria-hidden="true"><div class="cubuk__dolgu d-12" style="width:72%"></div></div><span class="cubuk__deger">72</span></div>
+        <ul class="kategori-listesi">
+          <li><span class="etiket">Cümle</span><div class="cubuk-satir"><div class="cubuk cubuk--ince" aria-hidden="true"><div class="cubuk__dolgu d-15" style="width:94%"></div></div><span class="cubuk__deger">94</span></div></li>
+          <li><span class="etiket">Kelime</span><div class="cubuk-satir"><div class="cubuk cubuk--ince" aria-hidden="true"><div class="cubuk__dolgu d-09" style="width:56%"></div></div><span class="cubuk__deger">56</span></div></li>
+          <li><span class="etiket">Biçim</span><div class="cubuk-satir"><div class="cubuk cubuk--ince" aria-hidden="true"><div class="cubuk__dolgu d-05" style="width:31%"></div></div><span class="cubuk__deger">31</span></div></li>
+          <li><span class="etiket">Metin</span><div class="cubuk-satir"><div class="cubuk cubuk--ince" aria-hidden="true"><div class="cubuk__dolgu d-16" style="width:100%"></div></div><span class="cubuk__deger">100</span></div></li>
+        </ul>
+      </div>
+      <div class="skor"><h3 class="skor__baslik">Ateşman</h3><div class="skor__deger">64,2</div><p class="skor__duzey">orta güçlükte</p></div>
+      <div class="skor"><h3 class="skor__baslik">Çetinkaya-Uzun</h3><div class="skor__deger">41,0</div><p class="skor__duzey">eğitsel okuma düzeyi</p></div>
+      <div class="skor"><h3 class="skor__baslik">Bezirci-Yılmaz</h3><div class="skor__deger">9,8</div><p class="skor__duzey">lise düzeyi</p></div>
+    </div>
+    <p>Bayer 4×4 desen seviyeleri (her biri %6,25):</p>
+    <div class="ornekler">
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-02" style="width:100%"></div></div>
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-04" style="width:100%"></div></div>
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-06" style="width:100%"></div></div>
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-08" style="width:100%"></div></div>
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-10" style="width:100%"></div></div>
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-12" style="width:100%"></div></div>
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-14" style="width:100%"></div></div>
+      <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-16" style="width:100%"></div></div>
+    </div>
+    <p>Yükleme göstergesi (hareketi azalt ayarında durağan):</p>
+    <div class="durum"><div class="tarama" aria-hidden="true"></div><span>Denetleniyor…</span></div>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-cumle">
+    <h2 id="b-cumle">7. Cümle görünümü</h2>
+    <ol class="cumleler">
+      <li><span class="cumle-sayi">1</span><span class="cumle-dugme"><span class="cubuk cumle-cubugu"><span class="cubuk__dolgu d-08" style="width:30%"></span><span class="esik-cizgisi" style="left:40%"></span></span><span class="cumle-metni">Belediye su borusunu onaracak.</span></span><span class="cumle-sayi">4</span></li>
+      <li><span class="cumle-sayi">2</span><span class="cumle-dugme"><span class="cubuk cumle-cubugu cumle-cubugu--uzun"><span class="cubuk__dolgu d-12" style="width:100%"></span><span class="esik-cizgisi" style="left:40%"></span></span><span class="cumle-metni">Sayın vatandaşlarımız, mahallemizde bulunan ana isale hattında…</span></span><span class="cumle-sayi cumle-sayi--uzun">20!</span></li>
+    </ol>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-ikon">
+    <h2 id="b-ikon">8. Piksel ikonlar</h2>
+    <p>16×16 ızgara, yalnızca dikdörtgenler, renk <code>currentColor</code>.</p>
+    <div class="ornekler">
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-yukle"></use></svg><br>yükle</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-disa-aktar"></use></svg><br>dışa aktar</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-kopyala"></use></svg><br>kopyala</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-tema"></use></svg><br>tema</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-yazi-buyut"></use></svg><br>büyüt</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-yazi-kucult"></use></svg><br>küçült</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-bilgi"></use></svg><br>bilgi</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-kapat"></use></svg><br>kapat</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-sonraki"></use></svg><br>sonraki</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-onceki"></use></svg><br>önceki</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-rehber"></use></svg><br>rehber</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-filtre"></use></svg><br>filtre</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg><br>denetle</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-yoksay"></use></svg><br>yoksay</span>
+      <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-asagi"></use></svg><br>aç</span>
+    </div>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-dither">
+    <h2 id="b-dither">9. Dither görseller</h2>
+    <p>Yalnızca künye sahnesinde, boş durumda, rehber kapaklarında, skor çubuklarında ve yüklemede. Hiçbir metnin arkasında değil.</p>
+    <div class="kapaklar">
+      <div class="kapak"><span class="dither dither--bos-durum" role="img" aria-label="Duyuru panosu çizimi"></span><p class="etiket">Boş durum: duyuru panosu</p></div>
+      <div class="kapak"><span class="dither dither--kapak dither--cumle" role="img" aria-label="Megafon çizimi"></span><p class="etiket">Cümle kapağı: megafon</p></div>
+      <div class="kapak"><span class="dither dither--kapak dither--kelime dither--mavi" role="img" aria-label="Büyüteç çizimi"></span><p class="etiket">Kelime kapağı: büyüteç (mavi baskı)</p></div>
+      <div class="kapak"><span class="dither dither--kapak dither--bicim dither--kirmizi" role="img" aria-label="Katlanmış kâğıt çizimi"></span><p class="etiket">Biçim kapağı: katlanmış kâğıt (kırmızı baskı)</p></div>
+      <div class="kapak"><span class="dither dither--kirmizi dither--gunes" role="img" aria-label="Doğan güneş çizimi"></span><p class="etiket">Künye sahnesi: doğan güneş (kırmızı baskı), önünde dither tepeler (manzara.js)</p></div>
+      <div class="kapak"><span class="dither dither--kapak dither--metin" role="img" aria-label="Kalem tutan el çizimi"></span><p class="etiket">Metin kapağı: el ve kalem</p></div>
+    </div>
+  </section>
+
+  <section class="bolum" aria-labelledby="b-sekme">
+    <h2 id="b-sekme">10. Sekmeler, not şeridi, hata kutusu</h2>
+    <div class="sekmeler" role="tablist" aria-label="Örnek sekmeler">
+      <button type="button" class="sekme" role="tab" aria-selected="true">Bulgular</button>
+      <button type="button" class="sekme" role="tab" aria-selected="false" tabindex="-1">Cümleler</button>
+    </div>
+    <p class="hata-kutusu">Metin çok uzun: 120.000 karakter. En fazla 100.000 karakter denetlenebilir.</p>
+  </section>
+</main>
+<footer class="altbilgi"><p>kolaymetin 1.0.0</p><nav aria-label="Alt bağlantılar"><a href="/">Denetim masası</a> · <a href="/rehber">Rehber</a></nav></footer>
+</body>
+</html>

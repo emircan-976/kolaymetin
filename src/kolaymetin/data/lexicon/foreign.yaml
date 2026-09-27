@@ -1,0 +1,134 @@
+# Yabancı kökenli kelimeler ve Türkçe önerileri (KD-K02)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# Halkın iyi bildiği, yerleşmiş kelimeler (televizyon, otobüs, telefon, internet) listeye alınmaz.
+- {kelime: implementasyon, oneri: uygulama}
+- {kelime: prosedür, oneri: "işlem, yol"}
+- {kelime: optimizasyon, oneri: iyileştirme}
+- {kelime: koordinasyon, oneri: "birlikte çalışma"}
+- {kelime: koordine, oneri: "düzenlemek (koordine etmek)"}
+- {kelime: revize, oneri: "değiştirilmiş, yenilenmiş"}
+- {kelime: revizyon, oneri: "değişiklik, yenileme"}
+- {kelime: online, oneri: "çevrim içi, internetten"}
+- {kelime: offline, oneri: çevrim dışı}
+- {kelime: entegre, oneri: "birleşik, bütünleşmiş"}
+- {kelime: entegrasyon, oneri: "birleştirme, bütünleşme"}
+- {kelime: aktivite, oneri: "etkinlik"}
+- {kelime: aktif, oneri: "etkin, açık, çalışan"}
+- {kelime: pasif, oneri: "kapalı, çalışmayan"}
+- {kelime: aplikasyon, oneri: "uygulama, başvuru"}
+- {kelime: argüman, oneri: gerekçe}
+- {kelime: brifing, oneri: "bilgi verme toplantısı"}
+- {kelime: departman, oneri: bölüm}
+- {kelime: dizayn, oneri: tasarım}
+- {kelime: döküman, oneri: belge, bicimler: [doküman]}
+- {kelime: efektif, oneri: etkili}
+- {kelime: elimine, oneri: "elemek, çıkarmak"}
+- {kelime: enformasyon, oneri: bilgi}
+- {kelime: ekspertiz, oneri: "uzman incelemesi"}
+- {kelime: fonksiyon, oneri: "işlev, görev"}
+- {kelime: fonksiyonel, oneri: "işlevsel, kullanışlı"}
+- {kelime: format, oneri: biçim}
+- {kelime: hijyen, oneri: temizlik}
+- {kelime: inisiyatif, oneri: "girişim, karar yetkisi"}
+- {kelime: interaktif, oneri: etkileşimli}
+- {kelime: izolasyon, oneri: "yalıtım, ayırma"}
+- {kelime: kapasite, oneri: "alabileceği miktar, gücü"}
+- {kelime: kompleks, oneri: "karmaşık; yapı grubu"}
+- {kelime: komisyon, oneri: kurul}
+- {kelime: konsept, oneri: kavram}
+- {kelime: konsensüs, oneri: uzlaşma}
+- {kelime: kontrol, oneri: denetim}
+- {kelime: kriter, oneri: ölçüt}
+- {kelime: kritik, oneri: "önemli, tehlikeli"}
+- {kelime: lojistik, oneri: "taşıma ve dağıtım"}
+- {kelime: maksimum, oneri: "en çok"}
+- {kelime: minimum, oneri: "en az"}
+- {kelime: monitör etmek, oneri: izlemek}
+- {kelime: motivasyon, oneri: "istek, güdü"}
+- {kelime: mobilizasyon, oneri: seferberlik}
+- {kelime: network, oneri: "ağ, çevre"}
+- {kelime: opsiyon, oneri: seçenek}
+- {kelime: opsiyonel, oneri: "isteğe bağlı"}
+- {kelime: organizasyon, oneri: "düzenleme, etkinlik"}
+- {kelime: orijinal, oneri: "asıl, özgün"}
+- {kelime: otorite, oneri: yetkili}
+- {kelime: parametre, oneri: değişken}
+- {kelime: partner, oneri: "ortak"}
+- {kelime: performans, oneri: "başarı, verim"}
+- {kelime: periyodik, oneri: "düzenli, belli aralıklarla"}
+- {kelime: perspektif, oneri: bakış açısı}
+- {kelime: pilot uygulama, oneri: "deneme uygulaması"}
+- {kelime: platform, oneri: "ortam, site"}
+- {kelime: pozisyon, oneri: "konum, görev"}
+- {kelime: pozitif, oneri: olumlu}
+- {kelime: negatif, oneri: olumsuz}
+- {kelime: potansiyel, oneri: "olası"}
+- {kelime: prensip, oneri: ilke}
+- {kelime: prestij, oneri: saygınlık}
+- {kelime: problem, oneri: sorun}
+- {kelime: proje, oneri: "çalışma, tasarı"}
+- {kelime: protokol, oneri: anlaşma}
+- {kelime: realize, oneri: "gerçekleştirmek"}
+- {kelime: rehabilitasyon, oneri: "iyileştirme"}
+- {kelime: rezervasyon, oneri: "yer ayırtma"}
+- {kelime: risk, oneri: tehlike}
+- {kelime: senaryo, oneri: "olasılık"}
+- {kelime: sektör, oneri: alan}
+- {kelime: seminer, oneri: "eğitim toplantısı"}
+- {kelime: sertifika, oneri: belge}
+- {kelime: sistematik, oneri: düzenli}
+- {kelime: spesifik, oneri: özel}
+- {kelime: standart, oneri: "olağan, genel"}
+- {kelime: statü, oneri: durum}
+- {kelime: strateji, oneri: "yol, plan"}
+- {kelime: stratejik, oneri: "önemli, planlı"}
+- {kelime: şarj, oneri: "doldurma (pil)"}
+- {kelime: tolerans, oneri: "hoşgörü, pay"}
+- {kelime: transfer, oneri: aktarma}
+- {kelime: trend, oneri: eğilim}
+- {kelime: vizyon, oneri: "gelecek amacı"}
+- {kelime: misyon, oneri: görev}
+- {kelime: web sayfası, oneri: "internet sayfası"}
+- {kelime: web sitesi, oneri: "internet sitesi"}
+- {kelime: link, oneri: bağlantı}
+- {kelime: login, oneri: "giriş yapmak"}
+- {kelime: mail, oneri: e-posta}
+- {kelime: e-mail, oneri: e-posta}
+- {kelime: update, oneri: güncelleme}
+- {kelime: upload, oneri: yükleme}
+- {kelime: download, oneri: indirme}
+- {kelime: feedback, oneri: "geri bildirim"}
+- {kelime: deadline, oneri: "son gün"}
+- {kelime: event, oneri: etkinlik}
+- {kelime: workshop, oneri: "çalıştay, uygulamalı eğitim"}
+- {kelime: konteyner, oneri: "çöp kutusu, büyük kap"}
+- {kelime: sirkülasyon, oneri: dolaşım}
+- {kelime: ventilasyon, oneri: havalandırma}
+- {kelime: dezenfeksiyon, oneri: "mikrop öldürme, ilaçlama"}
+- {kelime: dezenfekte, oneri: "ilaçlanmış, mikroptan arındırılmış"}
+- {kelime: pandemi, oneri: "dünya çapında salgın"}
+- {kelime: epidemi, oneri: salgın}
+- {kelime: semptom, oneri: belirti}
+- {kelime: vaka, oneri: "hasta, olay"}
+- {kelime: immün, oneri: bağışık}
+- {kelime: evakuasyon, oneri: "boşaltma, bölgeden çıkarma"}
+- {kelime: showroom, oneri: "sergi salonu"}
+- {kelime: outlet, oneri: "indirimli mağaza"}
+- {kelime: ekipman, oneri: "araç gereç"}
+- {kelime: enstrüman, oneri: araç}
+- {kelime: faktör, oneri: etken}
+- {kelime: global, oneri: "küresel, dünya çapında"}
+- {kelime: lokal, oneri: yerel}
+- {kelime: lokasyon, oneri: konum}
+- {kelime: majör, oneri: "büyük, önemli"}
+- {kelime: minör, oneri: "küçük, önemsiz"}
+- {kelime: marjinal, oneri: "sınırda, uç"}
+- {kelime: mekanizma, oneri: düzenek}
+- {kelime: metot, oneri: yöntem}
+- {kelime: modül, oneri: bölüm}
+- {kelime: personel, oneri: çalışan}
+- {kelime: operasyon, oneri: "işlem, çalışma"}
+- {kelime: operatör, oneri: "görevli, şirket"}
+- {kelime: segment, oneri: "grup, kesim"}
+- {kelime: sponsor, oneri: destekçi}
+- {kelime: stajyer, oneri: "öğrenci çalışan"}

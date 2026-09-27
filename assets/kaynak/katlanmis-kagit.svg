@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180">
+  <!-- "Biçim" kategorisi kapağı: katlanmış kâğıt ve rakamlar. Gri tonlu kaynak. -->
+  <defs>
+    <linearGradient id="sol" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#b4b4b4"/>
+    </linearGradient>
+    <linearGradient id="sag" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6c6c6c"/>
+      <stop offset="1" stop-color="#d8d8d8"/>
+    </linearGradient>
+    <radialGradient id="zemin" cx="0.5" cy="1" r="1">
+      <stop offset="0" stop-color="#9a9a9a"/>
+      <stop offset="1" stop-color="#f2f2f2"/>
+    </radialGradient>
+  </defs>
+  <rect width="320" height="180" fill="url(#zemin)"/>
+  <polygon points="70,30 160,40 160,160 70,150" fill="url(#sol)"/>
+  <polygon points="160,40 250,30 250,150 160,160" fill="url(#sag)"/>
+  <rect x="88" y="62" width="52" height="8" fill="#222"/>
+  <rect x="88" y="80" width="40" height="5" fill="#666"/>
+  <rect x="88" y="92" width="48" height="5" fill="#666"/>
+  <rect x="88" y="104" width="30" height="5" fill="#666"/>
+  <!-- 1 5 rakamları -->
+  <rect x="182" y="64" width="10" height="56" fill="#111"/>
+  <rect x="174" y="64" width="10" height="10" fill="#111"/>
+  <rect x="204" y="64" width="30" height="10" fill="#111"/>
+  <rect x="204" y="64" width="10" height="30" fill="#111"/>
+  <rect x="204" y="86" width="30" height="10" fill="#111"/>
+  <rect x="224" y="86" width="10" height="34" fill="#111"/>
+  <rect x="204" y="110" width="30" height="10" fill="#111"/>
+</svg>

@@ -1,0 +1,35 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+skor_en_cok: 40
+tetiklenmeli:
+- kural: KD-C01
+  cumle: 2
+- kural: KD-K01
+  cumle: 2
+  ifade: gereğince
+- kural: KD-K04
+  cumle: 2
+  ifade: seçmenlerimizin
+- kural: KD-B04
+  cumle: 2
+  ifade: 05.10.2026
+- kural: KD-C07
+  cumle: 2
+- kural: KD-K02
+  cumle: 2
+  ifade: kontrol
+- kural: KD-C11
+  cumle: 2
+  ifade: etmeleri gerekmektedir
+- kural: KD-C02
+  cumle: 3
+- kural: KD-C03
+  cumle: 3
+  ifade: nakledilmesi
+- kural: KD-K08
+  cumle: 3
+  ifade: ikametgâh
+tetiklenmemeli:
+- KD-C05
+- KD-B05
+- KD-B07

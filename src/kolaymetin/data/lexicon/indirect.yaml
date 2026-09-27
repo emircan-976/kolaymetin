@@ -1,0 +1,33 @@
+# Dolaylı hitap kalıpları (KD-C11)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# desen: düzenli ifade (büyük/küçük harf duyarsız), oneri: doğrudan "siz" diliyle örnek
+- ad: rica olunur
+  desen: "\\brica\\s+olun(?:ur|maktadır)\\b"
+  oneri: "Okura doğrudan seslenin: 'Lütfen … yapın.'"
+- ad: ilgililere duyurulur
+  desen: "\\bilgililere\\s+(?:önemle\\s+)?(?:duyurulur|ilan\\s+olunur)"
+  oneri: "Kime seslendiğinizi yazın: 'Mahallede oturanlar, …'"
+- ad: kamuoyuna duyurulur
+  desen: "\\b(?:kamuoyuna|halkımıza|vatandaşlarımıza)\\s+(?:saygıyla\\s+|önemle\\s+)?duyurulur"
+  oneri: "'Size duyuruyoruz.' ya da doğrudan konuya girin."
+- ad: hususunda
+  desen: "\\b\\w+m[ae](?:s[ıi]|ler[ıi]|lar[ıi])\\s+hususu(?:nda|nu)?\\b"
+  oneri: "Okura doğrudan seslenin: 'Lütfen … yapın.'"
+- ad: vatandaşlarımızın … ması
+  desen: "\\b(?:vatandaşlarımızın|sayın\\s+halkımızın|halkımızın|sakinlerimizin|hemşehrilerimizin|ilgililerin|hak\\s+sahiplerinin|mükelleflerimizin|mükelleflerin)\\b"
+  oneri: "'Vatandaşlarımızın … etmeleri' yerine 'Lütfen … edin.' yazın."
+- ad: önemle duyurulur
+  desen: "\\b(?:önemle|saygıyla)\\s+(?:duyurulur|ilan\\s+olunur|bildirilir)"
+  oneri: "'Size duyuruyoruz.' deyin ya da doğrudan konuya girin."
+- ad: bilgilerinize sunulur
+  desen: "\\bbilgi(?:lerinize|lerine|sine)\\s+(?:sunulur|arz\\s+olunur)"
+  oneri: "'Size bildiriyoruz.' deyin."
+- ad: gerekmektedir
+  desen: "\\b\\w+m[ae](?:ler[ıi]|lar[ıi]|s[ıi])\\s+gerek(?:mektedir|ir|mekte)\\b"
+  oneri: "Okura doğrudan seslenin: '… yapmalısınız.' ya da '… yapın.'"
+- ad: beklenmektedir
+  desen: "\\b\\w+m[ae](?:ler[ıi]|lar[ıi])\\s+(?:beklenmektedir|beklenir)\\b"
+  oneri: "'Lütfen … yapın.' yazın."
+- ad: talep edilir
+  desen: "\\b\\w+m[ae](?:ler[ıi]|lar[ıi]|s[ıi])\\s+(?:talep\\s+edilir|istenir|istenmektedir)\\b"
+  oneri: "'Lütfen … yapın.' yazın."

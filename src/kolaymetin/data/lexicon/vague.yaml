@@ -1,0 +1,40 @@
+# Belirsiz zaman / miktar ifadeleri (KD-K07)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+- {ifade: en kısa sürede, oneri: "Kesin tarih yazın: '20 Ekim'e kadar'"}
+- {ifade: en kısa zamanda, oneri: "Kesin tarih yazın."}
+- {ifade: yakında, oneri: "Tarihi yazın: '1 Kasım'da'"}
+- {ifade: yakın zamanda, oneri: "Tarihi yazın."}
+- {ifade: bir süre, oneri: "Süreyi yazın: '2 saat'"}
+- {ifade: bir süre sonra, oneri: "Süreyi yazın: '2 saat sonra'"}
+- {ifade: kısa bir süre, oneri: "Süreyi yazın: '30 dakika'"}
+- {ifade: uzun bir süre, oneri: "Süreyi yazın: '3 hafta'"}
+- {ifade: belirli bir süre, oneri: "Süreyi yazın."}
+- {ifade: ileriki bir tarih, oneri: "Tarihi yazın ya da 'Tarihi sonra söyleyeceğiz' deyin."}
+- {ifade: ileri bir tarih, oneri: "Tarihi yazın ya da 'Tarihi sonra söyleyeceğiz' deyin."}
+- {ifade: ilerleyen günlerde, oneri: "Tarihi yazın."}
+- {ifade: önümüzdeki günlerde, oneri: "Tarihi yazın."}
+- {ifade: gerekli belgeler, oneri: "Belgeleri madde madde yazın."}
+- {ifade: gerekli evrak, oneri: "Belgeleri madde madde yazın."}
+- {ifade: ilgili belgeler, oneri: "Belgeleri madde madde yazın."}
+- {ifade: ilgili birimler, oneri: "Birimin adını yazın."}
+- {ifade: ilgili birim, oneri: "Birimin adını yazın."}
+- {ifade: ilgili kurumlar, oneri: "Kurumların adını yazın."}
+- {ifade: ilgili makamlar, oneri: "Kurumun adını yazın."}
+- {ifade: yetkili birimler, oneri: "Birimin adını yazın."}
+- {ifade: bazı bölgeler, oneri: "Mahalle ya da sokak adlarını yazın."}
+- {ifade: bazı mahalleler, oneri: "Mahalle adlarını yazın."}
+- {ifade: çeşitli nedenler, oneri: "Nedeni yazın."}
+- {ifade: teknik nedenler, oneri: "Nedeni açıkça yazın: 'boru patladı'"}
+- {ifade: çok sayıda, oneri: "Sayıyı yazın."}
+- {ifade: bir miktar, oneri: "Miktarı yazın."}
+- {ifade: makul bir süre, oneri: "Süreyi yazın."}
+- {ifade: mümkün olan en kısa sürede, oneri: "Kesin tarih yazın."}
+- {ifade: gün içinde, oneri: "Saati yazın: 'saat 14.00'te'"}
+- {ifade: mesai saatleri içinde, oneri: "Saatleri yazın: '08.30 ile 17.30 arası'"}
+- {ifade: mesai saatleri, oneri: "Saatleri yazın."}
+- {ifade: ilgili mevzuat, oneri: "Kuralı adıyla yazın ya da kısaca anlatın."}
+- {ifade: gerekli işlemler, oneri: "İşlemleri madde madde yazın."}
+- {ifade: gerekli tedbirler, oneri: "Ne yapılacağını madde madde yazın."}
+- {ifade: gerekli önlemler, oneri: "Ne yapılacağını madde madde yazın."}
+- {ifade: belirtilen tarih, oneri: "Tarihi yeniden yazın."}
+- {ifade: söz konusu, oneri: "Neden söz ettiğinizi adıyla yazın."}

@@ -1,0 +1,9 @@
+# Arayüzdeki "Örnek metin" menüsü. Bütün metinler kurgusaldır (Yeşilova Belediyesi).
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+- {id: su-kesintisi, baslik: "Su kesintisi duyurusu (resmî dil)", dosya: 01-su-kesintisi.txt}
+- {id: asi, baslik: "Grip aşısı duyurusu (resmî dil)", dosya: 02-asi-duyurusu.txt}
+- {id: vergi, baslik: "Emlak vergisi hatırlatması (resmî dil)", dosya: 03-vergi-hatirlatmasi.txt}
+- {id: secim, baslik: "Seçmen bilgilendirmesi (resmî dil)", dosya: 04-secim-bilgisi.txt}
+- {id: afet, baslik: "Sel uyarısı (resmî dil)", dosya: 05-afet-uyarisi.txt}
+- {id: yardim, baslik: "Kış yardımı başvurusu (resmî dil)", dosya: 06-sosyal-yardim.txt}
+- {id: su-kolay, baslik: "Su kesintisi (Kolay Dil örneği)", dosya: 07-su-kesintisi-kolay.txt}

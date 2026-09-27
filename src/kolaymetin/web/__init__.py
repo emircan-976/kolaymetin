@@ -1,0 +1,1 @@
+"""Yerel web uygulaması."""

@@ -1,0 +1,51 @@
+# Kolay Dil profili
+# Zihinsel engelli bireyler, okuma güçlüğü yaşayanlar ve dili yeni öğrenenler için.
+# Her kural: enabled (açık/kapalı), severity (hata / uyarı / bilgi), params (eşikler).
+# Kendi profilinizi yazarken "extends: kolay-dil" deyip yalnızca değiştirmek istediğiniz
+# kuralları yazabilirsiniz.
+name: kolay-dil
+title: Kolay Dil
+description: >-
+  En sıkı profil. Kısa cümleler, tek bilgi, etken çatı, bilinen kelimeler.
+  Türkçe Kolay Dil ilkelerine (Demirkıvıran ve Göktepe, 2025) dayanır.
+compliance_k: 0.6
+weights: {hata: 3, uyarı: 1, bilgi: 0.25}
+rules:
+  # --- Cümle düzeyi
+  # Türkçe eklemeli bir dildir: bir kelime çoğu dilde iki-üç kelimelik bilgi taşır. 10 kelimelik
+  # bir Türkçe cümle kısa sayılır; 8 kelime sınırı metni kesik kesik, robotik cümlelere böler.
+  KD-C01: {enabled: true, params: {warn_above: 10, error_above: 15}}
+  KD-C02: {enabled: true, severity: uyarı, params: {max_predicates: 1}}
+  KD-C03: {enabled: true, severity: uyarı}
+  KD-C04: {enabled: true, severity: uyarı}
+  KD-C05: {enabled: true, severity: hata}
+  KD-C06: {enabled: true, severity: uyarı, params: {threshold: 2}}
+  KD-C07: {enabled: true, severity: uyarı, params: {threshold: 2}}
+  KD-C08: {enabled: true, severity: uyarı, params: {chain: 3}}
+  KD-C09: {enabled: true, severity: uyarı}
+  KD-C10: {enabled: true, severity: bilgi, params: {max_gap: 6}}
+  KD-C11: {enabled: true, severity: uyarı}
+  # --- Kelime düzeyi
+  KD-K01: {enabled: true, severity: uyarı}
+  KD-K02: {enabled: true, severity: uyarı}
+  KD-K03: {enabled: true, severity: uyarı}
+  KD-K04: {enabled: true, severity: uyarı, params: {max_syllables: 4, max_suffixes: 3}}
+  KD-K05: {enabled: true, severity: uyarı}
+  KD-K06: {enabled: true, severity: bilgi}
+  KD-K07: {enabled: true, severity: uyarı}
+  KD-K08: {enabled: true, severity: uyarı}
+  # --- Biçim ve sayı
+  KD-B01: {enabled: true, severity: uyarı, params: {min_value: 10}}
+  KD-B02: {enabled: true, severity: uyarı}
+  KD-B03: {enabled: true, severity: bilgi}
+  KD-B04: {enabled: true, severity: uyarı, params: {suggest_weekday: true}}
+  KD-B05: {enabled: true, severity: uyarı}
+  KD-B06: {enabled: true, severity: uyarı, params: {max_colons: 1}}
+  KD-B07: {enabled: true, severity: uyarı, params: {max_words: 3}}
+  KD-B08: {enabled: true, severity: bilgi}
+  # --- Metin düzeyi
+  KD-M01: {enabled: true, severity: uyarı, params: {max_sentences: 5}}
+  KD-M02: {enabled: true, severity: bilgi, params: {min_words: 150}}
+  KD-M03: {enabled: true, severity: uyarı, params: {min_items: 4}}
+  KD-M04: {enabled: true, severity: bilgi, params: {first_fraction: 0.3}}
+  KD-M05: {enabled: true, severity: bilgi, params: {max_words: 400}}

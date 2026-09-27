@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180" width="320" height="180">
+  <!-- "Cümle" kategorisi kapağı: megafon (duyuru). Gri tonlu kaynak. -->
+  <defs>
+    <linearGradient id="govde" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e8e8e8"/>
+      <stop offset="0.5" stop-color="#9c9c9c"/>
+      <stop offset="1" stop-color="#3c3c3c"/>
+    </linearGradient>
+    <linearGradient id="agiz" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#2a2a2a"/>
+      <stop offset="1" stop-color="#808080"/>
+    </linearGradient>
+    <radialGradient id="zemin" cx="0.7" cy="0.4" r="0.8">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#cfcfcf"/>
+    </radialGradient>
+  </defs>
+  <rect width="320" height="180" fill="url(#zemin)"/>
+  <polygon points="70,72 190,30 190,150 70,108" fill="url(#govde)"/>
+  <rect x="40" y="70" width="34" height="40" fill="#333"/>
+  <ellipse cx="190" cy="90" rx="16" ry="60" fill="url(#agiz)"/>
+  <rect x="84" y="108" width="16" height="42" fill="#555" transform="rotate(-12 92 108)"/>
+  <!-- ses dalgaları -->
+  <rect x="222" y="84" width="46" height="10" fill="#111"/>
+  <rect x="218" y="52" width="40" height="9" fill="#333" transform="rotate(-18 238 56)"/>
+  <rect x="218" y="120" width="40" height="9" fill="#333" transform="rotate(18 238 124)"/>
+  <rect x="274" y="84" width="20" height="10" fill="#666"/>
+</svg>

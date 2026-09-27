@@ -1,0 +1,280 @@
+# Değişiklik günlüğü
+
+Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sürüm numaraları
+[Anlamsal Sürümleme](https://semver.org/lang/tr/) kurallarına uyar.
+
+## [Yayımlanmamış]
+
+### Belgeler: README (2026-09-27)
+
+- README "Düzeltmen Masası" diliyle yeniden dizildi: künye başlığı (dither güneş ve tepeler),
+  canlandırılmış düzeltme provası (uyum skoru 1 → 100), kural sayfası, işlem hattı, renk şeridi ve kapanış künyesi. Her
+  görselin açık ve koyu tema baskısı var; "hareketi azalt" tercihinde son hâl gösterilir.
+- `scripts/readme_gorselleri.py`: bu SVG'leri `style.css` renkleri, gömülü Atkinson Hyperlegible
+  ve projenin dither görselleriyle üretir.
+- Ekran görüntüleri künye sahnesiyle yenilendi; tanıtım filminden GIF ve sıkıştırılmış MP4.
+
+### Görünüm: künye sahnesi (2026-09-27)
+
+- Üst şeride risograf baskı sahnesi: dither güneş (kırmızı) ve önünde yavaşça ilerleyen dither
+  tepeler (`manzara.js`, canvas; uzak tepeler mavi, yakınlar mürekkep). "Hareketi azalt"
+  tercihinde tek kare çizilir.
+- Logoda kırmızı kalıp kayması; üzerine gelince mavi kalıba geçer.
+- Bulgular panelinin boş durumuna mavi büyüteç görseli.
+- Aynı künye rehber ve stil rehberi sayfalarında da kullanılır.
+
+### 4. tur: yirmi farklı kaynaktan gerçek metin (2026-09-27)
+
+Cuma hutbesi, Merkez Bankası faiz kararı, ÖSYM duyurusu, hastane blogu (kan bağışı), Ömer
+Seyfettin'in "Kaşağı" öyküsü, iki Vikipedi maddesi (Fotosentez, Mimar Sinan), Tüketicinin
+Korunması Hakkında Kanun, yemek tarifi ve okur yorumları, AA spor haberi, İETT duyuruları, İŞKUR
+tanıtımı, e-ticaret iade koşulları, banka bilgilendirmesi, NVİ çerez politikası, DergiPark makale
+özetleri, ilaç kullanma talimatı (PDF), çamaşır makinesi kılavuzu (PDF) ve Aile Bakanlığının kolay
+okunur sözleşme metni denendi. Regresyon testleri: `tests/test_yirmi_kaynak.py`.
+
+#### Düzeltildi: cümle bölme
+- `normalize()` bütün tırnakları `"`, bütün tireleri `-` yapar; bölücü artık ikisini de tanıyor.
+- Cümlenin içine gömülü alıntıdaki ünlem cümleyi bitirmiyor (“Ey insanlar! … koruyun”[2] sözü
+  gereğince …). Konuşma çizgisi yeni bir konuşma açıyor ("… döverim! — Söylemem. — Peki …").
+- Vikipedi kaynak işaretinden ("kullanılır.[1] Daha sonra …") ve dipnot yıldızından ("*Cayma
+  hakkı …") sonra yeni cümle başlıyor. "II. Selim ve III. Murad" bölünmüyor.
+- Numaralı ara başlıklar ("1. Bu Sözleşme" ardından düz metin) madde değil başlık; KD-M02 artık
+  "başlık yok" demiyor. Arka arkaya numaralı satırlar liste olarak kalıyor.
+- İçinde cümle biten noktalamasız satır ("Tam istediğim gibi oldu. Tşk ederim") başlık sayılmıyor.
+- PDF'te simge yazı tipiyle basılmış madde işaretleri ("u Ürünün içinde …") "•" oluyor.
+
+#### Düzeltildi: biçimbilim ve sözlük
+- "yendi" (yenmek) "yemek"in edilgeni sanılıyordu; KD-C03 "'yedi' biçimini kullanın" diyordu.
+  "bayılma", "eğilirdim", "boğulmak" ve "-il-er" çoğulları ("siyanobakteriler") edilgen değil.
+- Çok kelimeli girdilerde ad durumu korunuyor: "haklara sahip" artık "hak sahibi" (→ "yardım
+  alacak kişi") sayılmıyor; "önüne almak" "önünü almak" (engellemek), "eli altında" "el altından"
+  (gizlice) değil. Tamlamanın baş adı ("hak sahiplerinin") her durumu alabilir.
+- Sıfat-fiil girdisi ("çalışan") fiilin başka biçimleriyle ("çalışılır") eşleşmiyor.
+- KD-K08: "ücret/bedel/fiyat/tutar" ve "yönetmelik/mevzuat" grupları kaldırıldı ya da daraltıldı;
+  aynı metinde ayrı şeyleri anlatıyorlar ("iade edilecek bedelden kargo ücreti düşülür").
+- abbreviations.yaml: tırnaksız virgül ÖSYM, EGO ve ESHOT açılımlarını bölüyordu ("Ölçme (ÖSYM)").
+  Sözlük dosyalarında bilinmeyen alan kalmadığını bir test denetliyor. "s.a.s.", "s.a.v.", "a.s.",
+  "r.a." eklendi; "(s.a.s)" tek kelime, "sayfa (s)" önerisi yok.
+- Arap harfleriyle yazılmış kelimeler kısaltma sayılmıyor. "Peygamber Efendimiz (s.a.s)" bir
+  açılım değil: parantezden önceki kelimelerden biri kısaltmanın ilk harfiyle başlamalı.
+- Çok kelimeli özel adın içindeki sözlük kelimesi işaretlenmiyor ("Amed Sportif Faaliyetler").
+- KD-K01: yönerge biçimli önerilerde ("tarafından") ileti "Yerine '(…)' yazın" demiyor.
+- KD-K07: "beş iş günü içinde" belirsiz değil.
+
+#### Düzeltildi: cümle kuralları
+- Bölme önerisi: noktalı virgülden önce yüklem yoksa ("ortalama;", "itibaren;", "yoksa;")
+  "nokta koyun" denmiyor; zarf-fiilden sonra ("edildiğinde,", "çizerek,") "bölün" deniyor;
+  "ki" önünden bölünmüyor ("De ki:", "Unutmayalım ki"); "için," gibi edatlar yüklem değil.
+- KD-C02: aktarılan söz ("…, dedi.", "…! diye haykırdı", "…, derdim.") ve yineleme ("Yok, yok!")
+  ayrı bilgi değil. "ve" ile bağlanan sıfat-fiiller ("cevaplamış ve uygun bulunmuş kişiler",
+  "bulunmuş ve … oluşmuş ise") yüklem sayılmıyor. Cümlenin ilk kelimesinde ad okuması tercih
+  ediliyor ("Astım ve akciğerde …", "Ürünün, …").
+- KD-C03: "X tarafından" varsa ileti "kimin yaptığı belli değil" demiyor, yapanı adıyla anıyor.
+  Bu yalnızca "tarafından"dan hemen sonraki fiil için geçerli.
+- KD-C06/C07/C10: "birey olarak", "olabildiğince", "dâhil olmak üzere" ve amaç bildiren "…mak
+  için" yan cümle ya da isimleştirme sayılmıyor.
+- KD-C05: aynı ekle sıralanmış iki olumsuz eylem ("ameliyat olmamış, dövme yaptırmamış") çifte
+  olumsuzluk değil. KD-C04: alıntılanan söz yazarın olumsuzluğu sayılmıyor.
+- KD-B03: "yüzde 35,5" 355 sanılıp "Önce 100 lira olan fiyat …" öneriliyordu.
+- KD-M02: soru biçimli ara başlıklar (SSS) başlık sayılıyor.
+
+#### Etki
+Kaşağı öyküsü 50'den 56'ya, spor haberi 28'den 34'e çıktı; bürokratik metinler (TCMB, İŞKUR,
+kanun, çerez politikası) 0–6 arasında kaldı. Kolay okunur sözleşme metni 36: puanı uzun cümleleri
+(50 cümlenin 19'u 10 kelimeden uzun) ve uzun kelimeleri düşürüyor; yanlış bulgular ayıklandı.
+
+### 3. tur: dört bağımsız deneme raporu (2026-09-26)
+
+Dört ayrı denemede (belediye duyuruları, meteoroloji uyarısı, grip rehberi, KVKK ve tüketici
+metinleri, haber, blog, çocuk masalı, Güneş Sistemi maddesi) bulunan hatalar düzeltildi.
+Regresyon testleri: `tests/test_ajan_geri_bildirimi.py`.
+
+#### Düzeltildi: altyapı
+- Web arayüzü: 500 karakterden uzun bir cümlede "Yoksay" düğmesine basınca sonraki bütün
+  denetimler 422 hatası veriyordu. Yoksayılan metin artık denetlenen metin kadar uzun olabilir;
+  toplam sınır aşılırsa anlaşılır bir ileti çıkar. Aynı bulgu iki kez yoksay listesine eklenmiyor.
+- Satır başındaki sıra sayısı ("15. yüzyılda …", "1. maddeye göre …", "3. Madde …") madde işareti
+  sanılıp kırpılıyordu; kelime ve hece sayısı eksik çıkıyor, KD-C10 çalışmıyordu. Numaralı
+  listeler (en az iki numaralı satır) eskisi gibi madde sayılıyor.
+- Uyum skoru formülündeki "−" (U+2212) ve "Σ" karakterleri Türkçe Windows konsolunda (cp1254)
+  `UnicodeEncodeError` veriyordu. `print(report)` artık kısa ve cp1254 uyumlu bir özet yazar.
+- Windows'ta klasör verildiğinde "izin yok" yerine "Bu bir klasör, dosya değil" deniyor.
+- Boş metin kütüphanede ve web arayüzünde de hata (`EmptyInput`, HTTP 422); önce 100 puan
+  alıyordu. Komut satırı aynı iletiyi kullanıyor.
+- Profil `extends: taban.yaml` dosyasını önce profilin kendi klasöründe arıyor.
+- Çok kelimeli sözlük girdileri araya noktalama ya da sayı giren kelimelerle eşleşmiyor
+  ("söz - konusu").
+- `scripts/ikonlar.py --help` proje kökünde "--help" adlı klasör açıyordu. Betik artık argparse
+  kullanıyor; `--kontrol` üretilmiş dosyaların güncel olup olmadığına bakar.
+- Performans testi kararsızdı (3,5 sn). Test aslında ~3.100 kelime ölçüyordu; artık gerçekten
+  5.000 farklı kelime ölçüyor, çöp toplayıcıyı durduruyor ve iki soğuk ölçümün iyisini alıyor.
+  `KOLAYMETIN_PERF_SINIR` ile yavaş makinede sınır genişletilebilir.
+- pytest'teki Starlette/httpx uyarısı süzülmüyordu (uyarı sınıfı `UserWarning`).
+- `tanitim/kaydet.py` ruff RUF046.
+
+#### Düzeltildi: yanlış pozitifler ve öneriler
+- KD-C04: "Yılmaz", "Korkmaz", "Sönmez" gibi soyadları olumsuz fiil sayılıyordu. Cümle ortasında
+  büyük harfle başlayan kelime ve bilinen adlar (`names.txt`) artık özel ad; fiil çözümlemesi
+  alınmıyor. Aynı düzeltme "Birleşmiş Milletler" (KD-C06) ve "Korkmaz" (KD-C02) hatalarını da
+  giderdi. KD-C04 cümle başına tek bulgu verir ve önerisini olumsuzluğun türüne göre seçer
+  (yasak, "değil", "yok", "hiç", "-emez", soru).
+- KD-C02: "boşa" (boşamak, emir) yüklem sayılıyordu ve "'boşa' kelimesinden sonra nokta koyun"
+  gibi bozuk öneri çıkıyordu. Sıfattan türeyen adlar ("boşa", "iyiye") artık cezalı değil;
+  cümle ortasındaki bir fiil ancak ardından virgül, bağlaç ya da cümle sonu gelirse yüklem sayılır.
+- KD-C03: "korunun", "korunmak için" gibi okura seslenen dönüşlü fiiller işaretlenmiyor. Etken
+  biçim önerisi yalnızca yüklemde veriliyor ("ambalajı açmış ürün", "öngörenden" gibi bozuk
+  öneriler yok). "yeniliyor" (yenilemek) "yenmek" fiilinin edilgeni sanılıyordu. "yayılmak",
+  "tıkanmak" edilgen sayılmıyor. KD-K01 kalıbının içindeki edilgen ("rica olunur") ayrıca
+  sayılmıyor.
+- KD-C10: Türkçenin olağan özne-nesne-yüklem dizilişi cezalandırılıyordu ("… tatlı bir kız
+  yaşarmış"). Kural artık yalnızca yüklemden önce bir yan cümle varsa uyarır; devrik cümleye
+  yönelten öneri kaldırıldı.
+- KD-C01: Kolay Dil eşiği 8/12 kelimeden 10/15 kelimeye çıktı (bkz. KARARLAR).
+- KD-K04: hece sayısı çekim ekleri atılmış gövdede ölçülüyor ("ellerinizi", "tüketiciye",
+  "edebilirsiniz" uyarı almaz; "vatandaşlarımıza", "değerlendirilmesinden" alır). Uzun kökler
+  bilinse de işaretlenir ("meteoroloji"). Her kelimede aynı sabit örnek yerine kelimeyi neyin
+  uzattığına göre öneri çıkar. KD-K01/KD-K02 ifadesinin içindeki kelime ayrıca işaretlenmez.
+- KD-K06: temel kelime listesi 3.089'dan 5.400'ü aşkın köke çıktı. Anlamı kökten çıkan türetmeler
+  ("süreli", "kuvvetli", "sağlıklı") bilinir sayılıyor. Cümle başındaki adlar ("Ali", "Pıtır"),
+  metinde kesme işaretiyle geçen adlar ve "New York" gibi ad parçaları işaretlenmiyor.
+- KD-K05: gerçek anlamıyla da sık kullanılan 30 deyim `iki_anlamli` işaretlendi (yalnızca bilgi,
+  "mecaz anlamda kullandıysanız"); `gercek` ipuçları ("Otobüs yola çıktı", "Kapıyı açın",
+  "Kırmızı düğmeye basın") varsa uyarı yok. Öneri artık mastarı değil, düz anlamı veriyor.
+- KD-K07: önünde sayı olan süre ("14 gün içinde", "3 iş günü içinde") belirsiz sayılmıyor.
+- KD-B03: "100 kişiden X'i" önerisi yalnızca kişiler için; para için "100 lirada X lira", başka
+  şeyler için kesir ("onda yedisi") öneriliyor.
+- KD-B04: tarih aralıklarında ("6 Şubat - 2 Mart 2026", "15-20 Eylül") haftanın günü istenmiyor.
+- KD-M02: metnin ilk satırındaki iki noktalı başlık ("Su kesintisi: 15 Eylül", "DUYURU: Su
+  Kesintisi") başlık sayılıyor; kuralın kendi önerisi artık kendisiyle çelişmiyor.
+- Hitap satırı ("Değerli Sakinlerimiz,") ardından gelen cümleye eklenmiyor.
+
+#### Performans
+- zeyrek arama döngüsü her yolda durumun bütün geçişlerini deniyordu. Geçişler artık (durum, ses
+  özellikleri, kalan metnin ilk harfi) için önbelleğe alınıyor; sonuçlar ve sıraları birebir aynı
+  (21.911 kelimede karşılaştırıldı), çözümleme ~%26 hızlı. 5.000 farklı kelime ~2,3 sn.
+- Sözlük eşleşmeleri belge başına bir kez hesaplanıyor (KD-K06 dört sözlüğü yeniden eşliyordu).
+
+#### Etki
+Çocuk masalı Kolay Dil uyum skoru 16–33'ten 90'a, grip rehberi 18'den 87'ye, sadeleştirilmiş
+su kesintisi duyurusu 28'den 80'e çıktı. Bürokratik duyurular 0–4 arasında kalıyor.
+
+Gerçek kamu duyurularıyla (valilik meteoroloji uyarıları, belediye su kesintisi, SGK, AFAD,
+Sağlık Bakanlığı) yapılan denemede bulunan hatalar düzeltildi. Regresyon testleri:
+`tests/test_gercek_metinler.py`.
+
+### Düzeltildi
+- Edilgenden etken biçim önerisi: "bekleniyor" → "bekliyor" (önce "bekleyiyor"),
+  "edildiği" → "ettiği" (önce "etdiği"), "yapıldı" → "yaptı".
+- Büyük harfle vurgulanan kelimeler ("BUZLANMA VE DON UYARISI", "ÇÖK, KAPAN, TUTUN", "ACİL")
+  artık kısaltma sayılmıyor. Küçük harfli "kit", "ego" gibi kelimeler de kısaltma sayılmıyor.
+  ABD, ÇİMER, SUT, KİT, SİT kısaltma sözlüğüne eklendi.
+- KD-C07: addan türeyen "-lık"lı kelimeler ("müdürlük", "sağlık", "güvenlik") ve "yağışlı" gibi
+  sıfatlar artık isimleşmiş eylem sayılmıyor.
+- "alan", "sandık", "çakmak", "düğme" gibi yalın adlara rastlantısal fiil çözümlemesinden
+  sıfat-fiil / ad-fiil işareti eklenmiyor (KD-C06, KD-C07 yanlış pozitifleri).
+- "dokunmak", "kaynaklanmak", "buzlanmak", "yaralanmak", "parçalanmak", "dökülmek",
+  "yaşanmak" edilgen sayılmıyor; "toplanmak" dönüşlü fiillere eklendi.
+- Virgülden önceki "göre" edatı, "yer yer" ikilemesi ve "Yaşlılar, bebekler …" gibi sıralama
+  öğeleri artık yüklem sayılmıyor (KD-C02 ve bölme önerisi).
+- KD-C01 bölme önerisi yalnızca bir yan cümlenin bittiği yeri gösteriyor ve özel adları küçük
+  harfe çevirmiyor ("'belediyesi' kelimesinden sonra" yerine anlamlı bir yer).
+- Web sayfasından ya da Word'den yapıştırılan, paragrafları tek satır sonuyla ayrılmış metin
+  tek dev paragraf sayılmıyor (KD-M01 "46 cümle" yanlış pozitifi). Satırlar arasındaki ara
+  başlıklar ("Bina içindeyseniz") sonraki cümleyle birleşmiyor. "-Güneş …" gibi boşluksuz tire
+  madde işareti sayılıyor.
+- KD-C11 "Kamuoyunun bilgisine sunulur" kalıbını yakalıyor.
+- KD-K01 "suretiyle" için "kopya" yerine "yoluyla" öneriyor; eşit uzunluktaki sözlük
+  eşleşmelerinde seçim artık her çalıştırmada aynı.
+
+### Düzeltildi (2. tur: kolaydil.tr Kolay Dil metinleri, KVKK aydınlatma metinleri, MEB duyurusu, Vikipedi)
+- Sezgisel çözümleyici: "-mAlI" gereklilik eki ("olmalıyım") artık olumsuzluk sayılmıyor.
+  Edilgen kalıbı kelimenin sonunu da denetliyor; "Valdivia", "kontinü", "travertensert" gibi
+  özel ad, yabancı ya da bozuk kelimeler edilgen sayılmıyor.
+- Cümle sonundaki olumsuz emir ("Zarfını kapatmayı unutma.") isimleşme sayılmıyor.
+  "gerek…/lazım/şart" önündeki ad-fiil ("korumam gerekiyor") olumsuz fiil sayılmıyor
+  (KD-C04 ve KD-C05 yanlış pozitifleri).
+- KD-C07 yalnızca yan cümle taşıyan ad-fiilleri sayıyor ("teslim edilmesi", "bilmesini").
+  "Aydınlatma Metni", "temizleme işlemi", "düzenlemeler", "X ne demek?" artık sayılmıyor.
+  "alınmaya başlanacaktır" kalıbı eklendi.
+- KD-C02, KD-C10 ve bölme önerisi: "diye"den önceki, aktarılan sözdeki ("'UZAK DUR' derim")
+  ve parantez içindeki yüklemler ayrı bilgi sayılmıyor. "Kimse görmesin diye …" için artık
+  "'görmesin' kelimesinden sonra nokta koyun" gibi bozuk öneri çıkmıyor.
+- KD-C03: "yüklenici" gibi "-ıcı" ile türemiş adlar edilgen sayılmıyor.
+- Sözlük eşleşmesi: çekimli yazılmış tek kelimelik girdiler yalnızca kendi biçimiyle eşleşiyor.
+  "Yükleme" → "işi yapan firma", "Kanun hükümleri" → "yerine geçer", "log" → "giriş yapmak"
+  gibi yanlış öneriler giderildi.
+- KD-K06: "-ki" ve küçültme ekli kelimeler köküyle aranıyor ("resimdeki", "aşağıdaki",
+  "kutucuk"); emir kipleri ("Bul.", "Bas.") ve zeyrek'in tanımadığı çekimli fiiller
+  ("olmalıyım") tanınıyor. Temel kelime listesine "şöyle, yine, diye, yani, metin, taraf,
+  şekil …" gibi sık kelimeler eklendi.
+- KD-K03: büyük harfle yazılmış özel adlar ("Keçiören/ANKARA") kısaltma sayılmıyor; açılımı
+  hemen sonraki cümlede verilen kısaltma ("TBMM: Türkiye Büyük Millet Meclisi demek.")
+  açıklanmış sayılıyor; "Bay" uyarı vermiyor.
+- KD-K02: Kolay Dil okurunun bilmediği öztürkçe öneriler ("ölçün", "başarım", "gizil", "sığa",
+  "eşgüdüm") yerine günlük kelimeler öneriliyor.
+- KD-B01: rakamdan sonraki "milyon/milyar" ("100 milyon") işaretlenmiyor.
+- KD-B02: ad baş harfleri ("Robert M.", "D. F.") ve "CD" gibi kısaltmalar Roma rakamı sayılmıyor.
+- KD-B04: geçmiş yıllara ait tarihlere ("23 Nisan 1920") ve özel adın parçası olan tarihlere
+  ("1 Kasım İlkokulu") haftanın günü önerilmiyor.
+- KD-B08: doğrudan söz tırnakları ("“evet” veya “hayır” der", "“evet” dediğinde") işaretlenmiyor.
+- KD-M03: "Örneğin," gibi giriş sözleri liste öğesi sayılmıyor.
+- KD-M04: "Kaynak: …", "Metin: …" künye satırlarındaki adres ve tarihler önemli bilgi sayılmıyor.
+
+## [1.0.0] - 2026-09-25
+
+İlk sürüm. Aşağıdaki notlar geliştirme aşamalarını sırasıyla özetler.
+
+### 1. İskelet
+- `pyproject.toml` (hatchling), `src/kolaymetin` paket yapısı, ruff/mypy/pytest ayarları.
+- pydantic modelleri: `Analysis`, `Token`, `Sentence`, `Paragraph`, `Finding`, `Scores`, `Report`.
+
+### 2. Metin işleme
+- Unicode NFC normalleştirme; tırnak, tire, boşluk birleştirme; karakter düzeyinde orijinal ofset eşlemesi.
+- Türkçe büyük/küçük harf yardımcıları (`turkish_lower`, `turkish_upper`, `turkish_capitalize`).
+- Kısaltma, sıra sayısı, tarih, saat, URL ve e-posta farkındalıklı cümle bölme; liste maddeleri, başlıklar, satır içi susturma.
+- Sözcük birimlerine ayırma (kelime, sayı, tarih, saat, yüzde, URL, e-posta).
+- Hece sayımı: sayılar okunuşa (`num2words`), kısaltmalar sözlük okunuşuna ya da harf harf.
+
+### 3. Morfoloji
+- zeyrek entegrasyonu (NLTK verisi gerekmeden), 3 kat hızlı arama döngüsü, yüzey biçim önbelleği.
+- zeyrek'teki durum bozulması hatasının düzeltilmesi.
+- Bağlama dayalı en olası çözümleme ve işaret başına güven; ek tabanlı sezgisel geri dönüş.
+
+### 4. Okunabilirlik formülleri
+- Ateşman (1997), Çetinkaya-Uzun (2010), Bezirci-Yılmaz (2010); katsayılar kaynaklardan doğrulandı.
+
+### 5. Sözlükler
+- Jargon (235), yabancı kelime (131), deyim (96), kısaltma (134), eş anlamlı grup (41),
+  belirsiz ifade, dolaylı hitap deseni, dönüşlü fiil listesi, 3.000+ temel kelime.
+
+### 6. Kurallar
+- 32 kuralın tamamı: KD-C01…C11, KD-K01…K08, KD-B01…B08, KD-M01…M05.
+- `kolay-dil` ve `sade-dil` profilleri; `extends` ile özel profil; `--sozluk` ile ek sözlük.
+
+### 7. Uyum skoru ve rapor
+- Kolay Dil Uyum Skoru (kategori bazında, katkı tablosuyla).
+- JSON, Markdown ve bağımsız, yazdırılabilir HTML rapor.
+
+### 8. Komut satırı
+- `kolaymetin denetle | sunucu | kurallar | surum`; Türkçe yardım; renkli metin çıktısı; çıkış kodları 0/1/2.
+
+### 9. Görsel sistem
+- "Düzeltmen Masası" renk belirteçleri (açık/koyu), WCAG kontrast denetimi betiği.
+- Atkinson Hyperlegible Next ve Mono yazı tipleri (yerel), 19 piksel ikon, Atkinson/Bayer dither betiği,
+  dither görseller ve 17 seviyeli Bayer desenleri, stil denetim testleri, stil rehberi sayfası.
+
+### 10. Web
+- FastAPI sunucu ve çerçevesiz ön yüz: düzeltmen işaretleri, kenar boşluğu notları, bulgu kartları,
+  dither skor çubukları, cümle görünümü, dosya yükleme, dışa aktarma, yoksayma, tema ve yazı boyutu.
+
+### 11. Rehber
+- Giriş, 32 kural sayfası, skorlar, kaynaklar, katkı; `/rehber` altında aynı görsel dille sunum.
+- Rehberin kendi metnini denetleyen test.
+
+### 12. Doğrulama
+- 18 metinlik korpus (6 konu × bürokratik/sade/kolay) ve beklenen bulgular.
+- Performans (5.000 kelime < 3 sn), ağ yalıtımı, yanlış pozitif ve erişilebilirlik gözden geçirmesi.
+- Ekran görüntüleri ve öz değerlendirme.
+
+### 13. Dağıtım
+- `Dockerfile`, `docker-compose.yml`, README, CONTRIBUTING, KARARLAR, MİMARİ.

@@ -1,0 +1,92 @@
+# Kararlar
+
+Belirsiz noktalarda verilen kararlar. Biçim: **tarih — karar — gerekçe**.
+
+## Ortam ve bağımlılıklar
+
+- 2026-09-25 — Python 3.12'yi `uv` ile kurduk; paket yönetimi `uv` + `pyproject.toml` (hatchling). — Sistemde Python yoktu; `uv` hazırdı. `pip install .` de çalışır.
+- 2026-09-25 — CLI için `typer` yerine `argparse` kullandık ve yardım/hata metinlerini Türkçeye çevirdik. — typer/click başlıkları ("Usage", "Options") İngilizce; kullanıcıya görünen her metin Türkçe olmalı.
+- 2026-09-25 — Yazı tiplerini fontsource npm paketlerinden (SIL OFL) aldık: Next 400/400 italik/700/800, Mono 400/700; `latin` + `latin-ext` alt kümeleri, `unicode-range` ile. — Türkçe ğ, ı, ş, İ `latin-ext` içinde. CDN yok; dosyalar `static/fonts/` altında. Atkinson Hyperlegible Mono bulunabildiği için yedek yazı tipi gerekmedi.
+- 2026-09-25 — Dither kaynak SVG'lerini `resvg-py` ile PNG'ye çeviriyoruz (yalnızca geliştirme bağımlılığı). — Pillow SVG okuyamaz; cairo Windows'ta sorunlu. `dither.py` PNG/JPG girdiyi `resvg-py` olmadan da işler.
+- 2026-09-25 — Ekran görüntülerini Playwright ile, bu makinede kurulu Edge kanalıyla (`--kanal msedge`) aldık. — Chromium indirmeye gerek kalmadı; betik kanal verilmezse Playwright Chromium'unu kullanır.
+
+## Morfoloji
+
+- 2026-09-25 — zeyrek'in `analyze()` yöntemi yerine iç çözümleyiciyi kelime başına doğrudan çağırıyoruz. — `analyze()` NLTK `punkt_tab` verisini ister ve bu veri ağdan indirilir; araç çevrimdışı çalışmalı.
+- 2026-09-25 — zeyrek'in arama döngüsünü günlük (log) çağrısı yapmayan bir alt sınıfla (`FastRuleBasedAnalyzer`) değiştirdik ve yüzey biçim üretimini önbelleğe aldık. — Özgün kod her adımda devre dışı hata ayıklama metinlerini biçimlendiriyordu; kelime başına süre ~3 ms'den ~0,4 ms'ye indi. Algoritma aynı.
+- 2026-09-25 — zeyrek'te bir durum bozulması hatası bulduk: ses özelliği kümeleri yerinde değiştiriliyor ve sonraki çözümlemeler bozuluyordu ("gelen" kelimesi ikinci çağrıda "gelmek" çözümlemesini kaybediyordu). Kümeleri kopyalayarak düzelttik. — Aynı kelime her çağrıda aynı sonucu vermeli; bunun için bir regresyon testi var.
+- 2026-09-25 — zeyrek'in yüklenmesi (~3–5 sn) 5.000 kelime / 3 sn hedefine dahil değildir. Web sunucusu açılışta sözlüğü arka planda yükler. — Yükleme bir kez yapılır; hedef çözümleme süresi içindir.
+- 2026-09-25 — zeyrek yoksa ya da bir kelimeyi tanımıyorsa ek tabanlı sezgisel çözümleyici çalışır (güven 0,6). `KOLAYMETIN_MORFOLOJI=sezgisel` ile zorlanabilir; raporda bir not görünür. — Sessizce özellik düşürmemek için.
+- 2026-09-25 — Birden fazla çözümlemede "en olası" olanı ceza puanıyla seçiyoruz (sıfır türetme, 2. tekil kişi, emir kipi, nadir türetmeler cezalı; cümle sonundaki çekimli fiil ödüllü). Her işaretin güveni, en iyi çözümlemeye yakın adayların o işarette uzlaşma oranıdır. — Spesifikasyon "bağlama göre seç, belirsizlikte confidence < 1" istiyor.
+- 2026-09-25 — "Bozulmak, taşınmak, bulunmak, takılmak, seslenmek…" gibi biçimce edilgen ama günlük dilde kendi anlamıyla kullanılan fiilleri edilgen saymıyoruz (`LEXICALIZED_KEEP`). Dönüşlü okunabilen fiiller (`reflexive_verbs.txt`) yalnızca "bilgi" alır. — "Su borusu bozuldu" cümlesinde işi yapan yoktur; uyarı yanlış olur.
+- 2026-09-25 — "Okunabilirlik", "okunuş" gibi edilgen kökten türemiş, sözlükleşmiş adları KD-C03 işaretlemez. — Bunlar eylem değil, kavram adıdır.
+- 2026-09-26 — Cümle ortasında büyük harfle başlayan kelimeyi (tamamı büyük harf olanlar ve iki nokta, tırnak, parantezden sonra gelenler hariç) özel ad sayıyoruz ve fiil işaretlerini kaldırıyoruz; ilgi eki kalır. Cümle başında yalnızca `names.txt` listesindeki adlar ve metnin başka yerinde özel ad olarak geçen kelimeler özel ad sayılır. — Türkçede ortada büyük harf özel ad demektir; "Korkmaz", "Sönmez", "Birleşmiş" fiil okunuyordu.
+- 2026-09-26 — Sıfır türetme cezası yalnızca addan fiil yapan okumada 2; sıfattan ad yapan okumada ("boş-a") 0,5. — "boşa" emir kipine (boşamak) yeniliyordu.
+- 2026-09-26 — zeyrek geçişlerini (durum, ses özellikleri, ilk harf) anahtarıyla önbelleğe alıyoruz. Sonuçları eski hızlı çözümleyiciyle 21.911 kelimede karşılaştırdık; fark yok. — İlk harfi tutmayan geçişler hiç denenmiyor; ~%26 hız.
+
+## Metin işleme
+
+- 2026-09-25 — Başlıkları okunabilirlik formüllerinden ve KD-C01'den hariç tuttuk; liste maddelerini cümle saydık; URL ve e-posta adreslerini formül kelime sayısına katmadık. — Başlıklar kısa ve noktalamasızdır, ortalamayı yapay olarak iyileştirir. URL'lerin hecesi anlamsızdır.
+- 2026-09-25 — Başlık: tek satırlık, 12 kelimeyi geçmeyen, noktalamayla bitmeyen, büyük harfle başlayan ve iki nokta içermeyen paragraf; ayrıca Markdown `#` satırları ve paragrafın ilk satırı olan kısa BÜYÜK HARF satır. — "Telefon: 185" gibi satırları başlık saymamak için.
+- 2026-09-25 — İki noktayla biten satır ile yeni satırda tırnak/rakam/tireyle başlayan satır yeni cümle başlatır. — Kolay Dil metinleri "Şunları yapın:" gibi satırlarla listeye geçer.
+- 2026-09-25 — Sayıların hecesini `num2words` (lang="tr") ile okunuşa çevirerek sayıyoruz; ondalık kısmı rakam rakam okuyoruz ("3,5" → üç virgül beş). Yerleşik dönüştürücü yedektir ve testte num2words ile karşılaştırılır. — num2words "3.5" için "üç virgül elli" üretiyordu.
+- 2026-09-25 — Satır içi susturma yorumu tek başına bir paragrafsa bir sonraki paragrafa uygulanır; kural kimliği verilmezse bütün kurallar susar. — Belediye kullanıcıları için en az sürpriz.
+- 2026-09-26 — Satır başındaki "N." ancak ardından küçük harf ya da sıra sayısıyla kullanılan bir ad ("Madde") gelmiyorsa madde işaretidir; blokta en az iki numaralı satır varsa her zaman madde işaretidir. — "15. yüzyılda" ve "1. maddeye göre" cümleleri kırpılıyordu.
+- 2026-09-26 — Metnin ilk satırında iki noktalı, en fazla 8 kelimelik satır başlıktır ("Su kesintisi: 15 Eylül"); "Telefon", "Adres", "Saat" gibi etiketler ve iki noktadan sonra harf olmayan satırlar hariç. — KD-M02 kendi önerdiği başlığı tanımıyordu. "Telefon: 185" kararı korunur.
+- 2026-09-26 — Hitap satırını ("Değerli Sakinlerimiz,") kendi başına kısa bir satır sayıyoruz; başlık değildir. — Sonraki cümleye eklenince 15 kelimelik cümle 22 kelime oluyordu.
+- 2026-09-26 — Boş metin kütüphanede de hatadır (`EmptyInput`). — CLI hata, API 100 puan veriyordu; iki davranış tutarlı olmalı.
+
+## Kurallar ve eşikler
+
+- 2026-09-25 — KD-C02 için yüklem sınırı: Kolay Dil 1, Sade Dil 2. Bağlaçla ("çünkü", "ancak"…) iki tarafında en az ikişer kelime olan cümle de iki bilgi sayılır. — Spesifikasyon sayı vermiyor.
+- 2026-09-25 — KD-K04: temel kelime listesindeki bir kök en fazla 2 ek alırsa hece sınırı uygulanmaz (`known_root_max_suffixes`). — "Siz" hitabı (-sInIz) Kolay Dil'in önerisidir; "yapmalısınız" gibi kelimeleri cezalandırmamak için.
+- 2026-09-25 — KD-B01 alt sınırı Kolay Dil'de 10, Sade Dil'de 1000; "bir", "yüz", "bin", "altı", "yedi" tek başına işaretlenmez. — Bu kelimelerin sayı dışı anlamları çok yaygın (bir gün, yüz, "otobüse bin").
+- 2026-09-25 — KD-B06 adreslerdeki "No:", "Kat:" iki noktalarını saymaz; adres kısaltmaları (Cad., Sok., No. …) `bilinir: true`. — Adresler uyarı üretmemeli (yanlış pozitif testi).
+- 2026-09-25 — KD-K06 için temel kelime listesini (3.000'den fazla kök) kendimiz derledik; lisanslı bir sıklık listesi çevrimdışı dağıtılamadığı için. Kural yalnızca "bilgi" verir ve güveni 0,8'dir. — Spesifikasyon "kaynağını belirt veya en az 3000 kelimelik liste derle" diyor.
+- 2026-09-25 — Eş anlamlı gruplarını (KD-K08) yalnızca gerçekten aynı şeyi anlatan kelimelerle sınırladık (ör. "tarih/gün/zaman" grubunu çıkardık). — Yanlış uyarıyı azaltmak için.
+- 2026-09-25 — Profil dosyalarında anahtarlar İngilizce (`enabled`, `severity`, `params`), sözlüklerde Türkçe (`ifade`, `oneri`). Önem düzeyi "uyari" biçiminde de yazılabilir. — Spesifikasyondaki örneklere uyum ve belediye kullanıcıları için kolaylık.
+- 2026-09-25 — Sade Dil profilinde uyum katsayısı k = 0,5. — Spesifikasyon yalnızca Kolay Dil için 0,6 veriyor.
+- 2026-09-25 — Web arayüzünde "Yoksay" listesi sunucuya istekle gönderilir, böylece skor da güncellenir; liste yalnızca sayfa belleğinde tutulur. — Oturum boyunca aynı ifade yeniden işaretlenmesin ve metin hiçbir yerde saklanmasın.
+- 2026-09-26 — KD-C01 Kolay Dil eşiği 10 (uyarı) / 15 (hata) kelime. — İki bağımsız deneme 8 kelimeyi çok sıkı buldu: Türkçe eklemeli bir dildir, 10 kelimelik Türkçe cümle İngilizcede 15-20 kelimeye denk gelir; 8 sınırı kesik kesik, robotik metin üretiyordu. Gündelik bir blog yazısı 9, çocuk masalı 16 puan alıyordu.
+- 2026-09-26 — KD-C10 yalnızca yüklemden önce bir yan cümle (zarf-fiil, sıfat-fiil, yan cümle taşıyan ad-fiil) varsa uyarır; öneri devrik cümleye yöneltmez. — Yüklemin sonda olması Türkçenin olağan dizilişidir; asıl yük yan cümleyi akılda tutmaktır.
+- 2026-09-26 — KD-K04 heceleri çekim ekleri (çoğul, iyelik, hâl, kişi, ek-fiil) atılmış gövdede sayar; bu eklerden üçü gelir ve kelime max+1 heceyi aşarsa ayrıca uyarır. Bilinen kök istisnası yalnızca kökün kendisi kısaysa geçerli. — "ellerinizi" gibi kelimeler cezalanıyordu; "meteoroloji" gibi uzun kökler ise listeye girince uyarıdan kurtuluyordu.
+- 2026-09-26 — KD-K06 anlamca saydam türetmeleri (-lı, -sız, -lık, -ki, küçültme; zeyrek With, Without, Ness, Rel, Dim, Ly, JustLike, Related) kökten tanır; "-ıcı" (Agt) saydam sayılmaz. — "süreli", "kuvvetli" işaretleniyordu; "yüklenici" ise kökünü bilen okura açık değil.
+- 2026-09-26 — Temel kelime listesini elle 5.400'ü aşkın köke genişlettik (hedef 8-10 bin önerilmişti). — Çevrimdışı dağıtılabilecek lisanslı bir sıklık listesi yok; elle eklenen her yeni blokta yeni kelime oranı %10'un altına indi. Türetme tanıma, kök sayısının çok üstünde yüzey biçimi kapsar. Belediyeler `sik_kelimeler` ile ekleyebilir.
+- 2026-09-26 — Önerisi bütün ifadeyi değiştiren bir KD-K01/KD-K02 bulgusunun içindeki kelimeye KD-K04, KD-K06 ve (yalnızca KD-K01 için) KD-C03 cezası kesilmez. — "rica olunur" üç, "ivedilikle" iki kez sayılıyordu; skor aynı sorunu defalarca cezalandırıyordu.
+- 2026-09-26 — KD-C04 cümle başına tek bulgu verir. — Olumsuz kelime sayısı kadar ceza, felsefi ya da gündelik metinleri orantısız cezalandırıyordu.
+- 2026-09-26 — Deyim sözlüğüne `iki_anlamli` ve `gercek` alanlarını ekledik. — Bağlamsız bir deyim eşleştiricisi "Otobüs yola çıktı" ile "Belediye projeyle yola çıktı" arasını ayıramaz; ipucu kelimeleri ve düşük önem en az sürprizli çözümdür.
+- 2026-09-26 — KD-B03 önerisi yüzdenin neyin oranı olduğuna göre seçilir (kişi / para / diğer). — "Faiz oranı yüzde 45" için "100 kişiden 45'i" anlamsızdı.
+- 2026-09-26 — Ateşman formülüne giren kelimelerden özel adları çıkarmadık. — Bir deneme haber metninin özel adlar yüzünden "zor" çıktığını söyledi. Formülü değiştirmek skoru yayımlanmış ölçeklerle karşılaştırılamaz yapar; formüller olduğu gibi kalır.
+
+## Okunabilirlik formülleri (kaynak doğrulaması)
+
+- 2026-09-25 — Bezirci-Yılmaz katsayılarını (0,84; 1,5; 3,5; 26,25) ve düzeyleri birincil kaynaktan (DEÜ Mühendislik Fakültesi Fen ve Mühendislik Dergisi 12(3), 49–62, Eşitlik 9) doğruladık. Makaledeki "2-16 arası lisans" ifadesini dizgi hatası sayıp 12–16 olarak aldık; sınırlar ≤8, ≤12, ≤16, >16. — Makalenin kendi düzey listesiyle tutarlı.
+- 2026-09-25 — Ateşman katsayılarını ve 5 düzeyini Temur (2003, TÜBAR XIII) ile Arı (Hayat Bilgisi tez özetleri çalışması) üzerinden doğruladık. Ateşman (1997) makalesinin sayfa aralığı kaynaklarda 71–74 ve 171–174 olarak geçiyor; DergiPark kaydındaki 71–74'ü kullandık. — Birincil makaleye çevrimiçi erişemedik.
+- 2026-09-25 — Çetinkaya-Uzun katsayılarını ve düzeylerini (0–34 engellenmiş / 10–12. sınıf, 35–50 eğitsel / 8–9. sınıf, 51+ bağımsız / 5–7. sınıf) ikincil kaynaklardan doğruladık. — Doktora tezinin tam metnine erişemedik; iki bağımsız ikincil kaynak aynı değerleri veriyor.
+
+## Görsel dil
+
+- 2026-09-25 — `--kirmizi` rengini `#C4322A` yerine `#B42D26` yaptık. — `#C4322A`, `--kagit-2` üzerinde 4,24:1 kalıyordu (metin için 4,5:1 gerekli). Aynı renk ailesinde koyulaştırdık (4,87:1).
+- 2026-09-25 — Koyu temada `--murekkep-soluk` için `#B8AE9C` seçtik. — Spesifikasyon değer vermiyor; 8,46:1 kontrast.
+- 2026-09-25 — Birincil düğmenin ofset gölgesi `--murekkep` yerine `--murekkep-soluk`. — Mürekkep zeminli düğmede mürekkep rengi gölge görünmez; gölge yine bulanıklığı sıfır, 3px ofsetli düz bir bloktur.
+- 2026-09-25 — İşaretli onay kutusunun iç boşluğu için `box-shadow: inset 0 0 0 3px` kullandık. — Bulanıklığı sıfır bir iç çerçevedir, gölge değildir; `border-radius` ve yerel onay kutusu görünümünden kaçınmak için.
+- 2026-09-25 — Kenar boşluğu işaretleri (■ □ ○) karakter değil, piksel SVG ikondur. — Atkinson Hyperlegible bu karakterleri içermiyor; yedek yazı tipine düşmek tek aile kuralını bozar. Daire, `border-radius` yasağı yüzünden pikselle çizildi.
+- 2026-09-25 — CSP'de `style-src-attr 'unsafe-inline'` açık. — Skor çubuklarının genişliği ve stil rehberindeki örnekler öznitelikle verilir. Dış kaynak yüklemek yine yasak (`default-src 'self'`).
+- 2026-09-25 — Seçili bulgunun "şurası" kutusunu, metin parçalarının etrafına değil, `Range.getClientRects()` ile satır başına tek dikdörtgen olarak çiziyoruz. — Parça parça kutular karışık görünüyordu.
+- 2026-09-25 — Dither PNG'lerini 2× en yakın komşu ile büyütülmüş olarak dağıtıyoruz. — Maske görsellerinde `image-rendering` desteği tarayıcıya göre değişiyor; piksellerin her tarayıcıda kare görünmesi için.
+- 2026-09-25 — Hata işaretinin içine düşen uyarılar için sarı kalem zemini korunur (kırmızı çizgi + sarı zemin). — Cümle düzeyindeki hata, içindeki kelime uyarılarını gizlemesin.
+- 2026-09-27 — Künye sahnesi: kırmızı kalıpta dither güneş, önünde `manzara.js` ile canvas'a çizilen dither tepeler; logoda 3px kırmızı kayma (`text-shadow`, bulanıklık yok). — Üst şerit fazla boştu; ilk denenen Bayer ton skalası kaba durdu. Tepeler "Voxel Space" yöntemiyle (Comanche, 1992) çizilir: WebGL ve dış kütüphane gerekmez, CSP değişmez, kare başına ~2,5 ms. Bayer 8×8 eşiği ve 2 CSS pikseli = 1 dither pikseli, öbür dither görsellerle aynı dil. Yakın arazi düzleştirilir ki tepeler başlığın yüksekliğini aşmasın. Renkler CSS değişkenlerinden okunur; tema değişince yeniden çizilir. Hareketi azalt tercihinde tek kare. Sekme gizliyken ya da künye ekran dışındayken durur.
+- 2026-09-27 — Bulgular panelinin boş durumunda mavi büyüteç (kelime kapağı) gösterilir; ilk denetimden sonra gizlenir. — Sağ sütun ilk açılışta yalnızca çizgilerden oluşuyordu.
+
+## Rehber ve testler
+
+- 2026-09-25 — Rehber öz-denetimi: kolay-dil profiliyle KD-C01 **hata** ve KD-C03 **uyarı/hata** olmamalı. Alıntı bloklarındaki kötü örnekler, tırnak içinde adı geçen kelimeler, kod ve kaynakça girdileri denetime girmez. — Kötü örnekler bilerek kuralları çiğner.
+- 2026-09-25 — Performans testi iki senaryo ölçer: gerçekçi 5.000 kelime (~1,1 sn) ve neredeyse bütün kelimeleri farklı 5.000 kelime (~2,0 sn). Kapsam ölçümü açıkken sınır 9 sn'dir. — Kapsam aracı her satırı izler ve kodu yavaşlatır.
+- 2026-09-25 — Ağ yalıtımı testi dış adreslere `connect` ve DNS çağrılarını engeller; yerel soket çiftlerine izin verir. — Windows'ta asyncio olay döngüsü yerel soket çifti açar.
+- 2026-09-26 — Performans testleri timeit gibi ölçer: çöp toplayıcı durur, iki soğuk (önbelleksiz) ölçümün iyisi alınır. `KOLAYMETIN_PERF_SINIR` sınırı genişletir. — Yüzlerce testten sonra rastgele çöp toplama süreyi %20-30 şişiriyordu; test kararsızdı.
+
+## Dağıtım
+
+- 2026-09-25 — Rehber Markdown dosyaları tekerleğe (`wheel`) `kolaymetin/_rehber` olarak eklenir; geliştirmede `docs/rehber` okunur. — `pipx install .` ve Docker kurulumunda da `/rehber` çalışsın.
+- 2026-09-25 — `docker-compose.yml` varsayılan olarak yalnızca `127.0.0.1:8000` adresini açar; kapsayıcı salt okunur dosya sistemiyle ve yetkisiz kullanıcıyla çalışır. — KVKK: metin makineden çıkmamalı; ağa açmak bilinçli bir karar olmalı.
+- 2026-09-25 — Metin sınırı 100.000 karakter, dosya yükleme sınırı 10 MB. — Spesifikasyon metin sınırını veriyor; yükleme sınırı taranmış büyük PDF'lere karşı.

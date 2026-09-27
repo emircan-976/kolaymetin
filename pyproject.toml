@@ -1,0 +1,97 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "kolaymetin"
+version = "1.0.0"
+description = "Türkçe Kolay Dil / Sade Dil denetim aracı"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "docs/rehber/LICENSE"]
+authors = [{ name = "kolaymetin katkıcıları" }]
+keywords = ["kolay dil", "sade dil", "okunabilirlik", "türkçe", "erişilebilirlik", "easy-to-read", "plain language"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Natural Language :: Turkish",
+    "Topic :: Text Processing :: Linguistic",
+    "Intended Audience :: End Users/Desktop",
+]
+dependencies = [
+    "pydantic>=2.6",
+    "PyYAML>=6.0",
+    "zeyrek>=0.1.3",
+    "num2words>=0.5.13",
+    "markdown-it-py>=3.0",
+    "python-docx>=1.1",
+    "pypdf>=4.0",
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+    "python-multipart>=0.0.9",
+    "rich>=13.7",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "types-PyYAML",
+    "httpx>=0.27",
+    "pillow>=10.0",
+    "resvg-py>=0.1",
+]
+ekran = ["playwright>=1.44"]
+
+[project.scripts]
+kolaymetin = "kolaymetin.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/kolaymetin"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"docs/rehber" = "kolaymetin/_rehber"
+
+[tool.hatch.build.targets.sdist]
+include = ["src", "docs", "tests", "scripts", "assets", "README.md", "CHANGELOG.md", "CONTRIBUTING.md", "LICENSE"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+markers = ["yavas: uzun süren testler (performans, ekran görüntüsü)"]
+# Starlette 1.7, httpx yerine httpx2 paketini önerir; uyarı sınıfı UserWarning'ten türer.
+# httpx2 kurulunca bu süzgeç gereksiz kalır.
+filterwarnings = [
+    "ignore::DeprecationWarning:fastapi.testclient",
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
+
+[tool.coverage.run]
+source = ["kolaymetin"]
+branch = false
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "scripts"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003", "E501"]
+
+[tool.mypy]
+python_version = "3.11"
+mypy_path = "src"
+packages = ["kolaymetin"]
+warn_unused_ignores = true
+warn_redundant_casts = true
+check_untyped_defs = true
+disallow_incomplete_defs = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]

@@ -1,0 +1,25 @@
+# kolaymetin — tek komutla çalıştırma:
+#   docker compose up
+# Sonra tarayıcıda açın: http://localhost:8000
+#
+# Varsayılan olarak yalnızca bu bilgisayardan erişilir (127.0.0.1).
+# Belediye ağındaki başka bilgisayarlar da kullanacaksa "127.0.0.1:8000:8000" satırını
+# "8000:8000" yapın ve ağ yöneticinizin güvenlik kurallarına uyun.
+services:
+  kolaymetin:
+    build: .
+    image: kolaymetin:1.0.0
+    container_name: kolaymetin
+    ports:
+      - "127.0.0.1:8000:8000"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    environment:
+      # Metin günlüğe yazılmaz; uvicorn yalnızca istek satırını (yol) kaydeder.
+      PYTHONUNBUFFERED: "1"

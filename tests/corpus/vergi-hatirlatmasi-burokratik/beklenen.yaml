@@ -1,0 +1,38 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+skor_en_cok: 40
+tetiklenmeli:
+- kural: KD-B07
+  cumle: 1
+- kural: KD-K01
+  cumle: 1
+  ifade: EMLAK
+- kural: KD-C01
+  cumle: 3
+- kural: KD-C07
+  cumle: 3
+- kural: KD-K04
+  cumle: 4
+  ifade: gerçekleştirebilecekleri
+- kural: KD-B04
+  cumle: 3
+  ifade: 30.11.2026
+- kural: KD-C03
+  cumle: 3
+  ifade: yapılması
+- kural: KD-C11
+  cumle: 3
+  ifade: yapılması gerekmekte
+- kural: KD-C04
+  cumle: 3
+  ifade: ödenmeyen
+- kural: KD-K08
+  cumle: 3
+  ifade: tahakkuk
+tetiklenmemeli:
+- KD-C02
+- KD-C05
+- KD-K02
+- KD-K03
+- KD-B05
+- KD-B06

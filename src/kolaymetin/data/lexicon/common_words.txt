@@ -1,0 +1,967 @@
+# Sık kullanılan temel Türkçe kelimeler (KD-K06 için)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# Bu liste kolaymetin katkıcıları tarafından derlendi: günlük yaşam, kamu hizmetleri, sağlık,
+# ulaşım, eğitim ve aile konularında okuryazarlığı düşük bir yetişkinin de bildiği kelimeler.
+# Fiiller mastar (-mak/-mek), adlar yalın hâlde yazılır. Bir satırda birden fazla kelime olabilir.
+#
+# --- dil bilgisi kelimeleri: zamirler, bağlaçlar, edatlar, soru kelimeleri
+ben sen o biz siz onlar bu şu bunlar şunlar kendi kendisi kim ne nere nerede neresi hangi hangisi kaç kaçıncı nasıl niçin neden niye ne zaman
+ve ile ama fakat ancak çünkü ki de da ya veya yahut ya da hem ise eğer madem yoksa oysa halbuki hatta bile sadece yalnız yalnızca ayrıca üstelik
+için gibi kadar göre doğru karşı rağmen beri dolayı önce sonra ötürü yana dek değin ile birlikte beraber başka diğer öteki aynı her hep hiç hiçbir bazı birkaç birçok çok az daha en pek epey oldukça fazla tüm bütün hepsi herkes hiçbiri biri birisi kimse şey her şey hiçbir şey
+evet hayır tamam lütfen teşekkür merhaba hoşça güle selam peki belki mutlaka elbette kesin kesinlikle galiba acaba sanki tabii
+var yok değil mi mı mu mü
+bir iki üç dört beş altı yedi sekiz dokuz on yirmi otuz kırk elli altmış yetmiş seksen doksan yüz bin milyon milyar sıfır yarım çeyrek buçuk birinci ikinci üçüncü dördüncü beşinci ilk son
+şimdi bugün yarın dün sabah öğle öğlen akşam gece gündüz hafta ay yıl sene saat dakika saniye gün zaman vakit an sıra kez defa kere erken geç hemen artık henüz hâlâ hala sık sık bazen daima her zaman asla şu an
+burada şurada orada içeri dışarı yukarı aşağı ileri geri öne arkaya yan üst alt iç dış ön arka orta sağ sol karşı yakın uzak etraf çevre kenar köşe
+# --- günler, aylar, mevsimler
+pazartesi salı çarşamba perşembe cuma cumartesi pazar hafta sonu hafta içi
+ocak şubat mart nisan mayıs haziran temmuz ağustos eylül ekim kasım aralık
+ilkbahar yaz sonbahar kış mevsim bayram tatil
+# --- temel fiiller
+açmak kapatmak kapanmak açılmak almak vermek gelmek gitmek girmek çıkmak inmek binmek oturmak kalkmak durmak beklemek bakmak görmek izlemek dinlemek duymak konuşmak söylemek demek anlatmak sormak cevaplamak yanıtlamak
+yazmak okumak çizmek boyamak saymak hesaplamak ölçmek tartmak öğrenmek öğretmek bilmek tanımak anlamak hatırlamak unutmak düşünmek sanmak inanmak istemek sevmek beğenmek korkmak üzülmek sevinmek gülmek ağlamak
+yemek içmek uyumak uyanmak yatmak kalmak yaşamak ölmek doğmak büyümek küçülmek artmak azalmak değişmek değiştirmek başlamak bitmek bitirmek devam etmek sürmek sürdürmek
+yapmak etmek olmak olmamak bulmak aramak kaybetmek kazanmak ödemek harcamak satmak satın almak getirmek götürmek taşımak koymak bırakmak atmak tutmak yakalamak çekmek itmek
+koşmak yürümek dönmek geçmek atlamak düşmek kaymak çarpmak kırmak kırılmak bozmak bozulmak onarmak tamir etmek yapıştırmak kesmek biçmek dikmek bağlamak çözmek
+yıkamak temizlemek silmek süpürmek toplamak dökmek doldurmak boşaltmak ısıtmak soğutmak pişirmek kaynatmak yakmak söndürmek sulamak ekmek biçmek
+giymek çıkarmak takmak yıkanmak giyinmek taramak tıraş olmak
+çalışmak dinlenmek eğlenmek oynamak şarkı söylemek dans etmek gezmek yolculuk etmek taşınmak göç etmek
+yardım etmek yardımlaşmak korumak kurtarmak saklamak göstermek anlatmak açıklamak tanıtmak sunmak önermek seçmek karar vermek kabul etmek reddetmek onaylamak izin vermek yasaklamak
+başvurmak kaydolmak kaydetmek yazılmak doldurmak imzalamak göndermek yollamak ulaşmak ulaştırmak iletmek bildirmek duyurmak haber vermek uyarmak hatırlatmak aramak telefon etmek mesaj göndermek
+gelmek varmak dönmek çıkmak inmek ayrılmak buluşmak karşılaşmak toplanmak birleşmek katılmak paylaşmak bölmek ayırmak eklemek çıkarmak
+kullanmak denemek sınamak kontrol etmek incelemek bakmak araştırmak bulmak seçmek karşılaştırmak
+ölmek hastalanmak iyileşmek tedavi etmek muayene olmak aşı olmak kan vermek ilaç almak
+sağlamak desteklemek katkı sağlamak korunmak dikkat etmek özen göstermek sakınmak kaçınmak engellemek önlemek
+gerekmek yetmek yetişmek kaçırmak kaçmak saklanmak gizlemek
+sarsılmak yıkılmak yanmak su basmak taşmak kesilmek akmak damlamak donmak erimek esmek yağmak
+söz vermek teşekkür etmek özür dilemek rica etmek istemek beklemek sabretmek
+ödünç almak borç almak borçlanmak kiralamak satın almak indirmek yükseltmek düşürmek
+sevindirmek üzmek kızmak şaşırmak merak etmek endişelenmek rahatlamak rahatlatmak
+yardım istemek bilgi almak bilgi vermek soru sormak
+açıklamak anlaşmak tartışmak konuşmak susmak bağırmak fısıldamak
+getirmek taşımak yüklemek boşaltmak
+seçmek oy vermek oy kullanmak
+okutmak ödetmek yaptırmak gönderilmek
+# --- insanlar, aile, toplum
+insan kişi kimse biri adam kadın erkek kız oğlan çocuk bebek genç yaşlı büyük küçük akraba aile anne baba ana ata kardeş abla ağabey abi dede nine babaanne anneanne torun amca dayı teyze hala yeğen kuzen eş koca karı nişanlı gelin damat kayınvalide
+arkadaş dost komşu misafir konuk yabancı tanıdık vatandaş halk millet toplum topluluk nüfus sakin yurttaş hemşeri kalabalık grup ekip takım
+öğrenci öğretmen hoca müdür memur işçi çalışan görevli usta çırak şoför sürücü yolcu doktor hemşire ebe eczacı hasta polis asker bekçi itfaiyeci avukat hakim savcı muhtar başkan vali kaymakam belediye başkanı
+satıcı müşteri esnaf bakkal kasap fırıncı manav berber terzi tamirci elektrikçi tesisatçı temizlikçi aşçı garson kapıcı emekli işsiz engelli gazi şehit
+sahip malik kiracı ev sahibi komşu mahalleli
+bay bayan sayın
+# --- beden, sağlık
+beden vücut baş kafa saç yüz göz kulak burun ağız dil diş dudak boyun omuz kol el parmak tırnak göğüs karın sırt bel kalça bacak diz ayak topuk deri kemik kan kalp akciğer mide böbrek karaciğer beyin damar kas
+sağlık hastalık ağrı acı ateş öksürük nezle grip soğuk algınlığı yara kırık yanık kaza tansiyon şeker hastalığı alerji kriz nöbet bayılma kusma ishal
+ilaç hap şurup iğne aşı serum merhem bandaj sargı maske eldiven test tahlil sonuç muayene tedavi ameliyat reçete rapor randevu
+hastane klinik poliklinik acil servis ambulans eczane sağlık ocağı aile hekimi doktor diş hekimi sağlık merkezi yoğun bakım sedye
+temiz kirli hijyen mikrop virüs salgın bulaşıcı sağlıklı hasta iyi kötü zayıf şişman hamile gebe doğum
+# --- ev, yaşam
+ev konut daire apartman bina yapı site oda salon mutfak banyo tuvalet lavabo balkon bahçe kapı pencere duvar tavan zemin döşeme merdiven asansör çatı kat bodrum giriş çıkış anahtar kilit zil
+eşya mobilya masa sandalye koltuk kanepe yatak dolap raf halı perde lamba ampul priz kablo pil sobası soba kalorifer klima vantilatör buzdolabı fırın ocak tencere tava tabak bardak kaşık çatal bıçak kase şişe kavanoz kutu poşet torba çanta valiz
+su elektrik doğalgaz gaz ısınma aydınlatma fatura sayaç musluk boru tesisat kanalizasyon lağım çöp atık geri dönüşüm
+yemek ekmek su süt peynir yumurta et tavuk balık sebze meyve elma armut portakal muz üzüm karpuz domates biber patlıcan patates soğan sarımsak havuç salata pirinç bulgur makarna mercimek fasulye nohut un şeker tuz yağ zeytin bal reçel çay kahve meyve suyu çorba pilav tatlı börek kek
+kahvaltı öğle yemeği akşam yemeği sofra lokanta restoran kafe büfe
+giysi elbise kıyafet gömlek pantolon etek ceket mont palto kazak tişört ayakkabı terlik çorap şapka atkı eldiven şemsiye gözlük saat yüzük kolye çanta cüzdan
+para lira kuruş bozukluk nakit kart kredi kartı banka hesap borç alacak maaş aylık gelir gider fiyat ücret bedel indirim kampanya taksit peşin ödeme makbuz fiş fatura dekont
+# --- şehir, yer, ulaşım
+dünya ülke devlet şehir kent il ilçe köy kasaba belde mahalle semt sokak cadde bulvar yol meydan park bahçe çarşı pazar market bakkal dükkân mağaza fırın eczane banka postane okul üniversite hastane cami kilise sinagog mezarlık müze kütüphane sinema tiyatro stadyum spor salonu havuz
+belediye valilik kaymakamlık muhtarlık karakol adliye mahkeme vergi dairesi nüfus müdürlüğü tapu noter bakanlık meclis hükümet devlet kurum kuruluş dernek vakıf şirket fabrika işyeri ofis büro
+otobüs minibüs dolmuş metro tramvay tren vapur gemi uçak taksi araba otomobil kamyon kamyonet motosiklet bisiklet ambulans itfaiye aracı
+durak istasyon gar terminal havalimanı liman iskele otogar otopark köprü tünel kavşak ışık trafik lambası yaya geçidi kaldırım yol şerit trafik
+bilet kart yolcu sefer hareket varış kalkış saat tarife aktarma
+kuzey güney doğu batı yön harita adres numara posta kodu
+dağ tepe ova vadi deniz göl nehir çay dere ırmak kıyı sahil plaj ada orman ağaç çiçek çimen toprak taş kaya kum çamur
+hava güneş ay yıldız gök bulut yağmur kar dolu fırtına rüzgâr sis buz sıcak soğuk ılık serin nem kuraklık sel deprem yangın heyelan çığ afet felaket
+# --- kamu hizmetleri, belediye, yönetim
+hizmet yardım destek başvuru kayıt belge kimlik kimlik kartı nüfus cüzdanı ehliyet pasaport fotoğraf imza form dilekçe onay izin ruhsat sertifika diploma karne
+kural yasa kanun hak görev sorumluluk ceza yasak zorunlu isteğe bağlı ücretsiz bedava ücretli
+duyuru ilan haber bilgi açıklama not uyarı hatırlatma davet program plan liste tablo takvim tarih süre son gün
+seçim oy sandık seçmen aday parti muhtar belediye başkanı milletvekili meclis
+vergi harç prim borç ceza faiz taksit emlak vergisi su parası
+sosyal yardım yardım kolisi gıda yardımı kömür yardımı burs kira yardımı engelli aylığı yaşlı aylığı
+çalışma bakım onarım tamir yenileme temizlik ilaçlama toplama taşıma kesinti arıza sorun çözüm
+güvenlik tehlike risk önlem tedbir kurtarma yardım acil afet toplanma alanı çadır battaniye
+telefon cep telefonu numara mesaj arama internet site sayfa e-posta adres uygulama bilgisayar tablet ekran tuş şifre parola e-devlet
+# --- eğitim, iş
+okul sınıf ders ödev sınav not karne öğretmen öğrenci müdür kitap defter kalem silgi çanta tahta kurs eğitim öğrenim ders yılı tatil
+iş meslek görev çalışma mesai izin tatil maaş işçi işveren patron sigorta emeklilik emekli işsizlik iş kur
+# --- sıfatlar
+büyük küçük uzun kısa geniş dar yüksek alçak derin sığ kalın ince ağır hafif hızlı yavaş yeni eski genç yaşlı güzel çirkin iyi kötü doğru yanlış kolay zor basit karışık açık kapalı dolu boş temiz kirli sıcak soğuk ılık sert yumuşak tatlı acı ekşi tuzlu
+önemli gerekli lazım zorunlu mümkün imkânsız hazır belli belirli açık net kesin tam eksik fazla yeterli az çok önceki sonraki gelecek geçen şimdiki yakın uzak ucuz pahalı bedava ücretsiz
+mutlu üzgün kızgın yorgun hasta sağlıklı aç tok susuz rahat sakin heyecanlı korkmuş şaşkın meraklı
+beyaz siyah kırmızı mavi yeşil sarı turuncu mor pembe kahverengi gri lacivert renk renkli
+güvenli tehlikeli dikkatli sessiz gürültülü aydınlık karanlık ıslak kuru sağlam bozuk kırık çalışan
+resmi özel genel kamu yerel ulusal
+ilk son orta ana asıl başka farklı benzer aynı ortak tek çift
+# --- soyut ve günlük adlar
+ad isim soyad yaş doğum tarihi cinsiyet adres telefon numarası imza
+şey iş durum olay konu sorun soru cevap yanıt fikir düşünce karar seçim yol yöntem neden sonuç amaç hedef istek dilek umut korku sevgi saygı güven yardım destek
+hayat yaşam ölüm doğum sağlık mutluluk huzur barış savaş kavga
+kelime cümle yazı mektup kâğıt sayfa not liste satır harf sayı rakam işaret resim fotoğraf video ses müzik şarkı oyun film haber gazete dergi televizyon radyo
+başlangıç son orta kısım bölüm parça tüm hepsi yarı çeyrek miktar sayı adet tane kilo litre metre santim kilometre gram derece yüzde
+açıklama anlatım örnek bilgi rehber yardım
+hak özgürlük eşitlik adalet kanun yasa kural düzen
+çevre doğa hayvan kedi köpek kuş at inek koyun keçi tavuk balık arı böcek
+spor futbol basketbol yüzme koşu yürüyüş oyun oyuncak top
+# --- sık fiil türevleri ve kalıplar
+alışveriş alışveriş yapmak yolculuk ziyaret ziyaret etmek kutlama tören düğün nişan cenaze taziye bayramlaşma
+teşekkürler rica özür tebrik kutlu olsun geçmiş olsun başınız sağ olsun
+# --- genişletilmiş temel kelimeler (A-Z)
+abla acele acemi acı acıkmak acımak aç açık açlık ad ada adet adım adil af affetmek ağabey ağaç ağır ağırlık ağız ağlamak ağrı ağrımak ahır aile ait ajans akıl akıllı akım akış akmak akraba akşam alan alçak alet alev alışkanlık alışmak alkış alt altın ama amaç ambulans ameliyat an ana anahtar anlam anlaşma anlatmak anne apartman ara araba aralık aramak arı arka arkadaş armağan arsa artış asker aslan aşağı aşçı aşk at ateş avlu ay ayak ayakkabı aydınlık ayna ayrı ayrıca az azalmak
+baba bacak bağ bağırmak bağış bağlantı bahçe bakan bakım bakkal bakmak balık balkon bardak barış basamak basın basit baş başarı başarılı başka başkan başlamak batı bayrak bazı bebek bedava bekçi beklemek bel belge belki ben benzer beraber beş beyaz beyin bez bıçak bildirim bile bilgi bilmek bina bir biraz birlik bitki bitmek biz boğaz bol bomba borç boru boş boy boya boyun bozuk bölge bölüm bulmak bulut buz büyük büyümek
+cadde cami can canlı cep cesaret cetvel cevap ceza cihaz cins çaba çabuk çadır çağ çağırmak çalışkan çalışmak çamaşır çamur çanta çarşı çatal çatı çay çek çekmek çeşit çeşme çevre çeyrek çiçek çift çiftçi çiğ çikolata çizgi çizmek çocuk çok çorba çöp çözmek çözüm çürük
+dağ daha dakika dal dalga damla dans dar davet davranış dede defter değer değil değişik değişmek deli demek demir deniz denemek dere derece derin ders dert devam devlet devre dış diğer dikkat dil dilek dinlemek dinlenmek diş diz doğa doğru doğum dokunmak doktor dolap dolaşmak dolmak dolu domates dondurma dost doymak doz dönem dönmek dört dükkân dünya düşmek düşünce düşünmek düz düzen
+ebe ecza eczane edebiyat efendi eğer eğitim eğlence ek ekim ekip ekmek eksik el elbise elektrik elma emek emekli emir en endişe engel engelli enerji erken erkek eski eş eşit eşya et etek etki etkinlik etmek ev evet evlat evlenmek eylem
+fabrika fark fayda fazla fener fırın fırsat fırtına fiyat fikir film fiş form fotoğraf
+galiba gar gaz gazete gece gelecek gelir gelmek gemi genç genel geniş gerçek gerek gerekli geri getirmek gezi gezmek giriş girmek gitmek giyim giymek gizli gök göl gölge gömlek göndermek görev görevli görmek görüş görüşme göstermek göz gözlük güç güçlü gül gülmek gün güneş güney gürültü güvenlik güzel
+haber hafif hafta hak hakkında hâl halk hamile hangi hani hareket harf harita hasta hastalık hastane hat hata hatırlamak hava havuz hayat hayır hayvan hazır hazırlamak hedef hediye hem hemen hemşire henüz her herkes hesap heyecan hız hızlı hiç hikâye his hizmet hoca hoş hükümet
+ısı ısınma ışık ıslak ızgara
+için iç içeri içmek iki ikinci il ilaç ilçe ile ileri ilgi ilk ilkbahar imza inanmak ince inmek insan internet ip iple istasyon istek istemek iş işçi işaret işte itfaiye iyi iyilik izin izlemek
+jandarma jeton
+kabul kaç kadar kadın kafa kâğıt kahvaltı kahve kalabalık kalem kalkmak kalmak kalp kan kanal kanun kapak kapalı kapı kar karanlık karar kardeş karşı karşılamak kart kasa kat katılmak kavga kaybetmek kaza kazan kazanmak kedi kel kelime kemik kenar kent kere kesmek kez kılavuz kırık kırmak kırmızı kısa kısım kış kişi kitap koku kol kolay koltuk komşu konu konuk konuşmak korku korkmak korumak koşmak koymak köprü köşe köy kötü kulak kullanmak kum kural kurs kurtarmak kuru kurum kuş kutu küçük kültür
+lamba lastik lazım liste lokanta lütfen
+maaş madde mahalle makine mal manav market masa maske mavi mektup memur merak merdiven merkez mesaj meslek metre mevsim meydan mezun mide mikrop miktar millet misafir mutfak mutlu müdür müşteri müzik
+nakit namaz ne neden nefes nem nerede nasıl ne zaman nine not numara nüfus
+oda ofis okul okumak olay olmak on onay onarım orman orta otobüs otomobil oturmak oy oyun oyuncak
+ödeme ödemek ödev ödül öğle öğrenci öğrenmek öğretmen ölçü ölmek ölüm ön önce önem önemli öneri örnek öteki özel özen özür
+pahalı pantolon para parça park parmak parti pasta patates pazar peki pencere peynir pil pirinç plan polis posta pratik pul
+radyo rahat randevu renk resim resmi rica risk ruh rüzgâr
+saat sabah saç sade sağ sağlık sağlıklı sahil sahip sakin salı salon sandalye sanmak saray sarı satış satmak savaş saygı sayfa sayı saymak seçim seçmek sefer sekiz sel selam semt sen sene sepet serin ses sevgi sevinç sevmek seyahat sıcak sıfır sık sınav sınıf sınır sıra sırt siyah soğuk sokak son sonra sonuç sormak soru sorun söylemek söz spor su sulamak süre sürücü süt
+şaka şans şapka şarkı şehir şeker şey şikâyet şimdi şirket şoför şube şu
+tabak tahta takım takvim tamam tamir tane tarih tarla taş taşımak tatil tatlı tavuk taze tehlike tek tekrar telefon temiz temizlik tepe terzi teşekkür toplamak toplantı toprak tren tuz tüm tür
+uçak ucuz uğraşmak ulaşım ulaşmak umut unutmak uyku uyarı uyarmak uygun uyumak uzak uzun ücret ücretsiz ülke üniversite üst üzgün üzüm
+vakit valiz var varmak ver vergi vermek vücut
+yağ yağmur yakın yaklaşık yakmak yangın yanıt yanlış yapmak yaprak yara yardım yarım yarın yaş yaşamak yaşlı yatak yatmak yavaş yaz yazı yazmak yedi yemek yeni yer yeşil yetişkin yetmek yıl yıldız yiyecek yok yol yolcu yorgun yukarı yumurta yumuşak yurt yüksek yürümek yüz yüzde
+zaman zarar zayıf zemin zengin zil zor zorunlu
+# --- ek liste 1: fiiller
+abartmak acıtmak açıklanmak adamak adlandırmak ağırlamak ağlatmak akıtmak aksamak aktarmak alçalmak algılamak alıştırmak alkışlamak anımsamak anlaşılmak anmak arınmak arıtmak arttırmak artırmak asmak aşmak atlatmak avlamak ayarlamak aydınlatmak ayıklamak azaltmak azarlamak
+bağışlamak bağlanmak bakılmak barındırmak barışmak basmak batmak bayılmak becermek belirlemek belirtmek benzemek beslemek biriktirmek birleştirmek boğulmak bölünmek boşalmak boyanmak bozdurmak buluşturmak bunalmak burkmak buruşmak büyütmek bükmek
+cezalandırmak coşmak çağrılmak çalmak çarpışmak çatlamak çekinmek çekilmek çevirmek çıkartmak çiğnemek çizilmek çoğalmak çökmek çözülmek çürümek
+dağıtmak dalmak damgalamak danışmak daralmak dayanmak dayatmak değerlendirmek değmek delmek denetlemek dengelemek devirmek devretmek dilemek dinlendirmek direnmek dizmek doğrulamak doğurmak dokumak dolaştırmak dondurmak donatmak doyurmak durdurmak duyulmak düşündürmek düzeltmek düzenlemek
+eğilmek eğitmek eklenmek elemek emmek emretmek erişmek ertelemek esirgemek evlendirmek
+fırlatmak fışkırmak fotoğraflamak
+geciktirmek gecikmek genişlemek genişletmek geliştirmek gerilemek gezdirmek gidermek girişmek gizlenmek gömmek görüşmek güldürmek güvenmek güçlendirmek
+haberleşmek hapşırmak harcanmak hareketlenmek hazırlanmak hızlandırmak hissetmek
+ısırmak ıslanmak ıslatmak ısınmak
+içirmek ilerlemek ilgilenmek incitmek indirmek istenmek işaretlemek işitmek işlemek iyileştirmek izletmek
+kabarmak kaçınmak kaldırmak kanamak kapamak kaplamak karışmak karıştırmak karşılaştırmak katlamak kavramak kavuşmak kaybolmak kaydırmak kaynamak kazımak kesinleşmek kıskanmak kısmak kıvırmak kızartmak kiralanmak kirletmek kokmak konmak kopmak kopyalamak korkutmak kucaklamak kurmak kurtulmak kurumak kusmak küsmek
+mırıldanmak
+okşamak oluşmak oluşturmak onaylanmak onarılmak oyalanmak oynatmak
+ödüllendirmek öksürmek öldürmek ölçülmek önlenmek öpmek örmek örtmek övmek özlemek
+parlamak patlamak paylaşılmak pişmek planlamak
+rastlamak
+sağlanmak salmak sallamak saptamak sarmak sarsmak savunmak sayılmak seçilmek sergilemek serpmek sezmek sıkılmak sıkmak sıralamak sızmak silinmek sinirlenmek soğumak solumak sokmak sorgulamak soyunmak sönmek sürüklemek süslemek susamak
+şaşırtmak şişmek
+takılmak tamamlamak tanışmak tarif tartışmak tatmak teslim tırmanmak titremek topraklamak tükenmek tüketmek tutuşmak
+uçmak uğramak ulaştırmak unutulmak uydurmak uygulamak uymak uzamak uzatmak uzlaşmak
+üretmek üşümek ütülemek
+vazgeçmek varsaymak vurmak
+yağdırmak yaklaşmak yanaşmak yanılmak yansıtmak yarışmak yaratmak yaslanmak yazdırmak yenilemek yenmek yerleşmek yerleştirmek yetiştirmek yırtmak yollamak yorulmak yöneltmek yönetmek yükselmek yüzmek
+zorlamak zorlaşmak
+# --- ek liste 2: adlar
+abonelik afiş ağaçlık ahbap akarsu aksam aktör alarm albüm alkol ambalaj anı anket anlayış antrenman araç arazi arayış arıza arşiv atölye ayrıntı
+bagaj bahar bahçıvan bakanlık bakış bank banliyö bant baraj baskı başlık batarya battaniye bavul bayındırlık birey birim bisiklet bodrum boşluk bulaşık bütçe büfe
+cam cankurtaran cenaze ceket cezaevi ciddiyet ciro
+çağrı çamaşır çarşaf çeyiz çiçekçi çiftlik çizelge çoban çuval
+dağıtım dalgıç dana danışma dava davetiye defterdarlık değişiklik deneme denetim depo dergi desen dijital dilim dinlence direk direksiyon doğalgaz dolmuş dönüş duman dümen düğme düğün düzey
+ebeveyn egzersiz ehliyet ekran eksiklik emlak emniyet erzak esnaf eşarp etiket evrak
+fakülte fidan fincan fotokopi fuar
+galeri garaj garson gelenek geçit gıda gider gişe göç gönüllü görüntü gösteri gözetim gözlem güvence
+hamam hamal hane hapishane harcama harç hastabakıcı hayvanat hazine hekim hırsız hırsızlık hisse hoparlör huzurevi
+ısıtıcı ıslık
+ibadet ihtiyaç ikram ilkokul ilkyardım imar inşaat iskele ispat
+jeneratör jimnastik
+kaldırım kalorifer kamera kamp kantin kapıcı karakol kasiyer katılımcı kayıt kermes klima koli kombi komşuluk konferans kontrol konum konut koridor kova kreş kuaför kulüp kumanda kurban
+lise lokal lojman
+maden makbuz mama mangal mevlit mikrofon minibüs muayenehane muhtarlık musluk mülk müze
+nakliye nöbet
+oksijen ortaokul otel otogar
+örtü
+pansiyon pasaport patika peron pijama piknik plaka plaj plastik pratisyen priz
+radyatör rampa rehberlik ruhsat
+saatçi sabun sahne sanayi sandık sayaç sedye sergi servis sigara sigorta sinema sinyal sirk site sözleşme stadyum süpermarket
+şalter şampuan şantiye şarj şemsiye şenlik şerit şişe
+tabela tabure tamirat tank tapu tarife taşıt tavan tazminat tebrik tekerlekli tel teras terminal tesis tesisat teslimat tezgâh tiyatro toptancı tören tünel
+uzman
+ürün üye üyelik
+vagon vakıf vale valilik vapur varil vatandaşlık veteriner vezne villa
+yağmurluk yaka yastık yatırım yaya yazlık yedek yemekhane yetkili yorgan yuva yükleme
+zabıta zam zarf zeytinyağı ziyaretçi zorluk
+# --- ek liste 3: sıfatlar ve zarflar
+acil açıkça adaletli akıllıca aktif alışılmış anlaşılır anlamlı aşırı aylık azıcık
+bağımsız başarısız başıboş belirsiz beraberce berbat bilinen bilgili bireysel bitişik boşuna bulanık buruk
+cömert çabucak çekici çeşitli çoğu çoğunlukla
+daimi dayanıklı değerli dengeli derhal dikkatsiz direkt dolaylı dostça dürüst düzenli
+eksiksiz elverişli emin engebeli erişilebilir eşit evli
+faydalı
+geçerli geçici gelişmiş gereksiz gizlice göçmen görünür gündelik günlük güvenilir
+haftalık haklı hatalı hazırlıklı hızla hoşgörülü
+ısrarla
+ihtiyaçlı ileride ilginç iri istekli işlek iyice
+kalıcı kararlı karmaşık kayıp kendiliğinden kesintisiz kırsal kısaca kolayca korunaklı kullanışlı
+mahalli meşgul mevsimlik müsait
+nadir nazik
+okunaklı olağan olası olumlu olumsuz ortalama otomatik
+önceden öncelikli özellikle özenli
+parasız planlı
+rahatça resmen
+sabit sağlıksız sahte sakıncalı saygılı sayısız sevimli sıkıcı sıradan sıralı sınırlı sıkı sonsuz sorumlu sürekli süresiz
+şeffaf şiddetli şimdilik
+tamamen tanınmış tasarruflu tehlikesiz tercihen toplu tutarlı
+uzaktan
+ücretli
+yalnızca yanlışlıkla yavaşça yazılı yeniden yerinde yetersiz yıllık yoğun yorucu
+zamanında zararlı
+# --- ek liste 4: sık kullanılan diğer kelimeler
+abonman acenta adaylık ahlak akaryakıt altyapı anlaşmazlık anma arabulucu arıcı asgari aşevi aşure avans aydınlatma
+barınak barınma bayramlık beyanname bilgilendirme boşanma
+cezalı çorap
+danışman dayanışma denetçi devlet dilenci diyet dolandırıcı dolandırıcılık
+emanet emeklilik evsiz
+fakir
+gazi geçim geçiş gençlik gerekçe gezici gönüllülük gözaltı
+hayırsever huzur
+imece işbirliği
+kimsesiz koruma kentsel
+mülteci nakdi nikâh nöbetçi
+refakatçi seyyar
+yoksul yoksulluk yerleşim
+# --- ek liste 5: günlük hayattan başka kelimeler
+ahşap akvaryum alışkın altın ambar ananas anten araba yolu armut arpa aslan asma avize ayçiçeği ayran
+badem bakır bakla balon bamya bardak barsak basket başörtüsü bayrak bebek bezi beşik bezelye bıyık bilezik bilye bina bisküvi biber bilek bordo boncuk bornoz bostan boynuz bölük börülce buğday buhar buzdolabı bülten
+cacık ceviz ceylan cips civciv
+çakmak çalı çam çamaşır ipi çan çanak çatal bıçak çaydanlık çekiç çekirdek çelik çerez çeşme başı çilek çim çinko çivi çizme çorba kasesi çömlek
+dalak damat dantel davul defne demlik deri devekuşu dikiş dilim dirsek dişçi dolma dondurma döner dut düdük dürbün
+ekmek kızartma makinesi eldiven elmas emzik enginar erik ev hanımı ev hayvanı
+fare fasulye fındık fıstık fil firma fısıltı fosfor fötr
+gardırop gazoz gergedan gevrek gıdı gitar gofret göbek gökkuşağı gömlek göğüs kafesi gözyaşı gül gümüş güvercin
+halat halı hamsi hardal havlu haşlama hırka horoz hurma
+ıhlamur ıspanak
+iğne ipek ipucu irmik ispinoz iskemle istiridye
+jambon jel jöle
+kabak kabuk kadife kafes kahverengi kalay kanarya kanat kaplumbağa karga karınca karnabahar karpuz kartal kasap kaşar kavun kaymak kayısı kazak keçe kekik kelebek kemer kepek kereste kestane keşke kıyma kiraz kireç kirpik kitaplık koç kokteyl kolonya kolye kova köfte köpük körfez kumaş kumbara kurabiye kuzu
+lahana leblebi leğen levrek leylek limon lokum
+makarna makas mandalina mantar marul maydanoz mayo mercek mercimek mermer mısır mıknatıs mikser misket mum muşamba
+nane nar nargile nişasta nohut
+oklava olta orak ördek örümcek
+pamuk pancar papağan papatya pasta patlıcan pekmez pelerin penguen perçem pırasa pijama pinpon pipet pire pirinç porsiyon portakal pudra pul
+reçel rende roka
+sabahlık sakal sakız salam salatalık salça salyangoz sandal sardalya sarmaşık sazan sebze sefer tası semer serçe sıçan sıvı simit sinek sirke soba sosis su bardağı sucuk sumak süpürge
+şahin şal şalgam şeftali şeker kamışı şilte şimşek
+tabak takı tarak tas tava tavşan tencere tereyağı termos tespih testere tilki tohum top toz tuğla tulum turp turşu tül
+un uskumru üzüm
+vazo vinç
+yaban yabancı yama yapboz yayla yazma yelek yelpaze yılan yonca yorgan yulaf yumak yunus yün
+zambak zeytin zil zincir zürafa
+# --- ek liste 6: kamu ve yaşam kavramları
+açık hava afet bölgesi aile bakanlığı anayasa ara seçim arama arşiv askerlik atama aylık bağlama belediye meclisi bilgi edinme bina yönetimi cumhurbaşkanı cumhuriyet çevre temizliği dilekçe örneği doğum izni eğitim yardımı ekonomi emlak vergisi enflasyon genel seçim gümrük hukuk icra ihale ilan panosu ilçe belediyesi iller bankası iş kazası kamu hizmeti kanun hükmü kayıt ücreti kent meclisi kira artışı kurultay maliye milletvekili muhtar seçimi nüfus sayımı oylama parti politika resmi gazete sağlık bakanlığı sandık görevlisi seçmen listesi sosyal güvenlik sosyal hizmet sözlü sınav tapu dairesi teşvik ücretsiz hizmet vali vergi borcu yapı denetimi yardım başvurusu yerel seçim
+# --- ek liste 7: temel kelimelerin sık türevleri ve kalıpları
+açıklık adımlık ağabeylik akşamüstü akşamları alıcı alışık alt kat anneler annelik arabalı arkadaşlık aşağıda ayakta aylar
+babalık bahçeli bakımlı bakıcı balıkçı barışçı başlangıçta bayramda bazen beklenti bekleyiş belediyeci benzin benzinlik beyazlık bilgisiz bilimsel biraz sonra birazdan birden birlikte birinci kat bitişikte bozulma boyacı bulunduğu büyükler büyüklük
+camcı canlılık cevapsız cumartesileri
+çalışan çalışma çalıştay çaycı çiçekli çocukluk çocuklar çoktan çorbacı
+dağcı dakik davetli dayanak değerlendirme deneyim dersane dışarıda dinleyici dirençli doğumlu dokuz dolayısıyla dolu dolu dostluk döküm durum dükkâncı düşük
+eczacılık eğitimli eğlenceli ekmekçi elektronik elli emeklilik yaşı erkenden eskiden evde evli barklı eylemci
+fırıncı fotoğrafçı futbolcu
+geceleri gelenler gençler geri dönüş gerçekten gidiş gidiş dönüş giysili gömlekli görevde görüşler gözcü güçlük gündüzleri güneşli güzellik
+hafta sonları hakem halkla ilişkiler harika hastalar hatıra havalimanı hazırlık hediyelik hemen hemen henüz herhangi hesaplama hırslı hizmetli hoşça kal hızlıca
+ısınmış
+içerde içerik ilaçlar ileri geri ilgili ilkin inanç iniş insanlar istek listesi işçilik işler iyileşme
+kabalık kahveci kalabalıkta kalemlik kalıcılık kapalı alan karşılık kasım ayı katılım kayıtlı kaynak keyif kilitli kişisel kolaylık konuşma koruyucu kurucu kutlama küçükler
+lokantacı
+mahallede masraf merkezde mesleki meyveli misafirlik mutluluk
+nakit para neşe nitelik
+odacı okullar okuyucu olanak olasılık oluşum onay oturum oyuncu
+öğrencilik öğretim ölçüm önceden önceki önlük özgür özgürce
+paket parasız pazarcı pazartesileri pencereli planlama postacı
+rahatlık resimli rüya
+sabahları sağlıkçı sahiplik salgın saygınlık seçenek sesli sevgili sıcaklık sıkıntı sınırsız sigortalı sokakta sonraki sorumluluk sporcu sulu sürücülük
+şarkıcı şehirli şoförlük
+takas takipçi tamirhane tanık tanıdık tanışma taşıma tatlılık tavsiye tedarik tehlikeli teknik tekrar tekrar telaş tercih tesadüf teşekkürler toplum topluluk turist turizm tutar
+uçuş ulusal uyarıcı uygulama uzmanlık
+ücretler üzerinde üzüntü
+yabancılar yakınlık yakıt yalnızlık yanlışlık yapılış yardımcı yargı yarış yarışma yasal yaşam yaşlılar yatılı yazar yazılım yemekli yerel yerli yetenek yıllar yollar yönetici yönetim yöntem yurt dışı yüzücü
+zamanlama zengin zorunluluk
+# --- ek liste 8: sayılar, birimler, zaman
+bin iki yüz milyonlarca binlerce yüzlerce onlarca düzine çift tek sayı çiftler
+gram kilogram ton litre mililitre metre santimetre milimetre kilometre metrekare dönüm hektar derece saniye dakika saatlik günlük haftalık aylık yıllık asır yüzyıl onyıl
+sabahleyin akşamleyin öğleden sonra öğleden önce gece yarısı şafak gün batımı gün doğumu
+# --- ek liste 9: vücut, duygu, davranış
+alın avuç bilek boğaz çene dirsek göbek kaş kirpik kulak memesi nabız omurga parmak ucu ter yanak
+cesur çekingen kıskanç utangaç sabırlı sabırsız sinirli neşeli üzgün yalnız
+kahkaha gülümseme selamlaşma sarılma öpücük tokalaşma
+# --- ek liste 10: çevre, doğa, afet
+akıntı ateşkes bataklık çığ deprem bölgesi fay hattı fırtına uyarısı heyelan kasırga kıyı şeridi kuraklık orman yangını sağanak sel suyu sis tabakası su taşkını tahliye yolu toz bulutu yağış yıldırım yer sarsıntısı
+geri dönüşüm kutusu kompost cam şişe kâğıt atık plastik atık pil atığı tıbbi atık
+# --- ek liste 11: aile ve sosyal yaşam
+düğün nişan söz kına sünnet doğum günü cenaze töreni taziye ziyareti bayram ziyareti komşu ziyareti mevlit yemeği iftar sahur kandil
+evlilik boşanma velayet nafaka miras vasiyet vekâlet
+kardeşlik anneanne babaanne torunlar kayınbirader görümce baldız elti bacanak enişte yenge
+# --- ek liste 12: iş ve para
+alım satım bağış bakiye banka kartı borçlu borçsuz döviz faiz oranı fatura tutarı fiyat artışı gelir gider hesap numarası iade indirimli kâr kasa fişi kira bedeli kredi maaş günü masraf ödeme günü para üstü pazarlık peşinat sermaye taksitli tasarruf ücretlendirme vade zarar
+# --- ek liste 13: eğitim ve kültür
+alfabe aritmetik ansiklopedi beden eğitimi coğrafya çarpım tablosu dilbilgisi edebiyat fen bilgisi gramer hikâye kitabı kütüphaneci matematik masal müzik öğretmeni okuma kitabı resim dersi sınav sonucu sözlük şiir tarih dersi yazım kuralları
+# --- ek liste 14: teknoloji (yerleşik)
+akıllı telefon bilgisayar ekran fare klavye kulaklık şarj aleti televizyon kumandası uygulama mağazası kamera internet bağlantısı kablosuz ağ mesajlaşma görüntülü arama
+# --- ek liste 15: yön, konum, hareket
+aşağıda yukarıda ileride geride yanında karşısında arkasında önünde içinde dışında arasında üstünde altında sağında solunda yakınında ortasında köşesinde kenarında başında sonunda
+girilir çıkılır sağa sola düz karşıya yukarıya aşağıya içeriye dışarıya
+# --- ek liste 16
+kap kova leğen yatırmak görevli muhtarlık müdürlük nüfus müdürlüğü oturmak ödeme yeri kurtarma ekibi
+# --- ek liste 17: gerçek Kolay Dil metinlerinde (kolaydil.tr) geçen, listede eksik sık kelimeler
+şöyle böyle öyle yine gene diye yani hadi haydi zaten aslında örneğin mesela genellikle neredeyse herhalde bence sonunda birbiri
+ora bura şura taraf yan şekil biçim tür türlü toplam genişlik uç
+metin sözcük anlamak anlaşılmak takip takip etmek erişim şiddet rahatsız rahatsız etmek rahatsız olmak davranmak davranış geçirmek
+doğal sürpriz manzara kule tüy heykel gezegen mühür oy pusulası pusula süslü ötmek kilitlemek sarılmak
+#
+# ===========================================================================================
+# 2. sürüm genişletmesi (2026-09-26): 4 bağımsız denemede "seyrek" diye işaretlenen gündelik
+# kelimeler ve aynı alanlardan sık kelimeler. Kaynak: katkıcıların derlemesi; haber, masal,
+# sağlık rehberi, tüketici metni, belediye duyurusu ve ders kitabı dilinde sık geçen kelimeler.
+# Bürokratik ve yabancı kelimeler (müracaat, ivedilikle, online …) bilerek eklenmedi: onları
+# KD-K01 ve KD-K02 işaretler.
+# ===========================================================================================
+#
+# --- ek liste 18: fiiller (gündelik)
+abartmak acıkmak acımak açıklamak açılmak adamak adım atmak affetmek ağlamak ağırlamak ağrımak
+akıtmak akmak aksamak aktarmak alçalmak alışmak alkışlamak almak alıştırmak anlamak anlaşmak
+anlatmak anmak araştırmak aramak arındırmak arttırmak artırmak artmak asmak aşmak atlamak
+atılmak avlamak ayırmak ayıklamak aykırı düşmek aydınlatmak ayarlamak azalmak azaltmak bağırmak
+bağışlamak bağlamak bakmak barışmak basmak bastırmak başarmak başlatmak batmak bayılmak
+beğenmek beklemek belirlemek belirtmek benzemek beslemek bırakmak biçmek bildirmek bilmek
+binmek birikmek biriktirmek birleşmek birleştirmek bitirmek bitmek boğulmak bozmak boyamak
+bölmek bölüşmek budamak bulaşmak bulaştırmak bulmak buluşmak burkulmak buyurmak büyümek
+büyütmek cevaplamak coşmak çağırmak çalışmak çalkalamak çalmak çarpmak çatlamak çekilmek
+çekmek çevirmek çıkarmak çıkmak çiçeklenmek çiğnemek çizmek çözmek çürümek daldırmak dalmak
+damlamak danışmak dayanmak değerlendirmek değişmek değiştirmek değmek demek denemek denetlemek
+dengelemek dergilemek derlemek devam etmek devirmek devretmek dikkat etmek dikmek dilemek
+dinlemek dinlenmek dizmek doğmak doğramak doğrulamak dokunmak doldurmak dolmak dolaşmak
+donmak donatmak dökmek dönmek döşemek dövmek duraklamak durdurmak durmak duyurmak duymak
+düşmek düşünmek düzeltmek düzenlemek eğilmek eğitmek eklemek ekmek elemek emmek engellemek
+erimek ertelemek esmek eşlemek etkilemek evlenmek ezmek fırlatmak fışkırmak fırçalamak geçmek
+geçirmek gelişmek geliştirmek gelmek germek getirmek gezmek girmek gitmek gizlemek giymek
+göndermek görmek göstermek götürmek gözlemek gülmek gülümsemek güvenmek haberleşmek hapşırmak
+harcamak hatırlamak hatırlatmak hazırlamak hesaplamak hissetmek ısınmak ısıtmak ısırmak
+ıslanmak ıslatmak içmek iletmek ilerlemek ilgilenmek incelemek incitmek indirmek inmek
+inanmak istemek işaretlemek işitmek işlemek itmek izlemek kabul etmek kaçırmak kaçmak kalkmak
+kaldırmak kalmak kanamak kanıtlamak kapamak kapatmak kaplamak kapmak karışmak karıştırmak
+karşılamak karşılaşmak kaşımak katılmak katlamak kavramak kaybetmek kaybolmak kaymak kazanmak
+kazımak kesmek keşfetmek kilitlemek kirlenmek kirletmek kıskanmak kırmak kıvırmak kızartmak
+kızmak koklamak konuşmak korkmak korumak koşmak koymak kovalamak kurmak kurtarmak kurulamak
+kurumak kusmak kutlamak küsmek kaynamak kaynatmak lekelemek memnun etmek mırıldanmak
+nefes almak okumak onarmak onaylamak oturmak oynamak ödemek öğrenmek öğretmek öksürmek
+ölçmek ölmek önermek önlemek öpmek örmek övmek özlemek parlamak patlamak paylaşmak
+pişirmek pişmek planlamak sağlamak saklamak sallamak salmak sanmak sarmak satmak saymak
+seçmek sermek sevmek seyretmek sıkmak sıkılmak sınamak sıralamak sızmak silmek sinirlenmek
+sokmak solumak sormak soyunmak sökmek sönmek söylemek sulamak sunmak susmak sürmek sürdürmek
+süslemek süpürmek şaşırmak şikâyet etmek şişmek taşımak taşınmak tadına bakmak takmak
+taklit etmek tamamlamak tamir etmek tanımak tanıtmak tartışmak tartmak tatmak taşmak tekrarlamak
+telefon etmek temizlemek teslim etmek teşekkür etmek titremek toplamak topraklamak tutmak
+tutuşmak tükenmek tüketmek uçmak uğraşmak ulaşmak umursamak unutmak uyandırmak uyanmak
+uygulamak uymak uyumak uyuşmak uzatmak uzanmak uzaklaşmak üflemek üretmek üşümek üzmek
+üzülmek vazgeçmek varmak vermek vurmak yakalamak yakmak yaklaşmak yalvarmak yanmak yanıtlamak
+yapıştırmak yapmak yararlanmak yardım etmek yaratmak yarışmak yaşamak yaşlanmak yatmak yatırmak
+yazmak yemek yenmek yerleşmek yerleştirmek yetişmek yetiştirmek yıkamak yıkmak yırtmak
+yollamak yorulmak yormak yönetmek yuvarlamak yükselmek yüklemek yürümek yüzmek zıplamak zorlamak
+kanıtlamak bulaşmak cayma caymak iade etmek iptal etmek terk etmek protesto etmek şart koşmak
+biriktirmek sızdırmak tıkamak tıkanmak kurcalamak bozulmak çökmek sallanmak devrilmek
+kapanmak açmak sıkıştırmak serinlemek serinletmek soğumak soğutmak yumuşamak yumuşatmak
+sertleşmek kurulmak ayrılmak ayrılık dağıtmak dağılmak toparlamak toplanmak katlanmak
+anımsamak çağrışmak doğrultmak yönlendirmek sıçramak kıpırdamak koşuşturmak yetinmek
+etmek harcamak kullanmak kiralamak borçlanmak ödünç almak ödünç vermek
+aşılamak aşı olmak muayene olmak tedavi etmek iyileşmek iyileştirmek hastalanmak
+kusmak ateşlenmek terlemek titremek bayılmak kanamak morarmak şişmek kaşınmak
+fırçalamak taramak tıraş olmak giyinmek süslenmek yıkanmak duş almak banyo yapmak
+pişirmek haşlamak kavurmak kızartmak doğramak rendelemek karıştırmak çırpmak yoğurmak
+ekmek dikmek sulamak budamak toplamak hasat etmek sağmak beslemek otlamak
+havlamak miyavlamak ötmek kükremek uçuşmak gagalamak tırmanmak sürünmek kemirmek
+# --- ek liste 19: ev, eşya, mutfak, yiyecek
+abajur ahize ahşap aksesuar ampul anahtarlık askı aspiratör avize ayakkabılık ayna bahçe
+balkon bardak battaniye bavul bayrak bez bıçak biberon bidon boru boya bulaşık buzluk
+cam çaydanlık çamaşır çarşaf çatal çekmece çekiç çerçeve çit çivi çöp kova çubuk
+döşek duvar duş eldiven elek emzik eşya fayans fırın fincan fırça fermuar gardırop halı
+havlu hortum ısıtıcı jaluzi kalorifer kanepe kapak karyola kase kaşık kavanoz kazan kepçe
+kilit kiler klima koltuk kombi komodin kutu küvet lamba lavabo leğen makas mandal masa
+matara merdiven mikser minder musluk mutfak mum nevresim ocak oklava örtü paspas perde petek
+pil priz raf radyatör rende saksı sandalye sandık sepet sehpa semaver sifon soba sofra
+sünger süpürge şemsiye şişe tabak tabure tava tavan tencere tepsi terlik testere tornavida
+tuvalet tüp vazo yastık yatak yorgan zil zımba sabunluk ütü mangal kömür odun tüpgaz kablo
+ayran bal baklava bakla bamya barbunya bezelye biber bisküvi börek bulgur cacık ceviz çay
+çikolata çilek çorba dana dondurma döner elma enginar erik et fasulye fındık fıstık gazoz
+greyfurt hamur havuç helva hurma ıspanak incir kabak kadayıf kahvaltı kahve kaymak kayısı
+kek kekik kereviz kestane kıyma kiraz köfte kurabiye üzüm lahana limon lokum mandalina
+makarna mantar mantı margarin marul maydanoz mercimek meyve meze mısır nane nar nohut omlet
+patates patlıcan pasta peynir pırasa pilav pirinç pizza portakal reçel roka salam salata
+salatalık salça sarımsak sebze simit sirke soğan sosis sucuk süt şeftali şeker şehriye
+tarhana tatlı tavuk tereyağı turşu turp tuz un vişne yağ sarma yoğurt yumurta zeytin
+zeytinyağı kuzu balık hamsi levrek çipura dürüm lahmacun pide kebap gözleme poğaça açma
+çörek tost sandviç meyve suyu soda limonata komposto hoşaf ayva armut kavun karpuz muz
+ananas kivi böğürtlen ahududu dut ıhlamur adaçayı papatya tarçın karabiber kimyon zencefil
+susam tahin pekmez lokma aşure güllaç sütlaç muhallebi revani irmik nişasta maya menü
+porsiyon lokanta restoran kafe pastane fırıncı kasap manav bakkal market yemek yiyecek
+içecek atıştırmalık konserve dondurulmuş taze bayat çiğ pişmiş haşlanmış kızarmış
+# --- ek liste 20: giyim, kişisel bakım
+atkı ayakkabı bere bluz bone bot çanta çizme çorap ceket elbise eşarp etek eşofman gömlek
+gözlük hırka kazak kemer kravat kolye küpe manto mayo mont önlük palto pantolon pijama
+sandalet şal şapka şort tişört yelek yüzük bilezik cüzdan kozmetik krem losyon parfüm ruj
+oje şampuan sabun macun tarak deodorant pamuk mendil peçete hijyenik kıyafet giysi
+giyim kumaş pamuklu yünlü ipek deri naylon düğme cep yaka paça beden numara dikiş terzi
+iç giyim çamaşır bakım temizlik
+# --- ek liste 21: beden, sağlık, hastalık
+alerji ameliyat aşı ateş avuç bağırsak bağışıklık bel beyin bilek böbrek boğaz boyun cilt
+ciğer çene dirsek dudak enfeksiyon eklem ense felç göğüs grip hapşırık hastalık hemşire
+ilaç iltihap iyileşme kalça kan basınç kanser karaciğer karın kas kaş kemik kirpik kusma
+maske mide muayene nabız nefes nezle omuz omurga öksürük parmak reçete salgın serum sırt
+solunum şurup tansiyon tedavi termometre tırnak topuk tükürük uyku vitamin yanak yara
+yorgunluk zayıflık bandaj sargı merhem hap tablet damla kaşıntı kızarıklık şişlik morluk
+kırık çıkık burkulma yanık sıyrık kesik ishal kabızlık bulantı dönme halsizlik titreme
+terleme uykusuzluk stres kaygı depresyon mikrop virüs bakteri bulaşıcı bulaşma belirti
+teşhis tahlil röntgen ultrason acil servis poliklinik eczacı hekim uzman ambulans sedye
+tekerlekli baston işitme cihaz lens protez engelli engel doğum gebelik hamile hamilelik
+emzirme lohusa randevu kolesterol diyabet astım bronşit zatürre kriz inme obezite kilo boy
+sigara alkol bağımlılık beslenme diyet spor egzersiz yürüyüş dinlenme mesafe kalp akciğer
+kulak burun göz diş dil ağız saç sakal bıyık deri ten kafa yüz baş el kol bacak ayak diz
+ağrı sızı yorgun hasta hastane doktor sağlık sağlıklı sağlıksız zinde güçsüz halsiz
+# --- ek liste 22: aile, insanlar, toplum
+abi abla akraba amca anne anneanne aile babaanne baba bacanak bebek çocuk dayı dede damat eş
+ebeveyn elti enişte evlat görümce gelin hala hanım kardeş kayınpeder kayınvalide kaynana
+kız kuzen koca nine oğul teyze torun yenge yeğen büyükanne büyükbaba nişanlı sevgili
+arkadaş dost komşu misafir konuk kiracı yabancı tanıdık akran bebeklik çocukluk gençlik
+yetişkin yaşlılık emekli dul yetim öksüz bekâr evli erkek kadın genç yaşlı ihtiyar
+delikanlı hanımefendi beyefendi insan kişi halk millet toplum topluluk grup ekip takım
+kalabalık vatandaş seçmen nüfus mahalleli hemşehri köylü şehirli göçmen mülteci turist
+yolcu sürücü yaya birey bireysel toplumsal sosyal ailevi kişisel özel ortak herkes
+# --- ek liste 23: meslekler ve işler
+aşçı avukat bakıcı balıkçı bankacı berber bekçi boyacı çiftçi çoban dişçi elektrikçi esnaf
+fotoğrafçı garson gazeteci güvenlik görevlisi hakim hostes işçi itfaiyeci kaptan kasiyer
+kuaför kurye makinist marangoz memur mimar mühendis müdür muhasebeci muhtar müzisyen
+öğretmen öğrenci pilot polis postacı psikolog ressam sanatçı satıcı savcı sekreter şoför
+temizlikçi tesisatçı tamirci tezgâhtar veteriner yazar yönetici zabıta asker jandarma
+danışman teknisyen usta çırak kalfa gönüllü yardımcı sorumlu görevli başkan vali
+kaymakam milletvekili bakan imam futbolcu sporcu antrenör hakem oyuncu şarkıcı sunucu
+spiker muhabir editör çevirmen diplomat büyükelçi elçi konsolos yargıç jüri tanık
+avcı çiftlik bahçıvan inşaat işçisi kapıcı yönetmen kameraman fırıncı kasap manav bakkal
+# --- ek liste 24: şehir, yer, bina, ulaşım
+adres apartman avlu banka bina blok bulvar cadde cami çarşı çeşme dükkân durak eczane
+fabrika fakülte garaj gar geçit gişe havaalanı hol iskele istasyon karakol kavşak kent
+kilise köprü köy kule kütüphane liman mağaza mahalle meydan metro müze okul otel otogar
+otopark park pazar plaj postane saray sinema site sokak stadyum şehir tapınak tiyatro
+tünel üniversite yol yurt kaldırım rampa bank tabela levha harita pusula kuzey
+güney doğu batı merkez ilçe il bölge semt kasaba yayla ova vadi dağ tepe deniz göl nehir
+ırmak dere kıyı sahil ada körfez orman çöl bataklık koy şelale mağara
+araba araç bisiklet dolmuş feribot gemi helikopter kamyon kamyonet minibüs motosiklet
+otobüs taksi teleferik tır traktör tramvay tren uçak vapur bot tekne sandal kayık yat
+çekici ehliyet plaka bilet peron vagon sefer kalkış varış rötar gecikme aktarma hat rota
+yolculuk seyahat bagaj valiz emanet danışma giriş çıkış kat zemin bodrum çatı kemer kask
+hız sınır trafik kaza yapım yapı inşaat şantiye tadilat onarım bakım
+# --- ek liste 25: doğa, hava, afet, hayvanlar
+atmosfer bulut buz çamur çiğ deprem dolu don duman fırtına gezegen gökkuşağı gök gökyüzü
+güneş hava ısı iklim kar kasırga kum kutup nem okyanus rüzgâr sağanak sel sıcaklık sis
+soğuk taş toprak toz uzay volkan yağmur yağış yanardağ yıldırım yıldız şimşek dünya evren
+uydu yörünge cüce buzul heyelan çığ tsunami yangın afet toplanma sarsıntı artçı
+enkaz arama kurtarma çadır barınak yardım sığınak uyarı alarm siren kuraklık susuzluk
+ağaç çiçek çimen çalı dal diken fidan filiz kök kozalak meşe çam kavak söğüt çınar gül
+lale menekşe karanfil zambak yonca ot yaprak tohum fide bitki orman doğa çevre
+arı ayı balina baykuş böcek ceylan civciv deve domuz eşek fare fil geyik güvercin horoz
+inek kanarya karga kaplumbağa kartal kaz kedi keçi kelebek kertenkele kirpi köpek kurbağa
+kurt kuş leylek maymun martı öküz ördek örümcek papağan penguen pire sinek sivrisinek
+sincap solucan tavşan tilki timsah yılan yunus zürafa aslan kaplan at koyun oğlak buzağı
+sığır hayvan evcil palamut kovuk yuva kafes ahır ağıl kümes mama tasma karınca
+# --- ek liste 26: iş, para, alışveriş, tüketici
+alacak alışveriş anlaşma aidat banka bankamatik bedava bedel bilet bono borç bütçe cari
+çalışan çek dolar döviz ekonomi emeklilik esnaf faiz fatura fiş fiyat gelir gider hesap
+harcama havale hisse indirim işletme işveren iş yeri kâr kar kasa kazanç kira kiracı
+kredi kredi kartı kur kuruş lira maaş masraf mağaza müşteri nakit ödeme para
+peşin peşinat piyasa pos prim satış sipariş sözleşme taksit tüketici tüketim
+ucuz ücret vergi vitrin yatırım zam zarar pahalı indirimli kampanya fırsat garanti
+iade değişim kargo kargoya teslimat paket koli sepet kasa fişi fatura kayıt abonelik
+abone sayaç okuma borçlu alacaklı taksitli peşinat avans ikramiye tazminat harç
+cüzdan kart şifre hesap numarası şube vezne gişe sıra numarası dekont makbuz
+işsizlik iş arayan iş ilanı başvuru görüşme mülakat özgeçmiş deneyim mesai vardiya izin
+tatil yıllık izin rapor sigorta sigortalı prim günü emekli maaşı ücret
+şirket firma kurum kuruluş dernek vakıf kooperatif sendika şube merkez fabrika atölye
+üretim ürün mal hizmet kalite marka model seri parça yedek parça malzeme ham madde
+ticaret alım satım ithalat ihracat pazar yeri pazarlık tezgâh stok depo
+# --- ek liste 27: eğitim, bilgi, kültür, bilim
+alıştırma anlatım araştırma atlas bilgi bilim bilgin bilinç bölüm çalışma defter deney
+ders dergi dönem düşünce eğitim eser gazete gramer hikâye kalem kavram kitap kurs kültür
+laboratuvar makale masal matematik metin mezun not okul okuma ödev öğrenim
+öğretim roman sanat sayfa sınav sınıf sözlük şiir tarih tahta tebeşir teknoloji tez
+uygulama üniversite yazı yazım yöntem fen fizik kimya biyoloji coğrafya edebiyat felsefe
+psikoloji tarih din müzik resim beden eğitimi yabancı dil İngilizce Almanca Arapça
+alfabe harf hece kelime cümle paragraf başlık konu özet soru cevap anlam örnek açıklama
+karne diploma belge kayıt yüz yüze uzaktan eğitim teneffüs okul servisi
+müdür yardımcısı rehber öğretmen kütüphane okuma yazma ilkokul ortaokul lise anaokulu kreş
+kitapçık broşür afiş ilan duyuru rehber kılavuz tablo grafik liste form
+tiyatro sinema film dizi belgesel konser festival sergi müze şarkı türkü dans oyun
+fotoğraf resim heykel mimari gelenek görenek bayram düğün nişan cenaze taziye tören
+kutlama doğum günü yılbaşı ramazan kurban oruç namaz dua cami kilise inanç
+# --- ek liste 28: kamu, hukuk, yönetim, haber (gündelik düzeyde)
+anayasa asker askerlik bakanlık başkanlık belediye bilgilendirme büyükelçilik cumhuriyet
+dava demokrasi devlet dilekçe duyuru emniyet erkek erişim güvenlik hak haber hapis hükümet
+iktidar kamu kanun karar kimlik kural kurul mahkeme meclis millet muhalefet nüfus oy özgürlük
+parti polis protesto seçim siyaset suç şikâyet tepki toplantı uluslararası yasa yasak
+yönetim yönetmelik zorunlu hukuk ceza sanık tanık avukat savcılık adliye noter tapu
+nüfus cüzdanı kimlik kartı pasaport ehliyet vize oturma izni adres kaydı
+muhtarlık valilik kaymakamlık belediye başkanlığı sağlık bakanlığı milli eğitim
+genel kurul oylama aday kampanya miting konuşma açıklama bildiri basın
+gazeteci haber ajansı televizyon radyo yayın program röportaj gündem manşet köşe yazısı
+savaş barış ateşkes anlaşma antlaşma ittifak sınır ülke devlet başkanı başbakan bakan
+yardım kampanyası bağış gönüllü sosyal yardım destek hibe burs kredi yurt
+# --- ek liste 29: teknoloji, iletişim
+ağ bağlantı bilgisayar cep telefonu ekran fare hoparlör internet kablo kamera klavye
+mesaj modem program aleti şifre tablet telefon uygulama yazıcı yazılım web
+site e-posta adres numara arama sesli mesaj görüntülü arama fotoğraf video dosya belge
+indirme yükleme giriş çıkış kullanıcı hesap oturum bildirim ayar güncelleme pil kulaklık
+televizyon kumanda kanal radyo dijital sanal çevrim içi yapay zekâ robot makine cihaz alet
+# --- ek liste 30: sıfatlar
+acı acil açık ağır akıllı alçak amaçlı ana anlamlı anlaşılır ayrı az bayat basit bayağı
+belirli belli benzer beyaz bilinen bol boş boz bozuk böyle bulanık büyük canlı cesur çabuk
+çalışkan çirkin çok çürük dar değerli derin dik dikkatli dolu doğal doğru dost dürüst düz
+eğri eksik eksiksiz eski etkili fazla genel geniş gerçek gerekli gizli güçlü güvenli güzel
+hafif hazır hızlı ilginç iyi kalın kapalı karanlık kararlı kesin kısa kirli kolay korkunç
+kötü kuru kuvvetli küçük meşhur mutlu mümkün nazik normal olumlu olumsuz önemli özel pahalı
+parlak pratik rahat renkli resmî sabit sade sağlam sakin sarı sert sessiz sıcak sıkıcı
+sınırlı sıradan sıkı soğuk sonsuz sulu süreli şaşkın şişman tam tatlı taze tehlikeli temiz
+tuhaf tuzlu uygun uzun üzgün yakın yalnız yanlış yaşlı yavaş yeni yeşil yorgun yumuşak
+yüksek zayıf zengin zor zararlı zararsız ücretli ücretsiz yararlı faydalı etkin etkisiz
+tedbirli dikkatsiz dikkatli sorumlu sorumsuz sağlıklı hijyenik temel asıl başlıca ortalama
+yaygın nadir seyrek sık ender uzak geçerli geçersiz eşit farklı aynı benzer karışık düzenli
+düzensiz sürekli geçici kalıcı kısa süreli uzun süreli günlük haftalık aylık yıllık
+ulusal yerel bölgesel küresel kamusal resmi yasal yasadışı zorunlu isteğe bağlı
+numaralı sıralı kayıtlı kayıtsız sigortalı engelli yaşlı hamile yetişkin küçük büyük orta
+kırmızı mavi yeşil sarı turuncu mor pembe kahverengi gri siyah beyaz lacivert bordo
+renkli renksiz açık koyu parlak mat ince kalın geniş dar düz eğik yuvarlak kare üçgen
+# --- ek liste 31: zarflar, bağlaçlar, kalıplar
+aslında ayrıca bazen belki birden birlikte böylece çoğu zaman çünkü daha
+elbette gene genellikle hâlâ hatta hemen hemen hemen hep hiç için içeri iyice kesinlikle
+maalesef mesela neredeyse oldukça örneğin özellikle sadece şimdilik tabii yalnızca yeniden
+yine yavaşça hızla aniden birdenbire sonunda nihayet önce sonra ardından sonradan
+zamanla giderek artık hâlâ henüz zaten üzere göre rağmen karşın dek kadar değin
+boyunca sırasında süresince içinde dışında yanında karşısında altında üstünde önünde
+arkasında arasında yüzünden nedeniyle sayesinde amacıyla yerine gibi kadar
+temel olarak kısaca açıkça doğrudan dolaylı olarak tek tek teker teker adım adım
+yaklaşık aşağı yukarı en az en çok en fazla en geç en erken hemen şimdi
+# --- ek liste 32: soyut ve gündelik adlar
+amaç anı anlam başarı bekleyiş beklenti bilgi boşluk cesaret çaba çare çözüm değer değişim
+destek dikkat dilek durum düşünce düzen eğlence emek endişe engel etki fark fayda fikir
+gelecek geçmiş gerçek gerek gereksinim görev güç güven hak hata hayal hayat hedef heyecan
+huzur ihtiyaç ilgi imkân inanç istek iş kader karar kayıp kaygı kolaylık korku kural
+merak mutluluk neden olay olanak öfke önem öneri özgürlük özlem para plan
+saygı sebep sevgi sınır sıkıntı sonuç sorun sorumluluk şans şart şekil tehlike tepki
+tercih umut uyarı yarar yardım yaşam yetenek yol zaman zorluk zafer yenilgi rekabet
+barış savaş dostluk kavga tartışma anlaşmazlık uzlaşma işbirliği dayanışma yardımlaşma
+sabır acele telaş panik sakinlik huzursuzluk mutsuzluk üzüntü sevinç neşe gülümseme
+gözyaşı özür teşekkür rica izin tavsiye öğüt uyarı tehdit ceza ödül hediye sürpriz
+şaka oyun eğlence hobi merak ilgi alışkanlık davranış tutum tavır huy karakter kişilik
+akıl zekâ hafıza bellek düşünce fikir hayal rüya kabus uyku uyanıklık dikkat odak
+iptal erteleme değişiklik düzeltme ekleme çıkarma azalma artış düşüş yükseliş iniş
+başlangıç bitiş son orta yarı çeyrek tamamı bütün parça bölüm kısım dilim adet tane
+çeşit tür biçim şekil boyut ölçü miktar sayı rakam oran yüzde ortalama toplam fark
+yön yer konum mesafe uzaklık yakınlık yükseklik derinlik genişlik uzunluk ağırlık hacim
+süre saat dakika saniye an dönem çağ yüzyıl devir sezon mevsim hafta sonu tatil günü
+# --- ek liste 33: genel sık kelimeler (A-Z)
+abone acemi acı ad ada adale adalet adam aday adım af afiş ağabey ağız ağırlık ahlak akıl
+akım akıntı akış akşam aksam alan alarm alay alet alışkanlık alt altın ambalaj ambar anahtar
+ana anı anket ani antrenman arka arama araştırma arazi arı arıza arka plan armağan arsa
+artı artış asıl asil aşama aşçı aşk at atık atış avantaj avcı avuç ayar aydınlık aylık
+ayrıntı azınlık bacak bağ bağış bahar bahçıvan bakış bakım balon bant baraj baskı başarı
+başkent başlangıç başlık baştan bataklık batı bavul bayan bayram bedel beden bekleme belge
+bellek beraberlik bereket beşik beyan bez bildiri bilet bilgi bina birim birlik bitiş
+bitki boğaz bolluk bomba borsa boşluk boy boya boyut bölge bölüm börek bulmaca buluş
+bulgu buluşma buzdolabı bülten cadde can canlı cephe cep ceza cins cisim coşku cümle
+çaba çadır çağ çağrı çalgı çalışma çamaşır çanak çare çarşı çatı çatışma çek çekiliş
+çelik çember çerez çeşit çevre çıkar çıkış çıkış yolu çiftlik çile çizgi çizim çocukluk
+çoğunluk çözüm çukur dalga damla dans davet davranış defa değer değişiklik delik delil
+demir deneme deneyim denge denetim depo dergi derece dert destan destek deste devam devir
+devlet dilim din dinlenme dip direk direnç dizi doğa doğum doku dolap dost dönem dönüş
+dönüşüm dudak durak durum duvar duygu düğün dükkân dünya dürüm düşman düşüş düzen düzey
+efendi eğitim eğlence ek ekim ekip eksik el emek emir emniyet endişe engel enerji enkaz
+envanter erişim erkek eser esir eşik eşya etiket etkinlik ev evren eylem fayda fener
+fırsat fikir film fiş fiyat form fotoğraf gaz gazete gece gecikme gelenek gelir gelişme
+genişlik gerçek gezi giriş girişim gizem gölge görev görüntü görüşme gösteri gözlem
+güç gücü gün günce gündem gürültü güven güvence haber hafıza hak hal halk hamle
+hane hareket harf harita hasar hasat hat hata hatıra hava havuz hayal hayat hayvan hazine
+hedef hediye her şey hesap heyecan hız hikâye hisse hizmet hoşgörü hukuk huzur ısı ışık
+iç içerik iddia ifade iklim ikram ilaç ilan ilgi ilişki ilke imza inanç inceleme indirim
+iniş insan irade isim istasyon istek iş işaret işlem işlev işlevsel itiraz iz izin kabul
+kader kafa kafes kalite kalıp kamp kanal kanıt kapı kar karakter karar kardeşlik
+karşılık kasa kat katılım kavga kayıt kaynak kazanç kenar kent kesim kılavuz kıyı kira
+kişilik kitle koku kol kolaylık komşuluk konak konu konum koruma koşul kök köşe kriz kucak
+kule kural kurs kurtuluş kuşak kutu kültür kum kuyruk kuyu lezzet liste lider liman madde
+maç mağara mahsul makam mal manzara marka masraf mektup meslek mesaj mesafe metin meydan
+mezar mezun miktar mimari moda mola motor mücadele müdahale mülk mümkün müzik nakil
+nefes nesil nesne nokta not numara nüfus oda odak ofis okul olasılık olay
+olgu onay ortak ortam oturum oyun ödeme ödül öğe öğüt öneri önlem örnek örgüt özellik
+özet özgürlük pay pazar perde pencere pişmanlık plan plaka politika puan
+rahatlık rakam rakip randevu rapor rehber rekor renk resim rol ruh rüya saat sabır saha
+sahne salon sanat sayı sayım sebep seçenek seçim ses sevgi seviye sıcak sıfır sınav sınır
+sıra sistem site slogan son sonuç sorun sorumluluk soy söz sözleşme spor sporcu şahıs
+şans şarkı şart şef şema şey şiddet şikâyet şirket şube tablo takım takvim tane
+tarz tasarım taslak tat tavır tedbir tehlike tekrar teklif telefon tema temas temel tepki
+terim tesis teslim tesadüf teşvik tip toplantı toplum tören tur tür uçuş ulaşım
+ulus umut unsur uyarı uygulama uyum uzman ücret ülke ün ünlü ürün üslup üye vakit varlık
+vatan veri vücut yaka yan yanıt yapı yarar yarış yarışma yasa yaşam yatak yatırım yazı
+yemek yer yetki yol yön yönetim yöntem yük yükseliş yüzey zaman zarar zemin zevk zirve
+# --- ek liste 34: sık fiiller (2)
+abartmak acele etmek acıtmak açıklık getirmek adlandırmak ağırlamak akıl etmek alarm vermek
+algılamak alkış tutmak araya girmek etmek aşağılamak ayağa kalkmak aydınlanmak bağlanmak
+bayram etmek becermek belirmek beslenmek bezmek bilgilendirmek boşaltmak boşanmak buharlaşmak
+buruşmak büzülmek canlanmak cezalandırmak çabalamak çağırmak çalıştırmak çarpışmak çekinmek
+çözümlemek darılmak davranmak dayanmak değinmek denk gelmek derlemek desteklemek dilenmek
+dinlendirmek direnmek doğrulamak doyurmak doymak dökülmek dönüşmek duraksamak düşürmek
+düzelmek eğlenmek emretmek endişelenmek erişmek esirgemek eskimek eşleşmek
+evlendirmek fark etmek farklılaşmak gecikmek genişlemek genişletmek gerilemek gerçekleşmek
+gerçekleştirmek gezinmek gidermek gözlemlemek güçlenmek güçlendirmek güldürmek güncellemek
+haberdar etmek hareket etmek hazırlanmak hızlanmak hızlandırmak ısrar etmek
+iddia etmek ilan etmek ilerletmek imzalamak inandırmak incelmek inşa etmek istifa etmek
+işaret etmek itiraz etmek iyileşmek kabarmak kafa yormak kalabalıklaşmak kararlaştırmak
+karşılaştırmak kaydetmek kaydolmak kaynaklanmak kısaltmak kıvranmak kolaylaştırmak
+konaklamak etmek korunmak kurtulmak kutlamak kuşkulanmak küçülmek
+küçültmek merak etmek nefret etmek ortaya çıkmak oyalanmak öğrenmek önem vermek özenmek
+paylaştırmak rahatlamak rahatlatmak rastlamak razı olmak sağlanmak sakinleşmek saklanmak
+sarılmak savunmak saygı duymak seçilmek sergilemek sevinmek sıkışmak sınıflandırmak
+sinirlenmek soğumak sorgulamak söz vermek sürüklemek şekillendirmek şüphelenmek
+tahmin etmek takip etmek tamamlanmak tanışmak tanımlamak tasarlamak tatil yapmak
+tehdit etmek etmek tercih etmek etmek tırmanmak toparlanmak tökezlemek
+tutuklamak uçurmak uğramak ulaştırmak umut etmek unutturmak utanmak uyarmak uyuşturmak
+uzlaşmak üstlenmek üzüntü duymak yadırgamak yakınlaşmak yakışmak yalanlamak yanaşmak
+yansıtmak yapılandırmak yardımlaşmak yaşatmak yavaşlamak yayılmak yaymak yayımlamak
+yazışmak yenilemek yerine getirmek yetkilendirmek yıpranmak yoğunlaşmak yorumlamak
+yönelmek yüceltmek yüzleşmek zayıflamak zenginleşmek zorlaşmak zorlanmak
+seslenmek bağırmak fısıldamak susturmak dinletmek şarkı söylemek dans etmek resim yapmak
+fotoğraf çekmek not almak ödev yapmak ders çalışmak sınava girmek mezun olmak kayıt olmak
+iş bulmak işe girmek işten çıkmak emekli olmak para kazanmak para biriktirmek
+alışveriş yapmak sıraya girmek sıra beklemek randevu almak telefon açmak mesaj atmak
+# --- ek liste 35: sık sıfat ve zarflar (2)
+acemi aç ağır başlı akıcı alışılmış anlaşılmaz ayrıntılı bağımsız bakımlı başarılı
+başarısız belirsiz bencil bilgili bitişik bozuk boş bulanık bütün canlı cömert çağdaş
+çekici çeşitli çevreci çıplak çocuksu dağınık dayanıklı değişik denk dengeli detaylı
+dikkate değer dinç doğru dolaylı doyurucu duygusal durgun duyarlı düşük eğlenceli eksik
+elverişli emin endişeli eşsiz etkileyici evrensel fakir farklı gelişmiş gereksiz gergin
+geçici gizemli görkemli güvenilir hafif hareketli hassas hayati hazırlıklı heyecanlı
+hızlı hoş ılık ılıman ıssız ideal ileri ilginç inatçı ince insancıl işlevsel içten kaba
+kalabalık kararsız karmaşık kaygılı kırgın kıskanç kızgın kibar
+komik korkak kurnaz kutsal kültürlü lüks meraklı mükemmel mutsuz neşeli nemli
+nitelikli olağan olağanüstü onurlu orta ölçülü önceki önemsiz öfkeli özenli özgün
+pişman rahatsız saf sağlıklı samimi sabırlı sabırsız sağır sakin sallantılı saygılı sevimli
+sıcacık sıkışık sinirli soğukkanlı somut soyut sorunlu suçlu suçsuz sürdürülebilir şanslı
+şanssız şefkatli şık şiddetli taşınabilir tatlı telaşlı tembel temiz tehlikesiz titiz
+toplu tutarlı tutarsız uçsuz umutlu umutsuz utangaç uysal uzman üzücü vahşi yabani yakışıklı
+yaratıcı yardımsever yasal yeterli yetersiz yoğun yorucu yumuşak yüce zahmetli zararlı zeki
+zengin zorlu zorunlu belirgin bariz açıkça net berrak bulanık sisli yağmurlu karlı rüzgârlı
+güneşli bulutlu serin ılık sıcak soğuk dondurucu kavurucu kuru nemli fırtınalı
+# --- ek liste 36: masal, çocuk kitabı ve anlatı dili
+bir varmış bir yokmuş zaman içinde masal peri dev cadı prens prenses kral kraliçe
+saray şato ejderha büyü büyücü sihir sihirli değnek hazine sandık orman köy kulübe yuva
+büyükanne büyükbaba sepet kurabiye kırmızı başlıklı kız kurt oduncu avcı keçi yavru
+yavrular tavşan kaplumbağa karınca ağustosböceği tilki karga peynir aslan fare kedi köpek
+civciv tavuk horoz ördek kuzu kuş kelebek arı çiçek bahçe tarla ırmak dere göl köprü
+kahraman macera yolculuk dostluk cesaret iyilik kötülük akıllı tembel çalışkan cimri
+cömert yalancı dürüst kıskanç mutlu üzgün korkmuş şaşkın meraklı neşeli uykulu aç tok
+oyuncak top bebek kukla uçurtma salıncak kaydırak kum havuzu oyun parkı ip atlama saklambaç
+seslenmek fısıldamak zıplamak koşturmak sarılmak gülmek ağlamak uyumak uyanmak rüya görmek
+# --- ek liste 37: spor, oyun, eğlence
+atletizm atıcılık bahis bilardo boks pateni cimnastik
+dağcılık dama deplasman eskrim final galibiyet gol golf güreş halter hentbol
+kaleci kale kayak kondisyon kupa lig madalya mağlubiyet maraton
+okçuluk olimpiyat penaltı raket satranç serbest skor şampiyon
+şampiyonluk tavla taraftar tenis turnuva voleybol
+binicilik sörf dalış kürek yelken tırmanış gezinti köyü
+bilmece oyunu okey iskambil zar piyon şah vezir
+tahterevalli lunapark palyaço sihirbaz
+# --- ek liste 38: müzik, sanat, medya
+akort bateri def flüt kaval keman klarnet koro
+kemençe mandolin melodi mızıka nota orkestra piyano ritim saz
+trompet ud zurna besteci beste güfte nakarat klip
+tuval karikatür poster
+heykeltıraş şair öykü
+seyirci
+bülteni reklam izleyici
+yazarı
+# --- ek liste 39: malzeme, araç gereç, alet
+alüminyum balta beton bulon çimento
+file iplik karton kiremit
+kurşun matkap metal mozaik parke pense porselen
+sac seramik sicim somun tutkal vida yapıştırıcı
+zımpara kanca kelepçe menteşe pervaz mala arabası
+kontrplak sunta vana conta filtre pompa
+akü duy
+# --- ek liste 40: bina ve ev bölümleri
+antre cumba katı çardak
+odası sofa
+baca kapısı kömürlük odunluk sundurma
+zili malikleri
+# --- ek liste 41: tarım, köy, çiftlik
+anız bağbozumu biçerdöver çapa çayır
+ekin gübre harman kovan mera nadas otlak
+pulluk sulama sera tırmık üretici yem zeytinlik
+fındıklık evi değirmen hayvancılık arıcılık balıkçılık ormancılık
+sürü sağım ürünleri
+# --- ek liste 42: enerji, çevre, iklim
+egzoz fosil
+enerjisi kirliliği değişikliği karbon kirlilik
+mazot motorin nükleer petrol gazı kaynakları
+yenilenebilir ayrıştırma ağaçlandırma dikimi
+kesintisi
+# --- ek liste 43: ölçü, sayı, zaman
+desimetre dörtte
+kesir ondalık
+altıncı yedinci sekizinci dokuzuncu onuncu
+alacakaranlık
+öbür evvelki
+# --- ek liste 44: duygular ve durumlar
+acıma ayıp bıkkınlık gurur kırıklığı hayranlık hüzün
+kıskançlık kin kızgınlık minnet
+rahatlama şaşkınlık şefkat şüphe tedirginlik umutsuzluk
+utanç güvensizlik moral
+sıkılmış
+# --- ek liste 45: sık fiiller (3)
+ağartmak ağırlaşmak akla alevlenmek
+anımsatmak aranmak aşınmak atıştırmak avutmak ayaklanmak
+ayırt bakakalmak
+beğenilmek belgelemek benimsemek bezemek bilgilenmek boşa
+buruşturmak büyülenmek cezbetmek coşturmak
+çalkalanmak çarpılmak çekişmek çekiştirmek çıldırmak çınlamak
+çoğaltmak dağıtılmak daraltmak değiştirilmek
+demlemek denetlenmek dengelenmek devralmak dikilmek dilimlemek dinlenilmek
+dirilmek dizilmek doğranmak dolandırmak doldurulmak donanmak
+dövülmek durulmak düğümlemek dürtmek düşünülmek düzleştirmek
+eğelemek eğlendirmek elenmek emeklemek eritmek esnemek eşelemek
+evcilleştirmek filizlenmek fırlamak geçindirmek geçinmek gerinmek
+göçmek görünmek gözetmek
+harmanlamak hırpalamak ılıklaşmak ısmarlamak iğrenmek ilgilendirmek
+ilişkilendirmek imrenmek indirilmek inlemek insanlaşmak irkilmek
+işlenmek işletmek itişmek iyileştirilmek kamaşmak
+kapışmak karalamak kasılmak katılaşmak kaynaşmak kazılmak kekelemek
+kenetlenmek kıpırdanmak kırışmak kıskandırmak kışkırtmak kıvrılmak kızdırmak
+kollamak koparmak kovmak köpürmek kurtarılmak
+kuşatmak küçümsemek lekelenmek mahcup
+nefeslenmek oyalamak ovmak övünmek parçalamak patlatmak
+pekiştirmek salıvermek saplanmak sararmak
+savurmak sayıklamak sekmek sendelemek
+sıyırmak sızlanmak silkelemek sinmek sırıtmak
+sokulmak solmak sömürmek sulandırmak susatmak süzmek şımarmak şişirmek
+tabi tartışılmak taşıtmak tekmelemek temizlenmek
+tepelemek tıkırdamak titretmek tokalaşmak topallamak tozlanmak tutuşturmak
+tükürmek uğurlamak ulaşılmak uyuklamak uzlaştırmak üşenmek ürkmek
+vazgeçirmek yakıştırmak yalamak yanıltmak yapışmak
+yaralamak yargılamak yaşlandırmak yatıştırmak yayınlamak yeşermek yığmak
+yıpratmak yontmak yuvarlanmak yüzdürmek zıplatmak
+# --- ek liste 46: haber, dünya, bilim metinlerinde sık kelimeler
+araştırmacı asteroit
+insanı grubu deneysel gökada
+gözlemevi sistemi jeoloji kıta kuyruklu mikroskop mühendislik
+parlamento sonda teleskop
+istasyonu mekiği toplantısı astronot astronomi
+merkür venüs mars jüpiter satürn uranüs neptün plüton tutulması
+kraterler krater yerçekimi kütle atom molekül
+hücre gen dna evrim dinozor öncesi medeniyet uygarlık imparatorluk padişah
+sultan kuşatma fetih savaşı bağımsızlık
+# --- ek liste 47: tüketici, sözleşme ve hak metinlerinde gündelik kelimeler
+belgesi alma
+hakkı hakları heyeti
+kupon çeki
+gizlilik saklama silme
+kullanma kullanım kılavuzu
+# --- ek liste 48: genel sık kelimeler (A-Z, 2)
+abartı acemilik acente açgözlü açılış adak
+adaş adli ağlama böceği ahenk ahlaki ahtapot ak akbaba
+akıcılık akik akrep aksak aksi aksilik alaca
+alçı algı teri allık amatör amblem
+anadil anayol
+antik arabacı ardıç arena argo kovanı
+arsız artist asa aşağılık
+aşina atamak atasözü ateşli atılgan atlet atmaca avare
+ışığı izi ayakkabıcı ayaklık aydın aygır aygıt aylak
+ayyaş azap azgın azim azimli babacan badana bağcı bağımlı bağır
+bahane bahşiş bakımevi dükkânı baldır
+teknesi bando barometre baskın
+başak başhekim başmüdür başparmak batak batıl
+baygın bayındır tatili bazlama ağrısı
+belalı beleş bembeyaz benek besin
+fırtınası bıçkı biçki yarışması
+binbaşı arada biraderler birahane biyografi bohça
+bolca bomboş aynası
+bozkır bölme budak bugünkü buharlı bukle
+bunalım burç burgu bursa büklüm bülbül büst
+büyükşehir büyüteç kenarı cambaz avlusu sıkıntısı canavar
+casus cazip cebir cehalet cennet ceset
+ciddi bakımı civar cop
+yapısı çağlayan çakı çakıl çalıkuşu çalım çalışkanlık ağacı
+çamaşırhane çapraz çarpı bahçesi
+çehre çekirge çelenk çengel çete
+çevik çıban çığlık çıkmaz çıngırak çiftçilik çiğdem
+çimdik çini çirkinlik çivit
+çoğul katlı çorak çökelek çöplük otu
+dalkavuk damak eti masası
+darbe dargın dayak dehşet
+demet demirci deneyimli denizaltı denizci depolama derbi
+derman ortağı deterjan devasa
+dikkatlice dinamik fırçası diyar dizüstü
+yürüyüşü doğurgan doyum dökme
+dönemeç durgunluk kâğıdı saati
+duyarlılık düğüm düdüklü düş dünür
+ebru efsane eğe ehil eksen feneri
+elektrikli emanetçi enayi endüstri engebe
+erişte esans esinti esnek arısı
+etli etobur işi eyer ezber ezgi faça
+fal fanila far fatih felek alayı ferah
+fesleğen fıskiye fidanlık firari
+fitil fiyonk fosforlu fren sahası gaga galoş
+bayii gazino kondu gecekondu gelincik gelinlik yolculuğu
+gezgin gıdıklamak
+kuşlar mavisi gökdelen gölet gönül görgü gösteriş
+doktoru gözlükçü gravür gurbet
+gözlüğü güneşlik güreşçi güzergâh hacı hafız
+halka hamak hasır
+hasret hatır defteri havai fişek havalandırma
+hayalet arkadaşı haylaz
+hendek heybe hırdavat
+hıyar hindi hisar hudut konağı
+ılgın ırgat ısırgan ıssızlık ışıklandırma çamaşırı
+içgüdü içki idman ikindi ilaçlı
+inat inci
+dili işgünü işkembe işportacı
+izci jilet kaban kadeh
+fincanı kahvehane kakao kalkan
+kamış kamyoncu kanguru kapan
+karakış karantina karargâh karavan kardelen kareli
+karides kartpostal
+kaşkol kayalık kaygan
+keklik kene kese
+keser keşiş kılıç kırlangıç kırtasiye kısrak kışla
+kızak kızılcık kibrit kilim kitapçı
+kolej kompozisyon
+kopya korna bandı koza kör
+köşk kramp kumanya kumpir
+kundura kurdele kuruyemiş kuşburnu
+kuyumcu küp kütük
+leke leylak
+muhtarı makara manda
+marmelat örtüsü mayonez
+melek meltem meşale
+meyhane mızrak minare
+mücevher mürekkep nazar boncuğu
+obje çantası
+orkide ormancı otoban ozan
+örgü ötücü pabuç pala
+panjur
+pastırma paten pelikan
+peruk pestil
+pipo piyango karakolu
+püskül rafadan
+gülü kulesi kahvaltısı kurutma
+salkım saman samanyolu
+sap sapan sedir
+sopa
+şişesi sümbül sürahi sürgü süs
+şarap hatları şerbet şezlong
+şömine tahıl takunya tandır
+tartı tekerlek
+tokat tozluk turta tuzluk
+tütün ufuk uşak
+yay yazıhane
+yemlik yeşillik ayrımı yosun
+yufka yumruk yüksük
+zümrüt
+# --- ek liste 49: denemelerde işaretlenen gündelik kelimeler
+okur okurluk üzeri yönelik kod fiil parantez virgül tire stil zihinsel kronik hariç
+yerleşik dikdörtgen döngü birleşik görsel arayüz çevrimdışı çevrimiçi lisans alıntı komut
+bileşen noktalama bağlam kurgusal girdi çıktı tıklamak vurgu vurgulamak sıfat özne yüklem
+açılım mantık mantıklı isabetli ufak güncel detay mantıksal mekanik fena nadiren
+muhtemelen yeterince gayet klasör hukuki istisna mecaz süreç duru devrik dahi iyelik medya
+diyalog makul talimat şablon kapsam hassasiyet kategori hitap profil kısaltma deyim analiz
+akademik panel keskin gösterge hiyerarşi sunum çekim heceleme tekil
+meteoroloji meteorolojik kurgu gerçeklik anlatıcı örgüsü
+# --- ek liste 50: haber ve dergi dilinde sık kelimeler
+ağırlıklı aktivist araştırması alternatif
+amaçlamak analist artırım
+ayrıcalık bağlamında açısı görüşmesi başarım
+başlatılmak başvurucu bedelsiz belirleyici benzersiz beyanat bilanço
+boyutu bütünlük coğrafi
+çelişki çevresel yönlü demokratik
+destekleme diplomasi diplomatik noktası düzenleme eleştiri
+eleştirmek eğilim ekonomik endüstriyel eşitsizlik etkileşim
+eşitliği gelişim geleneksel girişimci gözlemci
+ihlali harekât hedeflemek ideoloji
+iletişim istikrar kamuoyu karşıt
+koalisyon konsey kültürel liderlik
+maliyet muhalif müzakere ortaklık öncelik önder öngörü
+özerk politik reform sağlayıcı
+savunma sembol soruşturma süreklilik şeffaflık tanım
+tarafsız tartışmalı temsil temsilci uzlaşı
+verimli verimlilik yapılanma yaptırım yasama yatırımcı yayılma yenilik
+yoğunluk yönelim yürütme
+sivil kuruluşu üyesi açıklaması
+# --- ek liste 51: sağlık ve bilim yazılarında sık kelimeler
+alerjik antikor bulaş damlacık etken
+genetik aşısı kalıtım kuluçka mutasyon
+yöntemi toksik görüşü yayılım
+hipotez kanıtlanmış kuram
+örneklem bulgular
+uzmanı diyetisyen fizyoterapi psikolojik ruhsal bedensel
+görme otizm disleksi
+veren yakını taburcu yatış sevk
+# --- ek liste 52: masal ve öykü dilinde sık kelimeler
+gülüşmek fısıldaşmak şaşakalmak sevinçle üzüntüyle neşeyle
+korkuyla merakla telaşla heyecanla sessizce usulca ansızın
+derken günlerden ertesi
+kulübecik kovuğu yuvası deliği meydanı
+yamaç çimenlik
+büyükannecik dedecik anneciğim babacığım yavrucuk kuzucuk ufaklık minik küçücük kocaman
+upuzun kapkara masmavi yemyeşil sapsarı kıpkırmızı tertemiz güzelcecik
+# --- ek liste 53: büro, yazışma, belge (gündelik düzeyde)
+ajanda formu belgelik notu
+föy kaşe
+pano pergel raptiye
+tükenmez tahtası tutanak
+tarayıcı faks
+# --- ek liste 54: suç, güvenlik, hukuk (gündelik düzeyde)
+tıp cinayet davacı davalı gasp
+kamerası hüküm kaçak kaçakçılık
+mağdur mahkûm cezası sorgu
+şikâyetçi şüpheli tutuklama tutuklu yakalama yaralı zanlı
+zorbalık taciz istismar kararı ihbar
+saldırmak saldırı saldırgan tecavüz kundaklama
+# --- ek liste 55: din, gelenek, kutlama
+cemevi ezan hac ilahi
+bayramı sadaka tesbih türbe
+vaaz zekât fitre teravih mübarek müezzin papaz
+gecesi kesme sağdıç
+başsağlığı yas yıldönümü
+sevgililer babalar öğretmenler
+arife
+# --- ek liste 56: coğrafya ve yer adları dışındaki genel kavramlar
+kara delta doruk eğim enlem boylam ekvator
+havza kanyon karasal küre magma
+plato sıradağ yarımada ölçeği
+yıldızı haritası eyalet
+yoğunluğu
+# --- ek liste 57: temizlik, onarım, ev işleri
+tozu cila dezenfektan dezenfektanı
+malzemesi çıkarıcı yumuşatıcı
+askılık kurutmak
+tozunu
+tesisatı tıkanıklık sızıntı
+kapsamı vidalamak
+# --- ek liste 58: kişilik ve davranış sıfatları
+ağırbaşlı alçakgönüllü anlayışlı aptal cana
+çılgın dalgın girişken güler yüzlü
+kalpli kindar
+olgun özgüvenli sakar sevecen şakacı
+tutumlu vefalı yaramaz yetenekli düşünceli
+savurgan tutucu yenilikçi alıngan kırılgan
+# --- ek liste 59: sık fiiller (4)
+abanmak acıktırmak kazandırmak
+alıkoymak edinmek aracılık ayrım
+bağışlanmak başa bekletmek
+belirginleşmek bilinçlenmek birleştirilmek
+böbürlenmek çekip
+dile kırıklığına
+elde eşlik
+göreve
+gözden hakkını
+bulunmak
+birliği yaramak itibar
+kontrolü

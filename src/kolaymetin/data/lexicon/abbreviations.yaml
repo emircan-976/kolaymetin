@@ -1,0 +1,151 @@
+# Kısaltmalar (KD-K03, cümle bölme ve hece sayımı)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# kisaltma: yazılış; noktalı olanlar cümle bölmede kullanılır
+# acilim: uzun biçim; okunus: hece sayımı için okunuş (boşsa harf harf okunur)
+# bilinir: true → halkın çok iyi bildiği kısaltma; KD-K03 uyarı vermez
+- {kisaltma: "Dr.", acilim: doktor, okunus: doktor}
+- {kisaltma: "Prof.", acilim: profesör, okunus: profesör}
+- {kisaltma: "Doç.", acilim: doçent, okunus: doçent}
+- {kisaltma: "Yrd.", acilim: yardımcı, okunus: yardımcı}
+- {kisaltma: "Öğr.", acilim: öğretim, okunus: öğretim}
+- {kisaltma: "Gör.", acilim: görevlisi, okunus: görevlisi}
+- {kisaltma: "Arş.", acilim: araştırma, okunus: araştırma}
+- {kisaltma: "Uzm.", acilim: uzman, okunus: uzman}
+- {kisaltma: "Op.", acilim: operatör, okunus: operatör}
+- {kisaltma: "Av.", acilim: avukat, okunus: avukat}
+- {kisaltma: "Müd.", acilim: müdürlüğü, okunus: müdürlüğü}
+- {kisaltma: "Md.", acilim: müdürlüğü, okunus: müdürlüğü}
+- {kisaltma: "Bşk.", acilim: başkanlığı, okunus: başkanlığı}
+- {kisaltma: "Gn.", acilim: genel, okunus: genel}
+- {kisaltma: "Gnl.", acilim: genel, okunus: genel}
+- {kisaltma: "Sn.", acilim: sayın, okunus: sayın}
+- {kisaltma: "Sy.", acilim: sayın, okunus: sayın}
+- {kisaltma: "Bay.", acilim: bay, okunus: bay, bilinir: true}
+- {kisaltma: "Cad.", acilim: caddesi, okunus: caddesi, bilinir: true}
+- {kisaltma: "Cd.", acilim: caddesi, okunus: caddesi, bilinir: true}
+- {kisaltma: "Sok.", acilim: sokağı, okunus: sokağı, bilinir: true}
+- {kisaltma: "Sk.", acilim: sokağı, okunus: sokağı, bilinir: true}
+- {kisaltma: "Mah.", acilim: mahallesi, okunus: mahallesi, bilinir: true}
+- {kisaltma: "Mh.", acilim: mahallesi, okunus: mahallesi, bilinir: true}
+- {kisaltma: "Blv.", acilim: bulvarı, okunus: bulvarı, bilinir: true}
+- {kisaltma: "Bulv.", acilim: bulvarı, okunus: bulvarı, bilinir: true}
+- {kisaltma: "Apt.", acilim: apartmanı, okunus: apartmanı, bilinir: true}
+- {kisaltma: "Ap.", acilim: apartmanı, okunus: apartmanı, bilinir: true}
+- {kisaltma: "Kat.", acilim: kat, okunus: kat, bilinir: true}
+- {kisaltma: "No.", acilim: numara, okunus: numara, bilinir: true}
+- {kisaltma: "Nu.", acilim: numara, okunus: numara, bilinir: true}
+- {kisaltma: "Tel.", acilim: telefon, okunus: telefon, bilinir: true}
+- {kisaltma: "Fax.", acilim: faks, okunus: faks, bilinir: true}
+- {kisaltma: "Faks.", acilim: faks, okunus: faks, bilinir: true}
+- {kisaltma: "vb.", acilim: ve benzeri, okunus: ve benzeri}
+- {kisaltma: "vs.", acilim: vesaire, okunus: vesaire}
+- {kisaltma: "vd.", acilim: ve diğerleri, okunus: ve diğerleri}
+- {kisaltma: "bkz.", acilim: bakınız, okunus: bakınız}
+- {kisaltma: "Bkz.", acilim: bakınız, okunus: bakınız}
+- {kisaltma: "örn.", acilim: örneğin, okunus: örneğin}
+- {kisaltma: "Örn.", acilim: örneğin, okunus: örneğin}
+- {kisaltma: "a.g.e.", acilim: adı geçen eser, okunus: adı geçen eser}
+- {kisaltma: "s.", acilim: sayfa, okunus: sayfa}
+- {kisaltma: "s.a.s.", acilim: "sallallahu aleyhi ve sellem (Allah'ın selamı onun üzerine olsun)", okunus: sallallahu aleyhi ve sellem}
+- {kisaltma: "s.a.v.", acilim: "sallallahu aleyhi ve sellem (Allah'ın selamı onun üzerine olsun)", okunus: sallallahu aleyhi ve sellem}
+- {kisaltma: "a.s.", acilim: "aleyhisselam (selam onun üzerine olsun)", okunus: aleyhisselam}
+- {kisaltma: "r.a.", acilim: "radıyallahu anh (Allah ondan razı olsun)", okunus: radıyallahu anh}
+- {kisaltma: "sf.", acilim: sayfa, okunus: sayfa}
+- {kisaltma: "yy.", acilim: yüzyıl, okunus: yüzyıl}
+- {kisaltma: "M.Ö.", acilim: milattan önce, okunus: milattan önce}
+- {kisaltma: "M.S.", acilim: milattan sonra, okunus: milattan sonra}
+- {kisaltma: "T.C.", acilim: Türkiye Cumhuriyeti, okunus: te ce, bilinir: true}
+- {kisaltma: "A.Ş.", acilim: anonim şirketi, okunus: a şe, bilinir: true}
+- {kisaltma: "Ltd.", acilim: limitet, okunus: limitet, bilinir: true}
+- {kisaltma: "Şti.", acilim: şirketi, okunus: şirketi, bilinir: true}
+- {kisaltma: "Tic.", acilim: ticaret, okunus: ticaret}
+- {kisaltma: "San.", acilim: sanayi, okunus: sanayi}
+- {kisaltma: "İnş.", acilim: inşaat, okunus: inşaat}
+- {kisaltma: "Koop.", acilim: kooperatifi, okunus: kooperatifi}
+- {kisaltma: "Der.", acilim: derneği, okunus: derneği}
+- {kisaltma: "Vak.", acilim: vakfı, okunus: vakfı}
+- {kisaltma: "Üniv.", acilim: üniversitesi, okunus: üniversitesi}
+- {kisaltma: "Hst.", acilim: hastanesi, okunus: hastanesi}
+- {kisaltma: "Böl.", acilim: bölümü, okunus: bölümü}
+- {kisaltma: "Şb.", acilim: şube, okunus: şube}
+- {kisaltma: "Yön.", acilim: yönetmelik, okunus: yönetmelik}
+- {kisaltma: "Mad.", acilim: madde, okunus: madde}
+- {kisaltma: "Mad", acilim: madde, okunus: madde}
+- {kisaltma: TBMM, acilim: Türkiye Büyük Millet Meclisi, okunus: te be me me}
+- {kisaltma: TC, acilim: Türkiye Cumhuriyeti, okunus: te ce, bilinir: true}
+- {kisaltma: TL, acilim: Türk lirası, okunus: te le, bilinir: true}
+- {kisaltma: SGK, acilim: Sosyal Güvenlik Kurumu, okunus: se ge ke}
+- {kisaltma: TÜİK, acilim: Türkiye İstatistik Kurumu, okunus: tüik}
+- {kisaltma: AFAD, acilim: Afet ve Acil Durum Yönetimi Başkanlığı, okunus: afad}
+- {kisaltma: YSK, acilim: Yüksek Seçim Kurulu, okunus: ye se ke}
+- {kisaltma: İSKİ, acilim: İstanbul Su ve Kanalizasyon İdaresi, okunus: iski}
+- {kisaltma: ASKİ, acilim: Ankara Su ve Kanalizasyon İdaresi, okunus: aski}
+- {kisaltma: İZSU, acilim: İzmir Su ve Kanalizasyon İdaresi, okunus: izsu}
+- {kisaltma: BUSKİ, acilim: Bursa Su ve Kanalizasyon İdaresi, okunus: buski}
+- {kisaltma: MEB, acilim: Millî Eğitim Bakanlığı, okunus: meb}
+- {kisaltma: YÖK, acilim: Yükseköğretim Kurulu, okunus: yök}
+- {kisaltma: ÖSYM, acilim: "Ölçme, Seçme ve Yerleştirme Merkezi", okunus: ö se ye me}
+- {kisaltma: KPSS, acilim: Kamu Personeli Seçme Sınavı, okunus: ke pe se se}
+- {kisaltma: TOKİ, acilim: Toplu Konut İdaresi, okunus: toki}
+- {kisaltma: İŞKUR, acilim: Türkiye İş Kurumu, okunus: işkur}
+- {kisaltma: KVKK, acilim: Kişisel Verilerin Korunması Kanunu, okunus: ke ve ke ke}
+- {kisaltma: KDV, acilim: katma değer vergisi, okunus: ke de ve}
+- {kisaltma: ÖTV, acilim: özel tüketim vergisi, okunus: ö te ve}
+- {kisaltma: MTV, acilim: motorlu taşıtlar vergisi, okunus: me te ve}
+- {kisaltma: GİB, acilim: Gelir İdaresi Başkanlığı, okunus: gib}
+- {kisaltma: TCKN, acilim: T.C. kimlik numarası, okunus: te ce ka ne}
+- {kisaltma: TCK, acilim: Türk Ceza Kanunu, okunus: te ce ke}
+- {kisaltma: TMK, acilim: Türk Medeni Kanunu, okunus: te me ke}
+- {kisaltma: CMK, acilim: Ceza Muhakemesi Kanunu, okunus: ce me ke}
+- {kisaltma: HMK, acilim: Hukuk Muhakemeleri Kanunu, okunus: he me ke}
+- {kisaltma: İİK, acilim: İcra ve İflas Kanunu, okunus: i i ke}
+- {kisaltma: ASHB, acilim: Aile ve Sosyal Hizmetler Bakanlığı, okunus: a se he be}
+- {kisaltma: SYDV, acilim: Sosyal Yardımlaşma ve Dayanışma Vakfı, okunus: se ye de ve}
+- {kisaltma: SYDGM, acilim: Sosyal Yardımlar Genel Müdürlüğü, okunus: se ye de ge me}
+- {kisaltma: EYT, acilim: emeklilikte yaşa takılanlar, okunus: e ye te}
+- {kisaltma: ÇAYKUR, acilim: Çay İşletmeleri Genel Müdürlüğü, okunus: çaykur}
+- {kisaltma: PTT, acilim: Posta ve Telgraf Teşkilatı, okunus: pe te te, bilinir: true}
+- {kisaltma: TRT, acilim: Türkiye Radyo ve Televizyon Kurumu, okunus: te re te, bilinir: true}
+- {kisaltma: THY, acilim: Türk Hava Yolları, okunus: te he ye, bilinir: true}
+- {kisaltma: TCDD, acilim: Türkiye Cumhuriyeti Devlet Demiryolları, okunus: te ce de de}
+- {kisaltma: KGM, acilim: Karayolları Genel Müdürlüğü, okunus: ke ge me}
+- {kisaltma: DSİ, acilim: Devlet Su İşleri, okunus: de se i}
+- {kisaltma: MGM, acilim: Meteoroloji Genel Müdürlüğü, okunus: me ge me}
+- {kisaltma: MHRS, acilim: Merkezi Hekim Randevu Sistemi, okunus: me he re se}
+- {kisaltma: HES, acilim: Hayat Eve Sığar, okunus: hes}
+- {kisaltma: ASM, acilim: aile sağlığı merkezi, okunus: a se me}
+- {kisaltma: TSM, acilim: toplum sağlığı merkezi, okunus: te se me}
+- {kisaltma: ÇHC, acilim: Çocuk ve Halk Sağlığı, okunus: çe he ce}
+- {kisaltma: AVM, acilim: alışveriş merkezi, okunus: a ve me, bilinir: true}
+- {kisaltma: ATM, acilim: bankamatik, okunus: a te me, bilinir: true}
+- {kisaltma: IBAN, acilim: uluslararası banka hesap numarası, okunus: iban}
+- {kisaltma: PDF, acilim: belge biçimi, okunus: pe de fe}
+- {kisaltma: SMS, acilim: kısa mesaj, okunus: se me se, bilinir: true}
+- {kisaltma: TV, acilim: televizyon, okunus: te ve, bilinir: true}
+- {kisaltma: LPG, acilim: sıvılaştırılmış petrol gazı, okunus: le pe ge}
+- {kisaltma: KOBİ, acilim: küçük ve orta büyüklükteki işletme, okunus: kobi}
+- {kisaltma: STK, acilim: sivil toplum kuruluşu, okunus: se te ke}
+- {kisaltma: BM, acilim: Birleşmiş Milletler, okunus: be me}
+- {kisaltma: AB, acilim: Avrupa Birliği, okunus: a be}
+- {kisaltma: DSÖ, acilim: Dünya Sağlık Örgütü, okunus: de se ö}
+- {kisaltma: UNICEF, acilim: Birleşmiş Milletler Çocuklara Yardım Fonu, okunus: yunisef}
+- {kisaltma: ÇED, acilim: çevresel etki değerlendirmesi, okunus: çed}
+- {kisaltma: İBB, acilim: İstanbul Büyükşehir Belediyesi, okunus: i be be}
+- {kisaltma: ABB, acilim: Ankara Büyükşehir Belediyesi, okunus: a be be}
+- {kisaltma: İBŞB, acilim: İzmir Büyükşehir Belediyesi, okunus: i be şe be}
+- {kisaltma: UKOME, acilim: Ulaşım Koordinasyon Merkezi, okunus: ukome}
+- {kisaltma: İETT, acilim: İstanbul Elektrik Tramvay ve Tünel İşletmeleri, okunus: i e te te}
+- {kisaltma: EGO, acilim: "Elektrik, Havagazı ve Otobüs İşletmesi", okunus: ego}
+- {kisaltma: ESHOT, acilim: "Elektrik, Su, Havagazı, Otobüs ve Troleybüs İşletmesi", okunus: eşot}
+- {kisaltma: km, acilim: kilometre, okunus: kilometre, bilinir: true}
+- {kisaltma: kg, acilim: kilogram, okunus: kilogram, bilinir: true}
+- {kisaltma: m², acilim: metrekare, okunus: metrekare, bilinir: true}
+- {kisaltma: lt, acilim: litre, okunus: litre, bilinir: true}
+- {kisaltma: cm, acilim: santimetre, okunus: santimetre, bilinir: true}
+- {kisaltma: mm, acilim: milimetre, okunus: milimetre, bilinir: true}
+# Aynı yazılışta bir Türkçe kelime de olan kısaltmalar (büyük harfle yazılınca kısaltma sayılır)
+- {kisaltma: ABD, acilim: Amerika Birleşik Devletleri, okunus: a be de, bilinir: true}
+- {kisaltma: ÇİMER, acilim: Cumhurbaşkanlığı İletişim Merkezi, okunus: çimer}
+- {kisaltma: SUT, acilim: Sağlık Uygulama Tebliği, okunus: sut}
+- {kisaltma: KİT, acilim: Kamu İktisadi Teşebbüsü, okunus: kit}
+- {kisaltma: SİT, acilim: korunan tarihî ya da doğal alan, okunus: sit}

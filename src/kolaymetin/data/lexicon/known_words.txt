@@ -1,0 +1,14 @@
+# Uzun ama halkın iyi bildiği kelimeler ("bilinir" listesi)
+# Lisans: CC BY 4.0 — kolaymetin katkıcıları
+# KD-K04 (uzun kelime) ve KD-K06 (seyrek kelime) bu kelimeler için uyarı vermez.
+# Belediyeler kendi listelerini --sozluk dosyasındaki "bilinen" bölümüyle ekleyebilir.
+belediye büyükşehir üniversite televizyon bilgisayar cumhurbaşkanı cumhuriyet hastane ambulans otomobil apartman
+kütüphane buzdolabı çamaşır makinesi süpermarket alışveriş merkezi otobüs minibüs tramvay havalimanı otogar
+cumhurbaşkanlığı valilik kaymakamlık muhtarlık emniyet jandarma itfaiye karakol
+öğretmen öğrenci anaokulu ilkokul ortaokul lise
+doğalgaz elektrik internet telefon cep telefonu
+pazartesi cumartesi çarşamba perşembe
+ağustos haziran temmuz
+e-devlet e-posta
+yardımlaşma dayanışma
+olabildiğince mümkün

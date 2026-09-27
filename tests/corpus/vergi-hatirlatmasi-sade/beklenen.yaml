@@ -1,0 +1,28 @@
+# Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
+profil: kolay-dil
+tetiklenmeli:
+- kural: KD-K01
+  cumle: 1
+  ifade: Emlak
+- kural: KD-C01
+  cumle: 2
+- kural: KD-C03
+  cumle: 3
+  ifade: ödenir
+- kural: KD-K04
+  cumle: 4
+  ifade: ödeyebilirsiniz
+- kural: KD-C04
+  cumle: 10
+  ifade: bırakmayın
+tetiklenmemeli:
+- KD-C02
+- KD-C05
+- KD-C07
+- KD-C11
+- KD-K02
+- KD-K03
+- KD-K07
+- KD-B05
+- KD-B06
+- KD-B07
