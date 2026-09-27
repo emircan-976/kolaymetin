@@ -17,6 +17,9 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
   Denetim sürerken sonuç paneli `aria-busy`. Dosya okunurken "Dosya okunuyor…" yazar.
 - HTML rapor: künyede dörtlü, gömülü sekme simgesi.
 - Stil rehberine "İşaret: dörtlü" bölümü. README'de hareketli işaret görseli ve künyede logo.
+- Tanıtım filmi: logoda dörtlü (açılışta ve kapanışta işaretler basılır, bir tur döner), denetim
+  sırasında Denetle düğmesinde dönen dörtlü. README'deki GIF ve MP4 yeniden kaydedildi; üretim
+  komutları `tanitim/README.md` içinde.
 
 ### Belgeler: README (2026-09-27)
 

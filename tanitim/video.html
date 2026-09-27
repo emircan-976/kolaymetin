@@ -58,6 +58,13 @@ body.onizleme #sahne { transform-origin: center; }
 .mk { background-image: linear-gradient(var(--sari), var(--sari)); background-repeat: no-repeat;
   background-position: 0 86%; background-size: 0% 60%; }
 .ik { width: 1em; height: 1em; fill: currentColor; shape-rendering: crispEdges; vertical-align: -.12em; }
+/* dörtlü: projenin işareti (■ hata, □ uyarı, ○ bilgi, boş kare). Konumlar dortluCiz() ile, zamana bağlı. */
+.dortlu { display: block; flex: none; overflow: visible; shape-rendering: crispEdges; }
+.dortlu .im { fill: currentColor; }
+.dortlu .im--hata { color: var(--kirmizi); }
+.dortlu .im--uyari { color: var(--murekkep); }
+.dortlu .im--bilgi { color: var(--mavi); }
+.dortlu--tek .im { color: inherit; }
 .px { shape-rendering: crispEdges; display: block; }
 .damga { color: var(--kirmizi); border: 9px solid var(--kirmizi); padding: 4px 30px 10px; font-weight: 800;
   font-size: 78px; letter-spacing: .01em; white-space: nowrap; line-height: 1.1;
@@ -135,7 +142,7 @@ body.onizleme #sahne { transform-origin: center; }
       <div class="a" id="m-baslikcizgi" style="left:0;top:186px;width:1920px;height:7px;border-top:2px solid var(--murekkep);border-bottom:2px solid var(--murekkep);transform-origin:0 0"></div>
       <div class="a" id="m-arac" style="left:80px;top:214px;display:flex;gap:20px;align-items:center">
         <div class="dugme" style="width:230px;justify-content:space-between">Kolay Dil <svg class="ik"><use href="#i-asagi"/></svg></div>
-        <div class="dugme dugme--birincil" id="m-denetle"><svg class="ik"><use href="#i-denetle"/></svg>Denetle</div>
+        <div class="dugme dugme--birincil" id="m-denetle"><svg class="ik" id="m-denetle-ik"><use href="#i-denetle"/></svg><svg id="m-denetle-dortlu" class="ik dortlu dortlu--tek" style="display:none" viewBox="0 0 16 16"><use class="im im--hata" href="#i-dortlu-hata"/><use class="im im--uyari" href="#i-dortlu-uyari"/><use class="im im--bilgi" href="#i-dortlu-bilgi"/></svg>Denetle</div>
         <div class="etiket" style="margin-left:8px">Profil: Kolay Dil (en sıkı)</div>
       </div>
       <div class="a" id="m-kagit" style="left:80px;top:300px;width:1140px;height:420px;border:3px solid var(--murekkep);background:var(--kagit)">
@@ -224,8 +231,13 @@ body.onizleme #sahne { transform-origin: center; }
 
     <!-- ortak logo (3, 4-5 ve 11. bölümler) -->
     <div class="a kalin" id="logo" style="left:0;top:0;font-size:260px;line-height:1;letter-spacing:-.045em;white-space:nowrap;transform-origin:0 0;visibility:hidden">
-      <span id="logo-kalem" class="a" style="left:-.03em;top:.5em;height:.36em;background:var(--sari);transform-origin:0 50%"></span>
-      <span id="logo-harfler" style="position:relative"></span>
+      <span id="logo-ic" style="display:inline-flex;align-items:baseline;gap:.28em">
+        <svg id="logo-dortlu" class="dortlu" width="224" height="224" viewBox="0 0 16 16"><use class="im im--hata" href="#i-dortlu-hata"/><use class="im im--uyari" href="#i-dortlu-uyari"/><use class="im im--bilgi" href="#i-dortlu-bilgi"/></svg>
+        <span style="position:relative;display:inline-block">
+          <span id="logo-kalem" class="a" style="left:-.03em;top:.5em;height:.36em;background:var(--sari);transform-origin:0 50%"></span>
+          <span id="logo-harfler" style="position:relative"></span>
+        </span>
+      </span>
     </div>
   </div>
 
@@ -511,6 +523,36 @@ const CUMLE = "Müracaatların 01.12.2026 tarihinden itibaren ivedilikle yapılm
   };
 }
 
+/* ---------------------------------------------------------------- dörtlü (uygulamadaki .dortlu--doner ile aynı)
+   Kayar yapboz: 0,2 sn'lik 12 adım; her adımda bir işaret saat yönündeki boş hücreye 9 piksel kayar
+   (adımın ilk %60'ında, 3 karede). e: canlandırmanın başından bu yana geçen süre (sn). */
+const DORTLU_HUCRE = [[0, 0], [9, 0], [9, 9], [0, 9]];
+const DORTLU_EV = { hata: 0, uyari: 1, bilgi: 3 };
+const DORTLU_SIRA = ["uyari", "hata", "bilgi"];
+function dortluYer(e) {
+  const out = { hata: [0, 0], uyari: [0, 0], bilgi: [0, 0] };
+  if (!(e > 0 && e < 2.4)) return out;
+  const adim = Math.floor(e / 0.2), f = (e - adim * 0.2) / 0.2, k = Math.floor(Math.min(1, f / 0.6) * 3) / 3;
+  const yer = { ...DORTLU_EV };
+  for (let i = 0; i < adim; i++) { const ad = DORTLU_SIRA[i % 3]; yer[ad] = (yer[ad] + 1) % 4; }
+  const kayan = DORTLU_SIRA[adim % 3];
+  for (const ad of DORTLU_SIRA) {
+    const ev = DORTLU_HUCRE[DORTLU_EV[ad]], a = DORTLU_HUCRE[yer[ad]];
+    const b = ad === kayan ? DORTLU_HUCRE[(yer[ad] + 1) % 4] : a;
+    out[ad] = [lerp(a[0], b[0], ad === kayan ? k : 0) - ev[0], lerp(a[1], b[1], ad === kayan ? k : 0) - ev[1]];
+  }
+  return out;
+}
+function dortluCiz(svg, e, basim) {
+  const yer = dortluYer(e);
+  for (const u of svg.querySelectorAll(".im")) {
+    const ad = u.classList[1].slice(4);
+    const g = basim ? basim[ad] : 1;
+    u.setAttribute("transform", `translate(${yer[ad][0]} ${yer[ad][1]})`);
+    u.style.opacity = g > 0 ? 1 : 0;
+  }
+}
+
 /* ---------------------------------------------------------------- 3 · logo (ortak logo öğesi) */
 const logo = $("#logo"), logoHarfler = $("#logo-harfler"), logoKalem = $("#logo-kalem");
 const HARFLER = [..."kolaymetin"].map((c) => { const s = el("span", null, c, "display:inline-block;position:relative"); logoHarfler.append(s); return s; });
@@ -555,6 +597,9 @@ function logoGuncelle(t) {
   logo.style.opacity = son;
   HARFLER.forEach((h, i) => { const p = P(t, harfT0 + i * 0.05, 0.42); const q = E.ob(p);
     h.style.transform = `translateY(${(1 - q) * -120}px) rotate(${(1 - q) * (i % 2 ? 8 : -8)}deg)`; h.style.opacity = p > 0 ? 1 : 0; });
+  const dT0 = t < 36 ? 12.0 : 66.0;
+  dortluCiz($("#logo-dortlu"), t - (dT0 + 1.0),
+    { hata: P(t, dT0, 0.01), uyari: P(t, dT0 + 0.08, 0.01), bilgi: P(t, dT0 + 0.16, 0.01) });
   logoKalem.style.width = LOGO.kolayW + "px";
   logoKalem.style.transform = `scaleX(${E.io(P(t, kalemT0, 0.4))})`;
 }
@@ -658,6 +703,10 @@ const M = {};
     tf($("#m-imlec"), { x: imx, y: imy + (t > 17.5 && t < 17.64 ? 3 : 0), o: P(t, 16.9, 0.1) * (1 - P(t, 17.9, 0.25)) });
     const bas = t >= 17.5 && t < 17.66;
     const dn = $("#m-denetle"); dn.style.transform = bas ? "translate(4px,4px)" : ""; dn.style.boxShadow = bas ? "0 0 0 transparent" : "";
+    const calisiyor = t >= 17.66 && t < 18.2;
+    $("#m-denetle-ik").style.display = calisiyor ? "none" : "";
+    $("#m-denetle-dortlu").style.display = calisiyor ? "" : "none";
+    if (calisiyor) dortluCiz($("#m-denetle-dortlu"), t - 17.66);
     // tarama çizgisi
     const tp = P(t, 17.66, 0.5); const tr = $("#m-tarama");
     tr.style.opacity = tp > 0 && tp < 1 ? 1 : 0; tr.style.top = tp * 414 + "px";
@@ -1183,7 +1232,7 @@ window.sesBase64 = async function () {
   await document.fonts.ready;
   await Promise.all([...document.images].map((i) => (i.complete ? 0 : new Promise((r) => (i.onload = i.onerror = r)))));
   // ölçümler
-  LOGO.w = logoHarfler.getBoundingClientRect().width;
+  LOGO.w = $("#logo-ic").getBoundingClientRect().width;
   LOGO.kolayW = HARFLER.slice(0, 5).reduce((a, h) => a + h.getBoundingClientRect().width, 0);
   // kenar işaretleri: her bulgunun ilk kelimesinin satırına
   M.kenar = [];
