@@ -1,0 +1,18 @@
+{
+  "v": 4,
+  "createdOnFiles": {"v": 1, "at": "2026-09-28T12:00:00Z"},
+  "title": "kolaymetin — Proje Tanıtımı",
+  "order": ["kapak", "soru", "ihtiyac", "ceviri", "amac", "arastirma", "surec", "once", "sonra", "kurallar", "masa", "erisim", "sinama", "etki", "etik", "film", "kapanis"],
+  "sections": {
+    "s1": {"description": "Sorun: kamu duyuruları herkese ulaşmıyor", "start": "kapak"},
+    "s2": {"description": "Proje: amaç, araştırma ve süreç", "start": "amac"},
+    "s3": {"description": "Ürün: kolaymetin bir duyuruyu nasıl denetliyor", "start": "once"},
+    "s4": {"description": "Sonuçlar, etki ve etik ilkeler", "start": "sinama"},
+    "s5": {"description": "Tanıtım filmi ve kapanış", "start": "film"}
+  },
+  "faces": {
+    "atkinson-hyperlegible-next": {"family": "Atkinson Hyperlegible Next", "href": "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,700;0,800;1,400&display=swap"},
+    "atkinson-hyperlegible-mono": {"family": "Atkinson Hyperlegible Mono", "href": "https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;700&display=swap"}
+  },
+  "designSystems": []
+}
