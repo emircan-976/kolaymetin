@@ -122,6 +122,11 @@ def test_html_report_is_standalone_and_follows_style() -> None:
     assert "data:font/woff2;base64," in html and "data:image/png;base64," in html
     assert "gradient" not in html.lower()
     assert "@page" in html and "18mm" in html
+    # Künyede dörtlü: renk style.css'ten gelir, isaret.svg'nin kendi stili taşınmaz. Sekme simgesi gömülü.
+    kunye = html[html.index('<header class="kunye">'):html.index("</header>")]
+    assert '<svg class="dortlu"' in kunye and kunye.count('class="dortlu__im ') == 3
+    assert "<style>" not in kunye and "#B42D26" not in kunye
+    assert '<link rel="icon" href="data:image/svg+xml;base64,' in html
 
 
 def test_render_marked_overlaps() -> None:

@@ -370,6 +370,26 @@ ayırt edilir:
 | **Uyarı** | sarı fosforlu kalem + ince çizgi | □ |
 | **Bilgi** | noktalı mavi alt çizgi | ○ |
 
+### İşaret: dörtlü
+
+Projenin işareti bu üç düzeltmen işaretinin kendisidir. 2×2 ızgarada ■ hata, □ uyarı, ○ bilgi ve
+bir boş kare vardır. Soldan sağa, yukarıdan aşağı okununca düzeltmenin yolu çıkar: hata, uyarı,
+bilgi, **temiz metin**.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/readme/isaret-koyu.svg">
+  <img src="docs/readme/isaret-acik.svg" width="100%" alt="Dörtlü: kolaymetin'in işareti. 2×2 ızgarada kırmızı dolu kare (hata), siyah boş kare (uyarı), mavi daire (bilgi) ve boş bir kare (temiz metin). İşaretler kayar yapboz gibi boş kareye kayarak döner.">
+</picture>
+
+- Arayüzde künye logosudur, üzerine gelince döner. Sekme simgesidir (`isaret.svg`). Denetim
+  sürerken Denetle düğmesinde ve sonuç panelinde yükleme göstergesidir. HTML raporun künyesinde de
+  yer alır.
+- Yükleme canlandırması kayar yapbozdur. Her adımda bir işaret boş kareye 9 piksel kayar. On iki
+  adımda (2,4 sn) her işaret kareyi saat yönünde bir kez döner. Izgaranın dışına çıkılmaz, piksel
+  bozulmaz. "Hareketi azalt" tercihinde işaret durur.
+- İşaretler 16×16 ızgarada 7×7 pikseldir ve `scripts/ikonlar.py` ile üretilir. Boyut her zaman
+  16'nın katıdır.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/readme/renkler-koyu.svg">
   <img src="docs/readme/renkler-acik.svg" width="100%" alt="Renkler: kâğıt #F3EEE3, kâğıt 2 #E9E2D3, mürekkep #1B1A17, soluk mürekkep #55504A, kırmızı #B42D26, mavi #23408E, sarı #FFE14D.">
@@ -380,7 +400,7 @@ ayırt edilir:
 - Tek yazı tipi ailesi: **Atkinson Hyperlegible** Next ve Mono (Braille Institute, SIL OFL).
 - Köşeler keskin; gölge yok (yalnızca düz, 3px ofset baskı gölgesi); gradyan yok.
 - Görseller 1-bit dither: künyedeki güneş ve tepeler, skor çubukları, boş durum çizimi, rehber
-  kapakları, yükleme göstergesi. Metnin arkasına asla dither konmaz.
+  kapakları. Metnin arkasına asla dither konmaz.
 - İkonlar 16×16 piksel ızgarada, yalnızca dikdörtgenlerden oluşan SVG'lerdir.
 - Bütün parçalar tek sayfada: `/stil-rehberi` ([src/kolaymetin/web/static/stil-rehberi.html](src/kolaymetin/web/static/stil-rehberi.html)).
 
@@ -432,7 +452,7 @@ python scripts/readme_gorselleri.py
 
 - [x] Ekran basılı bir düzeltme provası gibi görünüyor; kontrol paneli gibi değil.
 - [x] Üç önem düzeyi gri tonlu görüntüde de çizgi biçimi ve kenar işaretinden ayırt ediliyor ([gri-tonlu.png](docs/ekran/gri-tonlu.png)).
-- [x] Dither yalnızca künye sahnesinde, skor çubuklarında, boş durumda, rehber kapaklarında ve yüklemede.
+- [x] Dither yalnızca künye sahnesinde, skor çubuklarında, boş durumda ve rehber kapaklarında.
 - [x] Tek yazı tipi ailesi; hiyerarşi boyut ve kalınlıkla kurulu.
 - [x] Köşeler keskin, gölgeler yalnızca düz ofset.
 

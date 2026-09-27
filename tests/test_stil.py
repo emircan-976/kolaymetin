@@ -175,7 +175,7 @@ def test_style_guide_shows_every_component() -> None:
     used = set(re.findall(r'class="([^"]+)"', index)) | set(re.findall(r'"([a-z-]+(?:__[a-z-]+)?(?:--[a-z-]+)?)"', app_js))
     used_classes = {c for group in used for c in group.split()}
     component_roots = {"dugme", "not-kagidi", "imi", "kenar-isaret", "cubuk", "skor", "sekme", "onem",
-                       "kimlik", "dither", "tarama", "cumle-cubugu", "secim", "kutu"}
+                       "kimlik", "dither", "dortlu", "cumle-cubugu", "secim", "kutu"}
     for root in component_roots:
         if any(c == root or c.startswith(root + "--") or c.startswith(root + "__") for c in used_classes):
             assert f'class="{root}' in guide or f" {root}" in guide or f'"{root} ' in guide, root

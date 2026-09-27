@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stil rehberi — kolaymetin</title>
-<link rel="icon" href="/static/ikon/rehber.svg" type="image/svg+xml">
+<link rel="icon" href="/static/isaret.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/style.css">
 <script src="/static/tema.js"></script>
 <script src="/static/manzara.js" defer></script>
@@ -13,7 +13,7 @@
 <a class="atla" href="#icerik">İçeriğe geç</a>
 <header class="kunye">
   <div>
-    <p class="kunye__ad"><a href="/">kolaymetin</a></p>
+    <p class="kunye__ad"><a href="/"><svg class="dortlu" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg>kolaymetin</a></p>
     <p class="kunye__alt">Stil rehberi: "Düzeltmen Masası"</p>
   </div>
   <div class="kunye__sahne" aria-hidden="true">
@@ -27,8 +27,26 @@
 <p class="not-seridi" role="note"><span><strong>Kural:</strong> Arayüzdeki her bileşen yalnızca bu sayfadaki parçalardan kurulur.</span></p>
 
 <main class="rapor" id="icerik">
+  <section class="bolum" aria-labelledby="b-dortlu">
+    <h2 id="b-dortlu">1. İşaret: dörtlü</h2>
+    <p>Projenin işareti, düzeltmen işaretlerinin kendisidir. 2×2 ızgarada üç işaret (<strong>hata</strong>, <strong>uyarı</strong>, <strong>bilgi</strong>) ve bir <strong>boş kare</strong> vardır. Soldan sağa, yukarıdan aşağı okununca düzeltmenin yolu çıkar: hata, uyarı, bilgi, temiz metin.</p>
+    <div class="ornekler">
+      <div class="kapak dortlu-ornegi"><svg class="dortlu dortlu--96" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg><p class="etiket">Asıl işaret · 96 px</p></div>
+      <div class="kapak dortlu-ornegi"><svg class="dortlu dortlu--96 dortlu--doner" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg><p class="etiket">Yükleniyor · kayar yapboz</p></div>
+      <div class="kapak dortlu-ornegi dortlu-ornegi--koyu"><svg class="dortlu dortlu--96 dortlu--tek" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg><p class="etiket">Tek renk · mürekkep zeminde</p></div>
+      <div class="kapak dortlu-ornegi"><span class="dortlu-boylar"><svg class="dortlu dortlu--48" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg><svg class="dortlu" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg><svg class="dortlu dortlu--16" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg></span><p class="etiket">48 · 32 · 16 px</p></div>
+    </div>
+    <ul>
+      <li>Izgara 16×16 pikseldir. Her işaret 7×7 pikseldir, aralarında 2 piksel boşluk vardır. Boyut her zaman 16'nın katıdır: 16, 32, 48, 96.</li>
+      <li>Renkler sabittir: hata kırmızı, uyarı mürekkep, bilgi mavi. Mürekkep zeminde ve tek kalıplı baskıda tek renk kullanılır.</li>
+      <li>Boş kare işaretin parçasıdır. İçine bir şey konmaz. İşaret eğilmez, gölgelenmez.</li>
+      <li>Yüklemede işaretler boş kareye kayar. Her adımda bir işaret 9 piksel kayar. On iki adımda (2,4 sn) her işaret kareyi saat yönünde bir kez döner. Hareketi azalt ayarında işaret durur.</li>
+      <li>Kullanıldığı yerler: künye logosu (üzerine gelince döner), sekme simgesi (<code>isaret.svg</code>), Denetle düğmesi ve sonuç paneli (yüklenirken), HTML rapor, README.</li>
+    </ul>
+  </section>
+
   <section class="bolum" aria-labelledby="b-renk">
-    <h2 id="b-renk">1. Renk: kâğıt, mürekkep, iki nokta renk</h2>
+    <h2 id="b-renk">2. Renk: kâğıt, mürekkep, iki nokta renk</h2>
     <p>Aynı ekranda en fazla iki nokta renk ve fosforlu kalem bulunur. Renkler yalnızca CSS değişkeniyle kullanılır.</p>
     <div class="ornekler">
       <div class="renk-ornegi"><div class="renk-ornegi__yuzey yuzey-kagit"></div><p>--kagit<br>zemin</p></div>
@@ -42,7 +60,7 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-yazi">
-    <h2 id="b-yazi">2. Tipografi</h2>
+    <h2 id="b-yazi">3. Tipografi</h2>
     <p>Tek aile: Atkinson Hyperlegible Next ve Mono. Hiyerarşi boyut ve kalınlıkla kurulur.</p>
     <p class="olcek-ornegi" style="font-size:var(--t-55);font-weight:800;letter-spacing:-0.02em">55 · Başlık</p>
     <p class="olcek-ornegi" style="font-size:var(--t-44);font-weight:800;letter-spacing:-0.02em">44 · Başlık</p>
@@ -55,7 +73,7 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-dugme">
-    <h2 id="b-dugme">3. Düğmeler ve form öğeleri</h2>
+    <h2 id="b-dugme">4. Düğmeler ve form öğeleri</h2>
     <div class="ornekler">
       <button type="button" class="dugme dugme--birincil"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg><span>Denetle</span></button>
       <button type="button" class="dugme"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yukle"></use></svg><span>Dosya yükle</span></button>
@@ -72,7 +90,7 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-isaret">
-    <h2 id="b-isaret">4. Düzeltmen işaretleri</h2>
+    <h2 id="b-isaret">5. Düzeltmen işaretleri</h2>
     <p>Her önem düzeyinin üç ayrı göstergesi vardır: renk, çizgi biçimi ve kenar işareti.</p>
     <table class="katki-tablosu">
       <thead><tr><th>Önem</th><th>Metin üstünde</th><th>Kenar boşluğunda</th></tr></thead>
@@ -92,7 +110,7 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-kart">
-    <h2 id="b-kart">5. Bulgu kartı</h2>
+    <h2 id="b-kart">6. Bulgu kartı</h2>
     <article class="not-kagidi not-kagidi--hata">
       <div class="not-kagidi__ust"><span class="onem onem--hata"><svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-isaret-hata"></use></svg>Hata</span><span class="kimlik kimlik--hata">KD-C01</span><span class="not-kagidi__ad">Uzun cümle</span></div>
       <button type="button" class="not-kagidi__mesaj" aria-expanded="true">Bu cümle çok uzun: 20 kelime. En fazla 8 kelime yazın.</button>
@@ -111,7 +129,7 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-skor">
-    <h2 id="b-skor">6. Skor kartı ve dither çubuklar</h2>
+    <h2 id="b-skor">7. Skor kartı ve dither çubuklar</h2>
     <div class="skorlar">
       <div class="skor skor--buyuk">
         <h3 class="skor__baslik">Kolay Dil Uyum Skoru</h3>
@@ -139,12 +157,12 @@
       <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-14" style="width:100%"></div></div>
       <div class="cubuk" style="width:48px;height:48px"><div class="cubuk__dolgu d-16" style="width:100%"></div></div>
     </div>
-    <p>Yükleme göstergesi (hareketi azalt ayarında durağan):</p>
-    <div class="durum"><div class="tarama" aria-hidden="true"></div><span>Denetleniyor…</span></div>
+    <p>Yükleme göstergesi: dönen dörtlü (hareketi azalt ayarında durağan):</p>
+    <div class="durum"><svg class="dortlu dortlu--doner" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg><span>Denetleniyor…</span></div>
   </section>
 
   <section class="bolum" aria-labelledby="b-cumle">
-    <h2 id="b-cumle">7. Cümle görünümü</h2>
+    <h2 id="b-cumle">8. Cümle görünümü</h2>
     <ol class="cumleler">
       <li><span class="cumle-sayi">1</span><span class="cumle-dugme"><span class="cubuk cumle-cubugu"><span class="cubuk__dolgu d-08" style="width:30%"></span><span class="esik-cizgisi" style="left:40%"></span></span><span class="cumle-metni">Belediye su borusunu onaracak.</span></span><span class="cumle-sayi">4</span></li>
       <li><span class="cumle-sayi">2</span><span class="cumle-dugme"><span class="cubuk cumle-cubugu cumle-cubugu--uzun"><span class="cubuk__dolgu d-12" style="width:100%"></span><span class="esik-cizgisi" style="left:40%"></span></span><span class="cumle-metni">Sayın vatandaşlarımız, mahallemizde bulunan ana isale hattında…</span></span><span class="cumle-sayi cumle-sayi--uzun">20!</span></li>
@@ -152,7 +170,7 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-ikon">
-    <h2 id="b-ikon">8. Piksel ikonlar</h2>
+    <h2 id="b-ikon">9. Piksel ikonlar</h2>
     <p>16×16 ızgara, yalnızca dikdörtgenler, renk <code>currentColor</code>.</p>
     <div class="ornekler">
       <span class="etiket"><svg class="ikon ikon--32" aria-hidden="true"><use href="/static/ikonlar.svg#i-yukle"></use></svg><br>yükle</span>
@@ -174,8 +192,8 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-dither">
-    <h2 id="b-dither">9. Dither görseller</h2>
-    <p>Yalnızca künye sahnesinde, boş durumda, rehber kapaklarında, skor çubuklarında ve yüklemede. Hiçbir metnin arkasında değil.</p>
+    <h2 id="b-dither">10. Dither görseller</h2>
+    <p>Yalnızca künye sahnesinde, boş durumda, rehber kapaklarında ve skor çubuklarında. Hiçbir metnin arkasında değil.</p>
     <div class="kapaklar">
       <div class="kapak"><span class="dither dither--bos-durum" role="img" aria-label="Duyuru panosu çizimi"></span><p class="etiket">Boş durum: duyuru panosu</p></div>
       <div class="kapak"><span class="dither dither--kapak dither--cumle" role="img" aria-label="Megafon çizimi"></span><p class="etiket">Cümle kapağı: megafon</p></div>
@@ -187,7 +205,7 @@
   </section>
 
   <section class="bolum" aria-labelledby="b-sekme">
-    <h2 id="b-sekme">10. Sekmeler, not şeridi, hata kutusu</h2>
+    <h2 id="b-sekme">11. Sekmeler, not şeridi, hata kutusu</h2>
     <div class="sekmeler" role="tablist" aria-label="Örnek sekmeler">
       <button type="button" class="sekme" role="tab" aria-selected="true">Bulgular</button>
       <button type="button" class="sekme" role="tab" aria-selected="false" tabindex="-1">Cümleler</button>

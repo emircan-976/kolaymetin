@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kolaymetin — Kolay Dil denetim masası</title>
 <meta name="description" content="Türkçe Kolay Dil ve Sade Dil denetim aracı. Metin bilgisayarınızdan çıkmaz.">
-<link rel="icon" href="/static/ikon/rehber.svg" type="image/svg+xml">
+<link rel="icon" href="/static/isaret.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/style.css">
 <script src="/static/tema.js"></script>
 <script src="/static/app.js" defer></script>
@@ -16,7 +16,7 @@
 
 <header class="kunye">
   <div>
-    <h1 class="kunye__ad"><a href="/">kolaymetin</a></h1>
+    <h1 class="kunye__ad"><a href="/"><svg class="dortlu" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg>kolaymetin</a></h1>
     <p class="kunye__alt">Kolay Dil denetim masası</p>
   </div>
   <div class="kunye__sahne" aria-hidden="true">
@@ -75,6 +75,7 @@
       <label class="kutu"><input type="checkbox" id="otomatik" checked> Yazarken denetle</label>
       <button type="button" class="dugme dugme--birincil" id="denetle">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
+        <svg class="dortlu dortlu--16 dortlu--tek dortlu--doner" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg>
         <span>Denetle</span>
       </button>
     </div>
@@ -101,8 +102,8 @@
   <aside class="izgara__sag" aria-labelledby="sonuc-baslik">
     <h2 id="sonuc-baslik" class="gorunmez">Denetim sonucu</h2>
     <div class="durum" id="yukleniyor" hidden>
-      <div class="tarama" aria-hidden="true"></div>
-      <span>Denetleniyor…</span>
+      <svg class="dortlu dortlu--doner" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg>
+      <span id="yukleniyor-metni">Denetleniyor…</span>
     </div>
     <p class="gorunmez" id="duyuru" role="status" aria-live="polite"></p>
 

@@ -172,6 +172,20 @@ def _icon(name: str) -> str:
     return svg.replace("<svg ", '<svg class="ikon" ', 1)
 
 
+@lru_cache(maxsize=1)
+def _dortlu() -> str:
+    """Künyedeki işaret: isaret.svg'nin kendi renkleri atılır, renk style.css'ten gelir."""
+    svg = _static("isaret.svg").decode("utf-8").strip()
+    svg = re.sub(r"<title>.*?</title>|<style>.*?</style>", "", svg)
+    svg = re.sub(r' width="16" height="16"', "", svg, count=1)
+    return svg.replace("<svg ", '<svg class="dortlu" aria-hidden="true" ', 1)
+
+
+@lru_cache(maxsize=1)
+def _favicon() -> str:
+    return "data:image/svg+xml;base64," + base64.b64encode(_static("isaret.svg")).decode("ascii")
+
+
 def _esc(text: str) -> str:
     return html.escape(text, quote=True)
 
@@ -283,12 +297,13 @@ def to_html(report: Report) -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kolaymetin raporu — {_esc(report.profile_title)}</title>
+<link rel="icon" href="{_favicon()}" type="image/svg+xml">
 <style>{_inline_css()}</style>
 </head>
 <body>
 <div class="rapor">
 <header class="kunye">
-  <div><p class="kunye__ad">kolaymetin</p><p class="kunye__alt">Kolay Dil denetim raporu</p></div>
+  <div><p class="kunye__ad"><span class="kunye__imza">{_dortlu()}kolaymetin</span></p><p class="kunye__alt">Kolay Dil denetim raporu</p></div>
   <div class="kunye__sag"><p class="kunye__bilgi">{_esc(report.created_at)}<br>Profil: {_esc(report.profile_title)}<br>Sürüm {_esc(report.version)}</p></div>
 </header>
 <p class="not-seridi">{notes}</p>

@@ -469,12 +469,22 @@
   }
 
   // ------------------------------------------------------------------ denetim
-  function yukleniyor(acik) {
+  // Yükleme göstergesi: sonuç panelinde ve Denetle düğmesinde dönen dörtlü.
+  // Kısa istekler göstergeyi hiç açmasın diye 150 ms beklenir.
+  function yukleniyor(acik, ileti) {
     clearTimeout(durum.yuklemeZamanlayici);
+    var panel = $("yukleniyor"), dugme = $("denetle"), sonuc = panel.parentNode;
     if (acik) {
-      durum.yuklemeZamanlayici = setTimeout(function () { $("yukleniyor").hidden = false; }, 150);
+      $("yukleniyor-metni").textContent = ileti || "Denetleniyor…";
+      durum.yuklemeZamanlayici = setTimeout(function () {
+        panel.hidden = false;
+        dugme.classList.add("dugme--calisiyor");
+        sonuc.setAttribute("aria-busy", "true");
+      }, 150);
     } else {
-      $("yukleniyor").hidden = true;
+      panel.hidden = true;
+      dugme.classList.remove("dugme--calisiyor");
+      sonuc.removeAttribute("aria-busy");
     }
   }
 
@@ -530,7 +540,7 @@
     if (!dosya) { return; }
     var veri = new FormData();
     veri.append("file", dosya);
-    yukleniyor(true);
+    yukleniyor(true, "Dosya okunuyor…");
     fetch("/api/upload", { method: "POST", body: veri }).then(function (yanit) {
       if (!yanit.ok) { return sunucuHatasi(yanit).then(function (ileti) { throw new Error(ileti); }); }
       return yanit.json();

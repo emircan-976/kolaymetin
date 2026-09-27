@@ -87,6 +87,69 @@ def test_icons() -> None:
 def test_icon_script_writes(tmp_path: Path) -> None:
     assert ikonlar.main([str(tmp_path)]) == 0
     assert (tmp_path / "ikon" / "yukle.svg").is_file() and (tmp_path / "ikonlar.svg").is_file()
+    assert (tmp_path / "isaret.svg").is_file()
+
+
+def _hucre(art: str) -> set[tuple[int, int]]:
+    return {(x + i, y) for x, y, w in ikonlar._rects(art) for i in range(w)}
+
+
+def test_dortlu_geometry() -> None:
+    """Üç işaret 7×7 hücrelerde: ■ sol üst, □ sağ üst, ○ sol alt; sağ alt boş (temiz metin)."""
+    assert list(ikonlar.DORTLU) == ["hata", "uyari", "bilgi"]
+    hucreler = {"hata": (0, 0), "uyari": (9, 0), "bilgi": (0, 9)}
+    for ad, (x0, y0) in hucreler.items():
+        pikseller = _hucre(ikonlar.DORTLU[ad][1])
+        assert all(x0 <= x < x0 + 7 and y0 <= y < y0 + 7 for x, y in pikseller), ad
+    hata, uyari, bilgi = (_hucre(ikonlar.DORTLU[a][1]) for a in ("hata", "uyari", "bilgi"))
+    assert len(hata) == 49  # dolu
+    assert len(uyari) == 24 and (12, 3) not in uyari  # boş kare, 1 piksel çerçeve
+    assert bilgi == {(x, 24 - y) for x, y in bilgi} == {(6 - x, y) for x, y in bilgi}  # simetrik daire
+    assert not any(x >= 9 and y >= 9 for x, y in hata | uyari | bilgi)  # sağ alt hücre boş
+
+
+def test_dortlu_outputs_are_current() -> None:
+    sprite = (STATIC / "ikonlar.svg").read_text(encoding="utf-8")
+    for ad in ikonlar.DORTLU:
+        assert f'<symbol id="i-dortlu-{ad}" viewBox="0 0 16 16"' in sprite
+    css = (STATIC / "style.css").read_text(encoding="utf-8")
+    favicon = (STATIC / "isaret.svg").read_text(encoding="utf-8")
+    assert favicon == ikonlar.isaret(css)  # renkler style.css ile aynı
+    assert "prefers-color-scheme:dark" in favicon and "#FF6B5E" in favicon
+
+
+def test_dortlu_animation_is_a_sliding_puzzle() -> None:
+    """Her an tam bir hücre boştur; işaretler yalnızca komşu hücreye kayar; 12 adımda başa dönülür."""
+    css = (STATIC / "style.css").read_text(encoding="utf-8")
+    ev = {"hata": (0, 0), "uyari": (9, 0), "bilgi": (0, 9)}
+    yollar: dict[str, list[tuple[float, tuple[int, int]]]] = {}
+    for ad, (ex, ey) in ev.items():
+        govde = re.search(r"@keyframes dortlu-" + ad + r" \{(.*?)\n\}", css, re.S)
+        assert govde, ad
+        noktalar = []
+        for yuzdeler, dx, dy in re.findall(r"([\d.%, ]+)\{ transform: translate\((-?\d+)(?:px)?, (-?\d+)(?:px)?\); \}",
+                                           govde.group(1)):
+            for y in yuzdeler.split(","):
+                noktalar.append((float(y.strip().rstrip("%")), (ex + int(dx), ey + int(dy))))
+        yollar[ad] = sorted(noktalar)
+        assert yollar[ad][0] == (0.0, (ex, ey)) and yollar[ad][-1] == (100.0, (ex, ey)), ad
+    hucreler = {(0, 0), (9, 0), (9, 9), (0, 9)}
+
+    def konum(ad: str, an: float) -> tuple[int, int]:
+        return [k for y, k in yollar[ad] if y <= an][-1]
+
+    onceki = None
+    for adim in range(12):
+        an = (adim + 1) * 100 / 12 - 0.01  # adımın sonunda her işaret bir hücrede durur
+        konumlar = [konum(ad, an) for ad in ev]
+        assert set(konumlar) < hucreler and len(set(konumlar)) == 3, adim
+        if onceki:
+            degisen = [(a, b) for a, b in zip(onceki, konumlar, strict=True) if a != b]
+            assert len(degisen) == 1, adim  # her adımda tek işaret
+            (x1, y1), (x2, y2) = degisen[0]
+            assert abs(x1 - x2) + abs(y1 - y2) == 9, adim  # komşu hücreye
+        onceki = konumlar
+    assert onceki == list(ev.values())
 
 
 def test_fonts_are_local_and_cover_turkish() -> None:

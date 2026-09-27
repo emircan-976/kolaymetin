@@ -26,6 +26,20 @@ def test_index_and_static() -> None:
     assert client.get("/stil-rehberi").status_code == 200
 
 
+def test_every_page_carries_the_dortlu() -> None:
+    """Sekme simgesi ve künye logosu her sayfada dörtlü; ana sayfada yükleme göstergesi de."""
+    assert client.get("/static/isaret.svg").status_code == 200
+    for path in ("/", "/stil-rehberi", "/rehber", "/rehber/KD-C01"):
+        html = client.get(path).text
+        assert '<link rel="icon" href="/static/isaret.svg"' in html, path
+        kunye = html[html.index('class="kunye__ad"'):]
+        assert kunye.index('<svg class="dortlu"') < kunye.index("kolaymetin</a>"), path
+    index = client.get("/").text
+    durum = index[index.index('id="yukleniyor"'):index.index('id="yukleniyor-metni"')]
+    assert "dortlu--doner" in durum
+    assert "dortlu--doner" in index[index.index('id="denetle"'):]
+
+
 def test_health() -> None:
     body = client.get("/saglik").json()
     assert body["durum"] == "tamam" and body["surum"] == "1.0.0"

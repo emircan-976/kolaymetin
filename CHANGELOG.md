@@ -5,6 +5,19 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### Görünüm: işaret "dörtlü" (2026-09-28)
+
+- Projenin işareti: 2×2 ızgarada ■ hata, □ uyarı, ○ bilgi ve boş kare (temiz metin). İşaretler
+  16×16 piksel ızgarada, `scripts/ikonlar.py` ile üretilir (`ikonlar.svg` içinde `i-dortlu-*`).
+- Künye logosu: dörtlü, adla aynı taban çizgisinde. Üzerine gelince döner. Ana sayfa, rehber ve
+  stil rehberinde aynı.
+- Sekme simgesi `isaret.svg`: renkleri `style.css`'ten gelir, koyu temada "negatif baskı".
+- Yükleme göstergesi: dither taraması yerine dönen dörtlü (kayar yapboz, 12 adım, 2,4 sn). Sonuç
+  panelinde ve Denetle düğmesinde görünür, çünkü dar ekranda panel metin alanının altında kalır.
+  Denetim sürerken sonuç paneli `aria-busy`. Dosya okunurken "Dosya okunuyor…" yazar.
+- HTML rapor: künyede dörtlü, gömülü sekme simgesi.
+- Stil rehberine "İşaret: dörtlü" bölümü. README'de hareketli işaret görseli ve künyede logo.
+
 ### Belgeler: README (2026-09-27)
 
 - README "Düzeltmen Masası" diliyle yeniden dizildi: künye başlığı (dither güneş ve tepeler),

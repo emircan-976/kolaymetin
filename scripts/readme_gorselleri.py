@@ -1,4 +1,5 @@
-"""README görsellerini üretir: künye, düzeltme provası, kural sayfası, ayırıcı ve kapanış künyesi.
+"""README görsellerini üretir: künye, düzeltme provası, kural sayfası, ayırıcı, işaret (dörtlü) ve
+kapanış künyesi.
 
 Her görsel iki kez basılır: açık tema (krem kâğıt) ve koyu tema ("negatif baskı"). README bunları
 <picture> ile GitHub temasına göre seçer. Renkler style.css içindeki :root ve
@@ -26,6 +27,8 @@ from pathlib import Path
 from xml.sax.saxutils import escape
 
 from PIL import Image
+
+import ikonlar
 
 ROOT = Path(__file__).resolve().parents[1]
 STATIC = ROOT / "src" / "kolaymetin" / "web" / "static"
@@ -222,6 +225,32 @@ def kf(ad: str, sure: float, noktalar: list[tuple[float, str]], zamanlama: str =
             f".{ad}{{animation:{ad} {sure}s {zamanlama} {sayac} both}}")
 
 
+# ------------------------------------------------------------------ dörtlü (projenin işareti)
+def dortlu_kareleri() -> str:
+    """Dönme canlandırmasının @keyframes kuralları, style.css'ten olduğu gibi (tek kaynak)."""
+    css = (STATIC / "style.css").read_text(encoding="utf-8")
+    kurallar = re.findall(r"@keyframes dortlu-[a-z]+ \{.*?\n\}", css, re.S)
+    assert len(kurallar) == 3, "style.css'te üç dortlu-* keyframes olmalı"
+    return "\n".join(kurallar)
+
+
+def dortlu(p: dict[str, str], x: float, y: float, piksel: int, sinif: str = "") -> str:
+    """16×16 ızgaralı dörtlü; piksel = ızgara pikseli başına SVG birimi. sinif, işaretlere eklenir."""
+    renk = {"hata": p["kirmizi"], "uyari": p["murekkep"], "bilgi": p["mavi"]}
+    parcalar = [f'<g transform="translate({x} {y}) scale({piksel})" shape-rendering="crispEdges">']
+    for ad, (_baslik, art) in ikonlar.DORTLU.items():
+        rects = "".join(f'<rect x="{rx}" y="{ry}" width="{w}" height="1"/>' for rx, ry, w in ikonlar._rects(art))
+        ek = f" {sinif}-{ad}" if sinif else ""
+        parcalar.append(f'<g class="d-{ad}{ek}" fill="{renk[ad]}">{rects}</g>')
+    parcalar.append("</g>")
+    return "".join(parcalar)
+
+
+def dortlu_stili(sinif: str, sayac: str = "infinite", gecikme: float = 0.0) -> str:
+    return "".join(f".{sinif}-{ad}{{animation:dortlu-{ad} 2.4s steps(3,end) {sayac} both;"
+                   f"animation-delay:{gecikme}s}}" for ad in ("hata", "uyari", "bilgi"))
+
+
 # ------------------------------------------------------------------ 1. künye (başlık)
 def kunye(p: dict[str, str]) -> str:
     Y = 470
@@ -232,14 +261,20 @@ def kunye(p: dict[str, str]) -> str:
     g.append(t(W - 48, 50, f"SAYI {SURUM} · EYLÜL 2026", "m soluk", font_size=15, text_anchor="end"))
     g.append(f'<rect x="48" y="62" width="{W - 96}" height="1" fill="{p["murekkep"]}"/>')
 
-    # logo: siyah mürekkep, kırmızı kalıp 5 px kaymış
+    # logo: dörtlü ve ad aynı taban çizgisinde; ad siyah mürekkep, kırmızı kalıp 5 px kaymış.
+    # Dörtlü açılışta bir kez döner (12 adım), sonra asıl hâlinde durur.
     sx, sy = W - 48 - 600, 72
+    dp = 5  # dörtlü: 16 × 5 = 80 px
+    ax = 48 + 16 * dp + 22
     boyut = 124
-    while olc("kolaymetin", "g800", boyut, -0.03 * boyut) > sx - 48 - 36:
+    while olc("kolaymetin", "g800", boyut, -0.03 * boyut) > sx - ax - 36:
         boyut -= 1
     ls = -0.03 * boyut
+    g.append(dortlu(p, 48, 214 - 16 * dp, dp, "dk"))
+    stil.append(dortlu_kareleri())
+    stil.append(dortlu_stili("dk", "1", 0.3))
     g.append(f'<g font-weight="800" font-size="{boyut}" letter-spacing="{ls:.2f}">'
-             f'{t(53, 219, "kolaymetin", "kirmizi")}{t(48, 214, "kolaymetin", "")}</g>')
+             f'{t(ax + 5, 219, "kolaymetin", "kirmizi")}{t(ax, 214, "kolaymetin", "")}</g>')
     g.append(t(50, 264, "Kolay Dil denetim masası", "soluk", font_size=27))
 
     # künye sahnesi: kırmızı güneş sırtın ardından doğar, önünde tepeler (sahne 600×200)
@@ -541,6 +576,56 @@ def ayirici(p: dict[str, str]) -> str:
     return svg(W, Y, "", "", "\n".join(g)).replace(' role="img" aria-label=""', ' aria-hidden="true"').replace("<title></title>\n<style>\n\n</style>\n", "")
 
 
+# ------------------------------------------------------------------ 4b. işaret: dörtlü
+HUCRE = {"hata": (0, 0), "uyari": (9, 0), "bilgi": (0, 9)}
+
+
+def tek_im(p: dict[str, str], ad: str, x: float, y: float, piksel: int) -> str:
+    """Dörtlüden tek bir işaret; hücresinin sol üst köşesi (x, y)'ye gelir."""
+    renk = {"hata": p["kirmizi"], "uyari": p["murekkep"], "bilgi": p["mavi"]}[ad]
+    hx, hy = HUCRE[ad]
+    rects = "".join(f'<rect x="{rx}" y="{ry}" width="{w}" height="1"/>'
+                    for rx, ry, w in ikonlar._rects(ikonlar.DORTLU[ad][1]))
+    return (f'<g transform="translate({x - hx * piksel} {y - hy * piksel}) scale({piksel})" '
+            f'shape-rendering="crispEdges" fill="{renk}">{rects}</g>')
+
+
+def isaret(p: dict[str, str]) -> str:
+    Y = 300
+    stil = [ortak_stil(p), font_face(["g400", "g800", "m400", "m700"]), dortlu_kareleri(), dortlu_stili("dd")]
+    g: list[str] = [f'<rect width="{W}" height="{Y}" fill="{p["kagit"]}"/>', kose_isaretleri(W, Y, p["murekkep-soluk"])]
+
+    # sol: büyük dörtlü, sürekli döner (yükleme göstergesi)
+    dp, dx, dy = 10, 96, 70
+    g.append(dortlu(p, dx, dy, dp, "dd"))
+    g.append(f'<path d="M{dx + 16 * dp + 64} 56V{Y - 56}" stroke="{p["murekkep"]}" stroke-width="1"/>')
+
+    # sağ: anlamı
+    x0 = dx + 16 * dp + 64 + 48
+    g.append(t(x0, 84, "İŞARET · DÖRTLÜ", "m soluk", font_size=15))
+    g.append(t(x0, 134, "Düzeltmenin yolu, dört karede.", "", font_size=40, font_weight=800, letter_spacing="-0.4"))
+
+    x, yy = x0, 186
+    adimlar = [("hata", "hata"), ("uyari", "uyarı"), ("bilgi", "bilgi"), (None, "temiz metin")]
+    for n, (ad, etiket) in enumerate(adimlar):
+        if ad:
+            g.append(tek_im(p, ad, x, yy, 3))
+        else:
+            g.append(f'<rect x="{x + 0.5}" y="{yy + 0.5}" width="20" height="20" fill="none" '
+                     f'stroke="{p["murekkep-soluk"]}" stroke-dasharray="2 3"/>')
+        x += 21 + 12
+        g.append(t(x, yy + 17, etiket, "m", font_size=19, font_weight=700))
+        x += olc(etiket, "m700", 19, 0.38)
+        if n < len(adimlar) - 1:
+            g.append(t(x + 14, yy + 17, "→", "m soluk", font_size=19))
+            x += 14 + olc("→", "m400", 19, 0.38) + 14
+
+    g.append(t(x0, 250, "Yüklenirken işaretler boş kareye kayar: her adımda biri.", "soluk", font_size=19))
+    g.append(t(x0, 276, "On iki adımda her işaret kareyi saat yönünde bir kez döner.", "soluk", font_size=19))
+    return svg(W, Y, "Dörtlü: kolaymetin'in işareti. Hata, uyarı, bilgi ve boş kare (temiz metin).",
+               "\n".join(stil), "\n".join(g))
+
+
 # ------------------------------------------------------------------ 5. kapanış künyesi
 def kapanis(p: dict[str, str]) -> str:
     Y = 330
@@ -696,6 +781,7 @@ GORSELLER: dict[str, Callable[[dict[str, str]], str]] = {
     "hat": hat,
     "renkler": renkler,
     "ayirici": ayirici,
+    "isaret": isaret,
     "kapanis": kapanis,
 }
 

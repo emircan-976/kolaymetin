@@ -1,7 +1,10 @@
 """16×16 piksel ızgarasına oturan, yalnızca <rect> öğelerinden oluşan 1-bit ikonları üretir.
 
+Aynı ızgarada projenin işaretini de üretir: "dörtlü" (■ hata, □ uyarı, ○ bilgi ve boş kare).
+İşaretler ikonlar.svg içinde i-dortlu-* sembolleridir; renkli hâli isaret.svg (favicon) dosyasıdır.
+
 Kullanım:
-    python scripts/ikonlar.py            # src/kolaymetin/web/static/ikon/*.svg ve ikonlar.svg
+    python scripts/ikonlar.py            # static/ikon/*.svg, ikonlar.svg ve isaret.svg
     python scripts/ikonlar.py KLASOR     # başka bir klasöre yaz
     python scripts/ikonlar.py --kontrol  # yazma; üretilmiş dosyalar güncel mi?
 
@@ -12,6 +15,7 @@ Renk CSS'ten gelir (fill="currentColor").
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -361,6 +365,71 @@ ICONS: dict[str, tuple[str, str]] = {
 }
 
 
+# Dörtlü: projenin işareti. 2×2 ızgarada üç düzeltmen işareti ve boş bir kare.
+# Okuma sırası düzeltmenin yoludur: ■ hata, □ uyarı, ○ bilgi, boş kare (temiz metin).
+# Her işaret 7×7 piksel; hücreler 0 ve 9. pikselden başlar (aralarında 2 piksel boşluk).
+# Yükleme canlandırması işaretleri 9 piksellik adımlarla boş kareye kaydırır (style.css, .dortlu).
+DORTLU: dict[str, tuple[str, str]] = {
+    "hata": ("Hata", """
+#######.........
+#######.........
+#######.........
+#######.........
+#######.........
+#######.........
+#######.........
+................
+................
+................
+................
+................
+................
+................
+................
+................
+"""),
+    "uyari": ("Uyarı", """
+.........#######
+.........#.....#
+.........#.....#
+.........#.....#
+.........#.....#
+.........#.....#
+.........#######
+................
+................
+................
+................
+................
+................
+................
+................
+................
+"""),
+    "bilgi": ("Bilgi", """
+................
+................
+................
+................
+................
+................
+................
+................
+................
+..###...........
+.#...#..........
+#.....#.........
+#.....#.........
+#.....#.........
+.#...#..........
+..###...........
+"""),
+}
+
+# Favicon renkleri style.css'teki değişkenlerden okunur (tek kaynak).
+DORTLU_RENK = {"hata": "kirmizi", "uyari": "murekkep", "bilgi": "mavi"}
+
+
 def _rects(art: str) -> list[tuple[int, int, int]]:
     """Satır başına yatay koşuları (x, y, genişlik) döndürür."""
     rows = [r for r in art.strip("\n").splitlines()]
@@ -399,14 +468,55 @@ def sprite() -> str:
             f'<symbol id="i-{name}" viewBox="0 0 16 16" fill="currentColor">'
             f"<title>{title}</title>{rects}</symbol>"
         )
+    # Dörtlünün işaretleri: her sembol 16×16 ızgaranın tamamını kaplar, işaret kendi hücresindedir.
+    for name, (title, art) in DORTLU.items():
+        rects = "".join(f'<rect x="{x}" y="{y}" width="{w}" height="1"/>' for x, y, w in _rects(art))
+        parts.append(
+            f'<symbol id="i-dortlu-{name}" viewBox="0 0 16 16" fill="currentColor">'
+            f"<title>{title}</title>{rects}</symbol>"
+        )
     parts.append("</svg>\n")
     return "".join(parts)
 
 
-def _outputs() -> dict[str, str]:
-    """Göreli yol → içerik: ikon/*.svg ve ikonlar.svg."""
+def _palet(css: str) -> tuple[dict[str, str], dict[str, str]]:
+    """style.css'ten açık (:root) ve koyu (:root[data-theme="dark"]) renkleri okur."""
+    var_re = re.compile(r"--([a-z0-9-]+)\s*:\s*(#[0-9a-fA-F]{6})\b")
+
+    def blok(bas: str) -> dict[str, str]:
+        parca = css[css.index(bas):]
+        return {k: v.upper() for k, v in var_re.findall(parca[: parca.index("}")])}
+
+    return blok(":root {"), blok(':root[data-theme="dark"] {')
+
+
+def isaret(css: str) -> str:
+    """Renkli dörtlü: favicon ve bağımsız rapor. Koyu temada "negatif baskı" renkleri."""
+    acik, koyu = _palet(css)
+    stil = "".join(f".dortlu__im--{ad}{{fill:{acik[DORTLU_RENK[ad]]}}}" for ad in DORTLU)
+    stil += "@media (prefers-color-scheme:dark){" + "".join(
+        f".dortlu__im--{ad}{{fill:{koyu[DORTLU_RENK[ad]]}}}" for ad in DORTLU) + "}"
+    gruplar = "".join(
+        f'<g class="dortlu__im dortlu__im--{ad}">'
+        + "".join(f'<rect x="{x}" y="{y}" width="{w}" height="1"/>' for x, y, w in _rects(art))
+        + "</g>"
+        for ad, (_baslik, art) in DORTLU.items()
+    )
+    return (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" '
+        'shape-rendering="crispEdges">'
+        f"<title>kolaymetin</title><style>{stil}</style>{gruplar}</svg>\n"
+    )
+
+
+def _outputs(css: str | None = None) -> dict[str, str]:
+    """Göreli yol → içerik: ikon/*.svg, ikonlar.svg ve isaret.svg (favicon)."""
+    if css is None:
+        css = (Path(__file__).resolve().parents[1] / "src" / "kolaymetin" / "web" / "static"
+               / "style.css").read_text(encoding="utf-8")
     files = {f"ikon/{name}.svg": svg(name, title, art) for name, (title, art) in ICONS.items()}
     files["ikonlar.svg"] = sprite()
+    files["isaret.svg"] = isaret(css)
     return files
 
 
