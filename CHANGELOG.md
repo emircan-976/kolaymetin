@@ -5,6 +5,12 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### Görünüm: sosyal medya görselleri (2026-09-30)
+
+- `assets/sosyal/`: profil fotoğrafı (1080×1080, daire kırpmaya güvenli dörtlü), X banner'ı
+  (1500×500) ve LinkedIn banner'ı (1584×396). Açık ve koyu tema, SVG ve PNG. Banner'larda sol alt
+  köşe profil fotoğrafına bırakılır. Üretim: `python scripts/sosyal_gorseller.py`.
+
 ### Görünüm: işaret "dörtlü" (2026-09-28)
 
 - Projenin işareti: 2×2 ızgarada ■ hata, □ uyarı, ○ bilgi ve boş kare (temiz metin). İşaretler
