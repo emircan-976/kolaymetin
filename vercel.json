@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "index.py": {
+      "excludeFiles": "{tests/**,scripts/**,tanitim/**,asd/**,assets/**,docs/ekran/**,docs/readme/**,*.pdf,darkmode.png,test_metin*.txt}"
+    }
+  }
+}
