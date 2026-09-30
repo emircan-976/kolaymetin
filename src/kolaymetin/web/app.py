@@ -255,6 +255,9 @@ def create_app() -> FastAPI:
 
     @app.get("/saglik")
     def saglik() -> dict[str, str]:
+        # Arayüz sayfa açılınca bunu çağırır: sunucusuz ortamda (Vercel) açılış iş parçacığı
+        # yanıttan sonra dondurulabildiği için ısıtma ilk denetime kalmasın diye burada yapılır.
+        _warm()
         return {"durum": "tamam", "surum": __version__, "morfoloji": morphology.backend_name()}
 
     @app.post("/api/analyze")

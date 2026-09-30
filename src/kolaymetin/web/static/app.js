@@ -714,6 +714,8 @@
     temaDugmesiGuncelle();
     olcekDegistir(0);
     duyur("");
+    // Çözümleyiciyi kullanıcı metni yazarken ısıtır; soğuk başlayan sunucuda ilk denetim beklemez.
+    fetch("/saglik").catch(function () { /* ısıtma isteğe bağlı */ });
     ornekleriYukle();
     profilleriYukle();
     arkaCiz();
