@@ -79,6 +79,7 @@ def test_5000_unique_words_under_3_seconds() -> None:
     k = 0
     while len(words) < 5000:  # liste 5.000'den kısaysa aynı köke başka bir ek
         words += [w + suffixes[(i + k) % len(suffixes)] for i, w in enumerate(vocab)]
+        words = list(dict.fromkeys(words))  # "kök + ek" başka bir köke denk gelebilir
         k += 1
     words = words[:5000]
     assert len(set(words)) == 5000

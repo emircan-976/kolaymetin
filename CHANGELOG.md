@@ -5,6 +5,55 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### 5. tur: çalışan uygulamada alışılmadık metinler (2026-09-30)
+
+Web arayüzünün API'sine yaklaşık 90 metin ve dosya gönderildi: boş ve tek karakterlik metin,
+emoji, Arapça, Rusça ve İngilizce metin, kod, HTML, şiir, Osmanlıca, Anayasa maddesi, yemek
+tarifi, masal, SMS dili, geçersiz tarih, IBAN, boşluksuz 100.000 karakter, UTF-16 dosya.
+Regresyon testleri: `tests/test_canli_deneme.py`.
+
+#### Düzeltildi: cümle bölme
+- Noktası unutulmuş tek satırlık metin başlık sayılıyordu ve cümle kurallarının hiçbiri
+  çalışmıyordu: "Müracaatların … yapılması gerekmektedir" noktasız 17, noktalı 1 alıyordu.
+  Metnin sonunda altında hiçbir cümle olmayan ve çekimli fiil taşıyan "başlık" artık cümle.
+  Altında metin olan fiilli başlıklar ("Suyunuz 1 gün gelmeyecek") ve fiilsiz kapanış satırları
+  ("Saygılarımızla") başlık olarak kalıyor.
+- Satırın ortasında biten cümle tırnak ya da üç noktayla sürse de ("… dedi. 'Su' biriktirin")
+  satır başlık sayılmıyor.
+- Küçük harfle yazılmış metin ("yarın su kesilecek. lütfen su biriktirin.") cümlelere bölünüyor;
+  tek cümle sayılıp "çok uzun cümle" uyarısı alıyordu. Kısaltma ("vb. belgeler") ve sıra sayısı
+  ("3. kata") bölünmüyor.
+
+#### Düzeltildi: KD-B04 tarih
+- Geçersiz tarihe ("31.02.2026", "32.13.2026") öneri olarak sabit "15 Eylül 2026 Salı"
+  veriliyordu. Artık "gerçek bir tarih değil" hatası; "31 Şubat 2026" da yakalanıyor.
+- Tarihe uymayan haftanın günü hata: "1 Aralık 2026 Pazartesi" (Salı olmalı), "01.12.2026
+  (Pazartesi)". Haftanın günü önerisi kapalı olsa da denetleniyor.
+- "2026/10/01", "2026-10-05" ve "01-10-2026" de tarih olarak tanınıyor.
+
+#### Düzeltildi: performans ve dosya okuma
+- Boşluksuz uzun bir dizi (yapıştırılmış base64, uzun adres) sunucuyu kilitliyordu: 100.000
+  karakterlik tek "kelime" 59 sn sürüyordu, artık 0,5 sn. E-posta düzenli ifadesi başa bağlı
+  değildi (O(n²)); 80 harften uzun kelime biçimbilimsel çözümlemeye girmiyor.
+- Not Defteri'nin "Unicode" (UTF-16) kaydettiği .txt dosyası bozuk okunuyordu.
+
+#### Düzeltildi: kelime ve biçim kuralları
+- "9dan", "5e" gibi kesmesiz sayı ekleri tek sözcük birimi; "dan" seyrek kelime sayılmıyor.
+- IBAN'daki "TR" (ardından rakam gelen harfler) kısaltma sayılmıyor.
+- KD-K01: resmî emir ("doldurunuz", "teslim ediniz" → "doldurun", "teslim edin"); "tarafımızca"
+  ve "tarafınızca" sözlükte.
+- KD-B03: noktayla yazılmış küsurat ("2.5 milyon" → "2,5 milyon").
+- KD-C03: "Kim tarafından imzalanacak?" sorusunda ileti "İşi yapan ('Kim')" demiyor.
+- KD-K06: "afiyet", "idare", "aynen", "mobil", "hür" temel kelime listesinde.
+- KD-K04 ve KD-K06 Latin alfabesi dışındaki kelimeleri hecelemiyor ("المياه" 6 hece değil).
+
+#### Değişti: notlar
+- Metin Arap, Kiril gibi bir yazıyla ya da İngilizce yazılmışsa not: "Bu metin Türkçe
+  görünmüyor."
+- Güvenilirlik notu cümle sayısını söylüyor: "Metinde 1 cümle var. Skor en az 3 cümlede
+  güvenilir olur." 55 kelimelik tek cümleye "Metin çok kısa" deniyordu.
+- Ateşman açıklaması "0–100 arası" demiyor; puan çok uzun kelime ve cümlede 0'ın altına iner.
+
 ### Görünüm: işaret "dörtlü" (2026-09-28)
 
 - Projenin işareti: 2×2 ızgarada ■ hata, □ uyarı, ○ bilgi ve boş kare (temiz metin). İşaretler

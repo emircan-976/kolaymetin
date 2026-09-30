@@ -31,7 +31,13 @@ from kolaymetin.profiles import Profile, load_profile
 from kolaymetin.readability import atesman, bezirci_yilmaz, cetinkaya_uzun, compliance, count
 from kolaymetin.rules.base import all_rules
 from kolaymetin.text import morphology
-from kolaymetin.text.normalize import fold_circumflex, is_upper_word, normalize, turkish_lower
+from kolaymetin.text.normalize import (
+    fold_circumflex,
+    is_latin,
+    is_upper_word,
+    normalize,
+    turkish_lower,
+)
 from kolaymetin.text.segment import segment
 from kolaymetin.text.syllables import syllable_count
 from kolaymetin.text.tokenize import tokenize
@@ -139,6 +145,7 @@ def build_document(
         )
         sentences.append(s)
         paragraphs[span.paragraph_index].sentence_indices.append(s.index)
+    _unheading_trailing_sentences(sentences)
     return Document(
         original=text,
         normalized=nt,
@@ -147,6 +154,18 @@ def build_document(
         lexicon=lexicon,
         profile=profile,
     )
+
+
+def _unheading_trailing_sentences(sentences: list[Sentence]) -> None:
+    """Başlığın altında metin olur. Metnin sonunda, altında hiçbir cümle olmayan ve çekimli
+    fiil taşıyan "başlık" ("Başvuruların ivedilikle yapılması gerekmektedir") noktası
+    unutulmuş bir cümledir; başlık sayılırsa cümle kurallarının hiçbiri çalışmaz. Fiilsiz
+    kapanış satırları ("Saygılarımızla", "Fen İşleri Müdürlüğü") başlık olarak kalır."""
+    for s in reversed(sentences):
+        if not s.is_heading:
+            break
+        if any(t.kind == "word" and t.analysis is not None and t.analysis.is_finite for t in s.tokens):
+            s.is_heading = False
 
 
 def _coordinated_participles(
@@ -296,6 +315,31 @@ def _to_original(doc: Document, findings: list[Finding], sentences: list[Sentenc
         s.text = doc.original[s.start : s.end]
 
 
+NOT_TURKISH = (
+    "Bu metin Türkçe görünmüyor. kolaymetin yalnızca Türkçe metinleri denetler. "
+    "Skorlar ve bulgular yanlış olabilir."
+)
+# Türkçede kelime olarak geçmeyen İngilizce işlev kelimeleri ("on", "at", "can" Türkçe de olur).
+_ENGLISH_FUNCTION_WORDS = frozenset(
+    {"the", "and", "of", "to", "is", "are", "was", "were", "will", "be", "for", "with", "you",
+     "your", "this", "that", "from", "have", "has", "please", "we", "our", "they", "not",
+     "what", "which", "there", "would", "should", "been"}
+)
+
+
+def _looks_turkish(doc: Document) -> bool:
+    """Metin Latin dışı bir yazıyla (Arapça, Kiril …) ya da İngilizce yazılmışsa False."""
+    words = [t.text for s in doc.sentences for t in s.tokens if t.kind == "word"]
+    if len(words) < 3:
+        return True
+    letters = [c for w in words for c in w if c.isalpha()]
+    foreign_script = sum(1 for c in letters if not is_latin(c))
+    if foreign_script * 2 > len(letters):
+        return False
+    english = sum(1 for w in words if turkish_lower(w) in _ENGLISH_FUNCTION_WORDS)
+    return not (english >= 3 and english * 5 >= len(words))
+
+
 def _stats(doc: Document) -> Stats:
     body = [s for s in doc.sentences if not s.is_heading and s.word_count]
     words = sum(s.word_count for s in body)
@@ -354,6 +398,8 @@ def analyze(
     _to_original(doc, findings, sentences)
 
     notes = [DISCLAIMER]
+    if not _looks_turkish(doc):
+        notes.append(NOT_TURKISH)
     if scores.compliance.note:
         notes.append(scores.compliance.note)
     backend = morphology.backend_name()

@@ -15,7 +15,8 @@ from kolaymetin.text.normalize import is_upper_word, turkish_lower
 SUPPRESS_RE = re.compile(r"<!--\s*kolaymetin\s*:\s*yoksay\b(?P<ids>.*?)-->", re.IGNORECASE | re.S)
 COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
 URL_RE = re.compile(r"(?:https?://|www\.)[^\s<>\"]+", re.IGNORECASE)
-EMAIL_RE = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
+# Başa bağlı değilse "@" içermeyen uzun bir harf dizisinde her konumdan yeniden tarar: O(n²).
+EMAIL_RE = re.compile(r"(?<![\w.+-])[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 PARA_SPLIT_RE = re.compile(r"\n[ ]*(?:\n[ ]*)+")
 LIST_MARKER_RE = re.compile(
     r"^[ ]*(?:(?:[-*+•·▪◦‣]|\d{1,2}[.)]|[a-zçğıöşü][)])[ ]+|[-•](?=[A-ZÇĞİÖŞÜ]))"
@@ -85,7 +86,7 @@ def _has_content(text: str) -> bool:
 
 
 NUMBERED_RE = re.compile(r"^[ ]*\d{1,2}[.)][ ]+")
-INNER_SENTENCE_END_RE = re.compile(r"(\S+)[.!?]+\s+[A-ZÇĞİÖŞÜ]")
+INNER_SENTENCE_END_RE = re.compile(r"(\S+?)[.!?…]+[\"')\]»”’]*\s+[\"'(«“‘]*[A-ZÇĞİÖŞÜ]")
 _TITLE_ABBREVIATIONS = frozenset({"dr", "prof", "doç", "av", "müh", "uzm", "op", "yrd", "sn", "st"})
 
 
@@ -232,6 +233,9 @@ def split_sentences(
 ) -> list[tuple[int, int]]:
     """[start, end) aralığını cümle aralıklarına böler."""
     protected = _protected_spans(text, start, end) + _embedded_quotes(text, start, end)
+    # Büyük harf kullanmadan yazılmış metin ("yarın su kesilecek. lütfen su biriktirin."): cümle
+    # küçük harfle de başlar.
+    lower_style = text[start:end].lstrip().lstrip(OPENERS)[:1].islower()
     bounds: list[tuple[int, int]] = []
     sent_start = start
     for m in TERMINAL_RE.finditer(text, start, end):
@@ -261,6 +265,13 @@ def split_sentences(
                 starts_ok = True  # satır başında tırnak, tire ya da rakamla başlayan yeni cümle
             if not first and gap_has_newline:
                 starts_ok = True
+            if not starts_ok and lower_style and first.isalpha() and "…" not in punct and ".." not in punct:
+                prev = _prev_word(text, m.start(), start)
+                # Kısaltma ("vb. şeyler") ve sıra sayısı ("3. madde") cümleyi bitirmez.
+                starts_ok = (
+                    len(prev) > 1 and prev[-1:].isalpha()
+                    and turkish_lower(prev) + "." not in abbreviations
+                )
             if not starts_ok:
                 continue
         if punct == ".":

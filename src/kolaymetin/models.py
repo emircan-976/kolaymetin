@@ -201,7 +201,7 @@ class Report(BaseModel):
         c = self.scores.compliance
         lines = [
             f"kolaymetin {self.version} - {self.profile_title}",
-            f"Uyum skoru: {c.value}/100" + ("" if c.reliable else " (metin çok kısa, güvenilir değil)"),
+            f"Uyum skoru: {c.value}/100" + ("" if c.reliable else " (cümle az, güvenilir değil)"),
             f"Ateşman: {self.scores.atesman.value} ({self.scores.atesman.level})",
             f"{self.stats.word_count} kelime, {self.stats.sentence_count} cümle, "
             f"{len(self.findings)} bulgu",

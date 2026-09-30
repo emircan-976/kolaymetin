@@ -34,6 +34,17 @@ def _score(penalty: float, sentences: int, k: float) -> int:
     return round(100 * math.exp(-k * normalized))
 
 
+def _note(sentences: int) -> str | None:
+    if sentences >= MIN_RELIABLE_SENTENCES:
+        return None
+    if sentences == 0:
+        return "Metinde denetlenecek bir cümle yok. Skor güvenilir değil."
+    return (
+        f"Metinde {sentences} cümle var. Skor en az {MIN_RELIABLE_SENTENCES} cümlede "
+        "güvenilir olur."
+    )
+
+
 def compute(
     findings: list[Finding], sentence_count: int, k: float, weights: dict[str, float]
 ) -> ComplianceScore:
@@ -63,7 +74,7 @@ def compute(
         k=k,
         sentence_count=sentence_count,
         reliable=reliable,
-        note=None if reliable else "Metin çok kısa, skor güvenilir değil.",
+        note=_note(sentence_count),
         formula=FORMULA,
         weights=dict(weights),
         by_category=[

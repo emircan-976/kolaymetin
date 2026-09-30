@@ -319,9 +319,14 @@ def _last_vowel_back(text: str) -> bool:
     return True
 
 
+# Türkçenin bilinen en uzun kelimesi 70 harf kadardır. Daha uzun bir "kelime" (boşluksuz
+# yapıştırılmış bir dizi) çözümlenmez: önek araması kelime uzunluğunun karesiyle büyür.
+MAX_WORD_LENGTH = 80
+
+
 def _zeyrek_analyses(word: str) -> list[tuple[Analysis, list[tuple[str, str]], str]]:
     analyzer = _get_zeyrek()
-    if analyzer is None:
+    if analyzer is None or len(word) > MAX_WORD_LENGTH:
         return []
     normalized = fold_circumflex(turkish_lower(word)).replace("'", "")
     try:
@@ -877,6 +882,8 @@ _VERB_ENDING_RE = re.compile(rf"^{_VERB_TAIL}$")
 def heuristic_verb_lemma(word: str) -> str:
     """zeyrek'in tanımadığı çekimli fiilin mastarı: "olmalıyım" → "olmak". Bulamazsa ""."""
     w = fold_circumflex(turkish_lower(word)).split("'", 1)[0]
+    if len(w) > MAX_WORD_LENGTH:
+        return ""
     stems = known_verb_stems()
     for k in range(len(w) - 1, 1, -1):
         stem, rest = w[:k], w[k:]

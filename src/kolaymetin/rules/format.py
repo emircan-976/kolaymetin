@@ -11,7 +11,7 @@ from kolaymetin.profiles import RuleConfig
 from kolaymetin.rules.base import Rule, body_sentences, quote, register
 from kolaymetin.text.morphology import best, vocabulary_keys
 from kolaymetin.text.normalize import is_upper_word, turkish_capitalize, turkish_lower
-from kolaymetin.text.syllables import MONTHS, read_number
+from kolaymetin.text.syllables import MONTHS, date_parts, read_number
 
 NUMBER_WORDS = {
     "bir": 1, "iki": 2, "üç": 3, "dört": 4, "beş": 5, "altı": 6, "yedi": 7, "sekiz": 8,
@@ -230,6 +230,11 @@ def _percent_hint(value: int, context: str, shown: str = "") -> str:
     return f"Somut bir örnek verin ya da kesirle söyleyin: '100'de {possessive(value)}'."
 
 
+# "2.5 milyon", "1.75 kg": İngilizcedeki gibi noktayla yazılmış küsurat. "15.000" binliktir.
+_DOT_DECIMAL_RE = re.compile(r"^\d+\.\d{1,2}$")
+_DECIMAL_UNITS = UNITS_AFTER_NUMBER | {"milyon", "milyar", "bin", "yıl", "saat", "kat"}
+
+
 @register
 class PercentFraction(Rule):
     id = "KD-B03"
@@ -270,6 +275,22 @@ class PercentFraction(Rule):
                         yield self._make(doc, cfg, s, t.start, toks[i + 2].end,
                                          f"{a}/{b}", f"Kesir yerine şöyle yazın: {quote(word)}.")
                     continue
+                elif t.kind == "number" and _DOT_DECIMAL_RE.match(t.base) and (
+                    i + 1 < len(toks) and turkish_lower(toks[i + 1].base) in _DECIMAL_UNITS
+                ):
+                    comma = t.base.replace(".", ",")
+                    yield self.finding(
+                        doc, cfg, t.start, t.end,
+                        message=f"{quote(t.base)} sayısında nokta var. Küsuratı virgülle yazın: {quote(comma)}.",
+                        explanation=(
+                            "Türkçede nokta binlikleri ayırır. Okur '2.5 milyon' sayısını yanlış "
+                            "okuyabilir."
+                        ),
+                        suggestion=f"{quote(t.base)} → {quote(comma)}",
+                        sentence=s,
+                        severity="uyarı",
+                    )
+                    continue
                 if value is None:
                     continue
                 hint = _percent_hint(value, _percent_context(toks, i), shown)
@@ -288,16 +309,25 @@ class PercentFraction(Rule):
 
 
 def _parse_date(text: str) -> dt.date | None:
-    parts = re.split(r"[./]", text)
-    if len(parts) != 3:
+    parts = date_parts(text)
+    if parts is None:
         return None
+    d, m, y = parts
     try:
-        d, m, y = (int(p) for p in parts)
-        if y < 100:
-            y += 2000
         return dt.date(y, m, d)
     except ValueError:
         return None
+
+
+def _weekday_after(toks: list[Token], i: int) -> Token | None:
+    """toks[i]'de biten tarihten hemen sonra yazılmış haftanın günü: "1 Aralık 2026 Salı",
+    "01.12.2026 (Salı)", "01.12.2026, Salı"."""
+    for t in toks[i + 1 : i + 4]:
+        if t.kind == "word":
+            return t if turkish_lower(t.base) in WEEKDAYS_LOWER else None
+        if t.text not in "(,-":
+            return None
+    return None
 
 
 def _is_past_year(year: int) -> bool:
@@ -368,12 +398,20 @@ class DateFormat(Rule):
             for i, t in enumerate(toks):
                 if t.kind == "date":
                     date = _parse_date(t.base)
+                    if date is None:
+                        yield self._invalid(doc, cfg, s, t.start, t.end, t.base)
+                        continue
+                    written = _weekday_after(toks, i)
+                    if written is not None and turkish_lower(written.base) != turkish_lower(
+                        WEEKDAYS[date.weekday()]
+                    ):
+                        yield self._wrong_weekday(doc, cfg, s, t.start, written.end, date, written.base)
+                        continue
                     # Tarih aralığında ("01.11.2026 - 15.11.2026") iki uca da gün eklemek metni
                     # uzatır; yalnızca ayın adı önerilir.
                     in_range = _range_end(toks, i) is not None or _range_start(toks, i)
-                    readable = (
-                        _readable(date, weekday=weekday and not in_range and not _is_past_year(date.year))
-                        if date else "15 Eylül 2026 Salı"
+                    readable = _readable(
+                        date, weekday=weekday and not in_range and not _is_past_year(date.year)
                     )
                     yield self.finding(
                         doc, cfg, t.start, t.end,
@@ -385,12 +423,25 @@ class DateFormat(Rule):
                         suggestion=f"{quote(t.base)} → {quote(readable)}",
                         sentence=s,
                     )
-                elif weekday and t.kind == "number" and t.base.isdigit() and 1 <= int(t.base) <= 31:
+                elif t.kind == "number" and t.base.isdigit() and 1 <= int(t.base) <= 31:
                     if i + 1 >= len(toks) or toks[i + 1].kind != "word":
                         continue
                     month_tok = toks[i + 1]
                     month_low = turkish_lower(month_tok.base)
                     if month_low not in MONTHS:
+                        continue
+                    has_year = (
+                        i + 2 < len(toks) and toks[i + 2].kind == "number" and len(toks[i + 2].base) == 4
+                    )
+                    if not date_in_name(toks, i):
+                        year_or_none = int(toks[i + 2].base) if has_year else None
+                        problem = self._check_written(
+                            doc, cfg, s, toks, i, int(t.base), MONTHS.index(month_low) + 1, year_or_none
+                        )
+                        if problem is not None:
+                            yield problem
+                            continue
+                    if not weekday:
                         continue
                     window = toks[max(0, i - 3) : i + 5]
                     if any(turkish_lower(w.base) in WEEKDAYS_LOWER for w in window if w.kind == "word"):
@@ -406,13 +457,10 @@ class DateFormat(Rule):
                         year = int(toks[i + 2].base)
                         if _is_past_year(year):
                             continue  # "23 Nisan 1920": tarihî olayın haftanın günü gerekmez
-                    hint = "Haftanın gününü de yazın: '15 Eylül Salı'."
+                    hint = "Haftanın gününü de yazın. Örnek: '15 Eylül Salı'."
                     if year:
-                        try:
-                            date = dt.date(year, MONTHS.index(month_low) + 1, int(t.base))
-                            hint = f"Haftanın gününü de yazın: {quote(_readable(date))}."
-                        except ValueError:
-                            pass
+                        date = dt.date(year, MONTHS.index(month_low) + 1, int(t.base))
+                        hint = f"Haftanın gününü de yazın: {quote(_readable(date))}."
                     yield self.finding(
                         doc, cfg, t.start, end_tok.end,
                         message="Bu tarihte haftanın günü yok. Günü de yazın.",
@@ -421,6 +469,60 @@ class DateFormat(Rule):
                         sentence=s,
                         severity="bilgi",
                     )
+
+    def _check_written(
+        self, doc: Document, cfg: RuleConfig, s: Sentence, toks: list[Token], i: int,
+        day: int, month: int, year: int | None,
+    ) -> Finding | None:
+        """Ayın adıyla yazılmış tarih ("31 Şubat 2026", "1 Aralık 2026 Pazartesi") gerçek mi,
+        haftanın günü doğru mu?"""
+        last = i + 2 if year is not None else i + 1
+        shown = doc.text[toks[i].start : toks[last].end]
+        try:
+            date = dt.date(year if year is not None else 2024, month, day)  # 2024: 29 Şubat var
+        except ValueError:
+            return self._invalid(doc, cfg, s, toks[i].start, toks[last].end, shown)
+        if year is None:
+            return None  # yıl yoksa haftanın günü denetlenemez
+        written = _weekday_after(toks, last)
+        if written is None or turkish_lower(written.base) == turkish_lower(WEEKDAYS[date.weekday()]):
+            return None
+        return self._wrong_weekday(doc, cfg, s, toks[i].start, written.end, date, written.base)
+
+    def _invalid(
+        self, doc: Document, cfg: RuleConfig, s: Sentence, start: int, end: int, shown: str
+    ) -> Finding:
+        return self.finding(
+            doc, cfg, start, end,
+            message=f"{quote(shown)} gerçek bir tarih değil. Günü ve ayı denetleyin.",
+            explanation=(
+                "Takvimde olmayan bir tarih okuru şaşırtır. Okur başvuruyu ya da randevuyu "
+                "kaçırabilir."
+            ),
+            suggestion="Doğru tarihi ayın adıyla yazın. Örnek: '15 Eylül 2026 Salı'.",
+            sentence=s,
+            severity="hata",
+        )
+
+    def _wrong_weekday(
+        self, doc: Document, cfg: RuleConfig, s: Sentence, start: int, end: int,
+        date: dt.date, written: str,
+    ) -> Finding:
+        right = WEEKDAYS[date.weekday()]
+        return self.finding(
+            doc, cfg, start, end,
+            message=(
+                f"{quote(_readable(date, weekday=False))} bir {right} günü. "
+                f"Metinde {quote(written)} yazıyor."
+            ),
+            explanation=(
+                "Tarih ile haftanın günü birbirini tutmazsa okur hangisine inanacağını bilemez. "
+                "Yanlış gün gelebilir."
+            ),
+            suggestion=f"Günü düzeltin: {quote(_readable(date))}.",
+            sentence=s,
+            severity="hata",
+        )
 
 
 @register

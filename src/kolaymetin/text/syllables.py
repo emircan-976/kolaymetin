@@ -94,11 +94,25 @@ def read_number(text: str) -> str:
     return number_to_words(int(raw)) if raw.isdigit() else raw
 
 
-def read_date(text: str) -> str:
-    parts = re.split(r"[./]", text)
+def date_parts(text: str) -> tuple[int, int, int] | None:
+    """'15.09.2026', '15/09/26', '15-09-2026' ya da '2026-09-15' → (gün, ay, yıl)."""
+    parts = re.split(r"[./-]", text)
     if len(parts) != 3 or not all(p.isdigit() for p in parts):
+        return None
+    if len(parts[0]) == 4:  # yıl başta: 2026/10/01
+        year, month, day = (int(p) for p in parts)
+    else:
+        day, month, year = (int(p) for p in parts)
+    if year < 100:
+        year += 2000
+    return day, month, year
+
+
+def read_date(text: str) -> str:
+    parts = date_parts(text)
+    if parts is None:
         return read_number(text)
-    day, month, year = (int(p) for p in parts)
+    day, month, year = parts
     month_name = MONTHS[month - 1] if 1 <= month <= 12 else number_to_words(month)
     return f"{number_to_words(day)} {month_name} {number_to_words(year)}"
 

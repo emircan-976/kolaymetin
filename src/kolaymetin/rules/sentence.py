@@ -431,6 +431,13 @@ class Passive(Rule):
                         f"{quote(t.text)} hem 'kendi kendine yapmak' hem 'başkası yapmak' "
                         "anlamına gelebilir. İşi kimin yaptığını kontrol edin."
                     )
+                elif turkish_lower(agent) in ("kim", "kimler"):
+                    # "Kim tarafından imzalanacak?": yapan bir soru kelimesi, özne yapılamaz.
+                    message = "Bu soru edilgen. 'Kim tarafından' yerine doğrudan sorun."
+                    suggestion = (
+                        f"Soruyu etken kurun: 'Kim {active}?'" if active else
+                        "Soruyu etken kurun. Örnek: 'Kim tarafından imzalanacak?' → 'Kim imzalayacak?'"
+                    )
                 elif agent:
                     # "Belediye tarafından yapılacak": yapan belli ama cümlenin ortasına itilmiş.
                     message = (

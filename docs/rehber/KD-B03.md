@@ -8,6 +8,8 @@
 
 Bu kural yüzde ve kesirleri bulur.
 "%35", "yüzde 50", "3/4" bunlara örnektir.
+Noktayla yazılmış küsuratı da bulur: "2.5 milyon".
+Türkçede nokta binlikleri ayırır. Küsuratı virgülle yazın: "2,5 milyon".
 
 ## Neden?
 
@@ -24,6 +26,10 @@ Somut bir örnek anlamayı kolaylaştırır.
 > **Kötü:** Hanelerin %35'i yardım alıyor.
 >
 > **İyi:** 100 aileden 35'i yardım alıyor.
+
+> **Kötü:** Yardım 2.5 milyon kişiye ulaştı.
+>
+> **İyi:** Yardım 2,5 milyon kişiye ulaştı.
 
 ## Nasıl düzeltirim?
 

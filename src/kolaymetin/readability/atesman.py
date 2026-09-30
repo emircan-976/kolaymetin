@@ -44,5 +44,8 @@ def score(tc: TextCounts) -> ReadabilityScore:
         name="Ateşman",
         value=round(value, 1),
         level=level(value),
-        description="0–100 arası; yüksek puan daha kolay metin demektir.",
+        description=(
+            "Yüksek puan daha kolay metin demektir. Puan çoğu metinde 0 ile 100 arasındadır. "
+            "Çok uzun kelime ve cümlede puan 0'ın altına iner."
+        ),
     )
