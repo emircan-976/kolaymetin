@@ -31,6 +31,10 @@ Büyük sayılarda bu fark daha da artar.
 - Sayıyı rakamla yazın.
 - Binlik ayırıcı olarak nokta kullanın: 15.000.
 
+Araç ayırıcısı olmayan büyük rakamı da işaretler: "1250000 lira".
+Bunu yalnızca sayıdan sonra "lira", "kişi", "adet" gibi bir kelime gelince yapar.
+Posta kodunu ve telefon numarasını ayırıcısız yazarız.
+
 ## İstisnalar
 
 "Bir" kelimesi çoğu zaman sayı değildir: "bir gün".

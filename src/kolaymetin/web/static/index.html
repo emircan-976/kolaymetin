@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>kolaymetin — Kolay Dil denetim masası</title>
-<meta name="description" content="Türkçe Kolay Dil ve Sade Dil denetim aracı. Metin bilgisayarınızdan çıkmaz.">
+<meta name="description" content="Türkçe Kolay Dil ve Sade Dil denetim aracı. Metin denetim için sunucuya gönderilir ve saklanmaz.">
 <link rel="icon" href="/static/isaret.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/static/style.css">
 <script src="/static/tema.js"></script>
@@ -46,7 +46,7 @@
 
 <p class="not-seridi" role="note">
   <span><strong>Bu araç yardımcıdır.</strong> Metni hedef okurlarla test edin.</span>
-  <span>Metniniz hiçbir yerde saklanmaz. Yalnızca denetim sırasında bu bilgisayarın belleğinde kalır.</span>
+  <span>Metniniz denetim için sunucuya gönderilir. Orada saklanmaz ve kayda geçmez.</span>
 </p>
 
 <main class="izgara" id="ana">
@@ -96,7 +96,7 @@
         </div>
       </div>
     </div>
-    <p id="metin-yardim" class="etiket">Dosyayı bu alana sürükleyip bırakabilirsiniz. İşaretli bir yere tıklayınca ilgili not açılır.</p>
+    <p id="metin-yardim" class="etiket"><span class="surukle-ipucu">Dosyayı bu alana sürükleyip bırakabilirsiniz. </span>İşaretli bir yere tıklayınca ilgili not açılır.</p>
   </section>
 
   <aside class="izgara__sag" aria-labelledby="sonuc-baslik">
@@ -109,7 +109,7 @@
 
     <div class="skorlar">
       <div class="skor skor--buyuk">
-        <h3 class="skor__baslik">Kolay Dil Uyum Skoru</h3>
+        <h3 class="skor__baslik" id="uyum-baslik">Kolay Dil Uyum Skoru</h3>
         <div class="skor__deger"><span id="uyum">—</span><span class="etiket"> / 100</span></div>
         <div class="cubuk-satir">
           <div class="cubuk" aria-hidden="true"><div class="cubuk__dolgu d-00" id="uyum-cubuk"></div></div>
@@ -183,6 +183,7 @@
 
     <div class="disa-aktar" role="group" aria-label="Dışa aktar">
       <span class="etiket tam-genislik">Raporu indir</span>
+      <p class="etiket tam-genislik" id="rapor-notu">Rapor süzgeçlere bakmaz: bütün bulguları içerir. Yoksaydığınız bulgular raporda ayrı bir bölümde yer alır.</p>
       <button type="button" class="dugme dugme--kucuk" data-bicim="html">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-disa-aktar"></use></svg> HTML (yazdırılabilir)</button>
       <button type="button" class="dugme dugme--kucuk" data-bicim="md">

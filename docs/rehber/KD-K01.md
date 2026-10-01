@@ -10,6 +10,8 @@ Resmî yazışmalar eski ve ağır kelimeler kullanır.
 "Müracaat", "ivedilikle", "mezkûr", "tebliğ" bunlara örnektir.
 Bu kural bu kelimeleri sözlükten bulur.
 Çekimli hâlleri de tanır: "müracaatınız", "arz ederiz".
+"-iniz" ile biten resmî emri de bulur: "doldurunuz", "teslim ediniz".
+Kısa emir hem kibar hem kolaydır: "doldurun", "teslim edin".
 
 ## Neden?
 

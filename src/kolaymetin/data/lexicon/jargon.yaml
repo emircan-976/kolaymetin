@@ -238,3 +238,5 @@
 - {ifade: vuku bulan, oneri: olan}
 - {ifade: mezkur tarih, oneri: "bu tarih"}
 - {ifade: tarafından, oneri: "(işi yapanı cümlenin başına yazın)"}
+- {ifade: tarafımızca, oneri: "(işi yapanı özne yapın: 'Biz … yapacağız')"}
+- {ifade: tarafınızca, oneri: "(işi yapanı özne yapın: 'Siz … yapın')"}

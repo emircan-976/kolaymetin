@@ -20,9 +20,6 @@ tetiklenmeli:
 - kural: KD-B04
   cumle: 3
   ifade: 15.09.2026
-- kural: KD-B05
-  cumle: 3
-  ifade: '09.00'
 - kural: KD-C02
   cumle: 4
 - kural: KD-C11
@@ -31,3 +28,4 @@ tetiklenmeli:
 tetiklenmemeli:
 - KD-C05
 - KD-K02
+- KD-B05  # "09.00-17.00 saatleri arasında": 'saat' sonra geliyor

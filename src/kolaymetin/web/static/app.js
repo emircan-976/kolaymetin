@@ -1,5 +1,6 @@
 /* kolaymetin web arayüzü — çerçevesiz, derleme adımı yok.
-   Metin yalnızca yerel sunucuya (aynı bilgisayar) gönderilir; başka hiçbir yere gitmez. */
+   Metin denetim için bu sayfayı sunan sunucuya gönderilir (yerel kurulumda aynı bilgisayar,
+   çevrim içi sürümde Vercel); orada saklanmaz. Başka hiçbir yere gitmez. */
 (function () {
   "use strict";
 
@@ -10,6 +11,8 @@
   var KATEGORI_AD = { "cümle": "Cümle", "kelime": "Kelime", "biçim": "Biçim", "metin": "Metin" };
   var OLCEKLER = [1, 1.125, 1.25, 1.5, 1.75];
   var GECIKME = 600;
+  var EN_BUYUK_DOSYA = 4 * 1024 * 1024;  // sunucudaki MAX_UPLOAD_BYTES ile aynı
+  var BAGLANTI_HATASI = "Sunucuya ulaşılamadı. İnternet bağlantınızı denetleyip yeniden deneyin.";
 
   var $ = function (id) { return document.getElementById(id); };
   var metin = $("metin"), arka = $("arka"), kenar = $("kenar"), masa = $("masa");
@@ -22,6 +25,7 @@
     acik: {},             // açık kartlar
     profiller: {},
     istek: null,
+    yuklenenMetin: null,  // son yüklenen örnek ya da dosya
     zamanlayici: null,
     yuklemeZamanlayici: null
   };
@@ -69,12 +73,48 @@
     kutu.hidden = false;
   }
 
+  // Sunucunun Türkçe hata iletisi. Vercel gibi aradaki katmanlar JSON olmayan yanıt döndürür
+  // (ör. 4,5 MB üstü istekte düz metin 413); o zaman iletiyi durum kodundan seçer.
   function sunucuHatasi(yanit) {
+    var yedek = yanit.status === 413
+      ? "Dosya ya da metin çok büyük. En fazla 4 MB'lık dosya ve 100.000 karakter denetlenebilir."
+      : yanit.status >= 500
+        ? "Sunucuda bir sorun çıktı. Birkaç saniye sonra yeniden deneyin."
+        : "Denetim yapılamadı. Lütfen yeniden deneyin.";
     return yanit.json().then(function (veri) {
       var d = veri && veri.detail;
-      if (typeof d === "string") { return d; }
-      return "Denetim yapılamadı. Lütfen yeniden deneyin.";
-    }, function () { return "Denetim yapılamadı. Lütfen yeniden deneyin."; });
+      return typeof d === "string" ? d : yedek;
+    }, function () { return yedek; });
+  }
+
+  function ag(hata) {
+    // fetch() ağ hatasında TypeError fırlatır; iletisi tarayıcıya göre İngilizcedir.
+    return hata instanceof TypeError ? BAGLANTI_HATASI : (hata && hata.message) || BAGLANTI_HATASI;
+  }
+
+  // Yazılmış metin örnek ya da dosyayla değiştirilmeden önce sorulur. Son yüklenen örnek ya da
+  // dosya hiç değiştirilmediyse sormaya gerek yok.
+  function metinDegissinMi() {
+    var yazi = metin.value;
+    if (!yazi.trim() || yazi === durum.yuklenenMetin) { return true; }
+    return window.confirm("Metin alanındaki yazı silinecek ve yerine yenisi gelecek. Devam edilsin mi?");
+  }
+
+  // Ctrl+Z ile eski metne dönülebilsin diye metin, tarayıcının geri alma geçmişine giren
+  // insertText ile değiştirilir. Desteklemeyen tarayıcıda doğrudan atanır.
+  function metniDegistir(yeni) {
+    metin.focus({ preventScroll: true });
+    metin.select();
+    var yazildi = false;
+    try { yazildi = document.execCommand("insertText", false, yeni); } catch (e) { yazildi = false; }
+    if (!yazildi || metin.value !== yeni) { metin.value = yeni; }
+    metin.setSelectionRange(0, 0);
+    durum.yuklenenMetin = yeni;
+    durum.yoksay = []; durum.acik = {}; durum.secili = -1;
+    $("yoksay-temizle").hidden = true;
+    metin.scrollTop = 0;
+    arkaCiz();
+    denetle(true);
   }
 
   // ------------------------------------------------------------------ süzgeçler
@@ -233,14 +273,27 @@
   }
 
   // ------------------------------------------------------------------ skorlar
+  // "Kolay Dil Uyum Skoru", "Sade Dil Uyum Skoru": başlık seçilen profile göre.
+  function skorBasligi(r) { return (r.profile_title || "Kolay Dil") + " Uyum Skoru"; }
+
   function skorlarCiz(r) {
     var c = r.scores.compliance;
-    $("uyum").textContent = c.value;
-    $("uyum-sayi").textContent = c.value;
-    cubukAyarla($("uyum-cubuk"), c.value);
+    // Metinde cümle yoksa skor hesaplanamaz (null): 100 yerine "—" gösterilir.
+    var deger = c.value === null ? "—" : String(c.value);
+    $("uyum-baslik").textContent = skorBasligi(r);
+    $("uyum").textContent = deger;
+    $("uyum-sayi").textContent = deger;
+    cubukAyarla($("uyum-cubuk"), c.value || 0);
     var not = $("uyum-not");
-    not.hidden = !c.note;
-    not.textContent = c.note || "";
+    // Yoksayılan bulgular skoru yükseltir; kullanıcı bunu görmeli (rapor da söyler).
+    var notlar = [];
+    if (c.note) { notlar.push(c.note); }
+    if (c.ignored_count) {
+      notlar.push(c.ignored_count + " bulgu yoksayıldı ve skora katılmadı. Yoksaymadan skor: " +
+        (c.raw_value === null ? "—" : c.raw_value) + ".");
+    }
+    not.hidden = !notlar.length;
+    not.textContent = notlar.join(" ");
     var kats = $("kategoriler");
     kats.textContent = "";
     c.by_category.forEach(function (k) {
@@ -250,11 +303,12 @@
       var cubuk = el("div", "cubuk cubuk--ince");
       cubuk.setAttribute("aria-hidden", "true");
       var dolgu = el("div", "cubuk__dolgu");
-      cubukAyarla(dolgu, k.score);
+      cubukAyarla(dolgu, k.score || 0);
       cubuk.appendChild(dolgu);
       satir.appendChild(cubuk);
-      var deger = el("span", "cubuk__deger", String(k.score));
-      deger.setAttribute("aria-label", KATEGORI_AD[k.category] + " skoru " + k.score + ", " + k.finding_count + " bulgu");
+      var kSkor = k.score === null ? "—" : String(k.score);
+      var deger = el("span", "cubuk__deger", kSkor);
+      deger.setAttribute("aria-label", KATEGORI_AD[k.category] + " skoru " + (k.score === null ? "yok" : k.score) + ", " + k.finding_count + " bulgu");
       satir.appendChild(deger);
       li.appendChild(satir);
       kats.appendChild(li);
@@ -421,12 +475,27 @@
     if (odakla) { dugme.focus({ preventScroll: true }); }
   }
 
+  // Editör ekranın dışındaysa (kartlarda aşağı inilmiş, dar ekranda sonuçlar altta) onu
+  // ekrana getirir. Seçili metin görünmeden odakta kalırsa bir tuşa basmak onu siler.
+  function editoruGoster() {
+    var kutu = masa.getBoundingClientRect();
+    var ekran = window.innerHeight || document.documentElement.clientHeight;
+    if (kutu.top < 0 || kutu.bottom > ekran) {
+      masa.scrollIntoView({ block: kutu.height > ekran ? "start" : "nearest" });
+    }
+  }
+
+  function metindeSec(bas, son) {
+    editoruGoster();
+    metin.focus({ preventScroll: true });
+    metin.setSelectionRange(bas, son);
+  }
+
   function metindeGoster(i) {
     var f = durum.rapor && durum.rapor.findings[i];
     if (!f) { return; }
     sec(i, true);
-    metin.focus({ preventScroll: true });
-    metin.setSelectionRange(f.start, f.end);
+    metindeSec(f.start, f.end);
     arka.scrollTop = metin.scrollTop;
     kenarCiz();
   }
@@ -441,8 +510,11 @@
     var enUzun = 1;
     r.sentences.forEach(function (s) { if (!s.is_heading) { enUzun = Math.max(enUzun, s.word_count); } });
     var olcek = Math.max(enUzun, esik * 2);
-    r.sentences.forEach(function (s, n) {
+    // Başlıklar listelenmez; numara 1'den başlar ve özetteki cümle sayısıyla örtüşür.
+    var sira = 0;
+    r.sentences.forEach(function (s) {
       if (s.is_heading) { return; }
+      var n = sira++;
       var li = el("li");
       li.appendChild(el("span", "cumle-sayi", String(n + 1)));
       var d = el("button", "cumle-dugme");
@@ -458,10 +530,7 @@
       cubuk.appendChild(cizgi);
       d.appendChild(cubuk);
       d.appendChild(el("span", "cumle-metni", s.text));
-      d.addEventListener("click", function () {
-        metin.focus({ preventScroll: true });
-        metin.setSelectionRange(s.start, s.end);
-      });
+      d.addEventListener("click", function () { metindeSec(s.start, s.end); });
       li.appendChild(d);
       li.appendChild(el("span", "cumle-sayi" + (uzun ? " cumle-sayi--uzun" : ""), s.word_count + (uzun ? "!" : "")));
       liste.appendChild(li);
@@ -492,9 +561,13 @@
     return { text: metin.value, profile: $("profil").value, ignored: durum.yoksay };
   }
 
+  // Uzun metinde her denetim daha uzun sürer ve sunucuyu daha çok yorar: yazarken denetim
+  // metin uzadıkça daha geç başlar (10.000 karakterde ~0,8 sn, 100.000'de 3 sn).
+  function gecikme() { return GECIKME + Math.min(2400, Math.round(metin.value.length / 40)); }
+
   function denetle(hemen) {
     clearTimeout(durum.zamanlayici);
-    if (!hemen) { durum.zamanlayici = setTimeout(function () { denetle(true); }, GECIKME); return; }
+    if (!hemen) { durum.zamanlayici = setTimeout(function () { denetle(true); }, gecikme()); return; }
     var yazi = metin.value;
     if (!yazi.trim()) {
       durum.rapor = null; durum.raporMetni = "";
@@ -526,18 +599,29 @@
       kartlarCiz();
       cumlelerCiz(rapor);
       arkaCiz();
-      duyur("Denetim bitti: " + rapor.findings.length + " bulgu. Kolay Dil Uyum Skoru " + rapor.scores.compliance.value + ".");
+      var skor = rapor.scores.compliance.value;
+      duyur("Denetim bitti: " + rapor.findings.length + " bulgu. " + skorBasligi(rapor) + " " +
+        (skor === null ? "hesaplanamadı" : skor) + ".");
     }).catch(function (hata) {
       if (hata && hata.name === "AbortError") { return; }
       durum.istek = null;
       yukleniyor(false);
-      hataGoster(hata && hata.message ? hata.message : "Sunucuya ulaşılamadı. Sunucu çalışıyor mu?");
+      hataGoster(ag(hata));
     });
   }
 
   // ------------------------------------------------------------------ dosya, örnek, dışa aktarma
   function dosyaYukle(dosya) {
     if (!dosya) { return; }
+    // Sunucu da denetler; burada denetlemek büyük dosyanın boşuna gönderilmesini önler.
+    if (!/\.(txt|md|markdown|docx|pdf)$/i.test(dosya.name)) {
+      hataGoster("Bu dosya türü desteklenmiyor. Desteklenen türler: .txt, .md, .docx, .pdf");
+      return;
+    }
+    if (dosya.size > EN_BUYUK_DOSYA) {
+      hataGoster("Dosya çok büyük. En fazla 4 MB yükleyebilirsiniz.");
+      return;
+    }
     var veri = new FormData();
     veri.append("file", dosya);
     yukleniyor(true, "Dosya okunuyor…");
@@ -546,16 +630,13 @@
       return yanit.json();
     }).then(function (sonuc) {
       yukleniyor(false);
-      metin.value = sonuc.text;
-      durum.yoksay = [];
-      durum.acik = {};
-      durum.secili = -1;
-      arkaCiz();
+      hataGoster("");
+      if (!metinDegissinMi()) { return; }
+      metniDegistir(sonuc.text);
       duyur(dosya.name + " yüklendi. " + sonuc.karakter + " karakter.");
-      denetle(true);
     }).catch(function (hata) {
       yukleniyor(false);
-      hataGoster(hata.message || "Dosya okunamadı.");
+      hataGoster(ag(hata));
     });
   }
 
@@ -576,7 +657,7 @@
       baglanti.click();
       setTimeout(function () { URL.revokeObjectURL(baglanti.href); baglanti.remove(); }, 1000);
       duyur("Rapor indirildi: kolaymetin-rapor." + bicim);
-    }).catch(function (hata) { hataGoster(hata.message); });
+    }).catch(function (hata) { hataGoster(ag(hata)); });
   }
 
   function ornekleriYukle() {
@@ -589,12 +670,11 @@
       });
       secim.addEventListener("change", function () {
         var o = liste.filter(function (x) { return x.id === secim.value; })[0];
-        if (!o) { return; }
-        metin.value = o.metin;
-        durum.yoksay = []; durum.acik = {}; durum.secili = -1;
-        metin.scrollTop = 0;
-        arkaCiz();
-        denetle(true);
+        // Seçim hemen "Seçin…"e döner: aynı örnek yeniden seçilebilsin.
+        secim.value = "";
+        if (!o || !metinDegissinMi()) { return; }
+        metniDegistir(o.metin);
+        duyur(o.baslik + " örneği yüklendi.");
       });
     }).catch(function () { /* örnekler isteğe bağlı */ });
   }

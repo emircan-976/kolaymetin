@@ -56,7 +56,9 @@ def test_end_to_end_counts() -> None:
     r = analyze("Uzun bir başlık satırı\n\nSu gelecek.")
     assert r.stats.word_count == 6
     assert r.stats.sentence_count == 1
-    assert r.scores.atesman.value == pytest.approx(round(atesman.formula(2.0, 2.0), 1))
+    # Formül 100'ün üstünde sonuç verir; puan 0–100 aralığına sınırlanır.
+    assert atesman.formula(2.0, 2.0) > 100
+    assert r.scores.atesman.value == 100
 
 
 def test_compliance_formula() -> None:

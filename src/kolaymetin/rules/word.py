@@ -19,7 +19,7 @@ from kolaymetin.rules.base import (
     register,
 )
 from kolaymetin.text.morphology import all_lemmas, heuristic_stem, vocabulary_keys
-from kolaymetin.text.normalize import fold_circumflex, turkish_lower, turkish_upper
+from kolaymetin.text.normalize import fold_circumflex, is_latin, turkish_lower, turkish_upper
 from kolaymetin.text.syllables import count_vowels
 
 ROMAN_RE = re.compile(r"^M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})$")
@@ -73,6 +73,34 @@ class Jargon(Rule):
                 suggestion=f"{quote(text)} → {quote(oneri)}" if oneri else None,
                 sentence=s,
             )
+        yield from self._formal_imperatives(doc, cfg)
+
+    def _formal_imperatives(self, doc: Document, cfg: RuleConfig) -> Iterable[Finding]:
+        """"-(y)InIz" ile kurulan resmî emir: "doldurunuz", "teslim ediniz" → "doldurun"."""
+        covered = lexicon_covered(doc, ("jargon",))  # "müracaat ediniz" zaten işaretli
+        for s in body_sentences(doc):
+            for t in s.tokens:
+                a = t.analysis
+                if t.kind != "word" or a is None or t.start in covered:
+                    continue
+                if a.suffixes[-2:] != ("Imp", "A2pl") or not _FORMAL_IMPERATIVE_RE.search(
+                    a.suffix_surfaces[-1] if a.suffix_surfaces else ""
+                ):
+                    continue
+                plain = t.text[:-2]
+                yield self.finding(
+                    doc, cfg, t.start, t.end,
+                    message=f"{quote(t.text)} resmî bir emir. Yerine {quote(plain)} yazın.",
+                    explanation=(
+                        "'-iniz' ile biten emir resmî yazışma dilidir. Kısa emir ('doldurun', "
+                        "'gelin') hem kibar hem kolaydır."
+                    ),
+                    suggestion=f"{quote(t.text)} → {quote(plain)}",
+                    sentence=s,
+                )
+
+
+_FORMAL_IMPERATIVE_RE = re.compile(r"[ıiuü]n[ıiuü]z$")
 
 
 @register
@@ -122,6 +150,8 @@ class Abbreviation(Rule):
             for i, t in enumerate(toks):
                 if t.kind != "word" or not t.is_abbreviation or _is_roman(t):
                     continue
+                if doc.text[t.end : t.end + 1].isdigit():
+                    continue  # kodun parçası: IBAN "TR12 0006 …", "H1N1", "A4"
                 key = t.base.rstrip(".")
                 if key in seen:
                     continue
@@ -267,6 +297,8 @@ class LongWord(Rule):
             for t in s.tokens:
                 if t.kind != "word" or t.is_abbreviation or is_proper_noun(t) or t.start in replaced:
                     continue
+                if not is_latin(t.text):
+                    continue  # Arapça, Kiril …: hece sayısı anlamsız
                 a = t.analysis
                 keys = vocabulary_keys(t.text)
                 if fold_circumflex(turkish_lower(t.base)) in lex.known_words:
@@ -410,7 +442,7 @@ class RareWord(Rule):
             for t in s.tokens:
                 if t.kind != "word" or t.is_abbreviation or is_proper_noun(t):
                     continue
-                if t.start in covered or len(t.text) <= 2:
+                if t.start in covered or len(t.text) <= 2 or not is_latin(t.text):
                     continue
                 keys = vocabulary_keys(t.text)
                 # Bağlamsız seçilmeyen okumalar da sayılır: "Bul.", "Düğmeye bas." emir kipidir.

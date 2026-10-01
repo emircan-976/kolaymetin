@@ -29,13 +29,30 @@ FORMULA = (
 MIN_RELIABLE_SENTENCES = 3
 
 
-def _score(penalty: float, sentences: int, k: float) -> int:
+def _score(penalty: float, sentences: int, k: float) -> int | None:
+    if sentences == 0:
+        return None  # Ölçülecek cümle yoksa 100 vermek yanıltır: sayı yerine "—" gösterilir.
     normalized = penalty / max(sentences, 1)
     return round(100 * math.exp(-k * normalized))
 
 
+def _note(sentences: int) -> str | None:
+    if sentences >= MIN_RELIABLE_SENTENCES:
+        return None
+    if sentences == 0:
+        return "Metinde denetlenecek bir cümle yok. Skor hesaplanamadı."
+    return (
+        f"Metinde {sentences} cümle var. Skor en az {MIN_RELIABLE_SENTENCES} cümlede "
+        "güvenilir olur."
+    )
+
+
 def compute(
-    findings: list[Finding], sentence_count: int, k: float, weights: dict[str, float]
+    findings: list[Finding],
+    sentence_count: int,
+    k: float,
+    weights: dict[str, float],
+    ignored: list[Finding] | None = None,
 ) -> ComplianceScore:
     per_rule: dict[str, RuleContribution] = {}
     per_cat_penalty: dict[str, float] = defaultdict(float)
@@ -55,15 +72,19 @@ def compute(
         rc.count += 1
         rc.penalty = round(rc.penalty + p, 3)
     normalized = total / max(sentence_count, 1)
+    ignored = ignored or []
+    ignored_penalty = sum(weights.get(f.severity, 0.0) * f.confidence for f in ignored)
     reliable = sentence_count >= MIN_RELIABLE_SENTENCES
     return ComplianceScore(
         value=_score(total, sentence_count, k),
+        raw_value=_score(total + ignored_penalty, sentence_count, k),
+        ignored_count=len(ignored),
         penalty=round(total, 3),
         normalized=round(normalized, 3),
         k=k,
         sentence_count=sentence_count,
         reliable=reliable,
-        note=None if reliable else "Metin çok kısa, skor güvenilir değil.",
+        note=_note(sentence_count),
         formula=FORMULA,
         weights=dict(weights),
         by_category=[

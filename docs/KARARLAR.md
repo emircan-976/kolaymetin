@@ -35,6 +35,8 @@ Belirsiz noktalarda verilen kararlar. Biçim: **tarih — karar — gerekçe**.
 - 2026-09-26 — Metnin ilk satırında iki noktalı, en fazla 8 kelimelik satır başlıktır ("Su kesintisi: 15 Eylül"); "Telefon", "Adres", "Saat" gibi etiketler ve iki noktadan sonra harf olmayan satırlar hariç. — KD-M02 kendi önerdiği başlığı tanımıyordu. "Telefon: 185" kararı korunur.
 - 2026-09-26 — Hitap satırını ("Değerli Sakinlerimiz,") kendi başına kısa bir satır sayıyoruz; başlık değildir. — Sonraki cümleye eklenince 15 kelimelik cümle 22 kelime oluyordu.
 - 2026-09-26 — Boş metin kütüphanede de hatadır (`EmptyInput`). — CLI hata, API 100 puan veriyordu; iki davranış tutarlı olmalı.
+- 2026-10-02 — Her satırı büyük harfle başlayan, kısa (en çok 15 kelime) ve bağlaçla ya da virgülle bitmeyen satırlardan oluşan paragrafta her satır ayrı cümledir; satırlardan biri noktasız olmalı. — Kolay Dil metinleri cümleleri çoğu zaman ayrı satıra noktasız yazar; hepsi tek cümle sayılıyordu. Satır kaydırmalı metinde satırların çoğu küçük harfle başlar.
+- 2026-10-02 — Metinde hiç cümle yoksa (yalnızca noktalama, emoji ya da başlık) uyum skoru `None`'dır; arayüz ve raporlar "—" gösterir. CLI `--esik-skor` bu durumda başarısız saymaz. — 100/100 vermek yanıltıyordu; formüller zaten "hesaplanamadı" diyor.
 
 ## Kurallar ve eşikler
 
@@ -56,6 +58,12 @@ Belirsiz noktalarda verilen kararlar. Biçim: **tarih — karar — gerekçe**.
 - 2026-09-26 — KD-C04 cümle başına tek bulgu verir. — Olumsuz kelime sayısı kadar ceza, felsefi ya da gündelik metinleri orantısız cezalandırıyordu.
 - 2026-09-26 — Deyim sözlüğüne `iki_anlamli` ve `gercek` alanlarını ekledik. — Bağlamsız bir deyim eşleştiricisi "Otobüs yola çıktı" ile "Belediye projeyle yola çıktı" arasını ayıramaz; ipucu kelimeleri ve düşük önem en az sürprizli çözümdür.
 - 2026-09-26 — KD-B03 önerisi yüzdenin neyin oranı olduğuna göre seçilir (kişi / para / diğer). — "Faiz oranı yüzde 45" için "100 kişiden 45'i" anlamsızdı.
+- 2026-10-02 — Çetinkaya-Uzun puanı 0'ın altına inmez; formül negatif verirse sınıf düzeyi verilmez ("ölçeğin altında"). — Seçim duyurusu -1,4 alıyordu ve "10, 11 ve 12. sınıf" deniyordu.
+- 2026-10-02 — Yoksayılan bulgular skora katılmaz ama raporda ayrı bölümde listelenir; rapor yoksaymadan skoru da verir. — Yoksay ile skor 30'dan 74'e çıkıyor, indirilen rapor bunu göstermiyordu.
+- 2026-10-02 — KD-C04 yüklem olan "yok"u işaretlemez; yasak bildiren olumsuz emir ("harcamayın") uyarı olarak kalır. — "Yarın su yok"un daha sade olumlu hâli yok. Yasakları bilgiye indirmeyi denedik ama rehberin kendi örneği ("Kötü: Suyu boşa harcamayın.") bununla çelişti.
+- 2026-10-02 — KD-B01 binlik ayırıcısız sayıyı yalnızca ardından birim ya da sayı adı ("lira", "kişi", "adet") gelince işaretler. — Posta kodu, telefon, kimlik ve hesap numarası ayırıcısız yazılır.
+- 2026-10-02 — Ateşman puanını 0–100 aralığına sınırlıyoruz. — Formül çok kısa kelime ve cümlede 100'ün üstüne çıkıyordu (146); yayımlanmış ölçek 0–100. Çetinkaya-Uzun ve Bezirci-Yılmaz değişmedi.
+- 2026-10-02 — "T.C." ve "PTT" `bilinir: true` olarak kalır; KD-K03 onları işaretlemez, "SGK"yı işaretler. — Bu kısaltmalar açılımından daha tanıdık; "SGK"nın açılımı ise birçok okur için yeni bilgidir.
 - 2026-09-26 — Ateşman formülüne giren kelimelerden özel adları çıkarmadık. — Bir deneme haber metninin özel adlar yüzünden "zor" çıktığını söyledi. Formülü değiştirmek skoru yayımlanmış ölçeklerle karşılaştırılamaz yapar; formüller olduğu gibi kalır.
 
 ## Okunabilirlik formülleri (kaynak doğrulaması)
@@ -94,3 +102,7 @@ Belirsiz noktalarda verilen kararlar. Biçim: **tarih — karar — gerekçe**.
 - 2026-09-25 — Rehber Markdown dosyaları tekerleğe (`wheel`) `kolaymetin/_rehber` olarak eklenir; geliştirmede `docs/rehber` okunur. — `pipx install .` ve Docker kurulumunda da `/rehber` çalışsın.
 - 2026-09-25 — `docker-compose.yml` varsayılan olarak yalnızca `127.0.0.1:8000` adresini açar; kapsayıcı salt okunur dosya sistemiyle ve yetkisiz kullanıcıyla çalışır. — KVKK: metin makineden çıkmamalı; ağa açmak bilinçli bir karar olmalı.
 - 2026-09-25 — Metin sınırı 100.000 karakter, dosya yükleme sınırı 10 MB. — Spesifikasyon metin sınırını veriyor; yükleme sınırı taranmış büyük PDF'lere karşı.
+- 2026-10-02 — Dosya yükleme sınırı 4 MB'a indi; yüklenen dosyanın metni de 100.000 karakteri aşamaz, uzantısız ya da boş dosya reddedilir. — Vercel 4,5 MB üstü isteği kendisi keser ve JSON olmayan bir 413 döndürür; kullanıcı "yeniden deneyin" görüyordu.
+- 2026-10-02 — Hız sınırı bellekte, IP başına dakikada 60 API isteği; yalnızca Vercel'de (VERCEL=1) varsayılan olarak açık. — Sunucusuz ortamda her örneğin kendi belleği var, kesin bir sınır değil; betikle art arda istek atılmasını yine de durdurur. Kesin sınır için Vercel güvenlik duvarı kuralı gerekir.
+- 2026-10-02 — Rapor tarihi Türkiye saatinde (UTC+3, sabit). — Türkiye 2016'dan beri yaz saati uygulamıyor; zoneinfo Windows'ta tzdata paketi istiyor.
+- 2026-10-02 — `/api/analyze` yanıtındaki ofsetler UTF-16 birimidir (yalnızca web API'si; kütüphane, CLI ve JSON dışa aktarma kod noktası kullanır). — Tarayıcı UTF-16 sayar; emojili metinde işaretler kayıyordu.

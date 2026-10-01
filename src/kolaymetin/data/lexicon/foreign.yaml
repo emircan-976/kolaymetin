@@ -132,3 +132,40 @@
 - {kelime: segment, oneri: "grup, kesim"}
 - {kelime: sponsor, oneri: destekçi}
 - {kelime: stajyer, oneri: "öğrenci çalışan"}
+- {kelime: meeting, oneri: toplantı}
+- {kelime: call, oneri: "telefon görüşmesi, arama"}
+- {kelime: team, oneri: ekip}
+- {kelime: manager, oneri: yönetici}
+- {kelime: password, oneri: şifre}
+- {kelime: username, oneri: kullanıcı adı}
+- {kelime: account, oneri: hesap}
+- {kelime: attachment, oneri: "ek, ekteki dosya"}
+- {kelime: support, oneri: destek}
+- {kelime: cancel, oneri: iptal}
+- {kelime: booking, oneri: "yer ayırma, rezervasyon"}
+- {kelime: discount, oneri: indirim}
+- {kelime: delivery, oneri: teslimat}
+- {kelime: ticket, oneri: bilet}
+- {kelime: voucher, oneri: "kupon, hediye çeki"}
+- {kelime: hotline, oneri: yardım hattı}
+- {kelime: software, oneri: yazılım}
+- {kelime: hardware, oneri: donanım}
+- {kelime: browser, oneri: tarayıcı}
+- {kelime: cookie, oneri: çerez}
+- {kelime: newsletter, oneri: "bülten, haber mektubu"}
+- {kelime: webinar, oneri: çevrim içi seminer}
+- {kelime: check-in, oneri: "giriş, kayıt"}
+- {kelime: check-out, oneri: çıkış}
+- {kelime: brainstorming, oneri: beyin fırtınası}
+- {kelime: target, oneri: hedef}
+- {kelime: budget, oneri: bütçe}
+- {kelime: freelance, oneri: serbest çalışan}
+- {kelime: startup, oneri: "yeni kurulan şirket, girişim"}
+- {kelime: mentor, oneri: "rehber, danışman"}
+- {kelime: coach, oneri: "koç, eğitmen"}
+- {kelime: deal, oneri: anlaşma}
+- {kelime: request, oneri: "istek, talep"}
+- {kelime: approve, oneri: onay}
+- {kelime: shopping, oneri: alışveriş}
+- {kelime: free, oneri: ücretsiz}
+- {kelime: home office, oneri: evden çalışma}

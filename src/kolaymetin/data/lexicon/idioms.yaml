@@ -41,7 +41,7 @@
 - {ifade: iki ayağı bir pabuca girmek, anlam: "çok telaşlanmak"}
 - {ifade: içi rahat etmek, anlam: "endişesi kalmamak"}
 - {ifade: kafa yormak, anlam: "çok düşünmek"}
-- {ifade: kapı açmak, anlam: "fırsat vermek", iki_anlamli: true, gercek: [kapıyı, kapıları, kapısını, anahtar, zil, kilid, kilit, misafir]}
+- {ifade: kapı açmak, anlam: "fırsat vermek", iki_anlamli: true, gercek: [kapıyı, kapıları, kapısını, anahtar, zil, kilid, kilit, misafir, açıl]}
 - {ifade: kapısını çalmak, anlam: "yardım istemek", iki_anlamli: true, gercek: [zil, komşu, misafir, gece, sabah, tık]}
 - {ifade: kolları sıvamak, anlam: "işe başlamak", iki_anlamli: true, gercek: [yıka, bulaşık, sabun]}
 - {ifade: masaya yatırmak, anlam: "ayrıntılı incelemek", iki_anlamli: true, gercek: [hasta, ameliyat, bebeğ, çocuğ]}

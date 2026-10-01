@@ -30,9 +30,10 @@ Ateşman = 198,825 − 40,175 × (hece / kelime) − 2,610 × (kelime / cümle)
 | 70–89 | kolay |
 | 50–69 | orta güçlükte |
 | 30–49 | zor |
-| 1–29 | çok zor |
+| 0–29 | çok zor |
 
-Yüksek puan daha kolay metin demektir.
+Yüksek puan daha kolay metin demektir. Formülün sonucu bazen 100'ü aşar. Bazen de 0'ın altına
+iner. kolaymetin puanı 0 ile 100 arasında tutar.
 
 ## Çetinkaya-Uzun (2010)
 

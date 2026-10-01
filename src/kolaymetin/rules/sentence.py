@@ -431,6 +431,13 @@ class Passive(Rule):
                         f"{quote(t.text)} hem 'kendi kendine yapmak' hem 'başkası yapmak' "
                         "anlamına gelebilir. İşi kimin yaptığını kontrol edin."
                     )
+                elif turkish_lower(agent) in ("kim", "kimler"):
+                    # "Kim tarafından imzalanacak?": yapan bir soru kelimesi, özne yapılamaz.
+                    message = "Bu soru edilgen. 'Kim tarafından' yerine doğrudan sorun."
+                    suggestion = (
+                        f"Soruyu etken kurun: 'Kim {active}?'" if active else
+                        "Soruyu etken kurun. Örnek: 'Kim tarafından imzalanacak?' → 'Kim imzalayacak?'"
+                    )
                 elif agent:
                     # "Belediye tarafından yapılacak": yapan belli ama cümlenin ortasına itilmiş.
                     message = (
@@ -525,6 +532,9 @@ class Negation(Rule):
                     continue  # "Ali Korkmaz", "Mehmet Sönmez"; alıntılanan söz
                 low = turkish_lower(t.base or t.text)
                 a = t.analysis
+                if low == "yok" and _is_predicate(s, t):
+                    # "Yarın su yok.": bunun daha sade olumlu bir söyleyişi yoktur.
+                    continue
                 lexical = low in NEGATIVE_WORDS or low.startswith(("değil", "hiçbir"))
                 morph = a is not None and a.is_negative and a.conf("is_negative") >= 0.5
                 if not (lexical or morph):
@@ -547,6 +557,14 @@ class Negation(Rule):
                 sentence=s,
                 confidence=max(c for _h, c in hits),
             )
+
+
+def _is_predicate(s: Sentence, t: Token) -> bool:
+    """Kelime cümlenin ya da bir yan cümlenin son kelimesi mi ("Su yok, elektrik yok.")?"""
+    toks = s.tokens
+    i = next((k for k, x in enumerate(toks) if x is t), -1)
+    rest = [x for x in toks[i + 1 :] if x.kind == "word" or x.text in ",;"]
+    return not rest or rest[0].text in ",;"
 
 
 _WITHOUT_RE = re.compile(r"(?:s[ıiuü]z)(?:l[ıiuü][kğ])?", re.IGNORECASE)

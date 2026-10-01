@@ -43,6 +43,8 @@ Araç "Yılmaz", "Korkmaz", "Sönmez" gibi soyadlarını olumsuz fiil saymaz.
 ## İstisnalar
 
 Bazı güvenlik uyarıları olumsuz olmak zorundadır.
+Araç yüklem olan "yok" kelimesini işaretlemez: "Yarın su yok."
+Bu cümlenin daha sade bir olumlu hâli yoktur.
 "Asansöre binmeyin" böyle bir uyarıdır.
 Bu durumda olumsuz cümleyi koruyun.
 Yanına ne yapılacağını söyleyen bir cümle ekleyin: "Merdiveni kullanın."

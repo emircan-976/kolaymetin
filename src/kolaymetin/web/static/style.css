@@ -257,6 +257,15 @@ legend { font-family: var(--f-mono); font-size: var(--t-14); letter-spacing: 0.0
   grid-column: 8 / span 5; padding: var(--aralik) 0 var(--aralik) var(--aralik); min-width: 0;
   border-left: 1px solid var(--murekkep);
 }
+/* Bulgu kartlarında aşağı inildiğinde editör ekranda kalır. Kısa ekranda yapışmaz: editörün
+   altı hiç görünmez olurdu. */
+@media (min-width: 901px) and (min-height: 700px) {
+  .izgara__sol { position: sticky; top: 0; align-self: start; }
+}
+/* Dokunmatik ekranda dosya sürüklenip bırakılamaz. */
+@media (pointer: coarse) {
+  .surukle-ipucu { display: none; }
+}
 
 /* ------------------------------------------------------------------ düzeltme masası (editör) */
 .denetim-cubugu { display: flex; flex-wrap: wrap; gap: 12px 16px; align-items: flex-end; margin-bottom: 16px; }
@@ -516,6 +525,7 @@ legend { font-family: var(--f-mono); font-size: var(--t-14); letter-spacing: 0.0
 .altbilgi p { margin: 0; }
 .hata-kutusu { border: 2px solid var(--kirmizi); padding: 10px 12px; margin: 0 0 12px; font-weight: 700; }
 .hata-kutusu[hidden] { display: none; }
+.dugme[hidden] { display: none; }  /* .dugme inline-flex, hidden özniteliğini ezer */
 
 /* ------------------------------------------------------------------ rehber sayfaları */
 .rehber { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--aralik); padding: 0 var(--aralik); }

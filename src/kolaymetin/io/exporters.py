@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import base64
+import datetime as dt
 import html
 import itertools
+import os
 import re
 from collections import defaultdict
 from functools import lru_cache
@@ -22,6 +24,42 @@ SEV_ICON = {"hata": "isaret-hata", "uyarı": "isaret-uyari", "bilgi": "isaret-bi
 SEV_MD = {"hata": "■ Hata", "uyarı": "□ Uyarı", "bilgi": "○ Bilgi"}
 CAT_LABEL = {"cümle": "Cümle", "kelime": "Kelime", "biçim": "Biçim", "metin": "Metin"}
 _MIME = {".woff2": "font/woff2", ".png": "image/png", ".svg": "image/svg+xml"}
+_MONTHS = ("Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül",
+           "Ekim", "Kasım", "Aralık")
+_WEEKDAYS = ("Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar")
+_TURKEY = dt.timezone(dt.timedelta(hours=3))
+
+
+def readable_date(iso: str) -> str:
+    """"2026-10-01T21:44:24+00:00" → "2 Ekim 2026 Cuma, 00.44" (Türkiye saati). Araç sayısal
+    tarihleri KD-B04 ile işaretlediği için rapor da tarihi ayın adıyla yazar."""
+    try:
+        when = dt.datetime.fromisoformat(iso)
+    except ValueError:
+        return iso
+    if when.tzinfo is not None:
+        when = when.astimezone(_TURKEY)
+    return (
+        f"{when.day} {_MONTHS[when.month - 1]} {when.year} {_WEEKDAYS[when.weekday()]}, "
+        f"{when.hour:02d}.{when.minute:02d}"
+    )
+
+
+def rehber_link(f: Finding, base_url: str = "") -> str:
+    """Rehber sayfasının tam adresi. İndirilen raporda "/rehber/KD-C01" gibi göreli bir yol
+    işe yaramaz. base_url verilmezse KOLAYMETIN_ADRES ortam değişkenine bakılır."""
+    base = (base_url or os.environ.get("KOLAYMETIN_ADRES", "")).rstrip("/")
+    return base + f.rehber_url if base and f.rehber_url.startswith("/") else f.rehber_url
+
+
+def _ignored_summary(report: Report) -> str | None:
+    c = report.scores.compliance
+    if not c.ignored_count:
+        return None
+    return (
+        f"{c.ignored_count} bulgu yoksayıldı ve skora katılmadı. "
+        f"Yoksaymadan skor: {score_value(c.raw_value)} / 100."
+    )
 
 
 def dither_level(score: float) -> int:
@@ -52,7 +90,21 @@ def _readability_line(s: ReadabilityScore) -> str:
     return f"| {s.name} | {_fmt(s.value)} | {s.level}{grade} |"
 
 
-def to_markdown(report: Report) -> str:
+def _md_finding(f: Finding, base_url: str) -> list[str]:
+    lines = [f"- **{SEV_MD[f.severity]} · {f.rule_id} {f.rule_name}** — {f.message}"]
+    if f.text:
+        lines.append(f"  - Yer: “{_md_escape(f.text[:120])}”")
+    lines.append(f"  - Neden: {f.explanation}")
+    if f.suggestion:
+        lines.append(f"  - → Öneri: {f.suggestion}")
+    if f.confidence < 1:
+        lines.append(f"  - Güven: {f.confidence:.2f}")
+    link = rehber_link(f, base_url)
+    lines.append(f"  - Rehber: [{f.rule_id}]({link})" if link.startswith("http") else f"  - Rehber: {link}")
+    return lines
+
+
+def to_markdown(report: Report, base_url: str = "") -> str:
     sc = report.scores
     c = sc.compliance
     st = report.stats
@@ -60,7 +112,7 @@ def to_markdown(report: Report) -> str:
         "# kolaymetin denetim raporu",
         "",
         f"- **Profil:** {report.profile_title} (`{report.profile}`)",
-        f"- **Tarih:** {report.created_at}",
+        f"- **Tarih:** {readable_date(report.created_at)}",
         f"- **Sürüm:** kolaymetin {report.version} · morfoloji: {report.morphology}",
         "",
     ]
@@ -70,14 +122,21 @@ def to_markdown(report: Report) -> str:
         "",
         "## Skorlar",
         "",
-        f"**Kolay Dil Uyum Skoru: {c.value} / 100**"
+        f"**{score_title(report)}: {score_value(c.value)} / 100**"
         + (f" — _{c.note}_" if c.note else ""),
         "",
+    ]
+    ignored = _ignored_summary(report)
+    if ignored:
+        lines += [f"**{ignored}**", ""]
+    lines += [
         "| Kategori | Skor | Bulgu |",
         "|---|---:|---:|",
     ]
     for cat in c.by_category:
-        lines.append(f"| {CAT_LABEL[cat.category]} | {cat.score} | {cat.finding_count} |")
+        lines.append(
+            f"| {CAT_LABEL[cat.category]} | {score_value(cat.score)} | {cat.finding_count} |"
+        )
     lines += [
         "",
         "| Formül | Değer | Düzey |",
@@ -124,15 +183,17 @@ def to_markdown(report: Report) -> str:
             lines.append(f"> {_md_escape(report.sentences[idx].text)}")
             lines.append("")
         for f in by_sentence[idx]:
-            lines.append(f"- **{SEV_MD[f.severity]} · {f.rule_id} {f.rule_name}** — {f.message}")
-            if f.text:
-                lines.append(f"  - Yer: “{_md_escape(f.text[:120])}”")
-            lines.append(f"  - Neden: {f.explanation}")
-            if f.suggestion:
-                lines.append(f"  - → Öneri: {f.suggestion}")
-            if f.confidence < 1:
-                lines.append(f"  - Güven: {f.confidence:.2f}")
-            lines.append(f"  - Rehber: {f.rehber_url}")
+            lines += _md_finding(f, base_url)
+        lines.append("")
+    if report.ignored_findings:
+        lines += [
+            f"## Yoksayılan bulgular ({len(report.ignored_findings)})",
+            "",
+            "Bu bulgular denetimde \"Yoksay\" ile kapatıldı. Skora katılmadılar.",
+            "",
+        ]
+        for f in report.ignored_findings:
+            lines += _md_finding(f, base_url)
         lines.append("")
     lines.append("---")
     lines.append("Bu rapor kolaymetin ile üretildi. Araç bir yardımcıdır; metni hedef okurlarla test edin.")
@@ -222,13 +283,24 @@ def render_marked(text: str, findings: list[Finding], base: int = 0, numbers: di
     return "".join(out)
 
 
-def _bar(score: float) -> str:
+def _bar(score: float | None) -> str:
+    shown = "—" if score is None else f"{score:.0f}"
+    score = score or 0
     level = dither_level(score)
     return (
         f'<div class="cubuk-satir"><div class="cubuk" aria-hidden="true">'
         f'<div class="cubuk__dolgu d-{level:02d}" style="width:{max(0, min(100, score)):.0f}%"></div>'
-        f'</div><span class="cubuk__deger">{score:.0f}</span></div>'
+        f'</div><span class="cubuk__deger">{shown}</span></div>'
     )
+
+
+def score_value(value: int | None) -> str:
+    return "—" if value is None else str(value)
+
+
+def score_title(report: Report) -> str:
+    """"Kolay Dil Uyum Skoru", "Sade Dil Uyum Skoru": başlık seçilen profile göre."""
+    return f"{report.profile_title} Uyum Skoru"
 
 
 def _readability_card(s: ReadabilityScore) -> str:
@@ -240,7 +312,14 @@ def _readability_card(s: ReadabilityScore) -> str:
     )
 
 
-def _card(f: Finding, number: int) -> str:
+def _rehber_html(f: Finding, base_url: str) -> str:
+    link = rehber_link(f, base_url)
+    if link.startswith("http"):
+        return f'<p class="etiket">Rehber: <a href="{_esc(link)}">{_esc(link)}</a></p>'
+    return f'<p class="etiket">Rehber: {_esc(link)}</p>'
+
+
+def _card(f: Finding, number: int | None, base_url: str = "") -> str:
     cls = SEV_CLASS[f.severity]
     sugg = (
         f'<p class="not-kagidi__oneri"><span>{_esc(f.suggestion)}</span></p>' if f.suggestion else ""
@@ -250,15 +329,15 @@ def _card(f: Finding, number: int) -> str:
         f'<article class="not-kagidi not-kagidi--{cls}">'
         f'<div class="not-kagidi__ust"><span class="onem onem--{cls}">{_icon(SEV_ICON[f.severity])}'
         f"{SEV_LABEL[f.severity]}</span>"
-        f'<span class="kimlik kimlik--{cls}">{number}. {f.rule_id}</span>'
+        f'<span class="kimlik kimlik--{cls}">{f"{number}. " if number else ""}{f.rule_id}</span>'
         f'<span class="not-kagidi__ad">{_esc(f.rule_name)}{conf}</span></div>'
         f'<p style="margin:0 0 6px;font-weight:700">{_esc(f.message)}</p>'
         f'<div class="not-kagidi__govde"><p>{_esc(f.explanation)}</p>{sugg}'
-        f'<p class="etiket">Rehber: {_esc(f.rehber_url)}</p></div></article>'
+        f"{_rehber_html(f, base_url)}</div></article>"
     )
 
 
-def to_html(report: Report) -> str:
+def to_html(report: Report, base_url: str = "") -> str:
     sc = report.scores
     c = sc.compliance
     st = report.stats
@@ -285,11 +364,22 @@ def to_html(report: Report) -> str:
             s = report.sentences[idx]
             fs = [f for _, f in items]
             quote_html = f"<blockquote>{render_marked(s.text, fs, s.start)}</blockquote>"
-        cards = "".join(_card(f, i + 1) for i, f in items)
+        cards = "".join(_card(f, i + 1, base_url) for i, f in items)
         group_html.append(f'<div class="cumle-grubu">{quote_html}{cards}</div>')
     findings_html = "".join(group_html) or "<p class='bos-not'>Bu profilde bulgu yok.</p>"
     notes = "".join(f"<span>{_esc(n)}</span>" for n in report.notes)
     reliable = f"<p class='skor__not'>{_esc(c.note)}</p>" if c.note else ""
+    ignored = _ignored_summary(report)
+    if ignored:
+        reliable += f"<p class='skor__not'><strong>{_esc(ignored)}</strong></p>"
+    ignored_html = ""
+    if report.ignored_findings:
+        ignored_cards = "".join(_card(f, None, base_url) for f in report.ignored_findings)
+        ignored_html = (
+            f'<section aria-labelledby="yoksayilan"><h2 id="yoksayilan">Yoksayılan bulgular '
+            f"({len(report.ignored_findings)})</h2><p>Bu bulgular denetimde \"Yoksay\" ile "
+            f"kapatıldı. Skora katılmadılar.</p>{ignored_cards}</section>"
+        )
 
     return f"""<!DOCTYPE html>
 <html lang="tr">
@@ -304,7 +394,7 @@ def to_html(report: Report) -> str:
 <div class="rapor">
 <header class="kunye">
   <div><p class="kunye__ad"><span class="kunye__imza">{_dortlu()}kolaymetin</span></p><p class="kunye__alt">Kolay Dil denetim raporu</p></div>
-  <div class="kunye__sag"><p class="kunye__bilgi">{_esc(report.created_at)}<br>Profil: {_esc(report.profile_title)}<br>Sürüm {_esc(report.version)}</p></div>
+  <div class="kunye__sag"><p class="kunye__bilgi">{_esc(readable_date(report.created_at))}<br>Profil: {_esc(report.profile_title)}<br>Sürüm {_esc(report.version)}</p></div>
 </header>
 <p class="not-seridi">{notes}</p>
 <main>
@@ -312,8 +402,8 @@ def to_html(report: Report) -> str:
   <h2 id="skorlar">Skorlar</h2>
   <div class="rapor-skorlar">
     <div class="skor skor--buyuk">
-      <h3 class="skor__baslik">Kolay Dil Uyum Skoru</h3>
-      <div class="skor__deger">{c.value}<span class="etiket"> / 100</span></div>
+      <h3 class="skor__baslik">{_esc(score_title(report))}</h3>
+      <div class="skor__deger">{score_value(c.value)}<span class="etiket"> / 100</span></div>
       {_bar(c.value)}
       {reliable}
       <ul class="kategori-listesi">{cats}</ul>
@@ -352,6 +442,7 @@ def to_html(report: Report) -> str:
   <h2 id="bulgular">Bulgular ({len(report.findings)})</h2>
   {findings_html}
 </section>
+{ignored_html}
 </main>
 <footer class="altbilgi"><p>kolaymetin {_esc(report.version)} · Kod: Apache-2.0 · Rehber ve sözlük: CC BY 4.0</p>
 <p>Bu araç yardımcıdır, hakem değildir. Metni hedef okurlarla test edin.</p></footer>

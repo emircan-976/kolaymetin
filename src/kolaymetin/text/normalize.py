@@ -55,6 +55,12 @@ def fold_circumflex(text: str) -> str:
     return text.translate(_CIRCUMFLEX)
 
 
+def is_latin(text: str) -> bool:
+    """Harflerin hepsi Latin alfabesinden mi? Arapça, Kiril ya da Yunan yazısı Türkçe
+    kurallarıyla hecelenemez."""
+    return all(unicodedata.name(c, "").startswith("LATIN") for c in text if c.isalpha())
+
+
 def is_upper_word(text: str) -> bool:
     # Büyük/küçük harfi olmayan yazılar (Arap harfleriyle "معمار") büyük harfli sayılmaz:
     # küçük harfe çevrilince değişen en az bir harf olmalı.

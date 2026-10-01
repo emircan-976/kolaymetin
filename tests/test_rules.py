@@ -28,7 +28,7 @@ POSITIVE: list[tuple[str, str, str]] = [
     # --- KD-C04 olumsuz anlatım
     ("KD-C04", "Suyu boşa harcamayın.", "kolay-dil"),
     ("KD-C04", "Bu hizmet ücretli değil.", "kolay-dil"),
-    ("KD-C04", "Evde su yok.", "kolay-dil"),
+    ("KD-C04", "Evde hiç su yok.", "kolay-dil"),
     ("KD-C04", "Kimse gelmeyecek.", "sade-dil"),
     # --- KD-C05 çifte olumsuzluk
     ("KD-C05", "Başvurmamak mümkün değildir.", "kolay-dil"),
@@ -150,6 +150,7 @@ NEGATIVE: list[tuple[str, str, str]] = [
     ("KD-C04", "Suyu az kullanın.", "kolay-dil"),
     ("KD-C04", "Bu hizmet ücretsiz.", "kolay-dil"),
     ("KD-C04", "Suyunuz var.", "kolay-dil"),
+    ("KD-C04", "Yarın su yok.", "kolay-dil"),  # "yok" yüklemi: daha sade olumlu söyleyişi yok
     ("KD-C05", "Başvurmanız gerekir.", "kolay-dil"),
     ("KD-C05", "Hiç kimse gelmedi.", "kolay-dil"),
     ("KD-C05", "Katılmanız mümkün.", "kolay-dil"),

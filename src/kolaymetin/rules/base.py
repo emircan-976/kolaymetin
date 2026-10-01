@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from kolaymetin.models import Category, Document, Finding, Sentence, Severity, Token
 from kolaymetin.profiles import RuleConfig
+from kolaymetin.text.normalize import is_upper_word
 
 if TYPE_CHECKING:
     from kolaymetin.lexicon import PhraseMatch
@@ -117,6 +118,8 @@ def _inside_name(s: Sentence, m: PhraseMatch) -> bool:
     toks = [t for t in s.tokens[m.start_token : m.end_token] if t.kind == "word"]
     if not toks or not all(is_proper_noun(t) and t.is_capitalized for t in toks):
         return False
+    if any(len(t.text) > 1 and is_upper_word(t.text) for t in toks):
+        return False  # "Belediye TARAFINDAN": tamamı büyük harfli kelime vurgudur, adın parçası değil
     before = [
         t for t in s.tokens[: m.start_token]
         if (t.kind != "punct" or t.text in ("'", "’")) and t.text not in ("&", ">", "/")

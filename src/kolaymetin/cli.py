@@ -82,7 +82,7 @@ def _print_text_report(report: object, stream: TextIO) -> None:
     from rich.console import Console
     from rich.text import Text
 
-    from kolaymetin.io.exporters import SEV_LABEL
+    from kolaymetin.io.exporters import SEV_LABEL, score_title, score_value
     from kolaymetin.models import Report
 
     assert isinstance(report, Report)
@@ -92,7 +92,7 @@ def _print_text_report(report: object, stream: TextIO) -> None:
     marks = {"hata": "■", "uyarı": "□", "bilgi": "○"}
     c = report.scores.compliance
     con.print(Text("kolaymetin", style="bold") + Text(f" · {report.profile_title} profili", style="dim"))
-    con.print(f"Kolay Dil Uyum Skoru: [bold]{c.value}[/bold] / 100" + (f"  ({c.note})" if c.note else ""))
+    con.print(f"{score_title(report)}: [bold]{score_value(c.value)}[/bold] / 100" + (f"  ({c.note})" if c.note else ""))
     sc = report.scores
     for r in (sc.atesman, sc.cetinkaya_uzun, sc.bezirci_yilmaz):
         val = "—" if r.value is None else f"{r.value:.1f}"
@@ -164,7 +164,8 @@ def _cmd_denetle(args: argparse.Namespace, out: TextIO, err: TextIO) -> int:
             err.write(f"Rapor yazıldı: {args.dosya}\n")
         else:
             out.write(content)
-    if args.esik_skor is not None and report.scores.compliance.value < args.esik_skor:
+    value = report.scores.compliance.value
+    if args.esik_skor is not None and value is not None and value < args.esik_skor:
         err.write(
             f"Uyum skoru ({report.scores.compliance.value}) eşiğin ({args.esik_skor}) altında.\n"
         )

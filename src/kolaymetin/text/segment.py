@@ -14,8 +14,15 @@ from kolaymetin.text.normalize import is_upper_word, turkish_lower
 
 SUPPRESS_RE = re.compile(r"<!--\s*kolaymetin\s*:\s*yoksay\b(?P<ids>.*?)-->", re.IGNORECASE | re.S)
 COMMENT_RE = re.compile(r"<!--.*?-->", re.S)
+# Markdown bağlantısı ve resmi: "[metin](https://…)", "![resim](a.png)". Bağlantı metni
+# denetlenir; köşeli parantezler ve adres boşlukla örtülür (KD-C09 adresi parantez içi bilgi
+# sanıyordu).
+MD_LINK_RE = re.compile(r'(!?\[)([^\]\n]*)(\]\((?:[^()\s]|\([^()\s]*\))*(?:\s+"[^"\n]*")?\))')
+# HTML etiketi ("<img src=…>", "</p>"): "img", "src" seyrek kelime sayılıyordu.
+HTML_TAG_RE = re.compile(r"</?[A-Za-z][A-Za-z0-9-]*(?:\s[^<>\n]*)?/?>")
 URL_RE = re.compile(r"(?:https?://|www\.)[^\s<>\"]+", re.IGNORECASE)
-EMAIL_RE = re.compile(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
+# Başa bağlı değilse "@" içermeyen uzun bir harf dizisinde her konumdan yeniden tarar: O(n²).
+EMAIL_RE = re.compile(r"(?<![\w.+-])[\w.+-]+@[\w-]+(?:\.[\w-]+)+")
 PARA_SPLIT_RE = re.compile(r"\n[ ]*(?:\n[ ]*)+")
 LIST_MARKER_RE = re.compile(
     r"^[ ]*(?:(?:[-*+•·▪◦‣]|\d{1,2}[.)]|[a-zçğıöşü][)])[ ]+|[-•](?=[A-ZÇĞİÖŞÜ]))"
@@ -41,6 +48,12 @@ ORDINAL_NOUNS = frozenset(
         "sıra", "sırada", "etap", "etabı", "kısım", "ordu", "kolordu", "tümen", "cilt",
         "sayı", "sayfa", "baskı", "derece", "grup", "bölge", "bölgesi", "kademe",
     }
+)
+
+# Soru ya da ünlemden sonra küçük harfle gelen bu kelimeler cümleyi sürdürür: "Ne? diye sordu."
+QUOTATIVES = frozenset(
+    {"diye", "dedi", "dedim", "dediler", "der", "derler", "demiş", "deyip", "deyince", "denir",
+     "denildi", "sordu", "sorar", "sordum", "bağırdı", "gibi", "mi", "mı", "mu", "mü"}
 )
 
 # Bu kısaltmalar cümlenin sonunda da olabilir; ardından büyük harf gelirse cümle biter.
@@ -75,6 +88,19 @@ def _mask(text: str, start: int, end: int) -> str:
     return text[:start] + " " * (end - start) + text[end:]
 
 
+def _mask_markup(text: str) -> str:
+    """Markdown bağlantı sözdizimini ve HTML etiketlerini boşlukla örter (uzunluk aynı kalır)."""
+    if "](" not in text and "<" not in text:
+        return text
+    chars = list(text)
+    for m in MD_LINK_RE.finditer(text):
+        for a, b in ((m.start(1), m.end(1)), (m.start(3), m.end(3))):
+            chars[a:b] = " " * (b - a)
+    for m in HTML_TAG_RE.finditer(text):
+        chars[m.start() : m.end()] = " " * (m.end() - m.start())
+    return "".join(chars)
+
+
 def _suppression_ids(raw: str) -> set[str]:
     ids = {m.group(0).upper() for m in RULE_ID_RE.finditer(raw)}
     return ids or {"*"}
@@ -85,7 +111,7 @@ def _has_content(text: str) -> bool:
 
 
 NUMBERED_RE = re.compile(r"^[ ]*\d{1,2}[.)][ ]+")
-INNER_SENTENCE_END_RE = re.compile(r"(\S+)[.!?]+\s+[A-ZÇĞİÖŞÜ]")
+INNER_SENTENCE_END_RE = re.compile(r"(\S+?)[.!?…]+[\"')\]»”’]*\s+[\"'(«“‘]*[A-ZÇĞİÖŞÜ]")
 _TITLE_ABBREVIATIONS = frozenset({"dr", "prof", "doç", "av", "müh", "uzm", "op", "yrd", "sn", "st"})
 
 
@@ -232,6 +258,9 @@ def split_sentences(
 ) -> list[tuple[int, int]]:
     """[start, end) aralığını cümle aralıklarına böler."""
     protected = _protected_spans(text, start, end) + _embedded_quotes(text, start, end)
+    # Büyük harf kullanmadan yazılmış metin ("yarın su kesilecek. lütfen su biriktirin."): cümle
+    # küçük harfle de başlar.
+    lower_style = text[start:end].lstrip().lstrip(OPENERS)[:1].islower()
     bounds: list[tuple[int, int]] = []
     sent_start = start
     for m in TERMINAL_RE.finditer(text, start, end):
@@ -261,6 +290,19 @@ def split_sentences(
                 starts_ok = True  # satır başında tırnak, tire ya da rakamla başlayan yeni cümle
             if not first and gap_has_newline:
                 starts_ok = True
+            # Küçük harfle başlayan cümle: bütün metin küçük harfle yazılmışsa ya da soru/ünlemden
+            # sonra ("Su var mı? evet var.", "Dikkat! su kesilecek."). Bu yazım hedef okurların
+            # metinlerinde sık görülür. "Geliyor musun? diye sordu" bölünmez.
+            lower_ok = lower_style or (
+                punct[-1] in "?!" and turkish_lower(nxt.strip(OPENERS + CLOSERS + ",.!?…")) not in QUOTATIVES
+            )
+            if not starts_ok and lower_ok and first.isalpha() and "…" not in punct and ".." not in punct:
+                prev = _prev_word(text, m.start(), start)
+                # Kısaltma ("vb. şeyler") ve sıra sayısı ("3. madde") cümleyi bitirmez.
+                starts_ok = (
+                    len(prev) > 1 and prev[-1:].isalpha()
+                    and turkish_lower(prev) + "." not in abbreviations
+                )
             if not starts_ok:
                 continue
         if punct == ".":
@@ -306,6 +348,7 @@ def segment(text: str, abbreviations: frozenset[str]) -> Segmentation:
     masked = text
     for m in COMMENT_RE.finditer(text):
         masked = _mask(masked, m.start(), m.end())
+    masked = _mask_markup(masked)
 
     raw_paras: list[tuple[int, int]] = []
     pos = 0
@@ -447,6 +490,39 @@ def _split_line_paragraphs(
     return out
 
 
+# Satır sonunda bunlardan biri varsa cümle bir sonraki satırda sürüyordur.
+_CONTINUING_WORDS = frozenset(
+    {"ve", "veya", "ya", "yahut", "ile", "ama", "fakat", "ancak", "lakin", "çünkü", "için",
+     "gibi", "kadar", "ki", "de", "da", "ya da", "hem", "ne", "bu", "şu", "o", "bir", "en", "çok",
+     "daha", "olan", "olarak", "göre", "sonra", "önce", "yani", "veyahut"}
+)
+_MAX_LINE_SENTENCE_WORDS = 15
+
+
+def _line_per_sentence(text: str, lines: list[tuple[int, int]], in_list: bool) -> bool:
+    """Kolay Dil metinleri çoğu zaman her cümleyi ayrı satıra, noktasız yazar:
+    "Yarın su kesilecek / Lütfen su biriktirin". Her satır büyük harfle başlıyor, kısa ve
+    bağlaçla bitmiyorsa satırlar ayrı cümledir. Satır kaydırmalı metinde satırların çoğu
+    küçük harfle başlar ya da bağlaçla, virgülle biter."""
+    if len(lines) < 2:
+        return False
+    unpunctuated = False
+    for k, (a, b) in enumerate(lines):
+        line = text[a:b].strip()
+        if list_marker(line, in_list):
+            continue
+        if not _starts_upper(line) or line.endswith((",", ";", ":", "-")):
+            return False
+        words = line.split()
+        if len(words) > _MAX_LINE_SENTENCE_WORDS:
+            return False
+        if turkish_lower(words[-1]).strip("\"'") in _CONTINUING_WORDS:
+            return False
+        if k < len(lines) - 1 and line.rstrip(CLOSERS)[-1:] not in ".!?…":
+            unpunctuated = True
+    return unpunctuated
+
+
 def _segment_paragraph(
     text: str, para: ParagraphSpan, abbreviations: frozenset[str], is_first: bool = False
 ) -> list[SentenceSpan]:
@@ -466,6 +542,7 @@ def _segment_paragraph(
         return out
 
     in_list = _numbered_block(text, lines)
+    line_per_sentence = _line_per_sentence(text, lines, in_list)
     blocks: list[tuple[int, int, str]] = []  # (start, end, kind) kind: text|item|heading
     for i, (a, b) in enumerate(lines):
         line = text[a:b]
@@ -490,6 +567,8 @@ def _segment_paragraph(
             blocks.append((a, b, "line"))
         elif lm:
             blocks.append((a + lm.end(), b, "item"))
+        elif line_per_sentence:
+            blocks.append((a, b, "line"))  # noktasız, satır satır yazılmış cümleler
         elif _standalone_line(text, lines, i, blocks):
             # Kapanmış bir cümleden sonra gelen, noktalamasız kısa satır ve ardından büyük
             # harfle başlayan satır: ara başlık ("Bina içindeyseniz") ya da tek başına bir

@@ -5,6 +5,132 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### 7. tur: Vercel'deki sürümün ikinci denemesi (2026-10-02)
+
+Regresyon testleri: `tests/test_vercel_deneme2.py`.
+
+#### Düzeltildi: rapor güvenilirliği
+- Yoksayılan bulgular skoru yükseltiyor ama rapor bunu gizliyordu. Rapor ve arayüz artık "3 bulgu
+  yoksayıldı ve skora katılmadı. Yoksaymadan skor: 30" diyor; raporda "Yoksayılan bulgular"
+  bölümü var (`Report.ignored_findings`, `ComplianceScore.raw_value`).
+- Çetinkaya-Uzun 0'ın altına iniyordu (-1,4) ve ona sınıf düzeyi veriliyordu. Puan 0'da duruyor;
+  ölçeğin altındaki değere sınıf düzeyi verilmiyor.
+- Rapor tarihi UTC ve ISO biçimindeydi; gece indirilen rapor önceki günü gösteriyordu. Tarih
+  Türkiye saatinde: "2 Ekim 2026 Cuma, 00.44".
+- Rapordaki rehber bağlantıları göreli düz metindi ("/rehber/KD-C01"). Web'den indirilen raporda
+  tam adresli gerçek bağlantı; CLI'de `KOLAYMETIN_ADRES` ortam değişkeniyle.
+- Arayüz, raporun süzgeçlere bakmadığını söylüyor.
+
+#### Düzeltildi: Türkçe metin işleme
+- "Belediye TARAFINDAN": büyük harfli kelime çok kelimeli bir özel adın parçası sanılıyordu.
+- Soru ya da ünlemden sonra küçük harfle başlayan cümle bölünüyor: "Su var mı? evet var.",
+  "Dikkat! su kesilecek." "Geliyor musun? diye sordu." bölünmüyor.
+- Markdown bağlantı adresi KD-C09'a, HTML etiketleri ("img", "src") KD-K06'ya takılıyordu; ikisi de
+  denetlenmiyor.
+
+#### Düzeltildi: kurallar
+- KD-K05: "Kapı açıldı." gerçek anlam.
+- KD-C04: yüklem olan "yok" işaretlenmiyor ("Yarın su yok.").
+- KD-K06: "Kemeraltı" özel ad.
+- KD-C03: "Okul yarın açılıyor." da "Okul açıldı." gibi edilgen okunuyor (zeyrek önce nadir
+  "açılamak" fiilini seçiyordu).
+- KD-K02: 37 yabancı kelime eklendi: "meeting", "password", "team" gibi.
+- KD-B01: binlik ayırıcısız büyük sayı ("1250000 lira" → "1.250.000"); yalnızca ardından birim
+  ya da "kişi", "adet" gibi bir ad gelince.
+
+#### Düzeltildi: arayüz ve altyapı
+- Cümleler sekmesi başlığı da sayıyordu ve 2'den başlıyordu; numara 1'den başlıyor.
+- Örnek ya da dosya yüklendikten sonra Ctrl+Z eski metni geri getiriyor.
+- Hız sınırı: Vercel'de IP başına dakikada 60 API isteği (`KOLAYMETIN_HIZ_SINIRI`), aşınca Türkçe
+  429. "Yazarken denetle" uzun metinde daha geç başlıyor (100.000 karakterde 3 sn).
+- `X-Frame-Options: DENY` (CSP'deki `frame-ancestors 'none'` eski tarayıcılar için).
+- Yüklenen dosyanın adı yanıtta temizleniyor: klasör kısmı ve `<`, `>` gibi karakterler atılıyor.
+
+### 6. tur: Vercel'deki sürüm tarayıcıda (2026-10-02)
+
+Çevrim içi sürüm Chrome'da gezildi, API'si doğrudan denendi. Regresyon testleri:
+`tests/test_vercel_deneme.py`.
+
+#### Düzeltildi: arayüz
+- Gizlilik metni yanlıştı: "bu bilgisayarın belleğinde kalır", "Metin bilgisayarınızdan çıkmaz".
+  Metin denetim için sunucuya gönderilir ve saklanmaz; sayfa, meta açıklama ve README bunu söylüyor.
+- Emojili metinde işaretler kayıyordu: Python kod noktası, tarayıcı UTF-16 sayar. `/api/analyze`
+  ofsetleri UTF-16'ya çevirir.
+- "Metinde göster" ve Cümleler sekmesi editörü ekrana getirmiyordu; seçili ama görünmeyen metin bir
+  tuşla silinebiliyordu.
+- Örnek seçmek ve dosya yüklemek yazılmış metni sormadan siliyordu; artık onay isteniyor. Örnek
+  listesi seçimden sonra "Seçin…"e dönüyor, aynı örnek yeniden seçilebiliyor.
+- Geniş ekranda editör yapışkan: bulgu kartlarında aşağı inince ekranda kalıyor.
+- Sade Dil profilinde başlık "Sade Dil Uyum Skoru" (arayüz, CLI, Markdown ve HTML rapor).
+- "Yoksayılanları geri al" düğmesi hiç yoksayma yokken de görünüyordu.
+- Hata iletileri: "Sunucu çalışıyor mu?" yerine bağlantı iletisi; Vercel'in düz metin 413'ü
+  "Dosya ya da metin çok büyük" oluyor. Dokunmatik ekranda "sürükleyip bırakın" yazmıyor.
+
+#### Düzeltildi: sunucu
+- Dosya yükleme: sınır 4 MB (Vercel 4,5 MB'ta kesiyor), metin 100.000 karakteri aşamaz, boş ve
+  uzantısız dosya reddedilir.
+- Bozuk JSON'a "Şu alanları kontrol edin: 1." yerine "gövde geçerli bir JSON değil".
+- Bilinmeyen adresler İngilizce `{"detail":"Not Found"}` yerine Türkçe sayfa (API'de Türkçe JSON).
+  `/robots.txt` ve `/favicon.ico` var; `/rehber/kd-c01` → `/rehber/KD-C01`.
+
+#### Düzeltildi: skorlar ve kurallar
+- Yalnızca noktalama ya da emoji içeren metin 100/100 alıyordu; artık skor "—" ve "Skor
+  hesaplanamadı" notu.
+- Ateşman 100'ü aşıyordu (146); puan 0–100 aralığına sınırlı.
+- KD-B04: geçersiz tarihe öneri olarak sabit "15 Eylül 2026 Salı" verilmiyor.
+- KD-B05: "09.00-17.00 saatleri arasında" uyarı almıyor; 'saat' kelimesi sonra da gelebilir.
+- Noktasız, satır satır yazılmış metin ("Su kesilecek / Lütfen su biriktirin") tek cümle
+  sayılıyordu; her satır ayrı cümle.
+
+### 5. tur: çalışan uygulamada alışılmadık metinler (2026-09-30)
+
+Web arayüzünün API'sine yaklaşık 90 metin ve dosya gönderildi: boş ve tek karakterlik metin,
+emoji, Arapça, Rusça ve İngilizce metin, kod, HTML, şiir, Osmanlıca, Anayasa maddesi, yemek
+tarifi, masal, SMS dili, geçersiz tarih, IBAN, boşluksuz 100.000 karakter, UTF-16 dosya.
+Regresyon testleri: `tests/test_canli_deneme.py`.
+
+#### Düzeltildi: cümle bölme
+- Noktası unutulmuş tek satırlık metin başlık sayılıyordu ve cümle kurallarının hiçbiri
+  çalışmıyordu: "Müracaatların … yapılması gerekmektedir" noktasız 17, noktalı 1 alıyordu.
+  Metnin sonunda altında hiçbir cümle olmayan ve çekimli fiil taşıyan "başlık" artık cümle.
+  Altında metin olan fiilli başlıklar ("Suyunuz 1 gün gelmeyecek") ve fiilsiz kapanış satırları
+  ("Saygılarımızla") başlık olarak kalıyor.
+- Satırın ortasında biten cümle tırnak ya da üç noktayla sürse de ("… dedi. 'Su' biriktirin")
+  satır başlık sayılmıyor.
+- Küçük harfle yazılmış metin ("yarın su kesilecek. lütfen su biriktirin.") cümlelere bölünüyor;
+  tek cümle sayılıp "çok uzun cümle" uyarısı alıyordu. Kısaltma ("vb. belgeler") ve sıra sayısı
+  ("3. kata") bölünmüyor.
+
+#### Düzeltildi: KD-B04 tarih
+- Geçersiz tarihe ("31.02.2026", "32.13.2026") öneri olarak sabit "15 Eylül 2026 Salı"
+  veriliyordu. Artık "gerçek bir tarih değil" hatası; "31 Şubat 2026" da yakalanıyor.
+- Tarihe uymayan haftanın günü hata: "1 Aralık 2026 Pazartesi" (Salı olmalı), "01.12.2026
+  (Pazartesi)". Haftanın günü önerisi kapalı olsa da denetleniyor.
+- "2026/10/01", "2026-10-05" ve "01-10-2026" de tarih olarak tanınıyor.
+
+#### Düzeltildi: performans ve dosya okuma
+- Boşluksuz uzun bir dizi (yapıştırılmış base64, uzun adres) sunucuyu kilitliyordu: 100.000
+  karakterlik tek "kelime" 59 sn sürüyordu, artık 0,5 sn. E-posta düzenli ifadesi başa bağlı
+  değildi (O(n²)); 80 harften uzun kelime biçimbilimsel çözümlemeye girmiyor.
+- Not Defteri'nin "Unicode" (UTF-16) kaydettiği .txt dosyası bozuk okunuyordu.
+
+#### Düzeltildi: kelime ve biçim kuralları
+- "9dan", "5e" gibi kesmesiz sayı ekleri tek sözcük birimi; "dan" seyrek kelime sayılmıyor.
+- IBAN'daki "TR" (ardından rakam gelen harfler) kısaltma sayılmıyor.
+- KD-K01: resmî emir ("doldurunuz", "teslim ediniz" → "doldurun", "teslim edin"); "tarafımızca"
+  ve "tarafınızca" sözlükte.
+- KD-B03: noktayla yazılmış küsurat ("2.5 milyon" → "2,5 milyon").
+- KD-C03: "Kim tarafından imzalanacak?" sorusunda ileti "İşi yapan ('Kim')" demiyor.
+- KD-K06: "afiyet", "idare", "aynen", "mobil", "hür" temel kelime listesinde.
+- KD-K04 ve KD-K06 Latin alfabesi dışındaki kelimeleri hecelemiyor ("المياه" 6 hece değil).
+
+#### Değişti: notlar
+- Metin Arap, Kiril gibi bir yazıyla ya da İngilizce yazılmışsa not: "Bu metin Türkçe
+  görünmüyor."
+- Güvenilirlik notu cümle sayısını söylüyor: "Metinde 1 cümle var. Skor en az 3 cümlede
+  güvenilir olur." 55 kelimelik tek cümleye "Metin çok kısa" deniyordu.
+- Ateşman açıklaması "0–100 arası" demiyordu; 6. turda puan 0–100 aralığına sınırlandı.
+
 ### Görünüm: işaret "dörtlü" (2026-09-28)
 
 - Projenin işareti: 2×2 ızgarada ■ hata, □ uyarı, ○ bilgi ve boş kare (temiz metin). İşaretler

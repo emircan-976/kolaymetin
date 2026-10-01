@@ -13,7 +13,26 @@ class ReaderError(ValueError):
     """Belge okunamadı. Mesaj kullanıcıya gösterilir."""
 
 
+def _utf16(data: bytes) -> str | None:
+    """Not Defteri'nin "Unicode" kaydı UTF-16'dır. cp1254 her baytı çözdüğü için UTF-16 önce
+    denenmezse metin "ÿşY\\x00a\\x00…" gibi bozulur."""
+    if data.startswith((b"\xff\xfe", b"\xfe\xff")):
+        enc = "utf-16"
+    elif len(data) >= 4 and data.count(0) * 3 >= len(data):
+        # İşaretsiz UTF-16: Latin harflerinin baytlarından biri sıfırdır.
+        enc = "utf-16-le" if data[1::2].count(0) > data[0::2].count(0) else "utf-16-be"
+    else:
+        return None
+    try:
+        return data.decode(enc)
+    except UnicodeDecodeError:
+        return None
+
+
 def _decode(data: bytes) -> str:
+    text = _utf16(data)
+    if text is not None:
+        return text
     for enc in ("utf-8-sig", "cp1254", "iso-8859-9"):
         try:
             return data.decode(enc)

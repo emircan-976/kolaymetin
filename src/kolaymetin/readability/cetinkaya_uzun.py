@@ -35,8 +35,14 @@ def score(tc: TextCounts) -> ReadabilityScore:
             name="Çetinkaya-Uzun", value=None, level="hesaplanamadı",
             description="Metinde sayılacak kelime yok.",
         )
-    value = formula(tc.syllables_per_word, tc.words_per_sentence)
-    name, grade = level(value)
+    raw = formula(tc.syllables_per_word, tc.words_per_sentence)
+    # Formül çok uzun kelime ve cümlede 0'ın altına iner (seçim duyurusu: -1,4). Ölçek 0'da
+    # başlar; ölçeğin altındaki bir değere sınıf düzeyi vermek anlamsızdır.
+    value = max(0.0, raw)
+    name, grade_text = level(value)
+    grade: str | None = grade_text
+    if raw < 0:
+        name, grade = "engellenmiş okuma düzeyi (ölçeğin altında, çok zor)", None
     return ReadabilityScore(
         name="Çetinkaya-Uzun",
         value=round(value, 1),

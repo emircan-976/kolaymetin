@@ -39,7 +39,9 @@ def score(tc: TextCounts) -> ReadabilityScore:
             name="Ateşman", value=None, level="hesaplanamadı",
             description="Metinde sayılacak kelime yok.",
         )
-    value = formula(tc.syllables_per_word, tc.words_per_sentence)
+    # Formül çok kısa kelime ve cümlede 100'ün üstüne ("Su var." 146), çok uzunlarda 0'ın
+    # altına iner. Ölçek 0–100 olarak yayımlandığı için puan bu aralığa sınırlanır.
+    value = min(100.0, max(0.0, formula(tc.syllables_per_word, tc.words_per_sentence)))
     return ReadabilityScore(
         name="Ateşman",
         value=round(value, 1),

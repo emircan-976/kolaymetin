@@ -132,7 +132,7 @@ class ReadabilityScore(BaseModel):
 
 class CategoryScore(BaseModel):
     category: Category
-    score: int
+    score: int | None  # metinde cümle yoksa None
     penalty: float
     finding_count: int
 
@@ -146,7 +146,10 @@ class RuleContribution(BaseModel):
 
 
 class ComplianceScore(BaseModel):
-    value: int
+    value: int | None  # metinde cümle yoksa None: skor hesaplanamaz
+    # Yoksayılan bulgular da sayılsaydı skor ne olurdu? Yoksayma yoksa value ile aynı.
+    raw_value: int | None = None
+    ignored_count: int = 0
     penalty: float
     normalized: float
     k: float
@@ -188,6 +191,8 @@ class Report(BaseModel):
     text: str
     sentences: list[Sentence]
     findings: list[Finding]
+    # Kullanıcının "Yoksay" dediği bulgular: skora girmez ama raporda gösterilir.
+    ignored_findings: list[Finding] = Field(default_factory=list)
     scores: Scores
     stats: Stats
     notes: list[str] = Field(default_factory=list)
@@ -201,7 +206,7 @@ class Report(BaseModel):
         c = self.scores.compliance
         lines = [
             f"kolaymetin {self.version} - {self.profile_title}",
-            f"Uyum skoru: {c.value}/100" + ("" if c.reliable else " (metin çok kısa, güvenilir değil)"),
+            f"Uyum skoru: {'—' if c.value is None else c.value}/100" + ("" if c.reliable else " (cümle az, güvenilir değil)"),
             f"Ateşman: {self.scores.atesman.value} ({self.scores.atesman.level})",
             f"{self.stats.word_count} kelime, {self.stats.sentence_count} cümle, "
             f"{len(self.findings)} bulgu",
@@ -215,15 +220,16 @@ class Report(BaseModel):
     def to_json(self, indent: int | None = 2) -> str:
         return self.model_dump_json(indent=indent)
 
-    def to_markdown(self) -> str:
+    def to_markdown(self, base_url: str = "") -> str:
+        """base_url: rehber bağlantılarının önüne eklenen adres ("https://…")."""
         from kolaymetin.io.exporters import to_markdown
 
-        return to_markdown(self)
+        return to_markdown(self, base_url)
 
-    def to_html(self) -> str:
+    def to_html(self, base_url: str = "") -> str:
         from kolaymetin.io.exporters import to_html
 
-        return to_html(self)
+        return to_html(self, base_url)
 
 
 @dataclass

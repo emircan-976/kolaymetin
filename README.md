@@ -25,8 +25,9 @@ için anlaşılır hâle getirmenize yardım eder.** Metninizi cümle ve kelime 
 cümleleri, edilgen yapıları, resmî ve yabancı kelimeleri, belirsiz ifadeleri ve biçim sorunlarını
 işaretler. Her işaret için **nedenini** ve **somut bir öneri** yazar.
 
-Belediye basın birimleri, engelli dernekleri ve çevirmenler için tasarlandı. Tamamen çevrimdışı
-çalışır: metniniz bilgisayarınızdan hiç çıkmaz.
+Belediye basın birimleri, engelli dernekleri ve çevirmenler için tasarlandı. Kendi
+bilgisayarınıza kurarsanız tamamen çevrimdışı çalışır: metniniz bilgisayarınızdan hiç çıkmaz.
+Çevrim içi sürümde metin denetim için sunucuya gönderilir; orada saklanmaz.
 
 > [!IMPORTANT]
 > Bu araç bir **yardımcıdır**, hakem değildir. Bir Kolay Dil metnini ancak hedef okurlar

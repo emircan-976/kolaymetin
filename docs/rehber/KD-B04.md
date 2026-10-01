@@ -7,7 +7,12 @@
 ## Ne?
 
 Bu kural "15.09.2026" gibi rakamlı tarihleri bulur.
+"2026-09-15" ve "15-09-2026" yazımlarını da tanır.
 Kolay Dil profilinde haftanın günü eksik olan tarihlere de bakar.
+
+İki yanlışı hata olarak işaretler.
+Takvimde olmayan tarih: "31 Şubat 2026".
+Tarihe uymayan gün: 1 Aralık 2026 bir Salı günüdür, "Pazartesi" yazmak yanlıştır.
 
 ## Neden?
 
@@ -23,6 +28,10 @@ Birçok kişi günlerini haftanın günüyle takip eder.
 > **İyi:** Kesinti 15 Eylül 2026 Salı günü.
 
 > **Kötü:** Başvurular 1 Aralık'ta başlıyor.
+>
+> **İyi:** Başvurular 1 Aralık 2026 Salı günü başlıyor.
+
+> **Kötü:** Başvurular 1 Aralık 2026 Pazartesi günü başlıyor.
 >
 > **İyi:** Başvurular 1 Aralık 2026 Salı günü başlıyor.
 
