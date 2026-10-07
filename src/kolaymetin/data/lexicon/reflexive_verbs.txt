@@ -33,6 +33,7 @@ sakınmak
 bezenmek
 beslenmek
 kapanmak
+açılmak
 uzanmak
 dayanmak
 bulunmak

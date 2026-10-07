@@ -32,8 +32,9 @@ CONVERBS = frozenset(
 )
 PARTICIPLES = frozenset({"PastPart", "FutPart", "PresPart", "NarrPart", "AorPart"})
 # Fiilden ad yapan ekler. "Ness" (-lIk) addan ad yapar ("müdürlük", "sıcaklık"); eylem
-# isimleştirmesi değildir, bu yüzden listede yok.
-NOMINALIZERS = frozenset({"Inf1", "Inf2", "Inf3", "ActOf", "NotState"})
+# isimleştirmesi değildir, bu yüzden listede yok. "NotState" (-mAzlIk) de sözlükleşmiş ad kurar:
+# "böbrek yetmezliği", "anlaşmazlık", "uyuşmazlık"; yan cümle taşımaz.
+NOMINALIZERS = frozenset({"Inf1", "Inf2", "Inf3", "ActOf"})
 # Ad-fiilden sonra gelip kelimeyi sıfata/başka ada çeviren türetme ekleri ("yağışlı").
 _AFTER_NOMINAL_DERIVATIONS = frozenset({"With", "Without", "Rel", "Related", "Agt", "Ness", "JustLike"})
 FINITE_MARKERS = frozenset(
@@ -243,6 +244,15 @@ def warm_up() -> str:
     return backend_name()
 
 
+def _compound_lemma(item: Any) -> str:
+    """Birleşik adın çoğulunda tamlama eki düşer: "huzurev-ler-i". zeyrek bu biçimde lemma olarak
+    yapay kökü ("huzurev") verir; sözlükteki ad ise "huzurevi"dir."""
+    ref = getattr(item, "reference_item", None)
+    if ref is not None and getattr(ref, "lemma", None):
+        return str(ref.lemma)
+    return str(item.lemma)
+
+
 def _convert_zeyrek(word: str, single: Any) -> tuple[Analysis, list[tuple[str, str]]]:
     morphemes = [(m.id_, surface) for m, surface in single.morphemes]
     ids = [mid for mid, _ in morphemes]
@@ -280,7 +290,7 @@ def _convert_zeyrek(word: str, single: Any) -> tuple[Analysis, list[tuple[str, s
         Analysis(
             word=word,
             root=item.root,
-            lemma=item.lemma,
+            lemma=_compound_lemma(item),
             pos=pos,
             suffixes=tuple(ids[1:]),
             stem_surface=morphemes[0][1],

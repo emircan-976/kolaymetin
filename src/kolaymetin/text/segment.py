@@ -29,7 +29,13 @@ LIST_MARKER_RE = re.compile(
 )  # "-Güneş …": boşluksuz tire ardından büyük harf de madde işaretidir
 MD_HEADING_RE = re.compile(r"^[ ]*#{1,6}[ ]+")
 RULE_ID_RE = re.compile(r"KD-[CKBM]\d{2}", re.IGNORECASE)
-TERMINAL_RE = re.compile(r"[.!?…]+")
+# Emoji (resimli karakterler, ⚠ ✅ gibi semboller, birleştirici ve biçim seçici).
+_EMOJI = "[\U0001F000-\U0001FAFF\u2600-\u27BF\u2B50\u2B55\uFE0F\u200D]"
+# Sosyal medya yazımında emoji cümle sonu işaretidir: "bekliyoruz 🎉 Ücretsiz!"
+TERMINAL_RE = re.compile(rf"[.!?…]+|{_EMOJI}+")
+EMOJI_RE = re.compile(rf"{_EMOJI}+")
+# Noktalamadan sonra gelen emoji önceki cümleye aittir: "Harika! 🎉 Gelin."
+EMOJI_TAIL_RE = re.compile(rf"(?:[ \t]*{_EMOJI}+)+")
 CLOSERS = "\"')]}»”’"
 OPENERS = "\"'([{«“‘"
 # normalize() bütün tireleri "-", bütün çift tırnakları '"' yapar; yalın segment() çağrısı için
@@ -115,8 +121,13 @@ INNER_SENTENCE_END_RE = re.compile(r"(\S+?)[.!?…]+[\"')\]»”’]*\s+[\"'(«�
 _TITLE_ABBREVIATIONS = frozenset({"dr", "prof", "doç", "av", "müh", "uzm", "op", "yrd", "sn", "st"})
 
 
+INNER_EMOJI_END_RE = re.compile(rf"\w[ \t]*{_EMOJI}+\s+[\"'(«“‘]*[A-ZÇĞİÖŞÜ]")
+
+
 def _inner_sentence_end(line: str) -> bool:
     """Satırın ortasında bir cümle bitip yenisi başlıyor mu? "Prof. Dr. Ali" sayılmaz."""
+    if INNER_EMOJI_END_RE.search(line):
+        return True  # "bekliyoruz 🎉 Ücretsiz!"
     for m in INNER_SENTENCE_END_RE.finditer(line):
         word = m.group(1)
         if len(word) > 1 and word[-1].islower() and turkish_lower(word) not in _TITLE_ABBREVIATIONS:
@@ -191,7 +202,8 @@ def _is_heading_line(line: str, allow_colon: bool = False) -> bool:
     stripped = line.strip()
     if not stripped or not _has_content(stripped):
         return False
-    if stripped[-1] in ".!?;,:…":
+    core = EMOJI_TAIL_RE.sub("", stripped).rstrip()  # "Ücretsiz! 😊": sonda emoji
+    if not core or core[-1] in ".!?;,:…":
         return False
     if list_marker(line) or "@" in stripped or "://" in stripped:
         return False
@@ -264,16 +276,28 @@ def split_sentences(
     bounds: list[tuple[int, int]] = []
     sent_start = start
     for m in TERMINAL_RE.finditer(text, start, end):
-        if _in_spans(m.start(), protected):
+        if m.start() < sent_start or _in_spans(m.start(), protected):
             continue
         punct = m.group(0)
         stop = m.end()
+        if EMOJI_RE.fullmatch(punct):
+            # Noktasız emoji yalnızca ardından büyük harfle yeni cümle gelirse cümleyi bitirir:
+            # "bekliyoruz 🎉 Ücretsiz!" bölünür, "Bugün 😊 güzel bir gün." bölünmez.
+            nxt_text = text[stop:end].lstrip()
+            if not _has_content(text[sent_start : m.start()]) or not nxt_text[:1].isupper():
+                continue
+            bounds.append((sent_start, stop))
+            sent_start = stop
+            continue
         while stop < end and text[stop] in CLOSERS:
             stop += 1
         # Vikipedi kaynak işaretleri: "birleştirilir.[1] Daha sonra …"
         cite = CITATION_RE.match(text, stop, end)
         if cite:
             stop = cite.end()
+        tail = EMOJI_TAIL_RE.match(text, stop, end)
+        if tail:
+            stop = tail.end()
         if stop < end and not text[stop].isspace():
             continue  # 3.5, 15.09.2026, "vb.," gibi durumlar
         nxt = _next_word(text, stop, end)

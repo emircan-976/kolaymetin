@@ -424,6 +424,11 @@ def _counted(s: Sentence, start_token: int) -> bool:
     return False
 
 
+def _number_follows(s: Sentence, end_token: int) -> bool:
+    nxt = next((t for t in s.tokens[end_token:] if t.kind != "punct"), None)
+    return nxt is not None and (nxt.kind == "number" or nxt.text[:1].isdigit())
+
+
 def _list_follows(doc: Document, s: Sentence) -> bool:
     """Cümle iki noktayla bitiyor ve hemen ardından madde listesi geliyor mu?"""
     if not s.text.rstrip().endswith(":") or s.index + 1 >= len(doc.sentences):
@@ -496,6 +501,8 @@ class VagueExpression(Rule):
                 continue  # "14 gün içinde", "üç gün içinde": kesin bir süre
             if _list_follows(doc, s):
                 continue  # "Gerekli belgeler:" ve altında madde listesi: belgeler zaten yazılı
+            if _number_follows(s, m.end_token):
+                continue  # "akşam saat 8'den sonra": ardından kesin değer geliyor
             start, end, text = _span(s, m)
             yield self.finding(
                 doc, cfg, start, end,

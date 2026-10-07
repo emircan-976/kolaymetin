@@ -406,14 +406,21 @@ def analyze(
             findings, body_count, prof.compliance_k, prof.weights, ignored=ignored_findings
         ),
     )
+    turkish = _looks_turkish(doc)
+    if not turkish:
+        # Kurallar Türkçe içindir: Rusça bir metne "100 / 100" demek yanıltır. Skor "—" görünür.
+        scores.compliance = scores.compliance.model_copy(
+            update={"value": None, "raw_value": None,
+                    "note": "Metin Türkçe görünmüyor. Skor hesaplanmadı."}
+        )
     stats = _stats(doc)
     sentences = [s.model_copy() for s in doc.sentences]
     _to_original(doc, findings + ignored_findings, sentences)
 
     notes = [DISCLAIMER]
-    if not _looks_turkish(doc):
+    if not turkish:
         notes.append(NOT_TURKISH)
-    if scores.compliance.note:
+    if scores.compliance.note and turkish:
         notes.append(scores.compliance.note)
     backend = morphology.backend_name()
     if backend != "zeyrek":

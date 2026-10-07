@@ -704,7 +704,7 @@ def _is_ne_demek(words: list[Token], i: int) -> bool:
     )
 
 
-_NOMINALIZER_IDS = frozenset({"Inf1", "Inf2", "Inf3", "ActOf", "NotState"})
+_NOMINALIZER_IDS = frozenset({"Inf1", "Inf2", "Inf3", "ActOf"})
 _POSSESSIVES = frozenset({"P1sg", "P2sg", "P3sg", "P1pl", "P2pl", "P3pl"})
 _CASES = frozenset({"Acc", "Dat", "Loc", "Abl", "Gen", "Ins", "Equ"})
 
@@ -722,7 +722,7 @@ def _is_clausal_nominal(a: Analysis) -> bool:
     idx = next((i for i, x in enumerate(ids) if x in _NOMINALIZER_IDS), -1)
     if idx < 0:
         return False  # işaret başka bir okumadan geldi ("unutma" = olumsuz emir)
-    if ids[idx] in ("NotState", "Inf1"):
+    if ids[idx] == "Inf1":
         return True
     after = ids[idx + 1 :]
     if "A3pl" in after:

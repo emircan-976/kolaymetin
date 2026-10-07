@@ -5,6 +5,38 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### 9. tur: gerçek dünya denemesinden kalan eksikler (2026-10-08)
+
+Regresyon testleri: `tests/test_kalan_eksikler.py`.
+
+#### Düzeltildi: slayt (sunum) PDF'leri
+- Noktasız başlık ve kısa bilgi satırları sonraki satırlarla birleşip 65–80 kelimelik "cümleler"
+  oluşturuyordu. Kısa, noktasız bir satırdan sonra büyük harfle başlayan satır yeni paragraf;
+  uzun düzyazı satırı (sayfadaki en uzun satırın %60'ından uzun) bölünmüyor.
+- Harfleri aralıklı başlıklar birleşiyor: "G E Ç E N  Y I L" → "GEÇEN YIL".
+- Sayfaların çoğunun kenarında yinelenen numaralı üst/alt bilgi ("Topluma Hizmet Uygulamaları 12")
+  atılıyor. Yalnızca bazı sayfalarda geçen "Adım 1", "Adım 2" kalıyor.
+- Noktalamadan önceki boşluk siliniyor: "dokunur ." → "dokunur.".
+- Ders sunumu PDF'inde bulgu 510 → 421, uyum skoru 27 → 41. Kalan uzun cümleler PDF
+  tablolarından geliyor: pypdf tablo satırlarını tek satıra döküyor.
+
+#### Düzeltildi: cümle bölme
+- Emoji cümleyi bitirebilir: "bekliyoruz 🎉 Ücretsiz!" iki cümle. Noktalamadan sonra gelen emoji
+  ("Harika! 🎉 Gelin.") cümle bölmeyi tamamen engelliyordu. Cümle içindeki emoji ("Bugün 😊 güzel
+  bir gün.") bölmez; emojiyle biten tek satır başlık sayılmıyor.
+
+#### Düzeltildi: kelime ve cümle kuralları
+- Birleşik adların çoğulu ("huzurevlerini", "buzdolaplarını") seyrek kelime sayılıyordu: zeyrek
+  çoğulda kök olarak "huzurev" veriyor; artık sözlükteki ad ("huzurevi") kullanılıyor.
+- "-mAzlIk" ile kurulan adlar ("böbrek yetmezliği", "anlaşmazlık") yan cümle ve adlaşmış eylem
+  sayılıyordu (KD-C06, KD-C07).
+- "açılmak" dönüşlü fiil listesinde: "Kütüphane pazartesi açılacak" yalnızca bilgi veriyor.
+- KD-K07: ardından sayı gelen ifade belirsiz değil ("akşam saat 8'den sonra").
+
+#### Değişti
+- Türkçe olmayan metinde (Kiril, Arap yazısı, İngilizce) uyum skoru hesaplanmıyor ("—"). Önce
+  "Türkçe görünmüyor" notuyla birlikte "100 / 100" gösteriliyordu.
+
 ### 8. tur: kelime listeleri (2026-10-08)
 
 Regresyon testleri: `tests/test_profiles_lexicon.py` (listeler arası çelişki, sabit terimler,

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import math
 import re
 from pathlib import Path
 
@@ -80,6 +81,89 @@ def _read_docx(data: bytes) -> str:
 _SYMBOL_BULLET_RE = re.compile(r"(?m)^[ \t]*[lnquvØ§ü][ \t]+(?=[A-ZÇĞİÖŞÜ0-9])")
 
 
+# Harfleri aralıklı yazılmış başlık: "G E Ç E N  Y I L", "M Ü T E R C İ M- T E R C Ü M A N".
+# Harfler tek, kelimeler çift boşlukla ayrılır.
+_LETTER_SPACED_RE = re.compile(r"(?<!\S)[^\W\d_]-?(?: [^\W\d_]-?){2,}(?!\S)")
+_LETTER_SPACED_SHORT_RE = re.compile(r"(?<!\S)[^\W\d_]-?(?: [^\W\d_]-?)+(?!\S)")
+# PDF dizgisinde noktalamadan önce kalan boşluk: "dokunur ." → "dokunur."
+_SPACE_BEFORE_PUNCT_RE = re.compile(r"(?<=\w) +([.,;:!?])(?=\s|$)", re.M)
+# Sayfa numaralı yinelenen üst/alt bilgi: "Topluma Hizmet Uygulamaları 12", "Sayfa 3", "3 / 12"
+_PAGE_NUMBER_LINE_RE = re.compile(r"^(?:(?P<label>.*?\S)\s+)?(?:sayfa\s+)?\d{1,3}(?:\s*/\s*\d{1,3})?$", re.I)
+_LINE_END_PUNCT = ".!?:;,…-–—"
+
+
+def _edge_lines(lines: list[str]) -> list[str]:
+    """Sayfanın ilk ve son dört dolu satırı: üst ve alt bilgi buralarda olur. pypdf metni çizim
+    sırasıyla verir; slaytta alt bilgi başlığın hemen ardından da gelebilir."""
+    filled = [ln for ln in lines if ln.strip()]
+    return filled[:4] + filled[4:][-4:]
+
+
+def _page_furniture(pages: list[list[str]]) -> set[str]:
+    """Sayfaların çoğunun kenarında yinelenen üst/alt bilgi satırları (sayfa numarası atılmış
+    hâliyle). Yalnızca bazı sayfalarda geçen "Adım 1", "Adım 2" gibi başlıklar sayılmaz."""
+    if len(pages) < 3:
+        return set()
+    counts: dict[str, int] = {}
+    for lines in pages:
+        for label in {_furniture_key(ln) for ln in _edge_lines(lines)} - {""}:
+            counts[label] = counts.get(label, 0) + 1
+    limit = max(3, math.ceil(len(pages) * 0.6))
+    return {label for label, n in counts.items() if n >= limit}
+
+
+def _furniture_key(line: str) -> str:
+    m = _PAGE_NUMBER_LINE_RE.match(line.strip())
+    if m is None:
+        # Numarasız satır yalnızca kısaysa, cümle değilse ve birebir aynıysa üst/alt bilgidir.
+        stripped = line.strip()
+        if len(stripped.split()) > 8 or stripped[-1:] in ".!?":
+            return ""
+        return "=" + stripped
+    return "#" + (m.group("label") or "")
+
+
+def _join_letter_spacing(line: str) -> str:
+    """"G E Ç E N  Y I L" → "GEÇEN YIL". Satırda en az üç harflik aralıklı bir kelime varsa
+    iki harflikler de ("B U  Y I L") birleşir."""
+    if not _LETTER_SPACED_RE.search(line):
+        return line
+    joined = _LETTER_SPACED_SHORT_RE.sub(lambda m: m.group(0).replace(" ", ""), line)
+    return re.sub(r"(?<=\S) {2,}(?=\S)", " ", joined)
+
+
+def _tidy_pdf_pages(pages: list[str]) -> list[str]:
+    """PDF'ten çıkan sayfa metinlerini düzenler.
+
+    Sunum (slayt) PDF'lerinde başlık ve kısa bilgi satırları noktasızdır; satır satır birleşince
+    80 kelimelik "cümleler" oluşuyordu. Noktasız, kısa bir satırdan sonra büyük harfle başlayan
+    satır yeni bir paragraftır. Satırı kaydırılmış uzun düzyazı satırı bölünmez: uzunluğu
+    sayfadaki en uzun satıra yakındır ya da sonraki satır küçük harfle başlar.
+    """
+    split = [[ln.rstrip() for ln in page.split("\n")] for page in pages]
+    furniture = _page_furniture(split)
+    out = []
+    for lines in split:
+        edges = set(_edge_lines(lines))
+        lines = [ln for ln in lines if not (ln in edges and _furniture_key(ln) in furniture)]
+        lines = [_join_letter_spacing(ln) for ln in lines]
+        widest = max((len(ln.strip()) for ln in lines), default=0)
+        kept: list[str] = []
+        for i, ln in enumerate(lines):
+            kept.append(ln)
+            nxt = lines[i + 1].strip() if i + 1 < len(lines) else ""
+            cur = ln.strip()
+            if (
+                cur and nxt
+                and cur[-1] not in _LINE_END_PUNCT
+                and nxt[:1].isupper()
+                and len(cur) < 0.6 * widest
+            ):
+                kept.append("")  # başlık ya da kısa bilgi satırı: sonraki satırla birleşmez
+        out.append(_SPACE_BEFORE_PUNCT_RE.sub(r"\1", "\n".join(kept)).strip())
+    return out
+
+
 def _read_pdf(data: bytes) -> str:
     try:
         from pypdf import PdfReader
@@ -90,7 +174,7 @@ def _read_pdf(data: bytes) -> str:
         pages = [(page.extract_text() or "").strip() for page in reader.pages]
     except Exception as exc:
         raise ReaderError("PDF açılamadı. Dosya bozuk ya da şifreli olabilir.") from exc
-    text = "\n\n".join(p for p in pages if p)
+    text = "\n\n".join(p for p in _tidy_pdf_pages(pages) if p)
     text = _SYMBOL_BULLET_RE.sub("• ", text)
     if not any(c.isalpha() for c in text):
         raise ReaderError(
