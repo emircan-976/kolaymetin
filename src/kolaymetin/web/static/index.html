@@ -170,6 +170,10 @@
           <label class="kutu"><input type="checkbox" name="kategori" value="metin" checked> Metin</label>
         </fieldset>
       </div>
+      <button type="button" class="dugme dugme--kucuk hepsini-duzelt" id="hepsini-duzelt" hidden
+        title="Görünen bulgulardaki otomatik düzeltmeleri metne uygular. Ctrl+Z ile geri alınır.">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
+        <span id="hepsini-duzelt-metni">Hepsini düzelt</span></button>
       <span class="dither dither--kapak dither--kelime dither--mavi dither--bulgu-yok" id="bulgu-yok-gorsel" aria-hidden="true"></span>
       <p class="bos-not" id="bulgu-yok">Metin yazın ya da yapıştırın. Bulgular burada görünür.</p>
       <ol class="bulgu-listesi" id="bulgular" aria-label="Bulgular"></ol>

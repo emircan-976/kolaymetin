@@ -319,6 +319,11 @@ def _to_original(doc: Document, findings: list[Finding], sentences: list[Sentenc
     for f in findings:
         f.start, f.end = nt.to_original(f.start, f.end)
         f.text = doc.original[f.start : f.end]
+        if f.fix is not None:
+            f.fix.start, f.fix.end = nt.to_original(f.fix.start, f.fix.end)
+            # Düzeltme normalleştirilmiş metinden kurulur; yazarın kesmesi ("’da") korunsun.
+            if "’" in doc.original[f.fix.start : f.fix.end]:
+                f.fix.text = f.fix.text.replace("'", "’")
     for s in sentences:
         s.start, s.end = nt.to_original(s.start, s.end)
         s.text = doc.original[s.start : s.end]

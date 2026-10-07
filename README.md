@@ -186,6 +186,9 @@ kolaymetin sunucu --port 8000
 - Araç yazarken 600 ms bekleyip kendiliğinden denetler. İsterseniz "Denetle" düğmesine basın.
 - İşaretli bir yere tıklayın: ilgili not kartı açılır. Kartta "Neden? → rehber", "Metinde göster" ve
   "Yoksay" seçenekleri var.
+- Sonucu kesin olan bulgularda (sayı, tarih, saat, Roma rakamı, büyük harf, noktalı virgül)
+  kartta **Düzelt** düğmesi de var. **Hepsini düzelt** görünen bütün bu düzeltmeleri birden
+  uygular. Ctrl+Z ile geri alırsınız. Cümle yapısı ve kelime seçimi sizde kalır.
 - "Cümleler" sekmesi her cümlenin uzunluğunu bir çubukla gösterir.
 - Raporu HTML (yazdırılabilir; tarayıcıdan "PDF olarak kaydet"), Markdown ya da JSON olarak indirin.
 - Klavyeyle tam kullanılır; açık/koyu tema ve yazı büyütme düğmeleri var.
@@ -197,7 +200,7 @@ kolaymetin denetle tests/corpus/su-kesintisi-burokratik/metin.txt
 ```
 
 <details>
-<summary><b>Daha fazla örnek:</b> rapor dosyası, profil, CI eşiği</summary>
+<summary><b>Daha fazla örnek:</b> rapor dosyası, profil, CI eşiği, düzeltilmiş metin</summary>
 
 <br>
 
@@ -211,6 +214,10 @@ kolaymetin denetle tests/corpus/su-kesintisi-kolay/metin.txt --profil sade-dil -
 
 ```bash
 kolaymetin denetle tests/corpus/su-kesintisi-kolay/metin.txt --esik-skor 70
+```
+
+```bash
+kolaymetin denetle duyuru.txt --duzelt -o duyuru-duzeltilmis.txt
 ```
 
 ```bash
@@ -241,6 +248,7 @@ print(report.scores.compliance.value, report.scores.atesman.value)
 for f in report.findings:
     print(f.rule_id, f.severity, f.message, f.suggestion)
 
+report.fixed_text()   # otomatik düzeltmeler uygulanmış metin (f.fix olan bulgular)
 report.to_json()
 report.to_markdown()
 report.to_html()

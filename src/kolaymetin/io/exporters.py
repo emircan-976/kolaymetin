@@ -62,6 +62,12 @@ def _ignored_summary(report: Report) -> str | None:
     )
 
 
+FIXED_NOTE = (
+    "{n} bulgunun düzeltmesi uygulandı: sayı, tarih, saat ve büyük harf gibi kesin düzeltmeler. "
+    "Öteki bulguları elle düzeltin. Metni yeniden denetleyin."
+)
+
+
 def dither_level(score: float) -> int:
     """0–100 skoru 17 Bayer desen seviyesinden birine çevirir (her %6,25 bir seviye)."""
     return max(0, min(16, round(score / 6.25)))
@@ -170,6 +176,14 @@ def to_markdown(report: Report, base_url: str = "") -> str:
         f"- Ortalama cümle uzunluğu: {_fmt(st.avg_sentence_length)} kelime",
         f"- En uzun cümle: {st.longest_sentence_words} kelime",
         "",
+    ]
+    fixed_count = sum(1 for f in report.findings if f.fix is not None)
+    if fixed_count:
+        lines += ["## Otomatik düzeltilmiş metin", "", FIXED_NOTE.format(n=fixed_count), ""]
+        lines += [f"> {_md_escape(line)}" if line.strip() else ">"
+                  for line in report.fixed_text().splitlines()]
+        lines.append("")
+    lines += [
         f"## Bulgular ({len(report.findings)})",
         "",
     ]
@@ -381,6 +395,13 @@ def to_html(report: Report, base_url: str = "") -> str:
             f"kapatıldı. Skora katılmadılar.</p>{ignored_cards}</section>"
         )
 
+    fixed_count = sum(1 for f in report.findings if f.fix is not None)
+    fixed_html = (
+        f'<section aria-labelledby="duzeltilmis"><h2 id="duzeltilmis">Otomatik düzeltilmiş metin</h2>'
+        f"<p>{_esc(FIXED_NOTE.format(n=fixed_count))}</p>"
+        f'<div class="isaretli-metin">{_esc(report.fixed_text())}</div></section>'
+    ) if fixed_count else ""
+
     return f"""<!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -438,6 +459,7 @@ def to_html(report: Report, base_url: str = "") -> str:
   </p>
   <div class="isaretli-metin">{marked}</div>
 </section>
+{fixed_html}
 <section aria-labelledby="bulgular">
   <h2 id="bulgular">Bulgular ({len(report.findings)})</h2>
   {findings_html}

@@ -497,6 +497,7 @@ legend { font-family: var(--f-mono); font-size: var(--t-14); letter-spacing: 0.0
 /* ------------------------------------------------------------------ süzgeçler */
 .suzgecler { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
 .suzgecler fieldset { display: flex; flex-direction: column; }
+.hepsini-duzelt { margin-bottom: 12px; }
 .bulgu-listesi { list-style: none; margin: 0; padding: 0; }
 .bulgu-listesi > li { max-width: none; }
 .bos-not { margin: 12px 0; font-weight: 700; }

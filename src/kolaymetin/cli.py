@@ -2,6 +2,7 @@
 
     kolaymetin denetle GİRDİ [--profil kolay-dil|sade-dil|DOSYA] [--sozluk DOSYA]
                              [--cikti metin|json|md|html] [-o DOSYA] [--esik-skor 70]
+                             [--duzelt]
     kolaymetin sunucu [--port 8000] [--host 127.0.0.1]
     kolaymetin kurallar [--profil ...]
     kolaymetin surum
@@ -66,6 +67,8 @@ def _build_parser() -> argparse.ArgumentParser:
     d.add_argument("-o", "--dosya", metavar="DOSYA", help="Çıktıyı bu dosyaya yaz")
     d.add_argument("--esik-skor", type=int, default=None, metavar="SAYI",
                    help="Uyum skoru bu sayının altındaysa çıkış kodu 1 olur (CI için)")
+    d.add_argument("--duzelt", action="store_true",
+                   help="Rapor yerine otomatik düzeltmeleri uygulanmış metni yazar")
 
     s = sub.add_parser("sunucu", help="Yerel web arayüzünü başlatır")
     s.add_argument("--port", type=int, default=8000)
@@ -123,8 +126,32 @@ def _print_text_report(report: object, stream: TextIO) -> None:
         con.print()
     if not report.findings:
         con.print("Bu profilde bulgu yok.")
+    fixable = sum(1 for f in report.findings if f.fix is not None)
+    if fixable:
+        con.print(f"{fixable} bulgu otomatik düzeltilebilir. Düzeltilmiş metin için: --duzelt")
+        con.print()
     for note in report.notes:
         con.print(Text(note, style="italic dim"))
+
+
+def _write_fixed(report: object, path: str | None, out: TextIO, err: TextIO) -> None:
+    """Düzeltilmiş metni yazar; kaç düzeltme uygulandığını ve kaç bulgunun kaldığını söyler."""
+    from kolaymetin.models import Report, applicable_fixes
+
+    assert isinstance(report, Report)
+    applied = len(applicable_fixes(report.findings, len(report.text)))
+    content = report.fixed_text()
+    if path:
+        Path(path).write_text(content, encoding="utf-8")
+        err.write(f"Düzeltilmiş metin yazıldı: {path}\n")
+    else:
+        out.write(content)
+        if not content.endswith("\n"):
+            out.write("\n")
+    err.write(
+        f"{applied} otomatik düzeltme uygulandı. {len(report.findings) - applied} bulgu elle "
+        "düzeltilmeli. Metni yeniden denetleyin.\n"
+    )
 
 
 def _cmd_denetle(args: argparse.Namespace, out: TextIO, err: TextIO) -> int:
@@ -144,7 +171,9 @@ def _cmd_denetle(args: argparse.Namespace, out: TextIO, err: TextIO) -> int:
         err.write(f"Hata: {exc}\n")
         return EXIT_INPUT_ERROR
 
-    if args.cikti == "metin" and not args.dosya:
+    if args.duzelt:
+        _write_fixed(report, args.dosya, out, err)
+    elif args.cikti == "metin" and not args.dosya:
         _print_text_report(report, out)
     else:
         if args.cikti == "json":

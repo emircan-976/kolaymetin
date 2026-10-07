@@ -6,11 +6,16 @@ import datetime as dt
 import re
 from collections.abc import Iterable
 
-from kolaymetin.models import Document, Finding, Sentence, Token
+from kolaymetin.models import Document, Finding, Fix, Sentence, Token
 from kolaymetin.profiles import RuleConfig
 from kolaymetin.rules.base import Rule, body_sentences, quote, register
-from kolaymetin.text.morphology import best, vocabulary_keys
-from kolaymetin.text.normalize import is_upper_word, turkish_capitalize, turkish_lower
+from kolaymetin.text.morphology import best, is_proper_name, vocabulary_keys
+from kolaymetin.text.normalize import (
+    is_upper_word,
+    turkish_capitalize,
+    turkish_lower,
+    turkish_upper,
+)
 from kolaymetin.text.syllables import MONTHS, date_parts, read_number
 
 NUMBER_WORDS = {
@@ -83,6 +88,14 @@ def possessive(n: int) -> str:
     return f"{n}'{'s' if ends_vowel else ''}{harmony}"
 
 
+def _keep_suffix(token: Token, new: str) -> str | None:
+    """Sözcüğün kesmeyle ayrılmış ekini yeni biçime taşır: "01.12.2026'da" → "1 Aralık 2026'da".
+    Ek ayrılamıyorsa düzeltme verilmez (None)."""
+    if not token.text.startswith(token.base):
+        return None
+    return new + token.text[len(token.base) :]
+
+
 def _number_base(token: Token) -> str | None:
     if token.kind != "word":
         return None
@@ -112,15 +125,16 @@ class NumbersInWords(Rule):
                 base = _number_base(t) if t is not None else None
                 if base is not None and t is not None and not run and prev is not None and prev.kind == "number":
                     base = None  # "100 milyon", "2,5 milyar": sayı zaten rakamla yazılmış
-                prev = t
+                if t is None or not (t.kind == "punct" and t.text in ('"', "'")):
+                    prev = t  # '"2,5" milyon': tırnak sayıyı ardındaki kelimeden ayırmaz
                 if base is not None and t is not None:
                     run.append((t, base))
                     if t.text != t.base or (t.analysis is not None and t.analysis.suffix_count):
-                        yield from self._emit(doc, cfg, s, run, min_value)
+                        yield from self._emit(doc, cfg, s, run, min_value, fixable=False)
                         run = []
                     continue
                 if run:
-                    yield from self._emit(doc, cfg, s, run, min_value)
+                    yield from self._emit(doc, cfg, s, run, min_value, fixable=not _number_like(t))
                     run = []
             yield from self._unseparated(doc, cfg, s)
 
@@ -145,11 +159,16 @@ class NumbersInWords(Rule):
                 ),
                 suggestion=f"{quote(digits)} → {quote(shown)}",
                 sentence=s,
+                fix=shown,
             )
 
     def _emit(
-        self, doc: Document, cfg: RuleConfig, s: Sentence, run: list[tuple[Token, str]], min_value: int
+        self, doc: Document, cfg: RuleConfig, s: Sentence, run: list[tuple[Token, str]],
+        min_value: int, fixable: bool,
     ) -> Iterable[Finding]:
+        """fixable: sayı eksiz bitiyor ve ardından sayıya benzeyen bir kelime gelmiyor. Ekli
+        sayının ("yirmi beşinde") ekini rakama doğru bağlamak ünlü uyumu ister; düzeltme
+        verilmez."""
         words = [b for _t, b in run]
         if len(words) == 1 and words[0] not in UNAMBIGUOUS_SINGLE:
             return
@@ -164,7 +183,21 @@ class NumbersInWords(Rule):
             explanation="Rakamı okumak, yazıyla yazılmış sayıyı okumaktan daha kolaydır.",
             suggestion=f"{quote(text)} → {quote(digits)}",
             sentence=s,
+            # Tek başına "milyon" bir çarpandır; "1.000.000" demek çoğu zaman yanlıştır.
+            fix=digits if fixable and words not in (["milyon"], ["milyar"]) else None,
         )
+
+
+# Ekli bir sayı kelimesinin başı: "Yirmi beşi geldi" cümlesinde "beşi" sayı sayılmazsa
+# "Yirmi" tek başına düzeltilip "20 beşi" çıkmasın. "on" ve "bir" çok kelimenin başıdır.
+_NUMBER_PREFIXES = tuple(w for w in NUMBER_WORDS if w not in ("on", "bir"))
+
+
+def _number_like(token: Token | None) -> bool:
+    if token is None or token.kind != "word":
+        return token is not None and token.kind == "number"
+    low = turkish_lower(token.text)
+    return low in NUMBER_WORDS or low.startswith(_NUMBER_PREFIXES)
 
 
 @register
@@ -198,6 +231,7 @@ class RomanNumeral(Rule):
                     explanation="Roma rakamlarını birçok kişi okuyamaz.",
                     suggestion=f"{quote(shown)} → {quote(arabic)}",
                     sentence=s,
+                    fix=arabic,
                 )
 
 
@@ -316,6 +350,7 @@ class PercentFraction(Rule):
                         suggestion=f"{quote(t.base)} → {quote(comma)}",
                         sentence=s,
                         severity="uyarı",
+                        fix=_keep_suffix(t, comma),
                     )
                     continue
                 if value is None:
@@ -437,8 +472,12 @@ class DateFormat(Rule):
                     # Tarih aralığında ("01.11.2026 - 15.11.2026") iki uca da gün eklemek metni
                     # uzatır; yalnızca ayın adı önerilir.
                     in_range = _range_end(toks, i) is not None or _range_start(toks, i)
-                    readable = _readable(
-                        date, weekday=weekday and not in_range and not _is_past_year(date.year)
+                    with_day = weekday and not in_range and not _is_past_year(date.year)
+                    readable = _readable(date, weekday=with_day)
+                    # Düzeltme haftanın gününü yalnızca gün yazılmamışsa ve tarih ek almamışsa
+                    # ekler: "01.12.2026'da" → "1 Aralık 2026'da" (ek yıla göre uyumlu kalır).
+                    fixed = _keep_suffix(
+                        t, _readable(date, weekday=with_day and written is None and t.text == t.base)
                     )
                     yield self.finding(
                         doc, cfg, t.start, t.end,
@@ -449,6 +488,7 @@ class DateFormat(Rule):
                         ),
                         suggestion=f"{quote(t.base)} → {quote(readable)}",
                         sentence=s,
+                        fix=fixed,
                     )
                 elif t.kind == "number" and t.base.isdigit() and 1 <= int(t.base) <= 31:
                     if i + 1 >= len(toks) or toks[i + 1].kind != "word":
@@ -485,9 +525,12 @@ class DateFormat(Rule):
                         if _is_past_year(year):
                             continue  # "23 Nisan 1920": tarihî olayın haftanın günü gerekmez
                     hint = "Haftanın gününü de yazın. Örnek: '15 Eylül Salı'."
+                    fixed = None
                     if year:
                         date = dt.date(year, MONTHS.index(month_low) + 1, int(t.base))
                         hint = f"Haftanın gününü de yazın: {quote(_readable(date))}."
+                        if end_tok.text == end_tok.base:  # "2026'da": ek güne taşınamaz
+                            fixed = _readable(date)
                     yield self.finding(
                         doc, cfg, t.start, end_tok.end,
                         message="Bu tarihte haftanın günü yok. Günü de yazın.",
@@ -495,6 +538,7 @@ class DateFormat(Rule):
                         suggestion=hint,
                         sentence=s,
                         severity="bilgi",
+                        fix=fixed,
                     )
 
     def _check_written(
@@ -599,8 +643,34 @@ class TimeFormat(Rule):
                     ),
                     suggestion=f"{quote(t.base)} → {quote('saat ' + shown)}",
                     sentence=s,
+                    fix=_keep_suffix(t, ("Saat " if t.sentence_initial else "saat ") + shown),
                 )
                 covered = True
+
+
+def _finite(token: Token) -> bool:
+    return token.kind == "word" and token.analysis is not None and token.analysis.is_finite
+
+
+def _semicolon_fix(doc: Document, toks: list[Token], i: int) -> Fix | None:
+    """"Okul kapandı; öğrenciler evde kaldı." → "Okul kapandı. Öğrenciler evde kaldı."
+
+    Yalnızca noktalı virgülün iki yanı da çekimli fiille biten bağımsız cümleyse. Sıralamadaki
+    noktalı virgül ("Ankara; İzmir; Bursa") nokta olursa yarım cümleler çıkar."""
+    before = [t for t in toks[:i] if t.kind != "punct"]
+    after: list[Token] = []
+    for t in toks[i + 1 :]:
+        if t.kind == "punct" and t.text == ";":
+            break
+        if t.kind != "punct":
+            after.append(t)
+    if not before or not after or not _finite(before[-1]) or not _finite(after[-1]):
+        return None
+    first = toks[i + 1]
+    if first.kind != "word":
+        return None
+    gap = doc.text[toks[i].end : first.start] or " "
+    return Fix(start=toks[i].start, end=first.start + 1, text="." + gap + turkish_upper(first.text[0]))
 
 
 @register
@@ -619,7 +689,7 @@ class SemicolonColon(Rule):
                 if t.kind == "punct" and t.text == ":"
                 and not (i > 0 and turkish_lower(s.tokens[i - 1].text) in ADDRESS_LABELS)
             ]
-            for t in s.tokens:
+            for i, t in enumerate(s.tokens):
                 if t.kind == "punct" and t.text == ";":
                     yield self.finding(
                         doc, cfg, t.start, t.end,
@@ -630,6 +700,7 @@ class SemicolonColon(Rule):
                         ),
                         suggestion="';' yerine '.' koyun ve yeni cümleye büyük harfle başlayın.",
                         sentence=s,
+                        fix=_semicolon_fix(doc, s.tokens, i),
                     )
             if len(colons) > max_colons:
                 t = colons[max_colons]
@@ -640,6 +711,24 @@ class SemicolonColon(Rule):
                     suggestion="Her bilgiyi ayrı bir satıra ya da maddeye yazın.",
                     sentence=s,
                 )
+
+
+def _caps_fix(doc: Document, run: list[Token]) -> str:
+    """Büyük harfli bölümün normal yazımı. Kısaltmalar ("SGK") büyük kalır, özel adlar
+    ("ANKARA'DA" → "Ankara'da") ve cümlenin ilk kelimesi büyük harfle başlar."""
+    parts: list[str] = []
+    pos = run[0].start
+    for k, t in enumerate(run):
+        parts.append(doc.text[pos : t.start])
+        word = doc.text[t.start : t.end]
+        if t.is_abbreviation:
+            parts.append(word)
+        elif (k == 0 and t.sentence_initial) or is_proper_name(turkish_lower(t.base)):
+            parts.append(turkish_capitalize(word))
+        else:
+            parts.append(turkish_lower(word))
+        pos = t.end
+    return "".join(parts)
 
 
 @register
@@ -678,6 +767,7 @@ class AllCaps(Rule):
                         ),
                         suggestion=f"Şöyle yazın: {quote(fixed)}",
                         sentence=s,
+                        fix=_caps_fix(doc, run),
                     )
                 run = []
 

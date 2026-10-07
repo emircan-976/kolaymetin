@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, Literal
 
@@ -102,6 +103,18 @@ class Paragraph(BaseModel):
     suppressed: set[str] = Field(default_factory=set)
 
 
+class Fix(BaseModel):
+    """Bir bulgunun otomatik düzeltmesi: metnin [start, end) aralığı ``text`` olur.
+
+    Yalnızca sonucu kesin olan düzeltmeler verilir ("01.12.2026" → "1 Aralık 2026 Salı").
+    Aralık bulgunun aralığından farklı olabilir: noktalı virgülün düzeltmesi ardından gelen
+    kelimeyi de büyük harfle başlatır."""
+
+    start: int
+    end: int
+    text: str
+
+
 class Finding(BaseModel):
     rule_id: str
     rule_name: str
@@ -110,6 +123,7 @@ class Finding(BaseModel):
     message: str
     explanation: str
     suggestion: str | None = None
+    fix: Fix | None = None
     start: int
     end: int
     text: str = ""
@@ -120,6 +134,30 @@ class Finding(BaseModel):
 
     def __str__(self) -> str:
         return f"{self.rule_id} [{self.severity}] {self.message}"
+
+
+def applicable_fixes(findings: Iterable[Finding], length: int) -> list[Fix]:
+    """Birlikte uygulanabilecek düzeltmeler, metindeki sırasıyla. Aralıkları çakışanlardan önce
+    başlayan seçilir; öteki bir sonraki denetimde yeniden önerilir."""
+    out: list[Fix] = []
+    pos = 0
+    for fx in sorted((f.fix for f in findings if f.fix is not None), key=lambda x: (x.start, x.end)):
+        if fx.start >= pos and fx.end <= length:
+            out.append(fx)
+            pos = fx.end
+    return out
+
+
+def apply_fixes(text: str, findings: Iterable[Finding]) -> str:
+    """Bulguların düzeltmelerini metne uygular. Ofsetler ``text`` içindedir (rapordaki gibi)."""
+    parts: list[str] = []
+    pos = 0
+    for fx in applicable_fixes(findings, len(text)):
+        parts.append(text[pos : fx.start])
+        parts.append(fx.text)
+        pos = fx.end
+    parts.append(text[pos:])
+    return "".join(parts)
 
 
 class ReadabilityScore(BaseModel):
@@ -213,6 +251,10 @@ class Report(BaseModel):
         ]
         lines += [f"  {f}" for f in self.findings]
         return "\n".join(lines)
+
+    def fixed_text(self) -> str:
+        """Bütün otomatik düzeltmeler uygulanmış metin. Yoksayılan bulgular düzeltilmez."""
+        return apply_fixes(self.text, self.findings)
 
     def to_dict(self) -> dict[str, Any]:
         return self.model_dump(mode="json")

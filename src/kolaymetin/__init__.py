@@ -3,6 +3,6 @@
 __version__ = "1.0.0"
 
 from kolaymetin.api import analyze
-from kolaymetin.models import Finding, Report
+from kolaymetin.models import Finding, Fix, Report, apply_fixes
 
-__all__ = ["Finding", "Report", "__version__", "analyze"]
+__all__ = ["Finding", "Fix", "Report", "__version__", "analyze", "apply_fixes"]

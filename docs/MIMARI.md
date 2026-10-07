@@ -55,6 +55,13 @@ class LongSentence(Rule):
         ...
 ```
 
+Sonucu kesin olan kurallar `self.finding(..., fix="yeni metin")` ile otomatik düzeltme de
+verir. Metin verilirse bulgunun aralığının yerine geçer; başka bir aralık gerekiyorsa
+(noktalı virgül ardından gelen harfi de büyütür) `Fix(start, end, text)` verilir. Düzeltme
+ofsetleri de `api._to_original` ile özgün metne çevrilir. `models.apply_fixes` düzeltmeleri
+çakışmadan uygular; `Report.fixed_text()`, `kolaymetin denetle --duzelt` ve web arayüzündeki
+"Düzelt" düğmeleri onu (arayüz aynı mantığın JavaScript karşılığını) kullanır.
+
 `cfg` profil dosyasındaki kural ayarıdır (`enabled`, `severity`, `params`). Kural motoru
 (`api.run_rules`) kapalı kuralları atlar, satır içi susturmayı ve kullanıcının yoksaydığı
 bulguları süzer, aynı yeri iki kez işaretleyen bulguları birleştirir.

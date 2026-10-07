@@ -5,6 +5,35 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### Otomatik düzeltme (2026-10-08)
+
+Araç artık yalnızca işaretlemiyor, sonucu kesin olan düzeltmeleri metne kendisi uyguluyor.
+Testler: `tests/test_duzeltme.py`.
+
+#### Eklendi
+- `Finding.fix` (`Fix`: `start`, `end`, `text`): bulgunun otomatik düzeltmesi. Ofsetler
+  `start`/`end` gibi özgün metindedir; web API'sinde UTF-16 birimidir.
+- `kolaymetin.apply_fixes(metin, bulgular)` ve `Report.fixed_text()`: düzeltmeleri uygular.
+  Aralığı çakışan düzeltmelerden önce başlayan uygulanır; öteki yeni denetimde yeniden önerilir.
+- Düzeltme veren kurallar:
+  - KD-B01: "yirmi beş" → "25", "1250000 lira" → "1.250.000 lira"
+  - KD-B02: "XV." → "15."
+  - KD-B03: "2.5 milyon" → "2,5 milyon"
+  - KD-B04: "01.12.2026" → "1 Aralık 2026 Salı", "01.12.2026'da" → "1 Aralık 2026'da",
+    "25 Aralık 2026" → "25 Aralık 2026 Cuma"
+  - KD-B05: "14.30'da" → "saat 14.30'da"
+  - KD-B06: "Okul kapandı; öğrenciler…" → "Okul kapandı. Öğrenciler…"
+  - KD-B07: "LÜTFEN … ANKARA'DA SGK BİNASI" → "Lütfen … Ankara'da SGK binası"
+- Web arayüzü: her bulgu kartında **Düzelt**, bulgu listesinin üstünde **Hepsini düzelt (N)**
+  (süzgeçlerde görünen bulgular). İkisi de Ctrl+Z ile geri alınır.
+- Komut satırı: `kolaymetin denetle GİRDİ --duzelt` rapor yerine düzeltilmiş metni yazar. Metin
+  raporu kaç bulgunun otomatik düzeltilebileceğini söyler.
+- Markdown ve HTML raporlarında "Otomatik düzeltilmiş metin" bölümü.
+
+#### Düzeltildi
+- KD-B01, tırnak içindeki sayıdan sonra gelen "milyon"u ('"2,5" milyon') yazıyla yazılmış
+  sayı sanıyordu.
+
 ### 9. tur: gerçek dünya denemesinden kalan eksikler (2026-10-08)
 
 Regresyon testleri: `tests/test_kalan_eksikler.py`.

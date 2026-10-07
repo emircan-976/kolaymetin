@@ -117,6 +117,38 @@
     denetle(true);
   }
 
+  // Bulguların otomatik düzeltmelerini metne uygular. Ofsetler son raporun metnine aittir: metin
+  // o zamandan beri değiştiyse hiçbir şey yapılmaz. Aralıkları çakışan düzeltmelerden önce
+  // başlayan uygulanır; öteki yeni denetimde yeniden önerilir. Ctrl+Z ile geri alınabilsin diye
+  // değişiklik insertText ile yazılır.
+  function duzeltmeleriUygula(fixler) {
+    if (!durum.rapor || durum.raporMetni !== metin.value) { return; }
+    var yazi = metin.value, secilen = [], konum = 0;
+    fixler.slice().sort(function (a, b) { return a.start - b.start || a.end - b.end; }).forEach(function (fx) {
+      if (fx.start >= konum && fx.end <= yazi.length) { secilen.push(fx); konum = fx.end; }
+    });
+    if (!secilen.length) { return; }
+    var bas = secilen[0].start, son = secilen[secilen.length - 1].end;
+    var parca = "", k = bas;
+    secilen.forEach(function (fx) { parca += yazi.slice(k, fx.start) + fx.text; k = fx.end; });
+    var yeni = yazi.slice(0, bas) + parca + yazi.slice(son);
+    var kaydirma = metin.scrollTop;
+    metin.focus({ preventScroll: true });
+    metin.setSelectionRange(bas, son);
+    var yazildi = false;
+    try { yazildi = document.execCommand("insertText", false, parca); } catch (e) { yazildi = false; }
+    if (!yazildi || metin.value !== yeni) { metin.value = yeni; }
+    metin.setSelectionRange(bas + parca.length, bas + parca.length);
+    metin.scrollTop = kaydirma;
+    arka.scrollTop = kaydirma;
+    durum.acik = {}; durum.secili = -1;
+    arkaCiz();
+    denetle(true);
+    duyur(secilen.length === 1
+      ? "Düzeltildi. Geri almak için Ctrl+Z."
+      : secilen.length + " düzeltme uygulandı. Geri almak için Ctrl+Z.");
+  }
+
   // ------------------------------------------------------------------ süzgeçler
   function seciliDegerler(ad) {
     var out = {};
@@ -359,6 +391,9 @@
     var gorunur = gorunurBulgular();
     var toplam = durum.rapor ? durum.rapor.findings.length : 0;
     $("bulgu-sayisi").textContent = durum.rapor ? "(" + gorunur.length + (gorunur.length !== toplam ? "/" + toplam : "") + ")" : "";
+    var duzeltilebilir = gorunur.filter(function (b) { return b.f.fix; }).length;
+    $("hepsini-duzelt").hidden = !duzeltilebilir;
+    $("hepsini-duzelt-metni").textContent = "Hepsini düzelt (" + duzeltilebilir + ")";
     var yok = $("bulgu-yok");
     $("bulgu-yok-gorsel").hidden = !!durum.rapor;
     if (!durum.rapor) {
@@ -415,6 +450,13 @@
       govde.appendChild(oneri);
     }
     var eylem = el("div", "not-kagidi__eylem");
+    if (f.fix) {
+      var duzelt = el("button", "baglanti-dugme", "Düzelt");
+      duzelt.type = "button";
+      duzelt.setAttribute("aria-label", "Düzelt: “" + f.text + "” yerine “" + f.fix.text + "” yaz");
+      duzelt.addEventListener("click", function () { duzeltmeleriUygula([f.fix]); });
+      eylem.appendChild(duzelt);
+    }
     var goster = el("button", "baglanti-dugme", "Metinde göster");
     goster.type = "button";
     goster.addEventListener("click", function () { metindeGoster(i); });
@@ -760,6 +802,9 @@
 
     document.querySelectorAll("[data-bicim]").forEach(function (d) {
       d.addEventListener("click", function () { disaAktar(d.getAttribute("data-bicim")); });
+    });
+    $("hepsini-duzelt").addEventListener("click", function () {
+      duzeltmeleriUygula(gorunurBulgular().filter(function (b) { return b.f.fix; }).map(function (b) { return b.f.fix; }));
     });
     $("yoksay-temizle").addEventListener("click", function () {
       durum.yoksay = [];

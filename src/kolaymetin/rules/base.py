@@ -5,7 +5,7 @@ from __future__ import annotations
 from collections.abc import Iterable, Iterator
 from typing import TYPE_CHECKING, ClassVar
 
-from kolaymetin.models import Category, Document, Finding, Sentence, Severity, Token
+from kolaymetin.models import Category, Document, Finding, Fix, Sentence, Severity, Token
 from kolaymetin.profiles import RuleConfig
 from kolaymetin.text.normalize import is_upper_word
 
@@ -52,10 +52,14 @@ class Rule:
         severity: Severity | None = None,
         confidence: float = 1.0,
         paragraph_index: int | None = None,
+        fix: str | Fix | None = None,
     ) -> Finding:
+        """fix: otomatik düzeltme. Metin verilirse bulgunun aralığının yerine geçer."""
         para = paragraph_index
         if para is None and sentence is not None:
             para = sentence.paragraph_index
+        if isinstance(fix, str):
+            fix = Fix(start=start, end=end, text=fix) if fix != doc.text[start:end] else None
         return Finding(
             rule_id=self.id,
             rule_name=self.name,
@@ -64,6 +68,7 @@ class Rule:
             message=message,
             explanation=explanation,
             suggestion=suggestion,
+            fix=fix,
             start=start,
             end=end,
             text=doc.text[start:end],
