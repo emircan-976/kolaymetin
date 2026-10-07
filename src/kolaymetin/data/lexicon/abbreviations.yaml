@@ -149,3 +149,30 @@
 - {kisaltma: SUT, acilim: Sağlık Uygulama Tebliği, okunus: sut}
 - {kisaltma: KİT, acilim: Kamu İktisadi Teşebbüsü, okunus: kit}
 - {kisaltma: SİT, acilim: korunan tarihî ya da doğal alan, okunus: sit}
+# --- sağlık, eğitim, ulaşım, kurumlar (2026-10 eki)
+- {kisaltma: "Hz.", acilim: hazreti, okunus: hazreti}
+- {kisaltma: QR, acilim: karekod, okunus: kü ar}
+- {kisaltma: KBB, acilim: kulak burun boğaz, okunus: ke be be}
+- {kisaltma: EKG, acilim: kalp grafisi, okunus: e ke ge}
+- {kisaltma: MR, acilim: manyetik rezonans (bir tür görüntüleme), okunus: me re}
+- {kisaltma: HGS, acilim: Hızlı Geçiş Sistemi, okunus: he ge se}
+- {kisaltma: OGS, acilim: Otomatik Geçiş Sistemi, okunus: o ge se}
+- {kisaltma: YKS, acilim: Yükseköğretim Kurumları Sınavı, okunus: ye ke se}
+- {kisaltma: LGS, acilim: Liselere Geçiş Sistemi, okunus: le ge se}
+- {kisaltma: KYK, acilim: Kredi ve Yurtlar Kurumu, okunus: ke ye ke}
+- {kisaltma: AÖL, acilim: Açık Öğretim Lisesi, okunus: a ö le}
+- {kisaltma: AÖF, acilim: Açıköğretim Fakültesi, okunus: a ö fe}
+- {kisaltma: GSS, acilim: genel sağlık sigortası, okunus: ge se se}
+- {kisaltma: BES, acilim: bireysel emeklilik sistemi, okunus: bes}
+- {kisaltma: SSK, acilim: Sosyal Sigortalar Kurumu, okunus: se se ke, bilinir: true}
+- {kisaltma: GSM, acilim: cep telefonu, okunus: ge se me}
+- {kisaltma: MERNİS, acilim: Merkezi Nüfus İdaresi Sistemi, okunus: mernis}
+- {kisaltma: UYAP, acilim: Ulusal Yargı Ağı Projesi, okunus: uyap}
+- {kisaltma: TEDAŞ, acilim: Türkiye Elektrik Dağıtım Anonim Şirketi, okunus: tedaş}
+- {kisaltma: BOTAŞ, acilim: Boru Hatları ile Petrol Taşıma Anonim Şirketi, okunus: botaş}
+- {kisaltma: İGDAŞ, acilim: İstanbul Gaz Dağıtım Anonim Şirketi, okunus: igdaş}
+- {kisaltma: TSE, acilim: Türk Standardları Enstitüsü, okunus: te se e}
+- {kisaltma: TÜBİTAK, acilim: Türkiye Bilimsel ve Teknolojik Araştırma Kurumu, okunus: tübitak}
+- {kisaltma: CV, acilim: özgeçmiş, okunus: ce ve}
+- {kisaltma: USB, acilim: bellek bağlantısı, okunus: u se be}
+- {kisaltma: PIN, acilim: kart şifresi, okunus: pin}

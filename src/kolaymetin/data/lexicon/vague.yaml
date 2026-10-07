@@ -38,3 +38,33 @@
 - {ifade: gerekli önlemler, oneri: "Ne yapılacağını madde madde yazın."}
 - {ifade: belirtilen tarih, oneri: "Tarihi yeniden yazın."}
 - {ifade: söz konusu, oneri: "Neden söz ettiğinizi adıyla yazın."}
+- {ifade: en kısa süre içinde, oneri: "Kesin tarih yazın."}
+- {ifade: en kısa süre içerisinde, oneri: "Kesin tarih yazın."}
+- {ifade: mümkün olan en kısa zamanda, oneri: "Kesin tarih yazın."}
+- {ifade: kısa süre içinde, oneri: "Kesin tarih yazın."}
+- {ifade: kısa süre sonra, oneri: "Süreyi yazın: '1 saat sonra'"}
+- {ifade: birkaç gün, oneri: "Kaç gün olduğunu yazın: '3 gün'"}
+- {ifade: birkaç saat, oneri: "Kaç saat olduğunu yazın: '2 saat'"}
+- {ifade: birkaç hafta, oneri: "Kaç hafta olduğunu yazın: '2 hafta'"}
+- {ifade: sabah saatleri, oneri: "Saati yazın: 'saat 9.00'a kadar'"}
+- {ifade: öğle saatleri, oneri: "Saati yazın: 'saat 12.00'den sonra'"}
+- {ifade: akşam saatleri, oneri: "Saati yazın: 'saat 18.00'den sonra'"}
+- {ifade: gece saatleri, oneri: "Saati yazın: 'saat 23.00'ten sonra'"}
+- {ifade: ilerleyen saatler, oneri: "Saati yazın."}
+- {ifade: ileriki günler, oneri: "Tarihi yazın."}
+- {ifade: belirli günler, oneri: "Günleri yazın: 'salı ve cuma'"}
+- {ifade: belirli saatler, oneri: "Saatleri yazın: '09.00 ile 12.00 arası'"}
+- {ifade: uygun bir zaman, oneri: "Tarihi yazın ya da 'Sizi arayıp tarihi söyleyeceğiz' deyin."}
+- {ifade: makul süre, oneri: "Süreyi yazın."}
+- {ifade: gerekli görmek, oneri: "Kimin, hangi durumda karar vereceğini yazın."}
+- {ifade: yeterli sayıda, oneri: "Sayıyı yazın."}
+- {ifade: birtakım, oneri: "Hangilerini kastettiğinizi yazın."}
+- {ifade: bazı nedenler, oneri: "Nedeni yazın."}
+- {ifade: bazı sebepler, oneri: "Nedeni yazın."}
+- {ifade: çeşitli sebepler, oneri: "Nedeni yazın."}
+- {ifade: olası aksaklıklar, oneri: "Neler olabileceğini yazın."}
+- {ifade: gerekli izinler, oneri: "İzinleri madde madde yazın."}
+- {ifade: gerekli şartlar, oneri: "Şartları madde madde yazın."}
+- {ifade: gerekli bilgiler, oneri: "Bilgileri madde madde yazın."}
+- {ifade: ilgili kişiler, oneri: "Kimler olduğunu yazın."}
+- {ifade: yetkili kişiler, oneri: "Kimin olduğunu yazın: 'zabıta memuru'"}

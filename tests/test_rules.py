@@ -83,7 +83,7 @@ POSITIVE: list[tuple[str, str, str]] = [
     # --- KD-K06 seyrek kelime
     ("KD-K06", "Şebekedeki bulanıklık geçecek.", "kolay-dil"),
     ("KD-K06", "Mütevazı bir tören yapacağız.", "kolay-dil"),
-    ("KD-K06", "Fırtınanın tahribatı büyük.", "kolay-dil"),
+    ("KD-K06", "Fırtınanın tezahürü büyük.", "kolay-dil"),
     # --- KD-K07 belirsiz ifade
     ("KD-K07", "Su en kısa sürede gelecek.", "kolay-dil"),
     ("KD-K07", "Yakında başvuru başlayacak.", "kolay-dil"),

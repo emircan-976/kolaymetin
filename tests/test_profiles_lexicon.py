@@ -123,3 +123,39 @@ def test_input_limit() -> None:
     with pytest.raises(InputTooLong, match=r"100\.000"):
         analyze("a" * 100_001)
     assert analyze("a" * 10, max_chars=None).stats.word_count == 1
+
+
+def _hits(text: str, rule_id: str) -> list[str]:
+    return [f.text for f in analyze(text).findings if f.rule_id == rule_id]
+
+
+def test_word_lists_do_not_contradict() -> None:
+    """Bir kelime hem "herkes bilir" (temel/bilinen) hem "değiştirin" (jargon/yabancı) olamaz."""
+    lex = load_lexicon()
+    vocabulary = lex.common_words | lex.known_words
+    for name in ("jargon", "foreign"):
+        both = {
+            e.phrase for e in getattr(lex, name)
+            if e.length == 1 and not e.exempt and e.phrase.lower() in vocabulary
+        }
+        assert not both, f"{name} ve temel liste çelişiyor: {sorted(both)}"
+
+
+def test_fixed_terms_are_not_flagged() -> None:
+    # "asgari" jargondur, "asgari ücret" yasal addır; "organize sanayi" bir yer adıdır.
+    assert not _hits("Asgari ücret açıklandı.", "KD-K01")
+    assert _hits("Asgari tutarı ödeyin.", "KD-K01")
+    assert not _hits("Organize sanayi bölgesinde iş var.", "KD-K02")
+    assert _hits("Etkinliği biz organize ettik.", "KD-K02")
+
+
+def test_well_known_words_are_not_foreign() -> None:
+    for text in ("Bu proje çok güzel.", "Telefonu şarj edin.", "Kombiyi kontrol edin.",
+                 "Risk grubundakiler aşı olsun.", "Su tasarrufu yapın.", "Emlak vergisi ödendi."):
+        assert not _hits(text, "KD-K01") + _hits(text, "KD-K02"), text
+
+
+def test_vague_phrase_before_a_list_is_not_flagged() -> None:
+    listed = "Başvuru için gerekli belgeler:\n- Kimlik kartı\n- Fotoğraf\n\nBelgeleri getirin."
+    assert not _hits(listed, "KD-K07")
+    assert _hits("Gerekli belgeler ile başvurun.", "KD-K07")

@@ -1,9 +1,6 @@
 # Beklenen bulgular (cumle: 1'den başlayan cümle numarası, başlıklar dahil)
 profil: kolay-dil
 tetiklenmeli:
-- kural: KD-K01
-  cumle: 1
-  ifade: Emlak
 - kural: KD-C01
   cumle: 2
 - kural: KD-C03

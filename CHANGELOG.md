@@ -5,6 +5,30 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### 8. tur: kelime listeleri (2026-10-08)
+
+Regresyon testleri: `tests/test_profiles_lexicon.py` (listeler arası çelişki, sabit terimler,
+listeden önceki belirsiz ifade).
+
+#### Eklendi
+- Jargon listesi 238 → 368 ifade: resmî yazışma kalıpları ("teşkil etmek", "riayet etmek",
+  "muhafaza etmek", "takdirde", "ekte sunmak", "kayıt altına almak", "göz önünde bulundurmak",
+  "hâlihazırda", "vefat etmek", "ihlal etmek", "sevk etmek" …).
+- Yabancı kelime listesi 168 → 260: sağlık ("enfeksiyon", "kronik", "diyabet", bölüm adları
+  "kardiyoloji", "nöroloji" …), teknoloji ("wifi", "laptop", "spam" …), kent ve para terimleri.
+- Belirsiz ifade listesi 38 → 68 ("akşam saatlerinde", "birkaç gün", "gerekli görülürse" …).
+- 26 kısaltma (QR, KBB, EKG, MR, HGS, YKS, LGS, KYK, GSS …), 6 eş anlamlı grubu, 17 bilinen uzun
+  kelime ("havaalanı", "milletvekili", "uluslararası" …), temel listeye ~100 yaygın kelime ("veli",
+  "tarım", "sinir", "yorum", "idrar", "vesikalık" …).
+- Sözlük girdisinde `sabit: true`: herkesin bildiği resmî ad ("asgari ücret") uyarı vermez.
+
+#### Düzeltildi
+- 14 kelime hem temel listede hem jargon/yabancı listesindeydi. Herkesin bildiği "proje", "risk",
+  "kontrol", "şarj", "tasarruf", "itiraz etmek", "emlak" artık işaretlenmiyor.
+- "Gerekli belgeler:" ve altında madde listesi olan metne "Belgeleri madde madde yazın" denmiyor.
+- Sade metinlerden oluşan bir deneme derleminde (26 metin, 901 kelime) yabancı kelime uyarısı
+  6'dan 2'ye, seyrek kelime uyarısı 13'ten 2'ye indi.
+
 ### 7. tur: Vercel'deki sürümün ikinci denemesi (2026-10-02)
 
 Regresyon testleri: `tests/test_vercel_deneme2.py`.

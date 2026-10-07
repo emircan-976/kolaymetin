@@ -54,7 +54,7 @@
 - {ifade: mütevellit, oneri: "… nedeniyle"}
 - {ifade: dolayısıyla, oneri: "bu yüzden"}
 - {ifade: itibaren, oneri: "… başlayarak, … sonra"}
-- {ifade: itibariyle, oneri: "… göre, … tarihinde"}
+- {ifade: itibariyle, oneri: "… göre, … tarihinde", bicimler: [itibarıyla]}
 - {ifade: nezdinde, oneri: "… yanında, … içinde"}
 - {ifade: marifetiyle, oneri: "… eliyle, … yoluyla"}
 - {ifade: vasıtasıyla, oneri: "… ile, … yoluyla"}
@@ -99,7 +99,6 @@
 - {ifade: inşa etmek, oneri: yapmak}
 - {ifade: intikal etmek, oneri: "geçmek, ulaşmak"}
 - {ifade: işgaliye, oneri: "yer kullanma ücreti"}
-- {ifade: itiraz etmek, oneri: "karşı çıkmak"}
 - {ifade: izale, oneri: giderme}
 - {ifade: izale etmek, oneri: gidermek}
 - {ifade: kaim olmak, oneri: "yerini tutmak"}
@@ -206,8 +205,6 @@
 - {ifade: tasdik, oneri: onay}
 - {ifade: tasdik etmek, oneri: onaylamak}
 - {ifade: tasdikli, oneri: onaylı}
-- {ifade: tasarruf, oneri: "kullanma hakkı; biriktirme"}
-- {ifade: tasarruf etmek, oneri: biriktirmek}
 - {ifade: teşrif etmek, oneri: gelmek}
 - {ifade: teşrifleriniz, oneri: "gelmeniz"}
 - {ifade: rücu etmek, oneri: "geri istemek"}
@@ -222,7 +219,6 @@
 - {ifade: tehir etmek, oneri: ertelemek}
 - {ifade: ferağ, oneri: "hakkını devretme"}
 - {ifade: gayrimenkul, oneri: "ev, arsa gibi taşınmaz mal"}
-- {ifade: emlak, oneri: "ev, arsa"}
 - {ifade: ecrimisil, oneri: "izinsiz kullanım bedeli"}
 - {ifade: fer'i, oneri: ek, bicimler: [feri]}
 - {ifade: asgari, oneri: en az}
@@ -240,3 +236,140 @@
 - {ifade: tarafından, oneri: "(işi yapanı cümlenin başına yazın)"}
 - {ifade: tarafımızca, oneri: "(işi yapanı özne yapın: 'Biz … yapacağız')"}
 - {ifade: tarafınızca, oneri: "(işi yapanı özne yapın: 'Siz … yapın')"}
+# --- sabit terimler: içindeki kelime ("asgari") jargon olsa da herkesin bildiği yasal addır
+- {ifade: asgari ücret, sabit: true}
+# --- resmî yazışma kalıpları
+- {ifade: teşkil etmek, oneri: oluşturmak}
+- {ifade: riayet etmek, oneri: uymak}
+- {ifade: riayet, oneri: uyma}
+- {ifade: muhafaza etmek, oneri: "saklamak, korumak"}
+- {ifade: muhafaza, oneri: "koruma, saklama"}
+- {ifade: mağduriyet, oneri: "zarar, sıkıntı"}
+- {ifade: sebebiyet vermek, oneri: "neden olmak"}
+- {ifade: hak kaybı, oneri: "hakkını kaybetme"}
+- {ifade: zaruri, oneri: "gerekli, zorunlu"}
+- {ifade: zaruret, oneri: zorunluluk}
+- {ifade: elzem, oneri: "çok gerekli"}
+- {ifade: akdetmek, oneri: "(sözleşme) yapmak"}
+- {ifade: fesih, oneri: "iptal, bozma"}
+- {ifade: feshetmek, oneri: "iptal etmek, bozmak"}
+- {ifade: tekzip, oneri: yalanlama}
+- {ifade: beyan, oneri: bildirim}
+- {ifade: beyan etmek, oneri: "bildirmek, söylemek"}
+- {ifade: teyit, oneri: doğrulama}
+- {ifade: teyit etmek, oneri: doğrulamak}
+- {ifade: tevsik etmek, oneri: belgelemek}
+- {ifade: dahilinde, oneri: içinde, bicimler: [dâhilinde]}
+- {ifade: haricinde, oneri: dışında, bicimler: [hâricinde]}
+- {ifade: takdirde, oneri: "… olursa"}
+- {ifade: mümkün mertebe, oneri: olabildiğince}
+- {ifade: kat'iyen, oneri: "asla, kesinlikle", bicimler: [katiyen]}
+- {ifade: behemehal, oneri: mutlaka}
+- {ifade: velhasıl, oneri: kısacası}
+- {ifade: binaenaleyh, oneri: "bu yüzden"}
+- {ifade: keza, oneri: "aynı biçimde"}
+- {ifade: mamafih, oneri: "yine de"}
+- {ifade: nazaran, oneri: "… göre"}
+- {ifade: vukuat, oneri: olay}
+- {ifade: bilumum, oneri: bütün}
+- {ifade: zikri geçen, oneri: "adı geçen"}
+- {ifade: ekte sunmak, oneri: "ekte gönderiyoruz"}
+- {ifade: tarafımıza, oneri: bize}
+- {ifade: tarafınıza, oneri: size}
+- {ifade: bilgi edinmek, oneri: "bilgi almak"}
+- {ifade: kayıt altına almak, oneri: kaydetmek}
+- {ifade: göz önünde bulundurmak, oneri: "dikkate almak, düşünmek"}
+- {ifade: hassasiyet göstermek, oneri: "dikkat etmek"}
+- {ifade: hassasiyet, oneri: "dikkat, özen"}
+- {ifade: nihai, oneri: "son, kesin"}
+- {ifade: nihayetinde, oneri: sonunda}
+- {ifade: neticesinde, oneri: sonunda}
+- {ifade: netice, oneri: sonuç}
+- {ifade: hâlihazırda, oneri: "şu anda", bicimler: [halihazırda]}
+- {ifade: hâlen, oneri: "şu anda, hâlâ", bicimler: [halen]}
+- {ifade: ilaveten, oneri: "ek olarak"}
+- {ifade: ilave, oneri: ek}
+- {ifade: ilave etmek, oneri: eklemek}
+- {ifade: müştereken, oneri: birlikte}
+- {ifade: müşterek, oneri: ortak}
+- {ifade: mütemadiyen, oneri: sürekli}
+- {ifade: defaten, oneri: "bir kerede"}
+- {ifade: ihtiyaten, oneri: "önlem olarak"}
+- {ifade: icabında, oneri: gerekirse}
+- {ifade: icap etmek, oneri: gerekmek}
+- {ifade: ehemmiyet, oneri: önem}
+- {ifade: ehemmiyetli, oneri: önemli}
+- {ifade: itina, oneri: özen}
+- {ifade: itinalı, oneri: özenli}
+- {ifade: mahsus, oneri: "özel, ait"}
+- {ifade: mahsuben, oneri: "(borca) sayılarak"}
+- {ifade: münasebetiyle, oneri: nedeniyle}
+- {ifade: münasebet, oneri: ilişki}
+- {ifade: vesilesiyle, oneri: nedeniyle}
+- {ifade: hasıl olmak, oneri: "ortaya çıkmak", bicimler: [hâsıl olmak]}
+- {ifade: vaziyet, oneri: durum}
+- {ifade: ahval, oneri: durumlar}
+- {ifade: şahıs, oneri: kişi}
+- {ifade: şahsen, oneri: kendisi}
+- {ifade: şahsi, oneri: kişisel}
+- {ifade: mesul, oneri: sorumlu}
+- {ifade: mesuliyet, oneri: sorumluluk}
+- {ifade: mükerrer, oneri: "iki kez yapılan"}
+- {ifade: münferit, oneri: "tek tük, ayrı"}
+- {ifade: tahdit, oneri: sınırlama}
+- {ifade: tahribat, oneri: "zarar, yıkım"}
+- {ifade: tahrip etmek, oneri: "bozmak, yıkmak"}
+- {ifade: tazmin etmek, oneri: "karşılamak, ödemek"}
+- {ifade: teşebbüs, oneri: "girişim, deneme"}
+- {ifade: teşkilat, oneri: "örgüt, kuruluş"}
+- {ifade: müessese, oneri: kurum}
+- {ifade: hususi, oneri: özel}
+- {ifade: umumi, oneri: genel}
+- {ifade: ekseriya, oneri: çoğunlukla}
+- {ifade: kâfi, oneri: yeterli, bicimler: [kafi]}
+- {ifade: temyiz, oneri: "üst mahkemeye başvurma"}
+- {ifade: istida, oneri: dilekçe}
+- {ifade: arzuhal, oneri: dilekçe}
+- {ifade: müracaatçı, oneri: başvuran}
+- {ifade: istihdam, oneri: "işe alma, iş"}
+- {ifade: istihdam etmek, oneri: "işe almak"}
+- {ifade: firar etmek, oneri: kaçmak}
+- {ifade: güzergâh, oneri: yol, bicimler: [güzergah]}
+- {ifade: mukim, oneri: "oturan, yaşayan"}
+- {ifade: müstahdem, oneri: "hizmetli, temizlik görevlisi"}
+- {ifade: ilam, oneri: "mahkeme kararı"}
+- {ifade: ihbar etmek, oneri: "haber vermek"}
+- {ifade: ikaz, oneri: uyarı}
+- {ifade: ikaz etmek, oneri: uyarmak}
+- {ifade: ihlal, oneri: "uymama, çiğneme"}
+- {ifade: ihlal etmek, oneri: "uymamak, çiğnemek"}
+- {ifade: imtina etmek, oneri: kaçınmak}
+- {ifade: itimat, oneri: güven}
+- {ifade: iştirak, oneri: katılım}
+- {ifade: iştirak etmek, oneri: katılmak}
+- {ifade: lağvetmek, oneri: kapatmak}
+- {ifade: mahrum, oneri: yoksun}
+- {ifade: mahrumiyet, oneri: yoksunluk}
+- {ifade: mahzur, oneri: sakınca}
+- {ifade: mehil, oneri: süre}
+- {ifade: menfaat, oneri: "çıkar, yarar"}
+- {ifade: muvafakat, oneri: "onay, izin"}
+- {ifade: muvafakatname, oneri: "izin belgesi"}
+- {ifade: muhteviyat, oneri: içindekiler}
+- {ifade: nakletmek, oneri: taşımak}
+- {ifade: nezaret, oneri: gözetim}
+- {ifade: sarahaten, oneri: açıkça}
+- {ifade: sevk etmek, oneri: göndermek}
+- {ifade: suiistimal, oneri: "kötüye kullanma", bicimler: [suistimal]}
+- {ifade: tahkikat, oneri: soruşturma}
+- {ifade: tecziye, oneri: cezalandırma}
+- {ifade: tenkit, oneri: eleştiri}
+- {ifade: tesellüm, oneri: "teslim alma"}
+- {ifade: vefat, oneri: ölüm}
+- {ifade: vefat etmek, oneri: ölmek}
+- {ifade: defnetmek, oneri: gömmek}
+- {ifade: defin, oneri: gömme}
+- {ifade: zayi, oneri: kayıp}
+- {ifade: zayi olmak, oneri: kaybolmak}
+- {ifade: zabıt, oneri: tutanak}
+- {ifade: ziyan, oneri: zarar}

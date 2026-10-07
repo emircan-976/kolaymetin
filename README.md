@@ -281,6 +281,8 @@ Belediyenize özgü resmî kelimeleri `ek-sozluk.yaml` dosyasına yazın:
 jargon:
   - {ifade: encümen, oneri: "belediye kurulu"}
   - {ifade: zabıta memuru, oneri: "belediye görevlisi (zabıta)"}
+  # sabit: herkesin bildiği resmî ad; içindeki kelime jargon olsa da uyarı vermez
+  - {ifade: işgaliye harcı, sabit: true}
 kisaltmalar:
   - {kisaltma: YBB, acilim: Yeşilova Büyükşehir Belediyesi}
 bilinen: [yeşilovalı]         # uzun ama herkesin bildiği kelimeler

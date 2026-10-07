@@ -7,9 +7,6 @@ tetiklenmeli:
 - kural: KD-K08
   cumle: 1
   ifade: SEL
-- kural: KD-K02
-  cumle: 1
-  ifade: RİSKİNE
 - kural: KD-C01
   cumle: 2
 - kural: KD-K04

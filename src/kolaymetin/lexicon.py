@@ -38,6 +38,9 @@ class PhraseEntry:
     literal_cues: tuple[str, ...] = ()
     # Çok kelimeli girdide her ad kelimesinin durumu (None: denetlenmez). Bkz. case_set.
     cases: tuple[frozenset[str] | None, ...] = ()
+    # Sabit terim ("asgari ücret", "emlak vergisi"): en uzun eşleşme olarak içindeki kelimeyi
+    # ("asgari") korur, kendisi uyarı vermez. Herkesin bildiği yasal adlar değiştirilemez.
+    exempt: bool = False
 
     @property
     def length(self) -> int:
@@ -223,15 +226,17 @@ def _phrase_entries(items: Iterable[Any] | None, kind: str, key: str = "ifade") 
             continue
         variants = [phrase]
         ambiguous = False
+        exempt = False
         cues: tuple[str, ...] = ()
         if isinstance(item, dict):
             variants += [str(v) for v in item.get("bicimler") or []]
             ambiguous = bool(item.get("iki_anlamli", False))
+            exempt = bool(item.get("sabit", False))
             cues = tuple(fold_circumflex(turkish_lower(str(c))) for c in item.get("gercek") or [])
         for v in variants:
             out.append(PhraseEntry(phrase=phrase, suggestion=suggestion, note=note, kind=kind,
                                    keys=_entry_keys(v), ambiguous=ambiguous, literal_cues=cues,
-                                   cases=_entry_cases(v)))
+                                   cases=_entry_cases(v), exempt=exempt))
     return out
 
 
@@ -421,8 +426,8 @@ def builtin_counts() -> dict[str, int]:
     """Yerleşik sözlüklerdeki girdi sayıları (tekil ifadeler)."""
     lex = _builtin()
     return {
-        "jargon": len({e.phrase for e in lex.jargon}),
-        "yabanci": len({e.phrase for e in lex.foreign}),
+        "jargon": len({e.phrase for e in lex.jargon if not e.exempt}),
+        "yabanci": len({e.phrase for e in lex.foreign if not e.exempt}),
         "deyimler": len({e.phrase for e in lex.idioms}),
         "belirsiz": len({e.phrase for e in lex.vague}),
         "kisaltmalar": len({a.short for a in lex.abbreviations.values()}),

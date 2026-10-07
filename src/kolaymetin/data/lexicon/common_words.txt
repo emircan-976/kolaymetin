@@ -54,7 +54,7 @@ beden vücut baş kafa saç yüz göz kulak burun ağız dil diş dudak boyun om
 sağlık hastalık ağrı acı ateş öksürük nezle grip soğuk algınlığı yara kırık yanık kaza tansiyon şeker hastalığı alerji kriz nöbet bayılma kusma ishal
 ilaç hap şurup iğne aşı serum merhem bandaj sargı maske eldiven test tahlil sonuç muayene tedavi ameliyat reçete rapor randevu
 hastane klinik poliklinik acil servis ambulans eczane sağlık ocağı aile hekimi doktor diş hekimi sağlık merkezi yoğun bakım sedye
-temiz kirli hijyen mikrop virüs salgın bulaşıcı sağlıklı hasta iyi kötü zayıf şişman hamile gebe doğum
+temiz kirli mikrop virüs salgın bulaşıcı sağlıklı hasta iyi kötü zayıf şişman hamile gebe doğum
 # --- ev, yaşam
 ev konut daire apartman bina yapı site oda salon mutfak banyo tuvalet lavabo balkon bahçe kapı pencere duvar tavan zemin döşeme merdiven asansör çatı kat bodrum giriş çıkış anahtar kilit zil
 eşya mobilya masa sandalye koltuk kanepe yatak dolap raf halı perde lamba ampul priz kablo pil sobası soba kalorifer klima vantilatör buzdolabı fırın ocak tencere tava tabak bardak kaşık çatal bıçak kase şişe kavanoz kutu poşet torba çanta valiz
@@ -73,7 +73,7 @@ kuzey güney doğu batı yön harita adres numara posta kodu
 dağ tepe ova vadi deniz göl nehir çay dere ırmak kıyı sahil plaj ada orman ağaç çiçek çimen toprak taş kaya kum çamur
 hava güneş ay yıldız gök bulut yağmur kar dolu fırtına rüzgâr sis buz sıcak soğuk ılık serin nem kuraklık sel deprem yangın heyelan çığ afet felaket
 # --- kamu hizmetleri, belediye, yönetim
-hizmet yardım destek başvuru kayıt belge kimlik kimlik kartı nüfus cüzdanı ehliyet pasaport fotoğraf imza form dilekçe onay izin ruhsat sertifika diploma karne
+hizmet yardım destek başvuru kayıt belge kimlik kimlik kartı nüfus cüzdanı ehliyet pasaport fotoğraf imza form dilekçe onay izin ruhsat diploma karne
 kural yasa kanun hak görev sorumluluk ceza yasak zorunlu isteğe bağlı ücretsiz bedava ücretli
 duyuru ilan haber bilgi açıklama not uyarı hatırlatma davet program plan liste tablo takvim tarih süre son gün
 seçim oy sandık seçmen aday parti muhtar belediye başkanı milletvekili meclis
@@ -172,7 +172,7 @@ hamam hamal hane hapishane harcama harç hastabakıcı hayvanat hazine hekim hı
 ibadet ihtiyaç ikram ilkokul ilkyardım imar inşaat iskele ispat
 jeneratör jimnastik
 kaldırım kalorifer kamera kamp kantin kapıcı karakol kasiyer katılımcı kayıt kermes klima koli kombi komşuluk konferans kontrol konum konut koridor kova kreş kuaför kulüp kumanda kurban
-lise lokal lojman
+lise lojman
 maden makbuz mama mangal mevlit mikrofon minibüs muayenehane muhtarlık musluk mülk müze
 nakliye nöbet
 oksijen ortaokul otel otogar
@@ -188,10 +188,10 @@ vagon vakıf vale valilik vapur varil vatandaşlık veteriner vezne villa
 yağmurluk yaka yastık yatırım yaya yazlık yedek yemekhane yetkili yorgan yuva yükleme
 zabıta zam zarf zeytinyağı ziyaretçi zorluk
 # --- ek liste 3: sıfatlar ve zarflar
-acil açıkça adaletli akıllıca aktif alışılmış anlaşılır anlamlı aşırı aylık azıcık
+acil açıkça adaletli akıllıca alışılmış anlaşılır anlamlı aşırı aylık azıcık
 bağımsız başarısız başıboş belirsiz beraberce berbat bilinen bilgili bireysel bitişik boşuna bulanık buruk
 cömert çabucak çekici çeşitli çoğu çoğunlukla
-daimi dayanıklı değerli dengeli derhal dikkatsiz direkt dolaylı dostça dürüst düzenli
+daimi dayanıklı değerli dengeli dikkatsiz direkt dolaylı dostça dürüst düzenli
 eksiksiz elverişli emin engebeli erişilebilir eşit evli
 faydalı
 geçerli geçici gelişmiş gereksiz gizlice göçmen görünür gündelik günlük güvenilir
@@ -213,7 +213,7 @@ uzaktan
 yalnızca yanlışlıkla yavaşça yazılı yeniden yerinde yetersiz yıllık yoğun yorucu
 zamanında zararlı
 # --- ek liste 4: sık kullanılan diğer kelimeler
-abonman acenta adaylık ahlak akaryakıt altyapı anlaşmazlık anma arabulucu arıcı asgari aşevi aşure avans aydınlatma
+abonman acenta adaylık ahlak akaryakıt altyapı anlaşmazlık anma arabulucu arıcı aşevi aşure avans aydınlatma
 barınak barınma bayramlık beyanname bilgilendirme boşanma
 cezalı çorap
 danışman dayanışma denetçi devlet dilenci diyet dolandırıcı dolandırıcılık
@@ -254,13 +254,13 @@ vazo vinç
 yaban yabancı yama yapboz yayla yazma yelek yelpaze yılan yonca yorgan yulaf yumak yunus yün
 zambak zeytin zil zincir zürafa
 # --- ek liste 6: kamu ve yaşam kavramları
-açık hava afet bölgesi aile bakanlığı anayasa ara seçim arama arşiv askerlik atama aylık bağlama belediye meclisi bilgi edinme bina yönetimi cumhurbaşkanı cumhuriyet çevre temizliği dilekçe örneği doğum izni eğitim yardımı ekonomi emlak vergisi enflasyon genel seçim gümrük hukuk icra ihale ilan panosu ilçe belediyesi iller bankası iş kazası kamu hizmeti kanun hükmü kayıt ücreti kent meclisi kira artışı kurultay maliye milletvekili muhtar seçimi nüfus sayımı oylama parti politika resmi gazete sağlık bakanlığı sandık görevlisi seçmen listesi sosyal güvenlik sosyal hizmet sözlü sınav tapu dairesi teşvik ücretsiz hizmet vali vergi borcu yapı denetimi yardım başvurusu yerel seçim
+açık hava afet bölgesi aile bakanlığı anayasa ara seçim arama arşiv askerlik atama aylık bağlama belediye meclisi bilgi edinme bina yönetimi cumhurbaşkanı cumhuriyet çevre temizliği dilekçe örneği doğum izni eğitim yardımı ekonomi emlak vergisi enflasyon genel seçim gümrük hukuk icra ilan panosu ilçe belediyesi iller bankası iş kazası kamu hizmeti kanun hükmü kayıt ücreti kent meclisi kira artışı kurultay maliye milletvekili muhtar seçimi nüfus sayımı oylama parti politika resmi gazete sağlık bakanlığı sandık görevlisi seçmen listesi sosyal güvenlik sosyal hizmet sözlü sınav tapu dairesi teşvik ücretsiz hizmet vali vergi borcu yapı denetimi yardım başvurusu yerel seçim
 # --- ek liste 7: temel kelimelerin sık türevleri ve kalıpları
 açıklık adımlık ağabeylik akşamüstü akşamları alıcı alışık alt kat anneler annelik arabalı arkadaşlık aşağıda ayakta aylar
 babalık bahçeli bakımlı bakıcı balıkçı barışçı başlangıçta bayramda bazen beklenti bekleyiş belediyeci benzin benzinlik beyazlık bilgisiz bilimsel biraz sonra birazdan birden birlikte birinci kat bitişikte bozulma boyacı bulunduğu büyükler büyüklük
 camcı canlılık cevapsız cumartesileri
 çalışan çalışma çalıştay çaycı çiçekli çocukluk çocuklar çoktan çorbacı
-dağcı dakik davetli dayanak değerlendirme deneyim dersane dışarıda dinleyici dirençli doğumlu dokuz dolayısıyla dolu dolu dostluk döküm durum dükkâncı düşük
+dağcı dakik davetli dayanak değerlendirme deneyim dersane dışarıda dinleyici dirençli doğumlu dokuz dolu dolu dostluk döküm durum dükkâncı düşük
 eczacılık eğitimli eğlenceli ekmekçi elektronik elli emeklilik yaşı erkenden eskiden evde evli barklı eylemci
 fırıncı fotoğrafçı futbolcu
 geceleri gelenler gençler geri dönüş gerçekten gidiş gidiş dönüş giysili gömlekli görevde görüşler gözcü güçlük gündüzleri güneşli güzellik
@@ -291,7 +291,7 @@ alın avuç bilek boğaz çene dirsek göbek kaş kirpik kulak memesi nabız omu
 cesur çekingen kıskanç utangaç sabırlı sabırsız sinirli neşeli üzgün yalnız
 kahkaha gülümseme selamlaşma sarılma öpücük tokalaşma
 # --- ek liste 10: çevre, doğa, afet
-akıntı ateşkes bataklık çığ deprem bölgesi fay hattı fırtına uyarısı heyelan kasırga kıyı şeridi kuraklık orman yangını sağanak sel suyu sis tabakası su taşkını tahliye yolu toz bulutu yağış yıldırım yer sarsıntısı
+akıntı ateşkes bataklık çığ deprem bölgesi fay hattı fırtına uyarısı heyelan kasırga kıyı şeridi kuraklık orman yangını sağanak sel suyu sis tabakası su taşkını toz bulutu yağış yıldırım yer sarsıntısı
 geri dönüşüm kutusu kompost cam şişe kâğıt atık plastik atık pil atığı tıbbi atık
 # --- ek liste 11: aile ve sosyal yaşam
 düğün nişan söz kına sünnet doğum günü cenaze töreni taziye ziyareti bayram ziyareti komşu ziyareti mevlit yemeği iftar sahur kandil
@@ -404,12 +404,12 @@ içecek atıştırmalık konserve dondurulmuş taze bayat çiğ pişmiş haşlan
 atkı ayakkabı bere bluz bone bot çanta çizme çorap ceket elbise eşarp etek eşofman gömlek
 gözlük hırka kazak kemer kravat kolye küpe manto mayo mont önlük palto pantolon pijama
 sandalet şal şapka şort tişört yelek yüzük bilezik cüzdan kozmetik krem losyon parfüm ruj
-oje şampuan sabun macun tarak deodorant pamuk mendil peçete hijyenik kıyafet giysi
+oje şampuan sabun macun tarak deodorant pamuk mendil peçete kıyafet giysi
 giyim kumaş pamuklu yünlü ipek deri naylon düğme cep yaka paça beden numara dikiş terzi
 iç giyim çamaşır bakım temizlik
 # --- ek liste 21: beden, sağlık, hastalık
 alerji ameliyat aşı ateş avuç bağırsak bağışıklık bel beyin bilek böbrek boğaz boyun cilt
-ciğer çene dirsek dudak enfeksiyon eklem ense felç göğüs grip hapşırık hastalık hemşire
+ciğer çene dirsek dudak eklem ense felç göğüs grip hapşırık hastalık hemşire
 ilaç iltihap iyileşme kalça kan basınç kanser karaciğer karın kas kaş kemik kirpik kusma
 maske mide muayene nabız nefes nezle omuz omurga öksürük parmak reçete salgın serum sırt
 solunum şurup tansiyon tedavi termometre tırnak topuk tükürük uyku vitamin yanak yara
@@ -418,7 +418,7 @@ kırık çıkık burkulma yanık sıyrık kesik ishal kabızlık bulantı dönme
 terleme uykusuzluk stres kaygı depresyon mikrop virüs bakteri bulaşıcı bulaşma belirti
 teşhis tahlil röntgen ultrason acil servis poliklinik eczacı hekim uzman ambulans sedye
 tekerlekli baston işitme cihaz lens protez engelli engel doğum gebelik hamile hamilelik
-emzirme lohusa randevu kolesterol diyabet astım bronşit zatürre kriz inme obezite kilo boy
+emzirme lohusa randevu kolesterol astım bronşit zatürre kriz inme kilo boy
 sigara alkol bağımlılık beslenme diyet spor egzersiz yürüyüş dinlenme mesafe kalp akciğer
 kulak burun göz diş dil ağız saç sakal bıyık deri ten kafa yüz baş el kol bacak ayak diz
 ağrı sızı yorgun hasta hastane doktor sağlık sağlıklı sağlıksız zinde güçsüz halsiz
@@ -525,7 +525,7 @@ parlak pratik rahat renkli resmî sabit sade sağlam sakin sarı sert sessiz sı
 sınırlı sıradan sıkı soğuk sonsuz sulu süreli şaşkın şişman tam tatlı taze tehlikeli temiz
 tuhaf tuzlu uygun uzun üzgün yakın yalnız yanlış yaşlı yavaş yeni yeşil yorgun yumuşak
 yüksek zayıf zengin zor zararlı zararsız ücretli ücretsiz yararlı faydalı etkin etkisiz
-tedbirli dikkatsiz dikkatli sorumlu sorumsuz sağlıklı hijyenik temel asıl başlıca ortalama
+tedbirli dikkatsiz dikkatli sorumlu sorumsuz sağlıklı temel asıl başlıca ortalama
 yaygın nadir seyrek sık ender uzak geçerli geçersiz eşit farklı aynı benzer karışık düzenli
 düzensiz sürekli geçici kalıcı kısa süreli uzun süreli günlük haftalık aylık yıllık
 ulusal yerel bölgesel küresel kamusal resmi yasal yasadışı zorunlu isteğe bağlı
@@ -567,7 +567,7 @@ ana anı anket ani antrenman arka arama araştırma arazi arı arıza arka plan 
 artı artış asıl asil aşama aşçı aşk at atık atış avantaj avcı avuç ayar aydınlık aylık
 ayrıntı azınlık bacak bağ bağış bahar bahçıvan bakış bakım balon bant baraj baskı başarı
 başkent başlangıç başlık baştan bataklık batı bavul bayan bayram bedel beden bekleme belge
-bellek beraberlik bereket beşik beyan bez bildiri bilet bilgi bina birim birlik bitiş
+bellek beraberlik bereket beşik bez bildiri bilet bilgi bina birim birlik bitiş
 bitki boğaz bolluk bomba borsa boşluk boy boya boyut bölge bölüm börek bulmaca buluş
 bulgu buluşma buzdolabı bülten cadde can canlı cephe cep ceza cins cisim coşku cümle
 çaba çadır çağ çağrı çalgı çalışma çamaşır çanak çare çarşı çatı çatışma çek çekiliş
@@ -596,7 +596,7 @@ olgu onay ortak ortam oturum oyun ödeme ödül öğe öğüt öneri önlem örn
 özet özgürlük pay pazar perde pencere pişmanlık plan plaka politika puan
 rahatlık rakam rakip randevu rapor rehber rekor renk resim rol ruh rüya saat sabır saha
 sahne salon sanat sayı sayım sebep seçenek seçim ses sevgi seviye sıcak sıfır sınav sınır
-sıra sistem site slogan son sonuç sorun sorumluluk soy söz sözleşme spor sporcu şahıs
+sıra sistem site slogan son sonuç sorun sorumluluk soy söz sözleşme spor sporcu
 şans şarkı şart şef şema şey şiddet şikâyet şirket şube tablo takım takvim tane
 tarz tasarım taslak tat tavır tedbir tehlike tekrar teklif telefon tema temas temel tepki
 terim tesis teslim tesadüf teşvik tip toplantı toplum tören tur tür uçuş ulaşım
@@ -813,7 +813,7 @@ bayii gazino kondu gecekondu gelincik gelinlik yolculuğu
 gezgin gıdıklamak
 kuşlar mavisi gökdelen gölet gönül görgü gösteriş
 doktoru gözlükçü gravür gurbet
-gözlüğü güneşlik güreşçi güzergâh hacı hafız
+gözlüğü güneşlik güreşçi hacı hafız
 halka hamak hasır
 hasret hatır defteri havai fişek havalandırma
 hayalet arkadaşı haylaz
@@ -866,12 +866,12 @@ yemlik yeşillik ayrımı yosun
 yufka yumruk yüksük
 zümrüt
 # --- ek liste 49: denemelerde işaretlenen gündelik kelimeler
-okur okurluk üzeri yönelik kod fiil parantez virgül tire stil zihinsel kronik hariç
+okur okurluk üzeri yönelik kod fiil parantez virgül tire stil zihinsel hariç
 yerleşik dikdörtgen döngü birleşik görsel arayüz çevrimdışı çevrimiçi lisans alıntı komut
 bileşen noktalama bağlam kurgusal girdi çıktı tıklamak vurgu vurgulamak sıfat özne yüklem
 açılım mantık mantıklı isabetli ufak güncel detay mantıksal mekanik fena nadiren
 muhtemelen yeterince gayet klasör hukuki istisna mecaz süreç duru devrik dahi iyelik medya
-diyalog makul talimat şablon kapsam hassasiyet kategori hitap profil kısaltma deyim analiz
+diyalog makul talimat şablon kapsam kategori hitap profil kısaltma deyim analiz
 akademik panel keskin gösterge hiyerarşi sunum çekim heceleme tekil
 meteoroloji meteorolojik kurgu gerçeklik anlatıcı örgüsü
 # --- ek liste 50: haber ve dergi dilinde sık kelimeler
@@ -966,3 +966,30 @@ bulunmak
 birliği yaramak itibar
 kontrolü
 afiyet idare aynen mobil hür
+# --- 2026-10 eki: gerçek metinlerde seyrek sayılan yaygın kelimeler
+# Bunlar herkesin bildiği, yabancı listeden çıkarılan kelimeler: "proje", "risk", "kontrol", "şarj"
+proje risk kontrol kontrol etmek şarj şarj etmek
+# okul, iş
+veli mezuniyet kalemtıraş türkçe yarıyıl dershane etüt kadrolu kıdem birikim eleman tanıtım
+kariyer yorum paylaşım
+# ev, mutfak
+faraş klozet mikrodalga süzgeç blender lor kefir ketçap avokado brokoli dereotu kısık sabitlemek
+soymak buruşuk dolgun
+# sağlık
+prospektüs kapsül sprey idrar tomografi pansuman dolgu antibiyotik kızamık kabakulak verem hepatit
+zehirlenmek sinir sızlamak organ sırtüstü huzurevi
+# kamu, hukuk, alışveriş
+vesikalık kefil vekil depozito reyon iban nalbur kıraathane euro
+# ulaşım
+turnike otoyol stepne kriko kasko radar oto
+# doğa, tarım
+kül poyraz lodos tarım römork büyükbaş küçükbaş boğa
+# haber, toplum
+soygun katil ordu sığınmacı depremzede muhtaç sığınmak niyet umre ümit
+# teknoloji
+dokunmatik masaüstü sohbet karekod
+# spor
+korner faul direktör forvet defans
+# fiiller, sıfatlar
+içermek sığmak vedalaşmak aşırmak ayıplamak bıkmak dövüşmek kızarmak özetlemek becerikli gereç
+topal

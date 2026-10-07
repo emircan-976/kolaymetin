@@ -4,9 +4,6 @@ skor_en_cok: 40
 tetiklenmeli:
 - kural: KD-B07
   cumle: 1
-- kural: KD-K01
-  cumle: 1
-  ifade: EMLAK
 - kural: KD-C01
   cumle: 3
 - kural: KD-C07

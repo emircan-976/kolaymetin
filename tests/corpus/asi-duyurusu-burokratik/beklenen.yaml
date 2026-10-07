@@ -13,9 +13,6 @@ tetiklenmeli:
   ifade: koordineli
 - kural: KD-C06
   cumle: 2
-- kural: KD-K02
-  cumle: 2
-  ifade: risk
 - kural: KD-C03
   cumle: 2
   ifade: aşılanması

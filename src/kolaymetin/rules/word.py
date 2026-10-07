@@ -44,6 +44,8 @@ class Jargon(Rule):
 
     def check(self, doc: Document, cfg: RuleConfig) -> Iterable[Finding]:
         for s, m in _lexicon_matches(doc, "jargon"):
+            if m.entry.exempt:
+                continue
             start, end, text = _span(s, m)
             oneri = m.entry.suggestion
             if oneri.startswith("(") and oneri.endswith(")"):
@@ -113,6 +115,8 @@ class ForeignWord(Rule):
 
     def check(self, doc: Document, cfg: RuleConfig) -> Iterable[Finding]:
         for s, m in _lexicon_matches(doc, "foreign"):
+            if m.entry.exempt:
+                continue
             start, end, text = _span(s, m)
             oneri = m.entry.suggestion
             yield self.finding(
@@ -359,6 +363,8 @@ class Idiom(Rule):
 
     def check(self, doc: Document, cfg: RuleConfig) -> Iterable[Finding]:
         for s, m in _lexicon_matches(doc, "idioms"):
+            if m.entry.exempt:
+                continue
             entry = m.entry
             if entry.literal_cues and _has_cue(s, entry.literal_cues):
                 continue  # "Otobüs yola çıktı", "Kapıyı açın", "Kırmızı düğmeye basın"
@@ -416,6 +422,13 @@ def _counted(s: Sentence, start_token: int) -> bool:
             before.kind == "word" and turkish_lower(before.text) in _COUNT_WORDS
         )
     return False
+
+
+def _list_follows(doc: Document, s: Sentence) -> bool:
+    """Cümle iki noktayla bitiyor ve hemen ardından madde listesi geliyor mu?"""
+    if not s.text.rstrip().endswith(":") or s.index + 1 >= len(doc.sentences):
+        return False
+    return doc.sentences[s.index + 1].is_list_item
 
 
 def _has_cue(s: Sentence, cues: tuple[str, ...]) -> bool:
@@ -477,8 +490,12 @@ class VagueExpression(Rule):
 
     def check(self, doc: Document, cfg: RuleConfig) -> Iterable[Finding]:
         for s, m in _lexicon_matches(doc, "vague"):
+            if m.entry.exempt:
+                continue
             if _counted(s, m.start_token):
                 continue  # "14 gün içinde", "üç gün içinde": kesin bir süre
+            if _list_follows(doc, s):
+                continue  # "Gerekli belgeler:" ve altında madde listesi: belgeler zaten yazılı
             start, end, text = _span(s, m)
             yield self.finding(
                 doc, cfg, start, end,

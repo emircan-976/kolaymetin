@@ -15,15 +15,13 @@ tetiklenmeli:
   ifade: 05.10.2026
 - kural: KD-C07
   cumle: 2
-- kural: KD-K02
-  cumle: 2
-  ifade: kontrol
 - kural: KD-C11
   cumle: 2
   ifade: etmeleri gerekmektedir
 - kural: KD-C02
   cumle: 3
-- kural: KD-C03
+# 'nakletmek' jargon (→ taşımak); jargonun içindeki kelimeye ayrıca edilgen cezası kesilmez.
+- kural: KD-K01
   cumle: 3
   ifade: nakledilmesi
 - kural: KD-K08

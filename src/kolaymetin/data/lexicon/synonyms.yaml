@@ -45,3 +45,9 @@
 - {grup: [mahalle, semt], tercih: mahalle}
 - {grup: [otopark, park yeri], tercih: otopark}
 - {grup: [aile, hane], tercih: aile}
+- {grup: [ehliyet, sürücü belgesi], tercih: ehliyet}
+- {grup: [aile hekimi, aile doktoru], tercih: aile hekimi}
+- {grup: [onarım, tamir, tadilat], tercih: onarım}
+- {grup: [ücretsiz, bedava, parasız], tercih: ücretsiz}
+- {grup: [hasta yakını, refakatçi], tercih: hasta yakını}
+- {grup: [karekod, QR kod], tercih: karekod}

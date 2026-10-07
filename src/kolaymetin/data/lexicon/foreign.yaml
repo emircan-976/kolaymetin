@@ -34,10 +34,9 @@
 - {kelime: izolasyon, oneri: "yalıtım, ayırma"}
 - {kelime: kapasite, oneri: "alabileceği miktar, gücü"}
 - {kelime: kompleks, oneri: "karmaşık; yapı grubu"}
-- {kelime: komisyon, oneri: kurul}
+- {kelime: komisyon, oneri: "kurul; (bankada) işlem ücreti"}
 - {kelime: konsept, oneri: kavram}
 - {kelime: konsensüs, oneri: uzlaşma}
-- {kelime: kontrol, oneri: denetim}
 - {kelime: kriter, oneri: ölçüt}
 - {kelime: kritik, oneri: "önemli, tehlikeli"}
 - {kelime: lojistik, oneri: "taşıma ve dağıtım"}
@@ -66,12 +65,10 @@
 - {kelime: prensip, oneri: ilke}
 - {kelime: prestij, oneri: saygınlık}
 - {kelime: problem, oneri: sorun}
-- {kelime: proje, oneri: "çalışma, tasarı"}
 - {kelime: protokol, oneri: anlaşma}
 - {kelime: realize, oneri: "gerçekleştirmek"}
 - {kelime: rehabilitasyon, oneri: "iyileştirme"}
 - {kelime: rezervasyon, oneri: "yer ayırtma"}
-- {kelime: risk, oneri: tehlike}
 - {kelime: senaryo, oneri: "olasılık"}
 - {kelime: sektör, oneri: alan}
 - {kelime: seminer, oneri: "eğitim toplantısı"}
@@ -82,7 +79,6 @@
 - {kelime: statü, oneri: durum}
 - {kelime: strateji, oneri: "yol, plan"}
 - {kelime: stratejik, oneri: "önemli, planlı"}
-- {kelime: şarj, oneri: "doldurma (pil)"}
 - {kelime: tolerans, oneri: "hoşgörü, pay"}
 - {kelime: transfer, oneri: aktarma}
 - {kelime: trend, oneri: eğilim}
@@ -169,3 +165,106 @@
 - {kelime: shopping, oneri: alışveriş}
 - {kelime: free, oneri: ücretsiz}
 - {kelime: home office, oneri: evden çalışma}
+# --- genel
+- {kelime: efor, oneri: çaba}
+- {kelime: empati, oneri: "kendini başkasının yerine koyma"}
+- {kelime: bonus, oneri: "ek ödeme, ödül"}
+- {kelime: rutin, oneri: "olağan, her zamanki"}
+- {kelime: avantajlı, oneri: "kazançlı, yararlı"}
+- {kelime: dezavantaj, oneri: sakınca}
+- {kelime: ekstra, oneri: "ek, fazladan"}
+- {kelime: total, oneri: toplam}
+- {kelime: fiks, oneri: sabit}
+- {kelime: minimal, oneri: "çok az, en az"}
+- {kelime: optimal, oneri: "en uygun"}
+- {kelime: konfor, oneri: rahatlık}
+- {kelime: periyot, oneri: dönem}
+- {kelime: sembolik, oneri: "göstermelik, çok az"}
+- {kelime: limit, oneri: sınır}
+- {kelime: versiyon, oneri: sürüm}
+- {kelime: manuel, oneri: elle}
+- {kelime: level, oneri: düzey}
+- {kelime: koordinatör, oneri: "sorumlu, düzenleyen kişi"}
+- {kelime: organize, oneri: "düzenlemek (organize etmek)"}
+# "Organize sanayi bölgesi" bir yer adıdır; değiştirilemez.
+- {kelime: organize sanayi, sabit: true}
+- {kelime: prezentasyon, oneri: sunum, bicimler: [prezantasyon]}
+- {kelime: kongre, oneri: "büyük toplantı"}
+- {kelime: sempozyum, oneri: "bilim toplantısı"}
+- {kelime: promosyon, oneri: "hediye, indirim"}
+- {kelime: transit, oneri: aktarmalı}
+# --- teknoloji
+- {kelime: aktivasyon, oneri: "açma, etkinleştirme"}
+- {kelime: aktive, oneri: "açmak, etkinleştirmek"}
+- {kelime: data, oneri: veri}
+- {kelime: database, oneri: "veri tabanı"}
+- {kelime: default, oneri: varsayılan}
+- {kelime: setup, oneri: kurulum}
+- {kelime: reset, oneri: sıfırlama}
+- {kelime: restart, oneri: "yeniden başlatma"}
+- {kelime: upgrade, oneri: yükseltme}
+- {kelime: spam, oneri: "istenmeyen ileti"}
+- {kelime: hashtag, oneri: etiket}
+- {kelime: influencer, oneri: fenomen}
+- {kelime: story, oneri: hikâye}
+- {kelime: chat, oneri: sohbet}
+- {kelime: laptop, oneri: "dizüstü bilgisayar"}
+- {kelime: notebook, oneri: "dizüstü bilgisayar"}
+- {kelime: smartphone, oneri: "akıllı telefon"}
+- {kelime: wifi, oneri: "kablosuz internet", bicimler: [wi-fi]}
+- {kelime: screenshot, oneri: "ekran görüntüsü"}
+- {kelime: selfie, oneri: özçekim}
+- {kelime: full time, oneri: "tam gün"}
+- {kelime: part time, oneri: "yarım gün", bicimler: [part-time]}
+# --- sağlık
+- {kelime: enfeksiyon, oneri: "mikrop kapma, iltihap"}
+- {kelime: kronik, oneri: "uzun süren"}
+- {kelime: akut, oneri: "birden başlayan"}
+- {kelime: diyabet, oneri: "şeker hastalığı"}
+- {kelime: hipertansiyon, oneri: "yüksek tansiyon"}
+- {kelime: obezite, oneri: "aşırı kilo"}
+- {kelime: kardiyoloji, oneri: "kalp hastalıkları bölümü"}
+- {kelime: nöroloji, oneri: "sinir hastalıkları bölümü"}
+- {kelime: dermatoloji, oneri: "cilt hastalıkları bölümü"}
+- {kelime: pediatri, oneri: "çocuk hastalıkları bölümü"}
+- {kelime: ortopedi, oneri: "kemik hastalıkları bölümü"}
+- {kelime: onkoloji, oneri: "kanser bölümü"}
+- {kelime: psikiyatri, oneri: "ruh sağlığı bölümü"}
+- {kelime: üroloji, oneri: "idrar yolu hastalıkları bölümü"}
+- {kelime: jinekoloji, oneri: "kadın hastalıkları bölümü"}
+- {kelime: steril, oneri: mikropsuz}
+- {kelime: hijyenik, oneri: temiz}
+- {kelime: anestezi, oneri: "uyuşturma, narkoz"}
+- {kelime: biyopsi, oneri: "parça alma (biyopsi)"}
+- {kelime: endoskopi, oneri: "kamerayla mide muayenesi"}
+- {kelime: terapi, oneri: tedavi}
+- {kelime: spazm, oneri: kasılma}
+- {kelime: travma, oneri: "yaralanma; ruhsal sarsıntı"}
+- {kelime: dozaj, oneri: "doz, miktar"}
+- {kelime: reaksiyon, oneri: tepki}
+- {kelime: kontrendikasyon, oneri: "ilacın kullanılmaması gereken durum"}
+- {kelime: endikasyon, oneri: "ilacın kullanıldığı hastalık"}
+- {kelime: oral, oneri: ağızdan}
+- {kelime: intravenöz, oneri: damardan}
+- {kelime: profilaksi, oneri: "koruyucu tedavi"}
+- {kelime: triyaj, oneri: "acil serviste sıraya koyma"}
+- {kelime: jenerik, oneri: "eşdeğer (ilaç)"}
+- {kelime: filyasyon, oneri: "hastayla temas edenleri bulma"}
+- {kelime: kontamine, oneri: "bulaşmış, kirlenmiş"}
+# --- kent, çevre
+- {kelime: peyzaj, oneri: "çevre düzenlemesi"}
+- {kelime: rekreasyon, oneri: "dinlenme ve eğlence"}
+- {kelime: restorasyon, oneri: onarım}
+- {kelime: renovasyon, oneri: yenileme}
+- {kelime: ekolojik, oneri: "doğaya uygun"}
+- {kelime: deşarj, oneri: "boşaltma, akıtma"}
+- {kelime: debi, oneri: "akan su miktarı"}
+- {kelime: kadastro, oneri: "arazi ölçümü ve kaydı"}
+# --- para
+- {kelime: resesyon, oneri: durgunluk}
+- {kelime: finansman, oneri: "para kaynağı"}
+- {kelime: finansal, oneri: parasal}
+- {kelime: fon, oneri: "para kaynağı"}
+- {kelime: ipotek, oneri: "borca karşılık evi güvence gösterme"}
+- {kelime: konkordato, oneri: "borç ödemesini erteleme"}
+- {kelime: apostil, oneri: "yurt dışında geçerli belge onayı"}
