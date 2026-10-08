@@ -41,6 +41,9 @@ class PhraseEntry:
     # Sabit terim ("asgari ücret", "emlak vergisi"): en uzun eşleşme olarak içindeki kelimeyi
     # ("asgari") korur, kendisi uyarı vermez. Herkesin bildiği yasal adlar değiştirilemez.
     exempt: bool = False
+    # Otomatik düzeltmede yazılacak karşılık (`duzeltme:`). None: önerinin ilk seçeneği;
+    # "" (`duzeltme: yok`): bu girdi otomatik düzeltilmez ("müteakip" bazen "…dan sonra" demektir).
+    fix: str | None = None
 
     @property
     def length(self) -> int:
@@ -227,16 +230,20 @@ def _phrase_entries(items: Iterable[Any] | None, kind: str, key: str = "ifade") 
         variants = [phrase]
         ambiguous = False
         exempt = False
+        fix: str | None = None
         cues: tuple[str, ...] = ()
         if isinstance(item, dict):
             variants += [str(v) for v in item.get("bicimler") or []]
             ambiguous = bool(item.get("iki_anlamli", False))
             exempt = bool(item.get("sabit", False))
             cues = tuple(fold_circumflex(turkish_lower(str(c))) for c in item.get("gercek") or [])
+            if "duzeltme" in item:
+                raw = item["duzeltme"]
+                fix = "" if raw in (None, False) or str(raw).strip().lower() == "yok" else str(raw).strip()
         for v in variants:
             out.append(PhraseEntry(phrase=phrase, suggestion=suggestion, note=note, kind=kind,
                                    keys=_entry_keys(v), ambiguous=ambiguous, literal_cues=cues,
-                                   cases=_entry_cases(v), exempt=exempt))
+                                   cases=_entry_cases(v), exempt=exempt, fix=fix))
     return out
 
 

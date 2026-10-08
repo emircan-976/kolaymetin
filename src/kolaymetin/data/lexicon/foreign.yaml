@@ -29,16 +29,16 @@
 - {kelime: fonksiyonel, oneri: "işlevsel, kullanışlı"}
 - {kelime: format, oneri: biçim}
 - {kelime: hijyen, oneri: temizlik}
-- {kelime: inisiyatif, oneri: "girişim, karar yetkisi"}
+- {kelime: inisiyatif, oneri: "girişim, karar yetkisi", duzeltme: yok}
 - {kelime: interaktif, oneri: etkileşimli}
-- {kelime: izolasyon, oneri: "yalıtım, ayırma"}
-- {kelime: kapasite, oneri: "alabileceği miktar, gücü"}
+- {kelime: izolasyon, oneri: "yalıtım, ayırma", duzeltme: yok}
+- {kelime: kapasite, oneri: "alabileceği miktar, gücü", duzeltme: yok}
 - {kelime: kompleks, oneri: "karmaşık; yapı grubu"}
 - {kelime: komisyon, oneri: "kurul; (bankada) işlem ücreti"}
 - {kelime: konsept, oneri: kavram}
 - {kelime: konsensüs, oneri: uzlaşma}
 - {kelime: kriter, oneri: ölçüt}
-- {kelime: kritik, oneri: "önemli, tehlikeli"}
+- {kelime: kritik, oneri: "önemli, tehlikeli", duzeltme: yok}
 - {kelime: lojistik, oneri: "taşıma ve dağıtım"}
 - {kelime: maksimum, oneri: "en çok"}
 - {kelime: minimum, oneri: "en az"}
@@ -48,17 +48,17 @@
 - {kelime: network, oneri: "ağ, çevre"}
 - {kelime: opsiyon, oneri: seçenek}
 - {kelime: opsiyonel, oneri: "isteğe bağlı"}
-- {kelime: organizasyon, oneri: "düzenleme, etkinlik"}
+- {kelime: organizasyon, oneri: "düzenleme, etkinlik", duzeltme: yok}
 - {kelime: orijinal, oneri: "asıl, özgün"}
 - {kelime: otorite, oneri: yetkili}
 - {kelime: parametre, oneri: değişken}
 - {kelime: partner, oneri: "ortak"}
-- {kelime: performans, oneri: "başarı, verim"}
+- {kelime: performans, oneri: "başarı, verim", duzeltme: yok}
 - {kelime: periyodik, oneri: "düzenli, belli aralıklarla"}
 - {kelime: perspektif, oneri: bakış açısı}
 - {kelime: pilot uygulama, oneri: "deneme uygulaması"}
-- {kelime: platform, oneri: "ortam, site"}
-- {kelime: pozisyon, oneri: "konum, görev"}
+- {kelime: platform, oneri: "ortam, site", duzeltme: yok}
+- {kelime: pozisyon, oneri: "konum, görev", duzeltme: yok}
 - {kelime: pozitif, oneri: olumlu}
 - {kelime: negatif, oneri: olumsuz}
 - {kelime: potansiyel, oneri: "olası"}
@@ -75,11 +75,11 @@
 - {kelime: sertifika, oneri: belge}
 - {kelime: sistematik, oneri: düzenli}
 - {kelime: spesifik, oneri: özel}
-- {kelime: standart, oneri: "olağan, genel"}
+- {kelime: standart, oneri: "olağan, genel", duzeltme: yok}
 - {kelime: statü, oneri: durum}
-- {kelime: strateji, oneri: "yol, plan"}
+- {kelime: strateji, oneri: "yol, plan", duzeltme: yok}
 - {kelime: stratejik, oneri: "önemli, planlı"}
-- {kelime: tolerans, oneri: "hoşgörü, pay"}
+- {kelime: tolerans, oneri: "hoşgörü, pay", duzeltme: yok}
 - {kelime: transfer, oneri: aktarma}
 - {kelime: trend, oneri: eğilim}
 - {kelime: vizyon, oneri: "gelecek amacı"}
@@ -97,15 +97,15 @@
 - {kelime: deadline, oneri: "son gün"}
 - {kelime: event, oneri: etkinlik}
 - {kelime: workshop, oneri: "çalıştay, uygulamalı eğitim"}
-- {kelime: konteyner, oneri: "çöp kutusu, büyük kap"}
+- {kelime: konteyner, oneri: "çöp kutusu, büyük kap", duzeltme: yok}
 - {kelime: sirkülasyon, oneri: dolaşım}
 - {kelime: ventilasyon, oneri: havalandırma}
-- {kelime: dezenfeksiyon, oneri: "mikrop öldürme, ilaçlama"}
+- {kelime: dezenfeksiyon, oneri: "mikrop öldürme, ilaçlama", duzeltme: ilaçlama}
 - {kelime: dezenfekte, oneri: "ilaçlanmış, mikroptan arındırılmış"}
 - {kelime: pandemi, oneri: "dünya çapında salgın"}
 - {kelime: epidemi, oneri: salgın}
 - {kelime: semptom, oneri: belirti}
-- {kelime: vaka, oneri: "hasta, olay"}
+- {kelime: vaka, oneri: "hasta, olay", duzeltme: yok}
 - {kelime: immün, oneri: bağışık}
 - {kelime: evakuasyon, oneri: "boşaltma, bölgeden çıkarma"}
 - {kelime: showroom, oneri: "sergi salonu"}
@@ -118,14 +118,14 @@
 - {kelime: lokasyon, oneri: konum}
 - {kelime: majör, oneri: "büyük, önemli"}
 - {kelime: minör, oneri: "küçük, önemsiz"}
-- {kelime: marjinal, oneri: "sınırda, uç"}
+- {kelime: marjinal, oneri: "sınırda, uç", duzeltme: yok}
 - {kelime: mekanizma, oneri: düzenek}
 - {kelime: metot, oneri: yöntem}
 - {kelime: modül, oneri: bölüm}
 - {kelime: personel, oneri: çalışan}
-- {kelime: operasyon, oneri: "işlem, çalışma"}
-- {kelime: operatör, oneri: "görevli, şirket"}
-- {kelime: segment, oneri: "grup, kesim"}
+- {kelime: operasyon, oneri: "işlem, çalışma", duzeltme: yok}
+- {kelime: operatör, oneri: "görevli, şirket", duzeltme: yok}
+- {kelime: segment, oneri: "grup, kesim", duzeltme: yok}
 - {kelime: sponsor, oneri: destekçi}
 - {kelime: stajyer, oneri: "öğrenci çalışan"}
 - {kelime: meeting, oneri: toplantı}
@@ -179,7 +179,7 @@
 - {kelime: optimal, oneri: "en uygun"}
 - {kelime: konfor, oneri: rahatlık}
 - {kelime: periyot, oneri: dönem}
-- {kelime: sembolik, oneri: "göstermelik, çok az"}
+- {kelime: sembolik, oneri: "göstermelik, çok az", duzeltme: yok}
 - {kelime: limit, oneri: sınır}
 - {kelime: versiyon, oneri: sürüm}
 - {kelime: manuel, oneri: elle}
@@ -234,7 +234,7 @@
 - {kelime: jinekoloji, oneri: "kadın hastalıkları bölümü"}
 - {kelime: steril, oneri: mikropsuz}
 - {kelime: hijyenik, oneri: temiz}
-- {kelime: anestezi, oneri: "uyuşturma, narkoz"}
+- {kelime: anestezi, oneri: "uyuşturma, narkoz", duzeltme: yok}
 - {kelime: biyopsi, oneri: "parça alma (biyopsi)"}
 - {kelime: endoskopi, oneri: "kamerayla mide muayenesi"}
 - {kelime: terapi, oneri: tedavi}

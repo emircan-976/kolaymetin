@@ -169,6 +169,7 @@ def test_lexicon_yaml_has_no_comma_split_entries() -> None:
     allowed = {
         "kisaltma", "acilim", "okunus", "bilinir", "ifade", "oneri", "anlam", "not", "aciklama",
         "bicimler", "iki_anlamli", "gercek", "kelime", "grup", "tercih", "desen", "ad", "sabit",
+        "duzeltme",
     }
     for path in LEXICON_DIR.glob("*.yaml"):
         data = yaml.safe_load(path.read_text(encoding="utf-8"))

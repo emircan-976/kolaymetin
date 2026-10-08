@@ -208,6 +208,7 @@ def test_inflect_like_refuses_unsure_forms() -> None:
         ("Karar size tebliğ edildi.", "KD-K01", ("tebliğ edildi", "bildirildi")),
         ("Kurallara riayet edilmesi gerekir.", "KD-K01", ("riayet edilmesi", "uyulması")),
         ("Formu doldurunuz.", "KD-K01", ("doldurunuz", "doldurun")),
+        ("Bu iş ivedilikle yapılır.", "KD-K01", ("ivedilikle", "hemen")),  # ilk seçenek
         ("Aktivitelere gelin.", "KD-K02", ("Aktivitelere", "Etkinliklere")),
         ("SGK ile görüşün.", "KD-K03", ("SGK", "Sosyal Güvenlik Kurumu (SGK)")),
         ("Kimlik, fatura vb. getirin.", "KD-K03", ("vb.", "ve benzeri")),
@@ -223,7 +224,8 @@ def test_word_rule_fix(text: str, rule_id: str, expected: tuple[str, str]) -> No
 @pytest.mark.parametrize(
     ("text", "rule_id"),
     [
-        ("Bu iş ivedilikle yapılır.", "KD-K01"),  # öneri iki seçenek: "hemen, hızlıca"
+        ("Çalışmaların tamamlanmasını müteakip su verilecek.", "KD-K01"),  # duzeltme: yok
+        ("Plan revize edildi.", "KD-K02"),  # yardımcı fiil de değişmeli
         ("Halkımızın bilgisine sunulur.", "KD-K01"),  # girdinin başka bir çekimi
         ("MÜRACAATLARI ALINACAK.", "KD-K01"),  # büyük harfi KD-B07 düzeltir
         ("SGK'ya gidin.", "KD-K03"),  # ek açılıma uyumla bağlanmalı
@@ -232,3 +234,47 @@ def test_word_rule_fix(text: str, rule_id: str, expected: tuple[str, str]) -> No
 )
 def test_no_word_fix_when_unsure(text: str, rule_id: str) -> None:
     assert fixes(text, rule_id) == []
+
+
+# --------------------------------------------------------------------------- cümle düzeltmeleri
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        # cümle bölme
+        ("Su kesilecek ve elektrik de iki gün verilmeyecek.",
+         "Su kesilecek. Elektrik de iki gün verilmeyecek."),
+        ("Tahliye işlemleri valilik koordinasyonunda gerçekleştirilecek olup toplanma alanları "
+         "duyurulacak.",
+         "Boşaltma işlemleri valilik koordinasyonunda gerçekleştirilecek. Toplanma alanları "
+         "duyurulacak."),
+        ("Yağış bekleniyor, dere kenarına yaklaşmayın.", "Yağış bekleniyor. Dere kenarına yaklaşmayın."),
+        # dolaylı seslenme → emir
+        ("Formların doldurulması gerekmektedir.", "Formları doldurun."),
+        ("Belgelerin teslim edilmesi gerekmektedir.", "Belgeleri teslim edin."),
+        ("Acil durumlarda 112 Acil Çağrı Merkezi'nin aranması gerekmektedir.",
+         "Acil durumlarda 112 Acil Çağrı Merkezi'ni arayın."),
+        ("Vatandaşlarımızın suyu önceden temin etmeleri önemle rica olunur.",
+         "Lütfen suyu önceden temin edin."),
+        # resmî zaman ekleri
+        ("Kuvvetli yağış beklenmektedir.", "Kuvvetli yağış bekleniyor."),
+        ("Başvurular alınmayacaktır.", "Başvurular alınmayacak."),
+        ("Liste oluşturulmuştur.", "Liste oluşturuldu."),
+    ],
+)
+def test_sentence_fixes(text: str, expected: str) -> None:
+    assert analyze(text).fixed_text() == expected
+
+
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Kadın ve erkek seçmenler sandığa gidecek.",  # "kadın" yüklem değil
+        "Kayıt yapılıp yapılmadığı bilinmiyor.",
+        "Başvurunun kabul edilip edilmeyeceği yarın belli olacak.",
+        "Engelli ve yaşlı seçmenlerimizin erken gelmeleri gerekmektedir.",  # özne niteleniyor
+    ],
+)
+def test_sentence_left_alone(text: str) -> None:
+    assert analyze(text).fixed_text() == text

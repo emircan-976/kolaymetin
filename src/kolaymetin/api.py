@@ -15,6 +15,7 @@ from typing import Any
 
 from kolaymetin import __version__
 from kolaymetin import rules as _rules  # noqa: F401  (kuralları kayda ekler)
+from kolaymetin.fixers import attach_fixes
 from kolaymetin.lexicon import Lexicon, load_lexicon
 from kolaymetin.models import (
     SEVERITY_ORDER,
@@ -398,6 +399,7 @@ def analyze(
     doc = build_document(text, prof, lexicon)
     ignored_findings: list[Finding] = []
     findings = run_rules(doc, ignored, ignored_findings)
+    attach_fixes(doc, findings)
     findings.sort(key=lambda f: (f.start, SEVERITY_ORDER[f.severity], f.rule_id))
     ignored_findings.sort(key=lambda f: (f.start, SEVERITY_ORDER[f.severity], f.rule_id))
 

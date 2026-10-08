@@ -38,20 +38,28 @@ def _span(sentence: Sentence, m: PhraseMatch) -> tuple[int, int, str]:
     return start, end, " ".join(t.text for t in toks if t.kind != "punct")
 
 
-# Önerisi bunlardan birini içeren girdi tek bir kelime değildir: seçenek listesi ("hemen,
-# hızlıca"), açıklama ("(deprem, sel gibi)"), kalıp ("… başlayarak") ya da yönerge.
-_NOT_A_REPLACEMENT = (",", ";", "(", ")", "…", "...", "→", "'", '"', "/")
+# Önerisi bunlardan birini içeren girdi bir kelime değildir: açıklama ("(deprem, sel gibi)"),
+# kalıp ("… başlayarak") ya da yönerge.
+_NOT_A_REPLACEMENT = (";", "(", ")", "…", "...", "→", "'", '"', "/")
+_LIGHT_VERBS = frozenset({"etmek", "olmak", "eylemek", "kılmak", "edilmek", "olunmak"})
 
 
 def _replacement_fix(sentence: Sentence, m: PhraseMatch, replacement: str, lemma: str = "") -> str | None:
     """Eşleşen ifadenin yerine ``replacement``, son kelimenin ekleriyle: "Müracaatlarınızı" →
-    "Başvurularınızı", "müracaat ediniz" → "başvurun". Öneri tek bir karşılık değilse ya da
-    ekler doğrulanamıyorsa None."""
+    "Başvurularınızı", "müracaat ediniz" → "başvurun". Seçenek listesinde ("hemen, hızlıca")
+    ilk seçenek kullanılır: sözlükte en yaygın karşılık önce yazılır. Öneri bir kelime değilse
+    ya da ekler doğrulanamıyorsa None. Sözlük girdisinin `duzeltme:` alanı öneriden önce gelir."""
+    if m.entry.fix is not None:
+        replacement = m.entry.fix  # "" (duzeltme: yok): bu girdi otomatik düzeltilmez
     if not replacement or any(x in replacement for x in _NOT_A_REPLACEMENT):
         return None
+    replacement = replacement.split(",")[0].strip()
     toks = [t for t in sentence.tokens[m.start_token : m.end_token] if t.kind == "word"]
     if not toks or any(len(t.text) > 1 and is_upper_word(t.text) for t in toks):
         return None  # "MÜRACAAT": büyük harfi KD-B07 düzeltir
+    after = next((t for t in sentence.tokens[m.end_token :] if t.kind != "punct"), None)
+    if after is not None and after.analysis is not None and after.analysis.lemma in _LIGHT_VERBS:
+        return None  # "revize edildi" → "değiştirilmiş edildi": yardımcı fiil de değişmeli
     entry_words = (lemma or m.entry.phrase).split()
     # Yalnızca son kelime çekimlenmiş olmalı: "Halkımızın bilgisine sunulur" girdinin
     # ("bilgilerinize sunulur") başka bir biçimi; karşılığı ("size bildiriyoruz") cümleyi bozar.

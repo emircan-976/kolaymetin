@@ -1,6 +1,7 @@
 # Bürokratik ifade / jargon sözlüğü (KD-K01)
 # Lisans: CC BY 4.0 — kolaymetin katkıcıları
-# Her girdi: ifade (sözlük biçimi), oneri (sade karşılık), isteğe bağlı: not, bicimler (başka yazılışlar)
+# Her girdi: ifade (sözlük biçimi), oneri (sade karşılık), isteğe bağlı: not, bicimler (başka yazılışlar),
+# duzeltme (otomatik düzeltmede yazılacak karşılık; yoksa önerinin ilk seçeneği; "yok": düzeltilmez)
 # Çok kelimeli ifadeler kök eşlemesiyle yakalanır: "arz etmek" → "arz ederiz", "arz edilir".
 - {ifade: arz etmek, oneri: "sunmak, vermek"}
 - {ifade: arz olunur, oneri: "sunulur → '... sunuyoruz'"}
@@ -8,7 +9,7 @@
 - {ifade: müracaat etmek, oneri: başvurmak}
 - {ifade: tebliğ, oneri: bildirim}
 - {ifade: tebliğ etmek, oneri: bildirmek}
-- {ifade: tebellüğ, oneri: "almak, eline geçmek"}
+- {ifade: tebellüğ, oneri: "almak, eline geçmek", duzeltme: yok}
 - {ifade: mezkûr, oneri: "bu, adı geçen", bicimler: [mezkur]}
 - {ifade: işbu, oneri: bu}
 - {ifade: ivedilikle, oneri: "hemen, hızlıca"}
@@ -17,7 +18,7 @@
 - {ifade: hususunda, oneri: "konusunda, hakkında"}
 - {ifade: husus, oneri: konu}
 - {ifade: ilgi yazı, oneri: "…tarihli yazımız"}
-- {ifade: müteakip, oneri: "sonraki, sonra"}
+- {ifade: müteakip, oneri: "sonraki, sonra", duzeltme: yok}  # "X-ı müteakip" = "X-dan sonra": hâl değişir
 - {ifade: müteakiben, oneri: sonra}
 - {ifade: tanzim etmek, oneri: "düzenlemek, hazırlamak"}
 - {ifade: tanzim, oneri: düzenleme}
@@ -43,7 +44,7 @@
 - {ifade: iktiza, oneri: gereklilik}
 - {ifade: keyfiyet, oneri: durum}
 - {ifade: mezkûr husus, oneri: "bu konu", bicimler: [mezkur husus]}
-- {ifade: vaki, oneri: "olan, yapılan"}
+- {ifade: vaki, oneri: "olan, yapılan", duzeltme: yok}
 - {ifade: vuku bulmak, oneri: olmak}
 - {ifade: hitaben, oneri: "… için, …'e"}
 - {ifade: istinaden, oneri: "… göre, … dayanarak"}
@@ -69,7 +70,7 @@
 - {ifade: mahiyet, oneri: "nitelik, tür"}
 - {ifade: mahiyetinde, oneri: "gibi, türünde"}
 - {ifade: mevzuat, oneri: "yasalar ve kurallar"}
-- {ifade: mevcut, oneri: "var olan, şimdiki"}
+- {ifade: mevcut, oneri: "var olan, şimdiki", duzeltme: yok}
 - {ifade: mevcudiyet, oneri: varlık}
 - {ifade: müsaade, oneri: izin}
 - {ifade: müsaade etmek, oneri: "izin vermek"}
@@ -114,7 +115,7 @@
 - {ifade: mektup mukabili, oneri: "yazı karşılığında"}
 - {ifade: mukabil, oneri: karşılık}
 - {ifade: mukabilinde, oneri: karşılığında}
-- {ifade: muhatap, oneri: "ilgili kişi, karşı taraf"}
+- {ifade: muhatap, oneri: "ilgili kişi, karşı taraf", duzeltme: yok}
 - {ifade: muhtelif, oneri: çeşitli}
 - {ifade: muktezi, oneri: gerekli}
 - {ifade: mumaileyh, oneri: "adı geçen kişi"}
@@ -162,7 +163,7 @@
 - {ifade: teşmil etmek, oneri: genişletmek}
 - {ifade: tetkik, oneri: inceleme}
 - {ifade: tetkik etmek, oneri: incelemek}
-- {ifade: tevkif, oneri: "tutma, kesinti"}
+- {ifade: tevkif, oneri: "tutma, kesinti", duzeltme: yok}
 - {ifade: tezkere, oneri: "belge, yazı"}
 - {ifade: vâkıf olmak, oneri: bilmek, bicimler: [vakıf olmak]}
 - {ifade: vasıl olmak, oneri: ulaşmak}
@@ -218,7 +219,7 @@
 - {ifade: tehir, oneri: erteleme}
 - {ifade: tehir etmek, oneri: ertelemek}
 - {ifade: ferağ, oneri: "hakkını devretme"}
-- {ifade: gayrimenkul, oneri: "ev, arsa gibi taşınmaz mal"}
+- {ifade: gayrimenkul, oneri: "ev, arsa gibi taşınmaz mal", duzeltme: yok}
 - {ifade: ecrimisil, oneri: "izinsiz kullanım bedeli"}
 - {ifade: fer'i, oneri: ek, bicimler: [feri]}
 - {ifade: asgari, oneri: en az}
@@ -315,13 +316,13 @@
 - {ifade: mesul, oneri: sorumlu}
 - {ifade: mesuliyet, oneri: sorumluluk}
 - {ifade: mükerrer, oneri: "iki kez yapılan"}
-- {ifade: münferit, oneri: "tek tük, ayrı"}
+- {ifade: münferit, oneri: "tek tük, ayrı", duzeltme: yok}
 - {ifade: tahdit, oneri: sınırlama}
 - {ifade: tahribat, oneri: "zarar, yıkım"}
 - {ifade: tahrip etmek, oneri: "bozmak, yıkmak"}
 - {ifade: tazmin etmek, oneri: "karşılamak, ödemek"}
 - {ifade: teşebbüs, oneri: "girişim, deneme"}
-- {ifade: teşkilat, oneri: "örgüt, kuruluş"}
+- {ifade: teşkilat, oneri: "örgüt, kuruluş", duzeltme: kuruluş}
 - {ifade: müessese, oneri: kurum}
 - {ifade: hususi, oneri: özel}
 - {ifade: umumi, oneri: genel}
@@ -341,7 +342,7 @@
 - {ifade: ihbar etmek, oneri: "haber vermek"}
 - {ifade: ikaz, oneri: uyarı}
 - {ifade: ikaz etmek, oneri: uyarmak}
-- {ifade: ihlal, oneri: "uymama, çiğneme"}
+- {ifade: ihlal, oneri: "uymama, çiğneme", duzeltme: yok}
 - {ifade: ihlal etmek, oneri: "uymamak, çiğnemek"}
 - {ifade: imtina etmek, oneri: kaçınmak}
 - {ifade: itimat, oneri: güven}

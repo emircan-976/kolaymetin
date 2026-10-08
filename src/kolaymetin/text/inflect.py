@@ -38,6 +38,9 @@ _TEMPLATES: dict[str, tuple[str, ...]] = {
     # sözcük türü işaretleri
     "Noun": ("",), "Adj": ("",), "Verb": ("",), "Zero": ("",), "Pres": ("",), "Pos": ("",),
     "Cop": ("DIr",),
+    # türetme
+    "Caus": ("DIr", "t", "Ir", "Ar"), "Become": ("lAş",), "Recip": ("Iş",), "Reflex": ("In",),
+    "Ness": ("lIk",), "With": ("lI",), "Without": ("sIz",),
     # fiil
     "Imp": ("",), "Neg": ("mA",), "Pass": ("Il", "In", "n"), "Able": ("YAbil",),
     "Past": ("DI",), "Narr": ("mIş",), "Fut": ("YAcAk",), "Prog1": ("@Iyor",), "Prog2": ("mAktA",),
@@ -132,7 +135,7 @@ def _candidates(stem: str, ids: tuple[str, ...], verbal: bool) -> list[str]:
                     nxt.append(_realize(f, template))
                     continue
                 nxt.append(f + piece)
-                if piece[:1] in VOWELS and f[-1:] in _SOFT and len(f) > 2:
+                if piece[:1] in VOWELS and f[-1:] in _SOFT and len(f) >= 2:
                     soft = f[:-2] + "ng" if f.endswith("nk") else f[:-1] + _SOFT[f[-1]]
                     nxt.append(soft + piece)
             forms = nxt
@@ -211,6 +214,35 @@ def inflect_like(new: str, old_word: str, old_lemma: str) -> str | None:
     if result is None:
         return None
     return " ".join([*words[:-1], result])
+
+
+def recase(word: str, root: str, old_ids: tuple[str, ...], new_ids: tuple[str, ...]) -> str | None:
+    """Adın eklerini değiştirir: recase("Başvuruların", "başvuru", (A3pl, Gen), (A3pl, Acc)) →
+    "Başvuruları". Kesme işareti ve büyük harf korunur: "Merkezi'nin" → "Merkezi'ni"."""
+    if morphology.backend_name() != "zeyrek":
+        return None
+    plain = turkish_lower(word.replace("'", "").replace("’", ""))
+    if not any(a.root == root and a.suffixes == old_ids for a in _readings(plain)):
+        return None
+    new = _inflect_head(turkish_lower(root), new_ids, False)
+    if new is None:
+        return None
+    for mark in ("'", "’"):
+        if mark in word:
+            head = turkish_lower(word.split(mark)[0])
+            if not new.startswith(head) or len(new) == len(head):
+                return None
+            new = head + mark + new[len(head) :]
+    if word[:1].isupper():
+        new = word[:1] + new[1:] if turkish_lower(word[:1]) == new[:1] else new
+    return new
+
+
+def inflect_verb(infinitive: str, tail: tuple[str, ...]) -> str | None:
+    """Fiili verilen eklerle çekimler: inflect_verb("almak", ("Imp", "A2pl")) → "alın"."""
+    if morphology.backend_name() != "zeyrek":
+        return None
+    return _inflect_head(turkish_lower(infinitive), tuple(tail), True)
 
 
 def _inflect_head(head: str, tail: tuple[str, ...], verbal: bool) -> str | None:

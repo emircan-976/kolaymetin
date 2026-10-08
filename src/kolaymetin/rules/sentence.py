@@ -5,7 +5,7 @@ from __future__ import annotations
 import re
 from collections.abc import Iterable
 
-from kolaymetin.models import Analysis, Document, Finding, Sentence, Severity, Token
+from kolaymetin.models import Analysis, Document, Finding, Fix, Sentence, Severity, Token
 from kolaymetin.profiles import RuleConfig
 from kolaymetin.rules.base import (
     Rule,
@@ -16,8 +16,9 @@ from kolaymetin.rules.base import (
     register,
     word_tokens,
 )
-from kolaymetin.text.morphology import all_lemmas
-from kolaymetin.text.normalize import turkish_lower
+from kolaymetin.text.inflect import inflect_verb
+from kolaymetin.text.morphology import all_lemmas, has_noun_reading
+from kolaymetin.text.normalize import turkish_lower, turkish_upper
 
 VOWELS = "aeıioöuüâîû"
 CLAUSE_CONNECTORS = frozenset({"çünkü", "ancak", "fakat", "ama", "ki", "oysa", "halbuki", "zira"})
@@ -225,6 +226,7 @@ class LongSentence(Rule):
                 suggestion=hint or "Cümleyi iki ya da üç kısa cümleye bölün.",
                 sentence=s,
                 severity=sev,
+                fix=claim_split(doc, s),
             )
 
 
@@ -290,6 +292,7 @@ class ManyClauses(Rule):
                 ),
                 suggestion=split,
                 sentence=s,
+                fix=claim_split(doc, s),
             )
 
 
@@ -669,6 +672,7 @@ class ConverbStack(Rule):
                 ),
                 sentence=s,
                 confidence=conf,
+                fix=claim_split(doc, s),
             )
 
 
@@ -920,6 +924,7 @@ class LatePredicate(Rule):
                     "cümlenin yüklemi erken gelir."
                 ),
                 sentence=s,
+                fix=claim_split(doc, s),
             )
 
 
@@ -950,3 +955,151 @@ class IndirectAddress(Rule):
                         suggestion=pat.suggestion or "Örnek: 'Lütfen belgelerinizi getirin.'",
                         sentence=s,
                     )
+
+
+# --------------------------------------------------------------------------- cümle bölme düzeltmesi
+
+_TENSE_IDS = ("Imp", "Past", "Narr", "Fut", "Prog1", "Prog2", "Aor", "Neces", "Cond", "Opt", "Desr")
+_SPLIT_BEFORE = frozenset({"ancak", "fakat", "ama"})  # bağlaç yeni cümleyi başlatır
+_SPLIT_DROP = frozenset({"ve"})  # bağlaç düşer
+
+
+def claim_split(doc: Document, s: Sentence) -> Fix | None:
+    """Cümlenin bölme düzeltmesi, cümleyi işaretleyen ilk kurala (KD-C01, C02, C06, C10 sırasıyla
+    çalışır) verilir; aynı düzeltme iki bulguda sayılmaz."""
+    claimed: set[int] = doc.meta.setdefault("split_claimed", set())
+    if s.index in claimed:
+        return None
+    fix = split_fix(doc, s)
+    if fix is not None:
+        claimed.add(s.index)
+    return fix
+
+
+def _tensed_verb(tok: Token, nxt: Token | None = None) -> bool:
+    """Çekimli fiil: zaman eki var, ad okunuşu yok ("kadın ve erkek" değil). "-AcAk", "-mIş"
+    sıfat-fiil de olabilir (güven 0,5): ardından sıfat-fiil gelirse ("gelecek ve giden yolcular")
+    iki sıfat-fiil bağlanıyordur."""
+    a = tok.analysis
+    if (
+        a is None or a.source != "zeyrek" or not a.is_finite or a.conf("is_finite") < 0.5
+        or not any(x in _TENSE_IDS for x in a.suffixes) or tok.lower in NON_PREDICATES
+        or has_noun_reading(tok.text)
+    ):
+        return False
+    if a.conf("is_finite") < 0.6 and nxt is not None and nxt.analysis is not None:
+        return not nxt.analysis.is_participle
+    return True
+
+
+def _cap(text: str) -> str:
+    return turkish_upper(text[:1]) + text[1:]
+
+
+def _converb_as_finite(tok: Token, main: Token) -> str | None:
+    """"alıp" + ana fiil "gelin" → "alın": zarf-fiil ana fiilin zaman ve kişi ekini alır."""
+    a, m = tok.analysis, main.analysis
+    if a is None or m is None or a.suffixes[-1:] != ("AfterDoingSo",) or "Neg" in m.suffixes:
+        return None
+    k = next((i for i, x in enumerate(m.suffixes) if x in _TENSE_IDS), None)
+    if k is None:
+        return None
+    root = turkish_lower(a.root)
+    back = next((c for c in reversed(root) if c in VOWELS), "e") in "aıouâû"
+    word = inflect_verb(root + ("mak" if back else "mek"), a.suffixes[:-1] + m.suffixes[k:])
+    if word is None:
+        return None
+    return _cap(word) if tok.text[:1].isupper() else word
+
+
+def split_fix(doc: Document, s: Sentence) -> Fix | None:
+    """Uzun cümleyi bağımsız cümlelerine böler:
+
+    - "… gerçekleştirilecek olup önceden …" → "… gerçekleştirilecek. Önceden …"
+    - "Su kesilecek ve elektrik verilmeyecek." → "Su kesilecek. Elektrik verilmeyecek."
+    - "…, ancak …" → "… Ancak …" (sol taraf çekimli fiille bitiyorsa)
+    - "Belgeleri alıp gelin." → "Belgeleri alın. Gelin."
+
+    Yalnızca bölünen her parça bir yüklemle bitiyorsa. Cümle başına bir kez hesaplanır.
+    """
+    cache: dict[int, Fix | None] = doc.meta.setdefault("split_fix", {})
+    if s.index in cache:
+        return cache[s.index]
+    cache[s.index] = None
+    toks = s.tokens
+    wordlike = [i for i, t in enumerate(toks) if t.is_wordlike]
+    if len(wordlike) < 4 or s.is_heading:
+        return None
+    last = toks[wordlike[-1]]
+    if not (_tensed_verb(last) or (last.analysis is not None and last.analysis.is_finite)):
+        return None
+    embedded = _embedded(s)
+    changes: list[tuple[int, int, str]] = []
+    cut = 0  # son bölmenin kelime sırası
+
+    def nth_word(i: int) -> int:
+        return sum(1 for j in wordlike if j < i)
+
+    def next_word(i: int) -> Token | None:
+        return next((toks[j] for j in wordlike if j > i), None)
+
+    def prev_word(i: int) -> Token | None:
+        return next((toks[j] for j in reversed(wordlike) if j < i), None)
+
+    def start_of(t: Token) -> tuple[int, str]:
+        first = t.text[:1]
+        return t.start + 1, (_cap(first) if t.kind == "word" else first)
+
+    for i, t in enumerate(toks):
+        if t.start in embedded or (changes and t.start < changes[-1][1]):
+            continue
+        left, nxt = prev_word(i), next_word(i)
+        if left is None or nxt is None:
+            continue
+        n_left = nth_word(i) - cut
+        n_right = len(wordlike) - nth_word(i) - (1 if t.is_wordlike else 0)
+        if t.kind == "word" and t.lower == "olup":
+            if turkish_lower(nxt.text).startswith("olma") or n_left < 2 or n_right < 2:
+                continue  # "olup olmadığı"
+            add = ""
+            if left.lower.endswith("mekte"):
+                add = "dir"
+            elif left.lower.endswith("makta"):
+                add = "dır"
+            end, first = start_of(nxt)
+            changes.append((left.end, end, f"{add}. {first}"))
+        elif t.kind == "word" and t.lower in _SPLIT_BEFORE | _SPLIT_DROP:
+            if not _tensed_verb(left, nxt) or left.start in embedded or n_left < 2 or n_right < 2:
+                continue
+            if t.lower in _SPLIT_DROP:
+                end, first = start_of(nxt)
+                changes.append((left.end, end, f". {first}"))
+            else:
+                changes.append((left.end, t.start + 1, f". {_cap(t.text[:1])}"))
+        elif t.kind == "punct" and t.text == "," and toks[i - 1] is left:
+            if not _tensed_verb(left, nxt) or nxt.lower in _SPLIT_BEFORE | _SPLIT_DROP:
+                continue  # bağlaçlı virgül bağlaçta bölünür
+            if n_left < 2 or n_right < 2:
+                continue
+            end, first = start_of(nxt)
+            changes.append((t.start, end, f". {first}"))
+        elif t.kind == "word" and t.lower != "olup" and t is not last:
+            if nxt.analysis is not None and t.analysis is not None and nxt.analysis.root == t.analysis.root:
+                continue  # "yapılıp yapılmadığı", "edilip edilmeyeceği"
+            finite = _converb_as_finite(t, last)
+            if finite is None or n_right < 1:
+                continue
+            end, first = start_of(nxt)
+            changes.append((t.start, end, f"{finite}. {first}"))
+        else:
+            continue
+        cut = nth_word(i) + 1
+    if not changes:
+        return None
+    parts, pos = [], changes[0][0]
+    for a, b, text in changes:
+        parts.append(doc.text[pos:a] + text)
+        pos = b
+    fix = Fix(start=changes[0][0], end=changes[-1][1], text="".join(parts))
+    cache[s.index] = fix
+    return fix
