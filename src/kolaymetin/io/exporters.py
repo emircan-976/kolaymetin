@@ -63,7 +63,8 @@ def _ignored_summary(report: Report) -> str | None:
 
 
 FIXED_NOTE = (
-    "{n} bulgunun düzeltmesi uygulandı: sayı, tarih, saat ve büyük harf gibi kesin düzeltmeler. "
+    "{n} bulgunun düzeltmesi uygulandı: sayı, tarih, saat, büyük harf ve tek karşılığı olan "
+    "kelimeler gibi kesin düzeltmeler. "
     "Öteki bulguları elle düzeltin. Metni yeniden denetleyin."
 )
 

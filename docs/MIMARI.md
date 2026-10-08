@@ -62,6 +62,11 @@ ofsetleri de `api._to_original` ile özgün metne çevrilir. `models.apply_fixes
 çakışmadan uygular; `Report.fixed_text()`, `kolaymetin denetle --duzelt` ve web arayüzündeki
 "Düzelt" düğmeleri onu (arayüz aynı mantığın JavaScript karşılığını) kullanır.
 
+Kelime düzeltmeleri `text/inflect.py`deki `inflect_like(yeni, eski_kelime, eski_lemma)` ile
+eski kelimenin eklerini yeni kelimeye taşır: eklerin morfem kimlikleri (zeyrek) kalıplara
+çevrilir (`lAr`, `~InIz`, `YI` …), adaylar uyumla kurulur ve zeyrek'e geri çözümletilerek
+doğrulanır. Doğrulanamayan aday için `None` döner; kural düzeltme vermez.
+
 `cfg` profil dosyasındaki kural ayarıdır (`enabled`, `severity`, `params`). Kural motoru
 (`api.run_rules`) kapalı kuralları atlar, satır içi susturmayı ve kullanıcının yoksaydığı
 bulguları süzer, aynı yeri iki kez işaretleyen bulguları birleştirir.

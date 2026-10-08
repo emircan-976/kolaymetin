@@ -14,6 +14,7 @@ from fastapi.testclient import TestClient
 
 from kolaymetin import Finding, Fix, analyze, apply_fixes
 from kolaymetin.cli import main
+from kolaymetin.text.inflect import inflect_like
 from kolaymetin.web.app import app
 
 
@@ -86,7 +87,7 @@ def test_fixed_text_example() -> None:
         "başlar.\r\nOkul kapandı; öğrenciler evde kaldı."
     )
     assert analyze(text).fixed_text() == (
-        "Müracaatların 1 Aralık 2026 Salı tarihinden itibaren yapılması gerekmektedir. Toplantı "
+        "Başvuruların 1 Aralık 2026 Salı tarihinden itibaren yapılması gerekmektedir. Toplantı "
         "saat 14.30'da başlar.\r\nOkul kapandı. Öğrenciler evde kaldı."
     )
 
@@ -163,3 +164,71 @@ def test_exports_include_fixed_text() -> None:
     assert "Otomatik düzeltilmiş metin</h2>" in r.to_html()
     clean = analyze("Başvurular 1 Aralık 2026 Salı günü başlar.")
     assert "Otomatik düzeltilmiş metin" not in clean.to_markdown()
+
+
+# --------------------------------------------------------------------------- kelime düzeltmeleri
+
+
+@pytest.mark.parametrize(
+    ("new", "old", "lemma", "expected"),
+    [
+        ("başvuru", "müracaatlarınızı", "müracaat", "başvurularınızı"),
+        ("başvuru", "müracaatın", "müracaat", "başvurunun"),  # "senin …" okunuşu atılır
+        ("başvuru", "müracaatına", "müracaat", "başvurusuna"),
+        ("konu", "hususta", "husus", "konuda"),
+        ("etkinlik", "aktiviteye", "aktivite", "etkinliğe"),  # yumuşama zeyrek'le doğrulanır
+        ("işlem", "prosedürlerden", "prosedür", "işlemlerden"),
+        ("vergi ödeyen kişi", "mükelleflerin", "mükellef", "vergi ödeyen kişilerin"),
+        ("başvurmak", "ediniz", "etmek", "başvurun"),  # resmî emir kısa emre döner
+        ("başvurmak", "etmeyiniz", "etmek", "başvurmayın"),
+        ("bildirmek", "edildi", "etmek", "bildirildi"),
+        ("bildirmek", "edilecektir", "etmek", "bildirilecektir"),
+        ("başvurmak", "ederiz", "etmek", "başvururuz"),
+        ("başvurmak", "ediyoruz", "etmek", "başvuruyoruz"),
+        ("başvurmak", "edecekler", "etmek", "başvuracaklar"),
+        ("göstermek", "edebilirsiniz", "etmek", "gösterebilirsiniz"),
+    ],
+)
+def test_inflect_like(new: str, old: str, lemma: str, expected: str) -> None:
+    assert inflect_like(new, old, lemma) == expected
+
+
+def test_inflect_like_refuses_unsure_forms() -> None:
+    # "Valilik koordinasyonunda": iyelik çok kelimeli karşılığın son kelimesine bağlanmaz.
+    assert inflect_like("birlikte çalışma", "koordinasyonunda", "koordinasyon") is None
+    # Türetme eki ("müracaatçı") üreteçte yok: doğrulanamayan biçim yazılmaz.
+    assert inflect_like("başvuru", "müracaatçılar", "müracaat") is None
+
+
+@pytest.mark.parametrize(
+    ("text", "rule_id", "expected"),
+    [
+        ("Müracaatlarınızı hemen yapın.", "KD-K01", ("Müracaatlarınızı", "Başvurularınızı")),
+        ("Lütfen müracaat ediniz.", "KD-K01", ("müracaat ediniz", "başvurun")),
+        ("Karar size tebliğ edildi.", "KD-K01", ("tebliğ edildi", "bildirildi")),
+        ("Kurallara riayet edilmesi gerekir.", "KD-K01", ("riayet edilmesi", "uyulması")),
+        ("Formu doldurunuz.", "KD-K01", ("doldurunuz", "doldurun")),
+        ("Aktivitelere gelin.", "KD-K02", ("Aktivitelere", "Etkinliklere")),
+        ("SGK ile görüşün.", "KD-K03", ("SGK", "Sosyal Güvenlik Kurumu (SGK)")),
+        ("Kimlik, fatura vb. getirin.", "KD-K03", ("vb.", "ve benzeri")),
+        ("Kimlik, fatura vb.", "KD-K03", ("vb", "ve benzeri")),
+        ("Dokümanları getirin. Belgeleri getirin. Belgeyi verin.", "KD-K08",
+         ("Dokümanları", "Belgeleri")),
+    ],
+)
+def test_word_rule_fix(text: str, rule_id: str, expected: tuple[str, str]) -> None:
+    assert expected in fixes(text, rule_id)
+
+
+@pytest.mark.parametrize(
+    ("text", "rule_id"),
+    [
+        ("Bu iş ivedilikle yapılır.", "KD-K01"),  # öneri iki seçenek: "hemen, hızlıca"
+        ("Halkımızın bilgisine sunulur.", "KD-K01"),  # girdinin başka bir çekimi
+        ("MÜRACAATLARI ALINACAK.", "KD-K01"),  # büyük harfi KD-B07 düzeltir
+        ("SGK'ya gidin.", "KD-K03"),  # ek açılıma uyumla bağlanmalı
+        ("Valilik koordinasyonunda çalışılacak.", "KD-K02"),
+    ],
+)
+def test_no_word_fix_when_unsure(text: str, rule_id: str) -> None:
+    assert fixes(text, rule_id) == []

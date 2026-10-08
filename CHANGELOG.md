@@ -24,6 +24,16 @@ Testler: `tests/test_duzeltme.py`.
   - KD-B05: "14.30'da" → "saat 14.30'da"
   - KD-B06: "Okul kapandı; öğrenciler…" → "Okul kapandı. Öğrenciler…"
   - KD-B07: "LÜTFEN … ANKARA'DA SGK BİNASI" → "Lütfen … Ankara'da SGK binası"
+- Kelime düzeltmeleri, ekler korunarak (`text/inflect.py`):
+  - KD-K01: "Müracaatlarınızı" → "Başvurularınızı", "müracaat ediniz" → "başvurun",
+    "tebliğ edildi" → "bildirildi", "riayet edilmesi" → "uyulması", "doldurunuz" → "doldurun"
+  - KD-K02: "Aktivitelere" → "Etkinliklere"
+  - KD-K03: "SGK" → "Sosyal Güvenlik Kurumu (SGK)", "vb." → "ve benzeri"
+  - KD-K08: "Dokümanları" → "Belgeleri" (metnin tercih edilen terimi)
+
+  Ekler morfem kimliklerinden ünlü uyumu ve ünsüz benzeşmesiyle yeniden kurulur; aday biçim
+  zeyrek'e geri çözümletilir. Doğrulanamayan, birden çok anlama gelen ya da önerisi birden çok
+  seçenek olan ("hemen, hızlıca") kelimeye düzeltme verilmez.
 - Web arayüzü: her bulgu kartında **Düzelt**, bulgu listesinin üstünde **Hepsini düzelt (N)**
   (süzgeçlerde görünen bulgular). İkisi de Ctrl+Z ile geri alınır.
 - Komut satırı: `kolaymetin denetle GİRDİ --duzelt` rapor yerine düzeltilmiş metni yazar. Metin

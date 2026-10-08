@@ -7,7 +7,7 @@ from collections import Counter, defaultdict
 from collections.abc import Iterable
 
 from kolaymetin.lexicon import PhraseMatch
-from kolaymetin.models import Document, Finding, Sentence, Token
+from kolaymetin.models import Document, Finding, Fix, Sentence, Token
 from kolaymetin.profiles import RuleConfig
 from kolaymetin.rules.base import (
     Rule,
@@ -18,8 +18,15 @@ from kolaymetin.rules.base import (
     quote,
     register,
 )
+from kolaymetin.text.inflect import inflect_like
 from kolaymetin.text.morphology import all_lemmas, heuristic_stem, vocabulary_keys
-from kolaymetin.text.normalize import fold_circumflex, is_latin, turkish_lower, turkish_upper
+from kolaymetin.text.normalize import (
+    fold_circumflex,
+    is_latin,
+    is_upper_word,
+    turkish_lower,
+    turkish_upper,
+)
 from kolaymetin.text.syllables import count_vowels
 
 ROMAN_RE = re.compile(r"^M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})$")
@@ -29,6 +36,36 @@ def _span(sentence: Sentence, m: PhraseMatch) -> tuple[int, int, str]:
     toks = sentence.tokens[m.start_token : m.end_token]
     start, end = toks[0].start, toks[-1].end
     return start, end, " ".join(t.text for t in toks if t.kind != "punct")
+
+
+# Önerisi bunlardan birini içeren girdi tek bir kelime değildir: seçenek listesi ("hemen,
+# hızlıca"), açıklama ("(deprem, sel gibi)"), kalıp ("… başlayarak") ya da yönerge.
+_NOT_A_REPLACEMENT = (",", ";", "(", ")", "…", "...", "→", "'", '"', "/")
+
+
+def _replacement_fix(sentence: Sentence, m: PhraseMatch, replacement: str, lemma: str = "") -> str | None:
+    """Eşleşen ifadenin yerine ``replacement``, son kelimenin ekleriyle: "Müracaatlarınızı" →
+    "Başvurularınızı", "müracaat ediniz" → "başvurun". Öneri tek bir karşılık değilse ya da
+    ekler doğrulanamıyorsa None."""
+    if not replacement or any(x in replacement for x in _NOT_A_REPLACEMENT):
+        return None
+    toks = [t for t in sentence.tokens[m.start_token : m.end_token] if t.kind == "word"]
+    if not toks or any(len(t.text) > 1 and is_upper_word(t.text) for t in toks):
+        return None  # "MÜRACAAT": büyük harfi KD-B07 düzeltir
+    entry_words = (lemma or m.entry.phrase).split()
+    # Yalnızca son kelime çekimlenmiş olmalı: "Halkımızın bilgisine sunulur" girdinin
+    # ("bilgilerinize sunulur") başka bir biçimi; karşılığı ("size bildiriyoruz") cümleyi bozar.
+    if len(toks) != len(entry_words) or any(
+        fold_circumflex(turkish_lower(t.text)) != fold_circumflex(turkish_lower(w))
+        for t, w in zip(toks[:-1], entry_words[:-1], strict=False)
+    ):
+        return None
+    new = inflect_like(replacement, toks[-1].text, entry_words[-1])
+    if new is None:
+        return None
+    if toks[0].text[:1].isupper():
+        new = turkish_upper(new[:1]) + new[1:]
+    return new
 
 
 _lexicon_matches = lexicon_matches
@@ -74,6 +111,7 @@ class Jargon(Rule):
                 ),
                 suggestion=f"{quote(text)} → {quote(oneri)}" if oneri else None,
                 sentence=s,
+                fix=_replacement_fix(s, m, oneri),
             )
         yield from self._formal_imperatives(doc, cfg)
 
@@ -99,6 +137,7 @@ class Jargon(Rule):
                     ),
                     suggestion=f"{quote(t.text)} → {quote(plain)}",
                     sentence=s,
+                    fix=plain,
                 )
 
 
@@ -127,6 +166,7 @@ class ForeignWord(Rule):
                 ),
                 suggestion=f"{quote(text)} → {quote(oneri)}" if oneri else None,
                 sentence=s,
+                fix=_replacement_fix(s, m, oneri),
             )
 
 
@@ -165,11 +205,23 @@ class Abbreviation(Rule):
                     continue
                 if self._explained(toks, i, entry, folded_text, limit):
                     continue
+                fix: str | Fix | None = None
                 if entry is not None and entry.expansion:
                     suggestion = (
                         f"İlk geçtiği yerde açık yazın: '{entry.expansion} ({key})'. "
                         f"Ya da yalnızca {quote(entry.expansion)} yazın."
                     )
+                    # "SGK'ya": ek açılıma uyumla bağlanmalı ("Kurumuna"); düzeltme verilmez.
+                    if t.text == t.base and is_upper_word(key):
+                        fix = f"{entry.expansion} ({key})"
+                    elif t.text == t.base:
+                        # "vb.", "vs.": küçük harfli kısaltma açılımla yer değiştirir. Kısaltmanın
+                        # noktası cümle sonunda cümlenin de noktasıdır, cümle içinde gider.
+                        dot = toks[i + 1] if i + 1 < len(toks) else None
+                        if dot is not None and dot.text == "." and dot.start == t.end and dot is not toks[-1]:
+                            fix = Fix(start=t.start, end=dot.end, text=entry.expansion)
+                        else:
+                            fix = entry.expansion
                 else:
                     suggestion = "Kısaltmanın açık hâlini ilk geçtiği yerde parantez içinde yazın."
                 yield self.finding(
@@ -181,6 +233,7 @@ class Abbreviation(Rule):
                     ),
                     suggestion=suggestion,
                     sentence=s,
+                    fix=fix,
                 )
 
     @staticmethod
@@ -551,4 +604,5 @@ class TermConsistency(Rule):
                     ),
                     suggestion=f"Metnin her yerinde {quote(preferred)} yazın.",
                     sentence=s,
+                    fix=_replacement_fix(s, m, preferred, phrase) if phrase != preferred else None,
                 )

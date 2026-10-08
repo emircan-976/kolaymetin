@@ -186,9 +186,11 @@ kolaymetin sunucu --port 8000
 - Araç yazarken 600 ms bekleyip kendiliğinden denetler. İsterseniz "Denetle" düğmesine basın.
 - İşaretli bir yere tıklayın: ilgili not kartı açılır. Kartta "Neden? → rehber", "Metinde göster" ve
   "Yoksay" seçenekleri var.
-- Sonucu kesin olan bulgularda (sayı, tarih, saat, Roma rakamı, büyük harf, noktalı virgül)
-  kartta **Düzelt** düğmesi de var. **Hepsini düzelt** görünen bütün bu düzeltmeleri birden
-  uygular. Ctrl+Z ile geri alırsınız. Cümle yapısı ve kelime seçimi sizde kalır.
+- Sonucu kesin olan bulgularda (sayı, tarih, saat, Roma rakamı, büyük harf, noktalı virgül,
+  tek karşılığı olan resmî ya da yabancı kelime, kısaltma) kartta **Düzelt** düğmesi de var.
+  Kelime ekleriyle değişir: "Müracaatlarınızı" → "Başvurularınızı", "müracaat ediniz" →
+  "başvurun". **Hepsini düzelt** görünen bütün bu düzeltmeleri birden uygular. Ctrl+Z ile geri
+  alırsınız. Cümle yapısı ve birden çok seçeneği olan kelimeler sizde kalır.
 - "Cümleler" sekmesi her cümlenin uzunluğunu bir çubukla gösterir.
 - Raporu HTML (yazdırılabilir; tarayıcıdan "PDF olarak kaydet"), Markdown ya da JSON olarak indirin.
 - Klavyeyle tam kullanılır; açık/koyu tema ve yazı büyütme düğmeleri var.
