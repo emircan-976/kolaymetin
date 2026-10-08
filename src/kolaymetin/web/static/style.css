@@ -498,6 +498,16 @@ legend { font-family: var(--f-mono); font-size: var(--t-14); letter-spacing: 0.0
 .suzgecler { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
 .suzgecler fieldset { display: flex; flex-direction: column; }
 .hepsini-duzelt { margin-bottom: 12px; }
+.yz-ayar { margin: 0 0 12px; }
+.yz-alanlar { display: grid; gap: 12px; margin: 8px 0; }
+.yazi-alani {
+  box-sizing: border-box; width: 100%; min-height: 44px; padding: 8px 12px;
+  font-family: var(--f-govde); font-size: var(--t-18); color: var(--murekkep);
+  background: var(--kagit); border: 2px solid var(--murekkep);
+}
+.yz-sonuc { margin: 8px 0; padding: 8px 10px; border: 2px solid var(--murekkep); background: var(--kagit); }
+.yz-sonuc__metin { font-size: var(--t-18); margin: 4px 0 8px; white-space: pre-wrap; }
+.yz-sonuc__uyari { font-weight: 700; color: var(--kirmizi); }
 .bulgu-listesi { list-style: none; margin: 0; padding: 0; }
 .bulgu-listesi > li { max-width: none; }
 .bos-not { margin: 12px 0; font-weight: 700; }

@@ -170,6 +170,28 @@
           <label class="kutu"><input type="checkbox" name="kategori" value="metin" checked> Metin</label>
         </fieldset>
       </div>
+      <details class="aciklama-paneli yz-ayar" id="yz-ayar">
+        <summary>Yapay zekâyla yeniden yazma (isteğe bağlı)</summary>
+        <p>Uzun ya da karmaşık cümleleri bir dil modeline yeniden yazdırabilirsiniz. Öneri, siz
+          "Uygula" demeden metne yazılmaz. Sayı, tarih ve adların korunduğu denetlenir.</p>
+        <div class="yz-alanlar">
+          <div class="alan">
+            <label for="yz-saglayici">Sağlayıcı</label>
+            <span class="secim"><select id="yz-saglayici"><option value="">Kapalı</option></select></span>
+          </div>
+          <div class="alan" id="yz-model-alani" hidden>
+            <label for="yz-model">Model</label>
+            <input type="text" id="yz-model" class="yazi-alani" autocomplete="off" spellcheck="false">
+          </div>
+          <div class="alan" id="yz-anahtar-alani" hidden>
+            <label for="yz-anahtar">API anahtarı</label>
+            <input type="password" id="yz-anahtar" class="yazi-alani" autocomplete="off" spellcheck="false">
+          </div>
+          <label class="kutu" id="yz-hatirla-alani" hidden><input type="checkbox" id="yz-hatirla"> Anahtarı bu tarayıcıda hatırla</label>
+        </div>
+        <p class="etiket" id="yz-not"></p>
+        <p id="yz-anahtar-bagi" hidden><a id="yz-anahtar-linki" target="_blank" rel="noopener">Ücretsiz anahtar alın →</a></p>
+      </details>
       <button type="button" class="dugme dugme--kucuk hepsini-duzelt" id="hepsini-duzelt" hidden
         title="Görünen bulgulardaki otomatik düzeltmeleri metne uygular. Ctrl+Z ile geri alınır.">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>

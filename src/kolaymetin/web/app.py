@@ -2,7 +2,8 @@
 
 Metin denetim için bu sunucuya gönderilir. Hiçbir yerde saklanmaz: yalnızca istek süresince
 bellekte tutulur ve günlüğe yazılmaz. Hiçbir dış kaynak yüklenmez; İçerik Güvenliği Politikası
-(CSP) dış istekleri engeller.
+(CSP) dış istekleri engeller. Tek istisna isteğe bağlı yeniden yazmadır (/api/yeniden-yaz): sunucu,
+kullanıcının seçtiği dil modeli sağlayıcısına yalnızca o cümleyi gönderir (bkz. rewrite.py).
 """
 
 from __future__ import annotations
@@ -35,7 +36,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, model_validator
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from kolaymetin import __version__
+from kolaymetin import __version__, rewrite
 from kolaymetin.api import MAX_CHARS, EmptyInput, InputTooLong, analyze
 from kolaymetin.io.readers import SUPPORTED, ReaderError, read_bytes
 from kolaymetin.lexicon import LexiconError, load_lexicon
@@ -99,6 +100,20 @@ class AnalyzeRequest(BaseModel):
 
 class ExportRequest(AnalyzeRequest):
     format: Literal["json", "md", "html"] = "json"
+
+
+class RewriteRequest(BaseModel):
+    """Bir cümleyi dil modeliyle yeniden yazma isteği. Sağlayıcının adresi istekte yoktur:
+    yalnızca bilinen sağlayıcıların kimliği gönderilir (bkz. rewrite.resolve)."""
+
+    sentence: str = Field(max_length=2000)
+    problems: list[str] = Field(default_factory=list, max_length=30)
+    before: str = Field(default="", max_length=2000)
+    after: str = Field(default="", max_length=2000)
+    profile: str = "kolay-dil"
+    provider: str = Field(max_length=32)
+    model: str = Field(default="", max_length=120)
+    key: str = Field(default="", max_length=300)
 
 
 def rehber_dir() -> Path:
@@ -456,6 +471,24 @@ def create_app() -> FastAPI:
                 "karakter denetlenebilir. Metni bölümlere ayırın.".replace(",", "."),
             )
         return {"text": text, "dosya_adi": safe_filename(name), "karakter": len(text)}
+
+    @app.get("/api/yz")
+    def api_yz() -> dict[str, Any]:
+        """Yeniden yazma için kullanılabilen dil modeli sağlayıcıları."""
+        return {"saglayicilar": rewrite.available_providers(), "cevrimici": rewrite.is_public_server()}
+
+    @app.post("/api/yeniden-yaz")
+    def api_yeniden_yaz(req: RewriteRequest) -> dict[str, Any]:
+        if req.profile not in BUILTIN_PROFILES:
+            raise HTTPException(422, "Bilinmeyen profil. 'kolay-dil' ya da 'sade-dil' seçin.")
+        try:
+            result = rewrite.rewrite_sentence(
+                req.sentence, [p[:300] for p in req.problems], req.provider, req.model, req.key,
+                req.before, req.after, req.profile,
+            )
+        except rewrite.RewriteError as exc:
+            raise HTTPException(exc.status, str(exc)) from exc
+        return result.model_dump()
 
     @app.get("/api/rules")
     def api_rules() -> list[dict[str, Any]]:

@@ -496,6 +496,31 @@ python scripts/readme_gorselleri.py
 
 - Hiçbir dış servise bağlantı kurulmaz: telemetri, analitik, CDN, dış yazı tipi yok.
 - Testler dış bağlantıları engelleyerek bunu doğrular.
+- Tek istisna, isteğe bağlı **yapay zekâyla yeniden yazma**dır (varsayılan: kapalı). Yerel
+  model (Ollama, LM Studio) seçilirse metin yine bilgisayardan çıkmaz. Gemini, Groq ya da
+  OpenRouter seçilirse yalnızca yeniden yazdırdığınız cümle ve komşu iki cümle o sağlayıcıya
+  gönderilir.
+
+### Yapay zekâyla yeniden yazma (isteğe bağlı)
+
+Kurallar cümle yapısını (uzun cümle, edilgen yapı, ad yığını) işaretler ama yeniden yazamaz.
+Bulgular panelindeki **Yapay zekâyla yeniden yazma** bölümünden bir sağlayıcı seçin; cümle
+kartlarında **Yapay zekâyla yeniden yaz** düğmesi çıkar. Öneri metne siz **Uygula** demeden
+yazılmaz. Önerideki sayılar, tarihler, saatler, internet adresleri ve özel adlar özgün cümleyle
+karşılaştırılır; eksik ya da uydurulmuş bilgi varsa **Uygula** çıkmaz.
+
+| Sağlayıcı | Ücret | Metin nereye gider | Kurulum |
+|---|---|---|---|
+| Ollama | ücretsiz | bilgisayarınızda kalır | [ollama.com](https://ollama.com), sonra `ollama pull gemma3:4b` |
+| LM Studio | ücretsiz | bilgisayarınızda kalır | Bir model yükleyin, Developer → Start Server |
+| Google Gemini | ücretsiz anahtar | Google | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
+| Groq | ücretsiz anahtar | Groq | [console.groq.com/keys](https://console.groq.com/keys) |
+| OpenRouter | `:free` modeller | OpenRouter | [openrouter.ai/keys](https://openrouter.ai/keys) |
+
+Sunucuyu kuran kişi bir modeli herkes için ayarlayabilir: `KOLAYMETIN_LLM_URL` (OpenAI uyumlu
+adres, ör. `http://localhost:11434/v1`), `KOLAYMETIN_LLM_MODEL`, `KOLAYMETIN_LLM_KEY`. Çevrim
+içi sürümde yerel sağlayıcılar listelenmez ve sunucu yalnızca bilinen sağlayıcı adreslerine
+bağlanır.
 
 ## Belgeler
 

@@ -40,6 +40,13 @@ Testler: `tests/test_duzeltme.py`.
   raporu kaç bulgunun otomatik düzeltilebileceğini söyler.
 - Markdown ve HTML raporlarında "Otomatik düzeltilmiş metin" bölümü.
 
+- Yapay zekâyla yeniden yazma (isteğe bağlı, varsayılan kapalı): cümle bulgularının kartında
+  **Yapay zekâyla yeniden yaz**. Sağlayıcılar: Ollama ve LM Studio (yerel), Gemini, Groq,
+  OpenRouter (ücretsiz anahtar) ya da sunucunun `KOLAYMETIN_LLM_URL` ile ayarladığı model.
+  Öneri yeniden denetlenir (önce/sonra bulgu ve skor); sayı, tarih, saat, adres ve özel adlar
+  karşılaştırılır, eksik ya da uydurulmuş bilgi varsa öneri uygulanamaz. Yeni uç noktalar:
+  `GET /api/yz`, `POST /api/yeniden-yaz`. Ek bağımlılık yok.
+
 #### Düzeltildi
 - KD-B01, tırnak içindeki sayıdan sonra gelen "milyon"u ('"2,5" milyon') yazıyla yazılmış
   sayı sanıyordu.

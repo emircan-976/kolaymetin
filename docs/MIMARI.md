@@ -1,7 +1,8 @@
 # Mimari
 
 kolaymetin tek bir Python paketidir. Kütüphane, komut satırı ve web arayüzü aynı
-`analyze()` işlevini kullanır. Hiçbir bileşen ağa çıkmaz.
+`analyze()` işlevini kullanır. Hiçbir bileşen ağa çıkmaz; tek istisna, kullanıcının açtığı
+isteğe bağlı yeniden yazmadır (`rewrite.py`, aşağıda).
 
 ## İşlem hattı
 
@@ -123,6 +124,20 @@ girdisi "müracaatlarınızı" biçimini yakalar.
 Gerçekçi 5.000 kelimelik metin yaklaşık 1 saniyede, kelimelerinin çoğu farklı olan en kötü
 durum yaklaşık 2 saniyede çözümlenir (zeyrek yükleme süresi hariç). Darboğaz morfolojidir;
 yüzey biçim önbelleği ve kelime önbelleği bu süreyi belirler.
+
+## Yeniden yazma (isteğe bağlı dil modeli)
+
+`rewrite.py`, `/api/yeniden-yaz` ile bir cümleyi OpenAI uyumlu bir sohbet API'sine gönderir
+(`/chat/completions`, yalnızca standart kütüphane: `urllib`). Sağlayıcı istekte kimliğiyle
+(`ollama`, `gemini` …) gelir; adres sunucudaki sabit listeden (`PROVIDERS`) ya da
+`KOLAYMETIN_LLM_URL`den okunur. Kullanıcı adres veremez (SSRF). Vercel'de (`VERCEL=1`) yerel
+sağlayıcılar kapalıdır.
+
+Gelen öneri temizlenir (`<think>`, kod çiti, tırnak), sonra `check()` iki şeyi yapar:
+`facts()` tarih, yıl, saat, sayı ve adresleri karşılaştırılabilir biçime getirir ("01.12.2026"
+ile "1 Aralık 2026" aynıdır) ve özgün cümleyle öneriyi karşılaştırır; özel adlar
+`build_document` ile bulunur. Ardından iki metin `analyze()` ile denetlenir ve bulgu sayısı ile
+uyum skoru önce/sonra olarak döner. Eksik ya da yeni bilgi varsa `applicable: false` olur.
 
 ## Gizlilik
 

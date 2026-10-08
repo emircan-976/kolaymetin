@@ -27,7 +27,8 @@
     istek: null,
     yuklenenMetin: null,  // son yüklenen örnek ya da dosya
     zamanlayici: null,
-    yuklemeZamanlayici: null
+    yuklemeZamanlayici: null,
+    saglayicilar: []      // yeniden yazma için kullanılabilen dil modeli sağlayıcıları
   };
 
   // ------------------------------------------------------------------ yardımcılar
@@ -147,6 +148,130 @@
     duyur(secilen.length === 1
       ? "Düzeltildi. Geri almak için Ctrl+Z."
       : secilen.length + " düzeltme uygulandı. Geri almak için Ctrl+Z.");
+  }
+
+  // ------------------------------------------------------------------ yapay zekâyla yeniden yazma
+  // İsteğe bağlı: varsayılan "Kapalı". Sağlayıcı ve model tarayıcıda hatırlanır; API anahtarı
+  // yalnızca kullanıcı "hatırla" derse saklanır. Cümle bu sunucuya, sunucu da seçilen sağlayıcıya
+  // gönderir (adres sunucudaki sabit listeden gelir).
+  function yzSaglayici() {
+    var id = $("yz-saglayici").value;
+    return durum.saglayicilar.filter(function (p) { return p.id === id; })[0] || null;
+  }
+
+  function yzAyarGuncelle(kaydet) {
+    var p = yzSaglayici();
+    $("yz-model-alani").hidden = !p;
+    $("yz-anahtar-alani").hidden = !p || !p.needs_key;
+    $("yz-hatirla-alani").hidden = !p || !p.needs_key;
+    $("yz-anahtar-bagi").hidden = !p || !p.key_url;
+    if (p && p.key_url) { $("yz-anahtar-linki").href = p.key_url; }
+    $("yz-not").textContent = !p ? "Kapalı: metin hiçbir dil modeline gönderilmez."
+      : p.local ? "Metin bu bilgisayardaki modele gider; bilgisayardan çıkmaz."
+      : p.id === "sunucu" ? "Yeniden yazdığınız cümle, bu sunucuyu kuran kişinin ayarladığı dil modeline gönderilir."
+      : "Yeniden yazdığınız cümle " + p.title.replace(/ \(.*\)$/, "") + " sunucularına gönderilir. " +
+        "Ücretsiz katmanda sağlayıcı metni kendi ürünlerini geliştirmek için kullanabilir. " +
+        "Kişisel bilgi içeren cümleleri göndermeyin.";
+    if (kaydet) {
+      saklaYaz("kolaymetin.yz", $("yz-saglayici").value);
+      if (p) { saklaYaz("kolaymetin.yz.model." + p.id, $("yz-model").value); }
+      if (p && $("yz-hatirla").checked) { saklaYaz("kolaymetin.yz.anahtar." + p.id, $("yz-anahtar").value); }
+      else if (p) { saklaYaz("kolaymetin.yz.anahtar." + p.id, ""); }
+    }
+  }
+
+  function yzSaglayiciDegisti() {
+    var p = yzSaglayici();
+    if (p) {
+      $("yz-model").value = saklaOku("kolaymetin.yz.model." + p.id) || p.model || "";
+      var anahtar = saklaOku("kolaymetin.yz.anahtar." + p.id) || "";
+      $("yz-anahtar").value = anahtar;
+      $("yz-hatirla").checked = !!anahtar;
+    }
+    yzAyarGuncelle(true);
+    kartlarCiz();
+  }
+
+  function yzYukle() {
+    fetch("/api/yz").then(function (y) { return y.json(); }).then(function (veri) {
+      durum.saglayicilar = veri.saglayicilar || [];
+      var secim = $("yz-saglayici");
+      durum.saglayicilar.forEach(function (p) {
+        var opt = el("option", null, p.title);
+        opt.value = p.id;
+        secim.appendChild(opt);
+      });
+      var onceki = saklaOku("kolaymetin.yz") || "";
+      if (durum.saglayicilar.some(function (p) { return p.id === onceki; })) { secim.value = onceki; }
+      yzSaglayiciDegisti();
+    }).catch(function () { $("yz-ayar").hidden = true; });
+  }
+
+  function yenidenYaz(f, kutu) {
+    var r = durum.rapor, p = yzSaglayici();
+    if (!r || !p || durum.raporMetni !== metin.value) { return; }
+    var s = r.sentences[f.sentence_index];
+    if (!s) { return; }
+    var cumle = metin.value.slice(s.start, s.end);
+    var komsu = function (k) {
+      var c = r.sentences[k];
+      return c && !c.is_heading ? metin.value.slice(c.start, c.end) : "";
+    };
+    var sorunlar = r.findings.filter(function (x) { return x.sentence_index === f.sentence_index; })
+      .map(function (x) { return x.message; });
+    kutu.textContent = "";
+    kutu.appendChild(el("p", "etiket", "Yeniden yazılıyor… Yerel modelde bu bir dakika sürebilir."));
+    fetch("/api/yeniden-yaz", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        sentence: cumle, problems: sorunlar, before: komsu(f.sentence_index - 1),
+        after: komsu(f.sentence_index + 1), profile: $("profil").value,
+        provider: p.id, model: $("yz-model").value.trim(), key: $("yz-anahtar").value.trim()
+      })
+    }).then(function (yanit) {
+      if (!yanit.ok) { return sunucuHatasi(yanit).then(function (ileti) { throw new Error(ileti); }); }
+      return yanit.json();
+    }).then(function (sonuc) {
+      yzSonucCiz(kutu, sonuc, s, cumle, f);
+      duyur("Yeniden yazma önerisi hazır.");
+    }).catch(function (hata) {
+      kutu.textContent = "";
+      kutu.appendChild(el("p", "yz-sonuc__uyari", ag(hata)));
+    });
+  }
+
+  function yzSonucCiz(kutu, sonuc, s, cumle, f) {
+    kutu.textContent = "";
+    var kart = el("div", "yz-sonuc");
+    kart.appendChild(el("p", "etiket", "Öneri (" + sonuc.model + "):"));
+    kart.appendChild(el("p", "yz-sonuc__metin", sonuc.text));
+    var skor = function (y) { return y.findings + " bulgu, skor " + (y.score === null ? "—" : y.score); };
+    kart.appendChild(el("p", "etiket", "Önce: " + skor(sonuc.before) + " · Sonra: " + skor(sonuc.after)));
+    if (sonuc.note) { kart.appendChild(el("p", "yz-sonuc__uyari", sonuc.note)); }
+    var eylem = el("div", "not-kagidi__eylem");
+    if (sonuc.applicable) {
+      var uygula = el("button", "baglanti-dugme", "Uygula");
+      uygula.type = "button";
+      uygula.addEventListener("click", function () {
+        if (metin.value.slice(s.start, s.end) !== cumle || durum.raporMetni !== metin.value) {
+          hataGoster("Metin değişti. Önce yeniden denetleyin, sonra yeniden yazdırın.");
+          return;
+        }
+        duzeltmeleriUygula([{ start: s.start, end: s.end, text: sonuc.text }]);
+      });
+      eylem.appendChild(uygula);
+    }
+    var yeniden = el("button", "baglanti-dugme", "Yeniden dene");
+    yeniden.type = "button";
+    yeniden.addEventListener("click", function () { yenidenYaz(f, kutu); });
+    eylem.appendChild(yeniden);
+    var vazgec = el("button", "baglanti-dugme", "Vazgeç");
+    vazgec.type = "button";
+    vazgec.addEventListener("click", function () { kutu.textContent = ""; });
+    eylem.appendChild(vazgec);
+    kart.appendChild(eylem);
+    kutu.appendChild(kart);
   }
 
   // ------------------------------------------------------------------ süzgeçler
@@ -457,6 +582,12 @@
       duzelt.addEventListener("click", function () { duzeltmeleriUygula([f.fix]); });
       eylem.appendChild(duzelt);
     }
+    if (f.category === "cümle" && f.sentence_index !== null && yzSaglayici()) {
+      var yaz = el("button", "baglanti-dugme", "Yapay zekâyla yeniden yaz");
+      yaz.type = "button";
+      yaz.addEventListener("click", function () { yenidenYaz(f, sonucKutusu); });
+      eylem.appendChild(yaz);
+    }
     var goster = el("button", "baglanti-dugme", "Metinde göster");
     goster.type = "button";
     goster.addEventListener("click", function () { metindeGoster(i); });
@@ -478,6 +609,9 @@
     });
     eylem.appendChild(yoksay);
     govde.appendChild(eylem);
+    var sonucKutusu = el("div");
+    sonucKutusu.setAttribute("aria-live", "polite");
+    govde.appendChild(sonucKutusu);
     art.appendChild(govde);
     li.appendChild(art);
     return li;
@@ -803,6 +937,11 @@
     document.querySelectorAll("[data-bicim]").forEach(function (d) {
       d.addEventListener("click", function () { disaAktar(d.getAttribute("data-bicim")); });
     });
+    $("yz-saglayici").addEventListener("change", yzSaglayiciDegisti);
+    ["yz-model", "yz-anahtar"].forEach(function (id) {
+      $(id).addEventListener("change", function () { yzAyarGuncelle(true); });
+    });
+    $("yz-hatirla").addEventListener("change", function () { yzAyarGuncelle(true); });
     $("hepsini-duzelt").addEventListener("click", function () {
       duzeltmeleriUygula(gorunurBulgular().filter(function (b) { return b.f.fix; }).map(function (b) { return b.f.fix; }));
     });
@@ -843,6 +982,7 @@
     fetch("/saglik").catch(function () { /* ısıtma isteğe bağlı */ });
     ornekleriYukle();
     profilleriYukle();
+    yzYukle();
     arkaCiz();
     kartlarCiz();
     if (metin.value.trim()) { denetle(true); }
