@@ -28,8 +28,18 @@ class _Fake(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
-        _Fake.seen.append({"path": self.path, "body": body, "auth": self.headers.get("Authorization")})
-        data = json.dumps({"choices": [{"message": {"content": _Fake.reply}}]}).encode()
+        _Fake.seen.append({"path": self.path, "body": body, "auth": self.headers.get("Authorization"),
+                           "agent": self.headers.get("User-Agent")})
+        self._send({"choices": [{"message": {"content": _Fake.reply}}]})
+
+    def do_GET(self) -> None:
+        _Fake.seen.append({"path": self.path, "agent": self.headers.get("User-Agent")})
+        self._send({"data": [{"id": "deneme-model"}, {"id": "whisper-large-v3"}, {"id": "qwen/qwen3-32b"}]})
+
+    def _send(self, payload: dict[str, Any]) -> None:
+        if _Fake.status != 200:
+            payload = {"error": {"message": "Bu model bu hesapta kapalı."}}
+        data = json.dumps(payload).encode()
         self.send_response(_Fake.status)
         self.send_header("Content-Type", "application/json")
         self.end_headers()
@@ -97,6 +107,21 @@ def test_provider_errors_are_turkish(fake_llm: type[_Fake]) -> None:
     fake_llm.status = 401
     r = client.post("/api/yeniden-yaz", json={"sentence": SENTENCE, "provider": "sunucu"})
     assert r.status_code == 502 and "anahtar" in r.json()["detail"]
+
+
+def test_models_are_listed_and_requests_carry_a_user_agent(fake_llm: type[_Fake]) -> None:
+    """Groq'un önündeki Cloudflare "Python-urllib" kimliğini 403 (1010) ile engelliyor."""
+    data = client.post("/api/yz/modeller", json={"provider": "sunucu"}).json()
+    assert data["models"] == ["deneme-model", "qwen/qwen3-32b"]  # ses modeli elendi
+    assert data["suggested"] == "deneme-model"
+    agent = fake_llm.seen[-1]["agent"] or ""
+    assert agent.startswith("kolaymetin/") and "urllib" not in agent.lower()
+
+
+def test_forbidden_shows_provider_message(fake_llm: type[_Fake]) -> None:
+    fake_llm.status = 403
+    r = client.post("/api/yeniden-yaz", json={"sentence": SENTENCE, "provider": "sunucu"})
+    assert r.status_code == 502 and "Bu model bu hesapta kapalı." in r.json()["detail"]
 
 
 def test_unknown_provider_and_missing_key(monkeypatch: pytest.MonkeyPatch) -> None:

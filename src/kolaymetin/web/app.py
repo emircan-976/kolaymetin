@@ -102,6 +102,11 @@ class ExportRequest(AnalyzeRequest):
     format: Literal["json", "md", "html"] = "json"
 
 
+class ModelsRequest(BaseModel):
+    provider: str = Field(max_length=32)
+    key: str = Field(default="", max_length=300)
+
+
 class RewriteRequest(BaseModel):
     """Bir cümleyi dil modeliyle yeniden yazma isteği. Sağlayıcının adresi istekte yoktur:
     yalnızca bilinen sağlayıcıların kimliği gönderilir (bkz. rewrite.resolve)."""
@@ -476,6 +481,14 @@ def create_app() -> FastAPI:
     def api_yz() -> dict[str, Any]:
         """Yeniden yazma için kullanılabilen dil modeli sağlayıcıları."""
         return {"saglayicilar": rewrite.available_providers(), "cevrimici": rewrite.is_public_server()}
+
+    @app.post("/api/yz/modeller")
+    def api_yz_modeller(req: ModelsRequest) -> dict[str, Any]:
+        """Sağlayıcının modelleri; anahtarı da doğrular."""
+        try:
+            return rewrite.list_models(req.provider, req.key)
+        except rewrite.RewriteError as exc:
+            raise HTTPException(exc.status, str(exc)) from exc
 
     @app.post("/api/yeniden-yaz")
     def api_yeniden_yaz(req: RewriteRequest) -> dict[str, Any]:

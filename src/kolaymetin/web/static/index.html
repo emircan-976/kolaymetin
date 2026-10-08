@@ -171,7 +171,7 @@
         </fieldset>
       </div>
       <details class="aciklama-paneli yz-ayar" id="yz-ayar">
-        <summary>Yapay zekâyla yeniden yazma (isteğe bağlı)</summary>
+        <summary>Yapay zekâyla yeniden yazma: <span id="yz-ozet">kapalı</span></summary>
         <p>Uzun ya da karmaşık cümleleri bir dil modeline yeniden yazdırabilirsiniz. Öneri, siz
           "Uygula" demeden metne yazılmaz. Sayı, tarih ve adların korunduğu denetlenir.</p>
         <div class="yz-alanlar">
@@ -181,7 +181,8 @@
           </div>
           <div class="alan" id="yz-model-alani" hidden>
             <label for="yz-model">Model</label>
-            <input type="text" id="yz-model" class="yazi-alani" autocomplete="off" spellcheck="false">
+            <input type="text" id="yz-model" class="yazi-alani" autocomplete="off" spellcheck="false" list="yz-modeller">
+            <datalist id="yz-modeller"></datalist>
           </div>
           <div class="alan" id="yz-anahtar-alani" hidden>
             <label for="yz-anahtar">API anahtarı</label>
@@ -189,6 +190,7 @@
           </div>
           <label class="kutu" id="yz-hatirla-alani" hidden><input type="checkbox" id="yz-hatirla"> Anahtarı bu tarayıcıda hatırla</label>
         </div>
+        <p class="yz-durum" id="yz-durum" role="status"></p>
         <p class="etiket" id="yz-not"></p>
         <p id="yz-anahtar-bagi" hidden><a id="yz-anahtar-linki" target="_blank" rel="noopener">Ücretsiz anahtar alın →</a></p>
       </details>
@@ -196,6 +198,19 @@
         title="Görünen bulgulardaki otomatik düzeltmeleri metne uygular. Ctrl+Z ile geri alınır.">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
         <span id="hepsini-duzelt-metni">Hepsini düzelt</span></button>
+      <button type="button" class="dugme dugme--kucuk hepsini-duzelt" id="yz-hepsi" hidden
+        title="Sorunlu cümleleri seçtiğiniz dil modeline yeniden yazdırır. Öneriler önce size gösterilir.">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
+        <span id="yz-hepsi-metni">Yapay zekâyla düzelt</span></button>
+      <section class="yz-liste" id="yz-liste" hidden aria-labelledby="yz-liste-baslik">
+        <h3 id="yz-liste-baslik">Yapay zekâ önerileri</h3>
+        <p class="etiket" id="yz-ilerleme" role="status"></p>
+        <ol class="yz-liste__ogeler" id="yz-ogeler"></ol>
+        <div class="not-kagidi__eylem">
+          <button type="button" class="dugme dugme--kucuk" id="yz-uygula" disabled>Seçilenleri uygula</button>
+          <button type="button" class="baglanti-dugme" id="yz-kapat">Kapat</button>
+        </div>
+      </section>
       <span class="dither dither--kapak dither--kelime dither--mavi dither--bulgu-yok" id="bulgu-yok-gorsel" aria-hidden="true"></span>
       <p class="bos-not" id="bulgu-yok">Metin yazın ya da yapıştırın. Bulgular burada görünür.</p>
       <ol class="bulgu-listesi" id="bulgular" aria-label="Bulgular"></ol>

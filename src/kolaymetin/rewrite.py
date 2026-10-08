@@ -57,7 +57,7 @@ PROVIDERS: dict[str, Provider] = {
                  "https://generativelanguage.googleapis.com/v1beta/openai", "gemini-2.5-flash",
                  needs_key=True, local=False, key_url="https://aistudio.google.com/apikey"),
         Provider("groq", "Groq (ücretsiz anahtar)", "https://api.groq.com/openai/v1",
-                 "llama-3.3-70b-versatile", needs_key=True, local=False,
+                 "openai/gpt-oss-120b", needs_key=True, local=False,
                  key_url="https://console.groq.com/keys"),
         Provider("openrouter", "OpenRouter (ücretsiz modeller)", "https://openrouter.ai/api/v1", "",
                  needs_key=True, local=False, key_url="https://openrouter.ai/keys"),
@@ -168,28 +168,43 @@ def clean_reply(text: str) -> str:
     return re.sub(r"[ \t]+", " ", text)
 
 
-def call_chat(url: str, model: str, key: str, messages: list[dict[str, str]]) -> str:
-    """OpenAI uyumlu /chat/completions çağrısı (yalnızca standart kütüphane)."""
-    body = json.dumps({"model": model, "messages": messages, "temperature": 0.2}).encode("utf-8")
-    headers = {"Content-Type": "application/json"}
+def _request(url: str, key: str, body: dict[str, Any] | None = None, model: str = "") -> Any:
+    """OpenAI uyumlu API isteği (yalnızca standart kütüphane). body yoksa GET.
+
+    User-Agent verilir: Groq'un önündeki Cloudflare Python'un varsayılan kimliğini
+    ("Python-urllib") 403 "error code: 1010" ile engelliyor."""
+    from kolaymetin import __version__
+
+    headers = {"Content-Type": "application/json", "User-Agent": f"kolaymetin/{__version__}"}
     if key:
         headers["Authorization"] = f"Bearer {key}"
-    req = urllib.request.Request(f"{url}/chat/completions", data=body, headers=headers, method="POST")
+    data = json.dumps(body).encode("utf-8") if body is not None else None
+    req = urllib.request.Request(url, data=data, headers=headers, method="POST" if body else "GET")
     try:
         # Adres sabit sağlayıcı listesinden ya da sunucunun ortam değişkeninden gelir.
         with urllib.request.urlopen(req, timeout=TIMEOUT) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
+            return json.loads(resp.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
-        if exc.code in (401, 403):
+        detail = _error_detail(exc)
+        if exc.code == 401 or (exc.code == 400 and "api key" in detail.lower()):
             raise RewriteError("Sağlayıcı anahtarı kabul etmedi. API anahtarını denetleyin.") from exc
+        if exc.code == 403:
+            raise RewriteError(
+                "Sağlayıcı isteği reddetti (HTTP 403). Anahtarın bu modele izni olmayabilir. "
+                + (f"Sağlayıcının iletisi: {detail}" if detail else "")
+            ) from exc
         if exc.code == 429:
             raise RewriteError(
                 "Sağlayıcının ücretsiz kotası doldu ya da çok sık istek gönderildi. Biraz sonra "
                 "yeniden deneyin.", 429
             ) from exc
-        if exc.code == 404:
-            raise RewriteError(f"Model bulunamadı: '{model}'. Model adını denetleyin.") from exc
-        raise RewriteError(f"Sağlayıcı bir hata döndürdü (HTTP {exc.code}).") from exc
+        if exc.code == 404 or (exc.code == 400 and "model" in detail.lower()):
+            raise RewriteError(
+                f"Model bulunamadı ya da kapatılmış: '{model}'. Listeden başka bir model seçin."
+            ) from exc
+        raise RewriteError(
+            f"Sağlayıcı bir hata döndürdü (HTTP {exc.code})." + (f" {detail}" if detail else "")
+        ) from exc
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         if "localhost" in url:
             raise RewriteError(
@@ -199,11 +214,70 @@ def call_chat(url: str, model: str, key: str, messages: list[dict[str, str]]) ->
         raise RewriteError("Sağlayıcıya ulaşılamadı. İnternet bağlantınızı denetleyin.") from exc
     except ValueError as exc:
         raise RewriteError("Sağlayıcının yanıtı okunamadı.") from exc
+
+
+def _error_detail(exc: urllib.error.HTTPError) -> str:
+    """Sağlayıcının hata iletisi (kısa): {"error": {"message": "..."}}."""
+    try:
+        raw = exc.read().decode("utf-8", "replace")
+    except OSError:
+        return ""
+    try:
+        data = json.loads(raw)
+        err = data[0]["error"] if isinstance(data, list) else data.get("error", data)
+        msg = err.get("message", "") if isinstance(err, dict) else str(err)
+    except (ValueError, KeyError, IndexError, TypeError, AttributeError):
+        msg = raw
+    return " ".join(str(msg).split())[:200]
+
+
+def call_chat(url: str, model: str, key: str, messages: list[dict[str, str]]) -> str:
+    """OpenAI uyumlu /chat/completions çağrısı."""
+    data = _request(f"{url}/chat/completions", key,
+                    {"model": model, "messages": messages, "temperature": 0.2}, model)
     try:
         content = data["choices"][0]["message"]["content"]
     except (KeyError, IndexError, TypeError) as exc:
         raise RewriteError("Sağlayıcının yanıtı beklenen biçimde değil.") from exc
     return str(content or "")
+
+
+# Sohbet modeli olmayanlar: ses, görüntü, gömme, denetim modelleri.
+_NOT_CHAT = re.compile(
+    r"whisper|tts|guard|embed|image|imagen|veo|audio|transcri|moderation|orpheus|playai|"
+    r"compound|aqa|learnlm|gemma-3n|robotics|computer-use|live|native-audio|-exp-|search", re.I
+)
+# Sağlayıcıya göre önerilen model sırası (listede ilk eşleşen seçilir).
+_PREFERRED: dict[str, tuple[str, ...]] = {
+    "groq": (r"gpt-oss-120b", r"qwen", r"llama-4", r"llama", r"gpt-oss"),
+    "gemini": (r"^gemini-[\d.]+-flash$", r"^gemini-.*flash$", r"^gemini-[\d.]+-pro$", r"^gemini"),
+    "openrouter": (r"gemma.*:free", r"llama.*:free", r"qwen.*:free", r":free"),
+}
+
+
+def list_models(provider: str, key: str = "") -> dict[str, Any]:
+    """Sağlayıcının sohbet modelleri ve önerilen model. Anahtarı da doğrular."""
+    url, _model, key = resolve(provider, "-", key)  # model listelemede gerekmez
+    data = _request(f"{url}/models", key)
+    items = data.get("data", data.get("models", [])) if isinstance(data, dict) else data
+    ids = []
+    for item in items or []:
+        mid = str(item.get("id") or item.get("name") or "") if isinstance(item, dict) else str(item)
+        mid = mid.removeprefix("models/")
+        if mid and not _NOT_CHAT.search(mid):
+            ids.append(mid)
+    if provider == "openrouter":
+        ids = [m for m in ids if m.endswith(":free")]
+    ids = sorted(set(ids))
+    p = PROVIDERS.get(provider)
+    suggested = p.model if p and p.model in ids else ""
+    for pattern in _PREFERRED.get(provider, ()):
+        if suggested:
+            break
+        suggested = next((m for m in sorted(ids, reverse=True) if re.search(pattern, m)), "")
+    if not suggested and ids:
+        suggested = ids[0]
+    return {"models": ids, "suggested": suggested}
 
 
 # --------------------------------------------------------------------------- bilgi denetimi

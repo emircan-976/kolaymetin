@@ -47,7 +47,26 @@ Testler: `tests/test_duzeltme.py`.
   karşılaştırılır, eksik ya da uydurulmuş bilgi varsa öneri uygulanamaz. Yeni uç noktalar:
   `GET /api/yz`, `POST /api/yeniden-yaz`. Ek bağımlılık yok.
 
+- Cümle düzeltmeleri (kural tabanlı):
+  - Uzun cümle bölünür: "… gerçekleştirilecek olup önceden …" → "… gerçekleştirilecek. Önceden
+    …"; iki yanı çekimli fiil olan "ve / ancak / fakat / ama" ve virgülde; "-ıp" zarf-fiili ana
+    fiilin zamanını alır ("Belgeleri alıp gelin" → "Belgeleri alın. Gelin").
+  - Dolaylı seslenme emre döner: "Formların doldurulması gerekmektedir." → "Formları doldurun.",
+    "Vatandaşlarımızın suyu temin etmeleri rica olunur." → "Lütfen suyu temin edin."
+  - Resmî zaman ekleri: "beklenmektedir" → "bekleniyor", "alınmayacaktır" → "alınmayacak",
+    "oluşturulmuştur" → "oluşturuldu".
+  - Sözlükte çok seçenekli önerilerde ilk seçenek ("ivedilikle" → "hemen"); sözlük girdisine
+    `duzeltme:` alanı (karşılık ya da `yok`). Derlemde düzeltilebilen bulgu %16 → %25.
+- Yapay zekâ: **Yapay zekâyla düzelt (N cümle)** düğmesi sorunlu bütün cümleleri sırayla
+  yeniden yazdırır; öneriler işaretlenebilir listede gelir, **Seçilenleri uygula**.
+  Anahtar girilince sağlayıcının model listesi (`POST /api/yz/modeller`) gelir ve anahtar
+  doğrulanır.
+
 #### Düzeltildi
+- Groq istekleri 403 "error code: 1010" ile reddediliyordu: Cloudflare Python'un varsayılan
+  istemci kimliğini engelliyor. İsteklere `User-Agent: kolaymetin/…` eklendi. Groq'un varsayılan
+  modeli `openai/gpt-oss-120b` (`llama-3.3-70b-versatile` 16 Ağustos 2026'da kapatıldı).
+- "Yeniden yaz" düğmesi yalnızca açılmış kartın içindeydi ve gözden kaçıyordu.
 - KD-B01, tırnak içindeki sayıdan sonra gelen "milyon"u ('"2,5" milyon') yazıyla yazılmış
   sayı sanıyordu.
 

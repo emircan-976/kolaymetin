@@ -503,11 +503,18 @@ python scripts/readme_gorselleri.py
 
 ### Yapay zekâyla yeniden yazma (isteğe bağlı)
 
-Kurallar cümle yapısını (uzun cümle, edilgen yapı, ad yığını) işaretler ama yeniden yazamaz.
-Bulgular panelindeki **Yapay zekâyla yeniden yazma** bölümünden bir sağlayıcı seçin; cümle
-kartlarında **Yapay zekâyla yeniden yaz** düğmesi çıkar. Öneri metne siz **Uygula** demeden
-yazılmaz. Önerideki sayılar, tarihler, saatler, internet adresleri ve özel adlar özgün cümleyle
-karşılaştırılır; eksik ya da uydurulmuş bilgi varsa **Uygula** çıkmaz.
+Kurallar bazı cümleleri kendisi böler ve emre çevirir, ama edilgen ve iç içe geçmiş uzun
+cümleleri yeniden yazamaz. Bulgular panelindeki **Yapay zekâyla yeniden yazma** bölümünden bir
+sağlayıcı seçin ve anahtarınızı yapıştırın; araç bağlantıyı denetler ve model listesini getirir.
+Sonra:
+
+1. **Hepsini düzelt** ile kesin düzeltmeleri uygulayın.
+2. **Yapay zekâyla düzelt (N cümle)** sorunlu cümleleri sırayla yeniden yazdırır. Öneriler bir
+   listede gelir; istemediklerinizin işaretini kaldırıp **Seçilenleri uygula**ya basın.
+   Tek bir cümle için kartındaki **Yapay zekâyla yeniden yaz** düğmesini de kullanabilirsiniz.
+
+Önerideki sayılar, tarihler, saatler, internet adresleri ve özel adlar özgün cümleyle
+karşılaştırılır; eksik ya da uydurulmuş bilgi varsa öneri seçilemez.
 
 | Sağlayıcı | Ücret | Metin nereye gider | Kurulum |
 |---|---|---|---|
