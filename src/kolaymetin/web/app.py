@@ -20,6 +20,7 @@ from functools import lru_cache
 from importlib import resources
 from pathlib import Path
 from typing import Annotated, Any, Literal
+from urllib.parse import urlsplit
 
 import yaml
 from fastapi import FastAPI, File, HTTPException, Request, UploadFile
@@ -105,6 +106,7 @@ class ExportRequest(AnalyzeRequest):
 class ModelsRequest(BaseModel):
     provider: str = Field(max_length=32)
     key: str = Field(default="", max_length=300)
+    model: str = Field(default="", max_length=120)  # abonelik araçlarında bu model ısıtılır
 
 
 class RewriteRequest(BaseModel):
@@ -119,6 +121,23 @@ class RewriteRequest(BaseModel):
     provider: str = Field(max_length=32)
     model: str = Field(default="", max_length=120)
     key: str = Field(default="", max_length=300)
+
+
+class TranslateRequest(BaseModel):
+    """Metnin bir bölümünü Kolay Dil'e çevirme isteği. Uzun metni tarayıcı paragraflardan böler."""
+
+    text: str = Field(max_length=rewrite.MAX_TEXT_CHARS)
+    first: bool = True
+    context: str = Field(default="", max_length=rewrite.MAX_TEXT_CHARS)  # önceki bölümün çevirisi
+    profile: str = "kolay-dil"
+    provider: str = Field(max_length=32)
+    model: str = Field(default="", max_length=120)
+    key: str = Field(default="", max_length=300)
+
+
+def _rewrite_error(exc: rewrite.RewriteError) -> HTTPException:
+    headers = {"Retry-After": str(exc.retry_after)} if exc.retry_after else None
+    return HTTPException(exc.status, str(exc), headers=headers)
 
 
 def rehber_dir() -> Path:
@@ -214,6 +233,40 @@ def public_base(request: Request) -> str:
     proto = request.headers.get("x-forwarded-proto", request.url.scheme).split(",")[0].strip()
     host = request.headers.get("x-forwarded-host") or request.headers.get("host") or request.url.netloc
     return f"{proto}://{host.split(',')[0].strip()}"
+
+
+def cross_site(request: Request) -> bool:
+    """İstek başka bir sitenin sayfasından mı geldi (CSRF)? Yerel sunucuya (127.0.0.1) kullanıcının
+    açtığı herhangi bir site tarayıcı üzerinden istek atabilir; abonelik araçları kullanıcının
+    hesabıyla çalıştığı için bu istekler reddedilir. Tarayıcılar Sec-Fetch-Site'ı kendisi yazar;
+    göndermeyen eski tarayıcıda Origin, Host ile karşılaştırılır. İkisi de yoksa (curl, testler)
+    istek tarayıcıdan gelmiyordur."""
+    site = request.headers.get("sec-fetch-site")
+    if site:
+        return site not in ("same-origin", "none")
+    origin = request.headers.get("origin")
+    if origin is None:
+        return False
+    hosts = {request.headers.get(h, "").split(",")[0].strip().lower() for h in ("host", "x-forwarded-host")}
+    return urlsplit(origin).netloc.lower() not in hosts - {""}
+
+
+_LOOPBACK = {"localhost", "127.0.0.1", "::1"}
+
+
+def require_loopback(request: Request, provider: str) -> None:
+    """Abonelik araçları (claude, agy) bu bilgisayarda kullanıcının hesabıyla süreç başlatır.
+    Yalnızca localhost adresinden açılan arayüze izin verilir: DNS yeniden bağlama (rebinding)
+    ile kötü niyetli bir alan adı 127.0.0.1'e çözülse de Host başlığı o alan adı olur. Sunucu
+    --host 0.0.0.0 ile ağa açıldığında da ağdaki başkaları kullanıcının aboneliğini kullanamaz."""
+    p = rewrite.PROVIDERS.get(provider)
+    if p is None or not p.cli:
+        return
+    host = urlsplit("//" + request.headers.get("host", "")).hostname or ""
+    if host.lower() not in _LOOPBACK:
+        raise HTTPException(
+            403, f"{p.title} yalnızca bu bilgisayarda http://localhost adresinden açılan arayüzde çalışır."
+        )
 
 
 _UNSAFE_NAME_RE = re.compile(r"[^\w .()-]+")
@@ -387,7 +440,11 @@ def create_app() -> FastAPI:
     async def _headers(request: Request, call_next: Any) -> Response:
         response: Response
         limiter: RateLimiter = app.state.hiz_siniri
-        if (
+        if request.method == "POST" and request.url.path.startswith("/api/") and cross_site(request):
+            response = JSONResponse(
+                {"detail": "Başka bir siteden gelen istek reddedildi."}, status_code=403
+            )
+        elif (
             request.method == "POST"
             and request.url.path.startswith("/api/")
             and not limiter.allow(client_key(request))
@@ -483,15 +540,24 @@ def create_app() -> FastAPI:
         return {"saglayicilar": rewrite.available_providers(), "cevrimici": rewrite.is_public_server()}
 
     @app.post("/api/yz/modeller")
-    def api_yz_modeller(req: ModelsRequest) -> dict[str, Any]:
+    def api_yz_modeller(req: ModelsRequest, request: Request) -> dict[str, Any]:
         """Sağlayıcının modelleri; anahtarı da doğrular."""
+        require_loopback(request, req.provider)
         try:
-            return rewrite.list_models(req.provider, req.key)
+            return rewrite.list_models(req.provider, req.key, req.model)
         except rewrite.RewriteError as exc:
-            raise HTTPException(exc.status, str(exc)) from exc
+            raise _rewrite_error(exc) from exc
+
+    @app.post("/api/yz/isit")
+    def api_yz_isit(req: ModelsRequest, request: Request) -> dict[str, bool]:
+        """Abonelik aracının yedek süreçlerini seçilen model için ısıtır (arka planda)."""
+        require_loopback(request, req.provider)
+        rewrite.warm_cli(req.provider, req.model)
+        return {"ok": True}
 
     @app.post("/api/yeniden-yaz")
-    def api_yeniden_yaz(req: RewriteRequest) -> dict[str, Any]:
+    def api_yeniden_yaz(req: RewriteRequest, request: Request) -> dict[str, Any]:
+        require_loopback(request, req.provider)
         if req.profile not in BUILTIN_PROFILES:
             raise HTTPException(422, "Bilinmeyen profil. 'kolay-dil' ya da 'sade-dil' seçin.")
         try:
@@ -500,7 +566,21 @@ def create_app() -> FastAPI:
                 req.before, req.after, req.profile,
             )
         except rewrite.RewriteError as exc:
-            raise HTTPException(exc.status, str(exc)) from exc
+            raise _rewrite_error(exc) from exc
+        return result.model_dump()
+
+    @app.post("/api/kolay-dile-cevir")
+    def api_kolay_dile_cevir(req: TranslateRequest, request: Request) -> dict[str, Any]:
+        """Metni (ya da bir bölümünü) dil modeliyle kolaydil.tr biçiminde Kolay Dil'e çevirir."""
+        require_loopback(request, req.provider)
+        if req.profile not in BUILTIN_PROFILES:
+            raise HTTPException(422, "Bilinmeyen profil. 'kolay-dil' ya da 'sade-dil' seçin.")
+        try:
+            result = rewrite.rewrite_text(
+                req.text, req.provider, req.model, req.key, req.first, req.profile, req.context
+            )
+        except rewrite.RewriteError as exc:
+            raise _rewrite_error(exc) from exc
         return result.model_dump()
 
     @app.get("/api/rules")

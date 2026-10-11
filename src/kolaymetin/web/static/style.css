@@ -176,6 +176,7 @@ img { max-width: 100%; }
 .alan { display: flex; flex-direction: column; gap: 4px; }
 .alan > label, .alan > .etiket { font-family: var(--f-mono); font-size: var(--t-14); letter-spacing: 0.02em; color: var(--murekkep); }
 .secim { position: relative; display: inline-flex; }
+.secim[hidden], .alan[hidden], .kutu[hidden] { display: none; }
 .secim select {
   appearance: none; -webkit-appearance: none;
   min-height: 44px; padding: 8px 40px 8px 12px;
@@ -510,7 +511,10 @@ legend { font-family: var(--f-mono); font-size: var(--t-14); letter-spacing: 0.0
 .yz-sonuc__uyari { font-weight: 700; color: var(--kirmizi); }
 .yz-durum { font-weight: 700; margin: 4px 0; }
 .yz-durum:empty { display: none; }
-#yz-hepsi { margin-left: 8px; }
+#yz-hepsi, #yz-cevir { margin-left: 8px; }
+.yz-ceviri__metin { max-height: 60vh; overflow: auto; padding: 8px; border: 1px dashed var(--murekkep-soluk); }
+.yz-ceviri__metin:empty { display: none; }
+.yz-ceviri__notlar { margin: 4px 0 8px; padding-left: 20px; }
 .yz-liste { margin: 0 0 12px; padding: 8px 12px; border: 2px solid var(--murekkep); background: var(--kagit); }
 .yz-liste h3 { margin: 4px 0; }
 .yz-liste__ogeler { list-style: none; margin: 0 0 8px; padding: 0; }

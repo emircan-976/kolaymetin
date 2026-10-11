@@ -512,15 +512,27 @@ Sonra:
 2. **Yapay zekâyla düzelt (N cümle)** sorunlu cümleleri sırayla yeniden yazdırır. Öneriler bir
    listede gelir; istemediklerinizin işaretini kaldırıp **Seçilenleri uygula**ya basın.
    Tek bir cümle için kartındaki **Yapay zekâyla yeniden yaz** düğmesini de kullanabilirsiniz.
+3. Ya da **Kolay Dil'e çevir** ile bütün metni [kolaydil.tr](https://www.kolaydil.tr)
+   biçiminde yeniden yazdırın: başlık, her cümle ayrı satırda, kısa paragraflar, ara başlıklar,
+   listeler. Sonuç önce gösterilir; **Metnin yerine koy** ile yazılır (Ctrl+Z ile geri alınır).
 
-Önerideki sayılar, tarihler, saatler, internet adresleri ve özel adlar özgün cümleyle
-karşılaştırılır; eksik ya da uydurulmuş bilgi varsa öneri seçilemez.
+Model kurallara her zaman uymaz. Bu yüzden öneri yeniden denetlenir, aracın kesin düzeltmeleri
+uygulanır ve kalan bulgular modele en çok iki tur geri gönderilir. Önerideki sayılar, tarihler,
+saatler, internet adresleri ve özel adlar özgün metinle karşılaştırılır; eksik ya da uydurulmuş
+bilgi varsa öneri seçilemez ya da uyarıyla gösterilir.
+
+Önerilen sağlayıcı **Google Gemini** (`gemini-3.5-flash`): denemelerde Türkçesi en iyi ücretsiz
+model oldu, bir duyuru 92-94 uyum skoru aldı. Bir duyuru 30-50 saniye sürer. Google yoğunken
+araç birkaç saniye bekleyip yeniden dener; geçmezse `gemini-3.5-flash-lite`'ı seçin (çok hızlı,
+ama anlamı daha sık bozar). Ücretsiz anahtarın günlük istek sınırı model başınadır; bir duyuru
+1-3 istek tutar. Groq'ta `openai/gpt-oss-120b` ortalama 91 skor alır; ücretsiz anahtar günde
+yaklaşık 30 duyuruya yeter.
 
 | Sağlayıcı | Ücret | Metin nereye gider | Kurulum |
 |---|---|---|---|
 | Ollama | ücretsiz | bilgisayarınızda kalır | [ollama.com](https://ollama.com), sonra `ollama pull gemma3:4b` |
 | LM Studio | ücretsiz | bilgisayarınızda kalır | Bir model yükleyin, Developer → Start Server |
-| Google Gemini | ücretsiz anahtar | Google | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
+| Google Gemini (önerilen) | ücretsiz anahtar | Google | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
 | Groq | ücretsiz anahtar | Groq | [console.groq.com/keys](https://console.groq.com/keys) |
 | OpenRouter | `:free` modeller | OpenRouter | [openrouter.ai/keys](https://openrouter.ai/keys) |
 

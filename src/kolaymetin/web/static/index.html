@@ -180,9 +180,9 @@
             <span class="secim"><select id="yz-saglayici"><option value="">Kapalı</option></select></span>
           </div>
           <div class="alan" id="yz-model-alani" hidden>
-            <label for="yz-model">Model</label>
-            <input type="text" id="yz-model" class="yazi-alani" autocomplete="off" spellcheck="false" list="yz-modeller">
-            <datalist id="yz-modeller"></datalist>
+            <label for="yz-model" id="yz-model-etiket">Model</label>
+            <span class="secim" id="yz-model-secim" hidden><select id="yz-model-sec"></select></span>
+            <input type="text" id="yz-model" class="yazi-alani" autocomplete="off" spellcheck="false">
           </div>
           <div class="alan" id="yz-anahtar-alani" hidden>
             <label for="yz-anahtar">API anahtarı</label>
@@ -202,6 +202,20 @@
         title="Sorunlu cümleleri seçtiğiniz dil modeline yeniden yazdırır. Öneriler önce size gösterilir.">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
         <span id="yz-hepsi-metni">Yapay zekâyla düzelt</span></button>
+      <button type="button" class="dugme dugme--kucuk hepsini-duzelt" id="yz-cevir" hidden
+        title="Bütün metni seçtiğiniz dil modeliyle Kolay Dil'e çevirir: başlık, kısa cümleler, her cümle ayrı satırda. Sonuç önce size gösterilir.">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
+        <span>Kolay Dil'e çevir</span></button>
+      <section class="yz-liste" id="yz-ceviri" hidden aria-labelledby="yz-ceviri-baslik">
+        <h3 id="yz-ceviri-baslik">Kolay Dil çevirisi</h3>
+        <p class="etiket" id="yz-ceviri-durum" role="status"></p>
+        <div class="yz-sonuc__metin yz-ceviri__metin" id="yz-ceviri-metin"></div>
+        <ul class="yz-ceviri__notlar" id="yz-ceviri-notlar"></ul>
+        <div class="not-kagidi__eylem">
+          <button type="button" class="dugme dugme--kucuk" id="yz-ceviri-uygula" disabled>Metnin yerine koy</button>
+          <button type="button" class="baglanti-dugme" id="yz-ceviri-kapat">Kapat</button>
+        </div>
+      </section>
       <section class="yz-liste" id="yz-liste" hidden aria-labelledby="yz-liste-baslik">
         <h3 id="yz-liste-baslik">Yapay zekâ önerileri</h3>
         <p class="etiket" id="yz-ilerleme" role="status"></p>

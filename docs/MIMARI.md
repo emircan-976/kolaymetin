@@ -139,6 +139,20 @@ ile "1 Aralık 2026" aynıdır) ve özgün cümleyle öneriyi karşılaştırır
 `build_document` ile bulunur. Ardından iki metin `analyze()` ile denetlenir ve bulgu sayısı ile
 uyum skoru önce/sonra olarak döner. Eksik ya da yeni bilgi varsa `applicable: false` olur.
 
+`/api/kolay-dile-cevir` (`rewrite_text`) bütün metni (en çok 4.000 karakterlik bir bölümü)
+kolaydil.tr biçiminde çevirir; uzun metni tarayıcı paragraf sınırlarından böler. İki yol da
+aynı döngüden geçer (`_rewrite`):
+
+1. Model yanıtı temizlenir (Markdown, tire, ay adlarının büyük harfi).
+2. `_evaluate`: aracın kesin düzeltmeleri uygulanır (`fixed_text()`, en çok 3 kez), öneri
+   denetlenir ve bilgi karşılaştırması yapılır.
+3. Kalan "hata" ve "uyarı" bulguları (`fix` olmayanlar) satırlarına göre gruplanır;
+   `build_repair_messages` özgün metni, numaralı öneriyi ve sorunlu satırları gönderir. Model
+   yalnızca "[n]" bloklarıyla sorunlu satırları yazar (`apply_repair`). En çok
+   `REPAIR_ROUNDS` (2) tur; her tur o ana kadarki en iyi öneriyi onarır.
+4. Seçim sırası: önce bilgisi eksiksiz olan, sonra bulgu ağırlığı (profilin `weights`) en az
+   olan. KD-M01 (uzun paragraf) modele gönderilmez; en sonda `_split_paragraphs` böler.
+
 ## Gizlilik
 
 - Metin yalnızca istek süresince bellekte durur; diske ve günlüğe yazılmaz.

@@ -24,7 +24,7 @@
 - {ifade: tanzim, oneri: düzenleme}
 - {ifade: zarfında, oneri: içinde}
 - {ifade: akabinde, oneri: "hemen sonra"}
-- {ifade: mücbir sebep, oneri: "elde olmayan neden (deprem, sel gibi)"}
+- {ifade: mücbir sebep, oneri: "elde olmayan neden (deprem, sel gibi)", duzeltme: "elde olmayan neden"}
 - {ifade: hak sahibi, oneri: "yardım alacak kişi"}
 - {ifade: istihkak, oneri: "hak edilen ödeme"}
 - {ifade: tahakkuk, oneri: "borç çıkarma, hesaplanan borç"}

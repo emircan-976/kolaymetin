@@ -61,8 +61,106 @@ Testler: `tests/test_duzeltme.py`.
   yeniden yazdırır; öneriler işaretlenebilir listede gelir, **Seçilenleri uygula**.
   Anahtar girilince sağlayıcının model listesi (`POST /api/yz/modeller`) gelir ve anahtar
   doğrulanır.
+- Yapay zekâ: **Kolay Dil'e çevir** bütün metni kolaydil.tr biçiminde yeniden yazar: başlık,
+  her cümle ayrı satırda, en çok 4 cümlelik paragraflar, soru biçiminde ara başlıklar, `- `
+  ile listeler. Uzun metin paragraf sınırlarından ~2.500 karakterlik bölümlere ayrılır. Sonuç
+  önce gösterilir; **Metnin yerine koy** ile yazılır, Ctrl+Z ile geri alınır. Yeni uç nokta:
+  `POST /api/kolay-dile-cevir`.
+- Yapay zekâ: denetle ve onar döngüsü. Modelin önerisine aracın kesin düzeltmeleri uygulanır
+  (haftanın günü, "saat", sözlük karşılıkları), öneri yeniden denetlenir ve kalan bulgular
+  satır numarasıyla modele geri gönderilir (en çok 2 tur). Model yalnızca sorunlu satırları
+  yazar. Bilgisi eksiksiz ve bulgusu en az olan öneri seçilir; uydurulan bilgi (ör. "mesai
+  saatleri" → "09.00-17.00") satırıyla birlikte modele bildirilir.
+- İstem kuralların birebir karşılığı: en çok 10 kelime, yan cümle ve edilgen yok, en çok 4
+  heceli kelime, tarih "15 Eylül 2026 günü" (haftanın gününü araç ekler), metni yazan kurum
+  "biz" der, kesin bilgi uydurulmaz.
+- Yapay zekâ: anlam denetimi. Her öneri ayrı bir istekle özgün metinle karşılaştırılır: eksik
+  ya da yanlış bilgi, kopan neden-sonuç/koşul/sıra bağı, anlaşılmayan "bu/o", uydurma. Bulunan
+  sorunlar onarım isteğine `Anlam:` önekiyle satırının ilk sorunu olarak girer; öneriler
+  arasında seçim önce bilgiye, sonra anlama, en son kural bulgularına bakar. Onarım bulguyu
+  azaltıp anlamı bozarsa önceki öneri kalır. Kalan anlam sorunları sonuçta (`meaning`) ve
+  notta gösterilir; toplu düzeltmede bu öneriler seçili gelmez. Metin başına 1-2 istek ekler.
+- İstem cümle bölünce bağın korunmasını ister: ikinci cümle "Çünkü", "Bu yüzden", "Ama",
+  "Sonra" ile başlar ("Boru bozuldu. Bu yüzden suyu keseceğiz."). Koşul "-rsa" ile, olaylar oluş
+  sırasıyla yazılır; "bu", "o" neyi gösterdiği açık değilse adıyla yazılır.
+- Kolay Dil'e çevirmede uzun metnin her bölümüne önceki bölümün çevirisi (son 1.500 karakter)
+  bağlam olarak gider (`context`); bölüm sınırında gönderimler kopmaz.
+
+- Yapay zekâ: abonelikle kullanım (yalnızca yerel sürüm). **Claude aboneliği** Claude Code'u
+  (`claude -p`, araçlar kapalı, model haiku/sonnet/opus), **Gemini aboneliği** Antigravity
+  CLI'yi (`agy -p`) çalıştırır; istekler aboneliğin limitinden düşer. Araç bulunamazsa, giriş
+  yapılmamışsa ya da limit dolmuşsa Türkçe ileti verilir. Ayrıntı için `KOLAYMETIN_YZ_GUNLUK=1`
+  her turu sunucu konsoluna yazar.
+- Abonelik araçları: Antigravity kullanıcının MCP sunucularını da başlatıyor; bu alt süreç araç
+  bitince açık kalıp çıktı borusunu tuttuğu için istek "Yeniden yazılıyor…"da sonsuza dek
+  bekliyordu. Çıktı artık dosyaya yazılır; yanıt gelince araç ve bütün alt süreçleri kapatılır
+  (Windows'ta Job Object). Gemini aboneliğinde önerilen model `flash-low`.
+- Abonelik araçları açık tutulur (akış kipi, stream-json): Antigravity'de modelin yanıtı ~2 sn
+  sürerken her açılış ~12 sn ekliyordu. Bir yeniden yazma işi (ilk yazım, anlam denetimi,
+  onarım) tek konuşmada yürür, iş bitince süreç kapanır (metinler karışmaz); sonraki iş arka
+  planda ısıtılmış yedek süreçle başlar. Sağlayıcı ya da model seçilince ısıtma başlar
+  (`POST /api/yz/isit`); 10 dk kullanılmayan yedekler kapatılır. Ölçüm: Gemini aboneliğinde bir
+  cümle ~124 sn → 4-13 sn, Claude aboneliğinde 9-17 sn.
+- Anlam denetçisine özgün metin aracın kesin düzeltmeleriyle gider: araç tarihe haftanın
+  gününü ekliyor, denetçi "Salı"yı uydurma sayınca model siliyor, araç geri ekliyordu (bir
+  cümlede 8 istek).
+
+#### Değişti (anlam)
+- Anlam sorunu sayısı eşitken onarılmış öneri seçilir; onarım en çok 3 tur. Model satırı
+  bilerek bıraktıysa tur yinelenmez, yalnızca biçimsiz yanıtta yinelenir.
+- Gemini 3 ve sonrası modellere `temperature` gönderilmez (varsayılan 1.0): Google bu
+  modellerde düşük sıcaklığın döngüye ve kalite düşüşüne yol açabileceğini yazıyor. Öteki
+  modellerde 0.2 kaldı.
+
+#### Değişti
+- Önerilen sağlayıcı Google Gemini, varsayılan model `gemini-3.5-flash`. Canlı denemede
+  `gpt-oss-120b`'den iyi Türkçe yazıyor: gelecek zaman doğru ("Kesinti 15 Eylül 2026 Salı günü
+  olacak."), bilgiler ve kanun maddesi eksiksiz, "biz" dili doğal; ilk 3 duyuruda skor 94, 94,
+  92. `gemini-3.5-flash-lite` 6 duyuruda ortalama 93,7 ve çok hızlı (metin başına ~5 sn), ama
+  anlamı bozuyor ("muafiyet" → "ödememe hakkı"). Ücretsiz Gemini anahtarı günlük istek sayısıyla
+  sınırlı (model başına); bir duyuru 1-3 istek tutar.
+- gpt-oss modellerine `reasoning_effort: "low"` gönderilir: akıl yürütme belirteçleri çıktı
+  olarak ücretlendirilir. 6 örnek duyuruda (Groq, `gpt-oss-120b`) uyum skoru ortalama
+  ~0 → 91, toplam maliyet $0,012 (metin başına ~0,2 sent). `gpt-oss-20b` yarı fiyatına ama
+  Türkçede bilgi uyduruyor ve harfleri küçültüyor; varsayılan `gpt-oss-120b` kaldı.
+- Groq'un ücretsiz katmanı dakikada 8.000 belirteç verir; 429 gelince sağlayıcının önerdiği
+  süre (en çok 40 sn) beklenip yinelenir, tarayıcı da `Retry-After`a uyar (en çok 60 sn).
+  Onarım isteği kısaltıldı (bütün kurallar yerine özet).
+- Günlük kota (Groq ücretsiz: model başına günde 200.000 belirteç, ~30 duyuru) dolunca ileti
+  bunu ve kaç dakika sonra açılacağını söyler; tarayıcı boşuna beklemez.
+- Olumsuz cümle (KD-C04) onarıma gönderilmez: zorla olumluya çevirmek anlamı bozuyordu
+  ("Gecikme olursa? Su akmaya devam edecek."). Okura yalnızca işi kendisi yapacaksa emir verilir
+  ("Yaşlıları aşılayın" hatası). Uzun kurum adı bir kez yazılır, sonra kısa adı kullanılır.
+
+#### Düzeltildi (yapay zekâ çevirisi)
+- Model noktayı unutunca denetleyici satırı başlık sayıyor, cümle kurallarına bakmıyor ve skor
+  haksız yere yükseliyordu. Paragrafın ilk satırı olmayan ya da 6 kelimeden uzun noktasız
+  satıra nokta konur.
+- Ay adı küçük harfle ("1 ekim 2026") büyütülür; "09.00‑17.00"daki bölünmez tire düz tireye
+  çevrilir; her turda yeniden bölünen paragraflar boş satır biriktiriyordu (artık en sonda bir
+  kez).
+- Bilgi denetimi hitaptaki büyük harfli kelimeyi ("Sayın Vatandaşlarımız") özel ad sanıp
+  "eksik bilgi" diyordu.
+- Onarım turu kotaya takılınca onarılmamış öneri habersiz dönüyordu; artık notta yazar.
+- Bilgi farkı uyarısı olan öneri seçilemiyordu (kutucuk kapalı, "Uygula" yok). Artık seçili
+  gelmez ama kullanıcı uyarıyı okuyup seçebilir; tek cümlede düğme "Yine de uygula".
+- Bilgi denetimi kesme işaretsiz ekli adı ("Genel Müdürlüğünden") öneride başka bir ekle
+  ("Genel Müdürlüğü") görünce "eksik bilgi" diyordu; adlar artık gövdeleriyle karşılaştırılır.
+- KD-K01 "mücbir sebep" düzeltmesi parantezli öneriyi ("… (deprem, sel gibi)") metne yazıp
+  KD-C09 bulgusu doğuruyordu; düzeltme "elde olmayan neden".
 
 #### Düzeltildi
+- Gemini seçilince her istek 404 veriyordu: varsayılan `gemini-2.5-flash` yeni kullanıcılara
+  kapatıldı (model listesinde görünmeyi sürdürüyor). Kapatılmış model iletisine sağlayıcının
+  önerdiği yeni model adı da eklenir.
+- Model kutusu (datalist) doluyken tarayıcı yalnızca yazılı modeli gösteriyordu; OpenRouter'da
+  15 ücretsiz model varken tek model var sanılıyordu. Liste gelince açılır seçim kutusu
+  gösterilir; gelmezse model adı elle yazılır.
+- OpenRouter'ın 429 iletileri ayrıldı: günlük ücretsiz sınır (hesap başına, bütün `:free`
+  modeller için ortak) ile modeli sunan sağlayıcının meşgul olması. Asıl neden
+  `metadata.raw`'dan okunur; bilinmeyen 429'da sağlayıcının iletisi de gösterilir.
+- Gemini yoğunken 503 veriyor ("high demand"); istek 5 ve 10 sn bekleyip iki kez yinelenir,
+  geçmezse ileti daha hafif bir model önerir.
 - Groq istekleri 403 "error code: 1010" ile reddediliyordu: Cloudflare Python'un varsayılan
   istemci kimliğini engelliyor. İsteklere `User-Agent: kolaymetin/…` eklendi. Groq'un varsayılan
   modeli `openai/gpt-oss-120b` (`llama-3.3-70b-versatile` 16 Ağustos 2026'da kapatıldı).
