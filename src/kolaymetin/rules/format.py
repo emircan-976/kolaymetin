@@ -62,6 +62,41 @@ def parse_number_words(words: list[str]) -> int:
     return total + current
 
 
+_UNITS = frozenset(w for w, v in NUMBER_WORDS.items() if 1 <= v <= 9)
+_TENS = frozenset(w for w, v in NUMBER_WORDS.items() if 10 <= v <= 90)
+_SCALES = {"milyar": 3, "milyon": 2, "bin": 1}
+
+
+def _valid_below_thousand(words: list[str]) -> bool:
+    """[birim] yüz? onlar? birim? sırasıyla; "yirmi otuz", "yedi sekiz" gibi dizilimler yok."""
+    i = 0
+    if i < len(words) and words[i] in _UNITS and i + 1 < len(words) and words[i + 1] == "yüz":
+        i += 2
+    elif i < len(words) and words[i] == "yüz":
+        i += 1
+    if i < len(words) and words[i] in _TENS:
+        i += 1
+    if i < len(words) and words[i] in _UNITS:
+        i += 1
+    return i == len(words)
+
+
+def is_valid_numeral(words: list[str]) -> bool:
+    """Sözcük dizisi tek bir Türkçe sayı mı? "yirmi beş" evet; "yirmi otuz" ("20-30 arası")
+    ve "üç dört yüz" hayır."""
+    group: list[str] = []
+    last_scale = 4
+    for w in words:
+        if w in _SCALES:
+            if _SCALES[w] >= last_scale or not (group or w == "bin") or not _valid_below_thousand(group):
+                return False
+            last_scale = _SCALES[w]
+            group = []
+        else:
+            group.append(w)
+    return _valid_below_thousand(group)
+
+
 def roman_to_int(text: str) -> int:
     total = 0
     prev = 0
@@ -177,6 +212,13 @@ class NumbersInWords(Rule):
             return
         text = " ".join(t.text for t, _ in run)
         digits = format_thousands(value)
+        # "Yirmi otuz kişi" yaklaşık bir aralıktır; toplanıp "50" yapılmaz.
+        if not is_valid_numeral(words):
+            fixable = False
+        # Yıl ("iki bin yirmi altı yılında") binlik ayırıcısız yazılır.
+        nxt = _token_after(s, run[-1][0])
+        if nxt is not None and turkish_lower(nxt.text).startswith("yıl") and 1000 <= value <= 2999:
+            digits = str(value)
         yield self.finding(
             doc, cfg, run[0][0].start, run[-1][0].end,
             message=f"{quote(text)} sayısını rakamla yazın: {digits}.",
@@ -186,6 +228,25 @@ class NumbersInWords(Rule):
             # Tek başına "milyon" bir çarpandır; "1.000.000" demek çoğu zaman yanlıştır.
             fix=digits if fixable and words not in (["milyon"], ["milyar"]) else None,
         )
+
+
+def _token_after(s: Sentence, token: Token) -> Token | None:
+    for i, t in enumerate(s.tokens):
+        if t is token:
+            return s.tokens[i + 1] if i + 1 < len(s.tokens) else None
+    return None
+
+
+# "Madde 12.30", "Sürüm 1.12.2026": tarih ya da saat değil, numara.
+REFERENCE_WORDS = frozenset(
+    {"madde", "maddesi", "maddeleri", "sürüm", "sürümü", "versiyon", "versiyonu", "bölüm",
+     "bölümü", "fıkra", "fıkrası", "bent", "bendi", "no", "numara", "numarası", "sayı", "sayılı",
+     "kanun", "yönetmelik", "tablo", "tablosu", "şekil", "v", "ver"}
+)
+
+
+def _after_reference(toks: list[Token], i: int) -> bool:
+    return i > 0 and toks[i - 1].kind == "word" and turkish_lower(toks[i - 1].base) in REFERENCE_WORDS
 
 
 # Ekli bir sayı kelimesinin başı: "Yirmi beşi geldi" cümlesinde "beşi" sayı sayılmazsa
@@ -479,6 +540,10 @@ class DateFormat(Rule):
                     fixed = _keep_suffix(
                         t, _readable(date, weekday=with_day and written is None and t.text == t.base)
                     )
+                    # "Sürüm 1.12.2026" bir tarih değil; "1.12.26"daki iki haneli yıl 2026 diye
+                    # sessizce uzatılmaz.
+                    if _after_reference(toks, i) or len(re.split(r"[./-]", t.base)[-1]) <= 2:
+                        fixed = None
                     yield self.finding(
                         doc, cfg, t.start, t.end,
                         message=f"{quote(t.base)} tarihini ayın adıyla yazın: {quote(readable)}.",
@@ -625,8 +690,8 @@ class TimeFormat(Rule):
                         covered = False
                     continue
                 nxt = turkish_lower(toks[i + 1].text) if i + 1 < len(toks) else ""
-                if nxt in UNITS_AFTER_NUMBER:
-                    continue
+                if nxt in UNITS_AFTER_NUMBER or nxt.startswith("tarih"):
+                    continue  # "15.09 tarihinde": yılsız tarih, saat değil
                 prev_words = [p for p in toks[max(0, i - 2) : i] if p.kind == "word"]
                 if any(turkish_lower(p.base) == "saat" for p in prev_words) or _saat_after(toks, i):
                     covered = True
@@ -643,7 +708,9 @@ class TimeFormat(Rule):
                     ),
                     suggestion=f"{quote(t.base)} → {quote('saat ' + shown)}",
                     sentence=s,
-                    fix=_keep_suffix(t, ("Saat " if t.sentence_initial else "saat ") + shown),
+                    fix=None if _after_reference(toks, i) else _keep_suffix(
+                        t, ("Saat " if t.sentence_initial else "saat ") + shown
+                    ),
                 )
                 covered = True
 
@@ -670,7 +737,11 @@ def _semicolon_fix(doc: Document, toks: list[Token], i: int) -> Fix | None:
     if first.kind != "word":
         return None
     gap = doc.text[toks[i].end : first.start] or " "
-    return Fix(start=toks[i].start, end=first.start + 1, text="." + gap + turkish_upper(first.text[0]))
+    # Noktalı virgülün önündeki boşluk da silinir: "Gitti ;geldi." → "Gitti. Geldi."
+    start = toks[i].start
+    if i > 0 and not doc.text[toks[i - 1].end : start].strip():
+        start = toks[i - 1].end
+    return Fix(start=start, end=first.start + 1, text="." + gap + turkish_upper(first.text[0]))
 
 
 @register
@@ -713,17 +784,45 @@ class SemicolonColon(Rule):
                 )
 
 
+_REGION_PREFIXES = frozenset({"iç", "doğu", "batı", "kuzey", "güney", "orta", "güneydoğu",
+                              "kuzeydoğu", "güneybatı", "kuzeybatı", "yukarı", "aşağı"})
+_REGIONS = ("anadolu", "karadeniz", "akdeniz", "ege", "marmara", "trakya", "avrupa", "asya")
+
+
+def _institution_words(doc: Document, run: list[Token]) -> set[int]:
+    """Büyük harfli bölümde geçen kurum adlarının kelimeleri (sözlükteki kısaltma açılımları):
+    "TÜRKİYE BÜYÜK MİLLET MECLİSİ" → "Türkiye Büyük Millet Meclisi", "küçük harfli meclisi" değil.
+    Adın son kelimesi ek alabilir ("KURUMU'NA")."""
+    lows = [turkish_lower(t.base) for t in run]
+    out: set[int] = set()
+    # Bölge adları: "İÇ ANADOLU" → "İç Anadolu", "DOĞU KARADENİZ" → "Doğu Karadeniz".
+    for i in range(len(run) - 1):
+        if lows[i] in _REGION_PREFIXES and lows[i + 1].startswith(_REGIONS):
+            out.update((i, i + 1))
+    for ab in doc.lexicon.abbreviations.values():
+        name = turkish_lower(ab.expansion).split()
+        if len(name) < 2 or len(name) > len(run):
+            continue
+        for i in range(len(run) - len(name) + 1):
+            if lows[i : i + len(name) - 1] == name[:-1] and lows[i + len(name) - 1].startswith(name[-1]):
+                out.update(range(i, i + len(name)))
+    return out
+
+
 def _caps_fix(doc: Document, run: list[Token]) -> str:
     """Büyük harfli bölümün normal yazımı. Kısaltmalar ("SGK") büyük kalır, özel adlar
     ("ANKARA'DA" → "Ankara'da") ve cümlenin ilk kelimesi büyük harfle başlar."""
     parts: list[str] = []
     pos = run[0].start
+    names = _institution_words(doc, run)
     for k, t in enumerate(run):
         parts.append(doc.text[pos : t.start])
         word = doc.text[t.start : t.end]
         if t.is_abbreviation:
-            parts.append(word)
-        elif (k == 0 and t.sentence_initial) or is_proper_name(turkish_lower(t.base)):
+            # "TÜİK'E" → "TÜİK'e": kısaltma büyük kalır, eki küçülür.
+            base = t.base
+            parts.append(base + turkish_lower(word[len(base) :]) if word.startswith(base) else word)
+        elif (k == 0 and t.sentence_initial) or k in names or is_proper_name(turkish_lower(t.base)):
             parts.append(turkish_capitalize(word))
         else:
             parts.append(turkish_lower(word))

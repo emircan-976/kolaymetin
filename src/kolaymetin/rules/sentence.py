@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import re
+from bisect import bisect_left, bisect_right
 from collections.abc import Iterable
 
 from kolaymetin.models import Analysis, Document, Finding, Fix, Sentence, Severity, Token
@@ -1012,6 +1013,9 @@ def _converb_as_finite(tok: Token, main: Token) -> str | None:
     return _cap(word) if tok.text[:1].isupper() else word
 
 
+_OPENING = "\"'“‘«("  # yeni cümlenin başında korunan açılış işaretleri
+
+
 def split_fix(doc: Document, s: Sentence) -> Fix | None:
     """Uzun cümleyi bağımsız cümlelerine böler:
 
@@ -1037,18 +1041,27 @@ def split_fix(doc: Document, s: Sentence) -> Fix | None:
     changes: list[tuple[int, int, str]] = []
     cut = 0  # son bölmenin kelime sırası
 
+    # İkili arama: cümle başına her belirteçte bütün cümleyi taramak çok uzun tek bir cümlede
+    # (ör. noktasız 60.000 karakter) saniyeler sürüyordu.
     def nth_word(i: int) -> int:
-        return sum(1 for j in wordlike if j < i)
+        return bisect_left(wordlike, i)
 
     def next_word(i: int) -> Token | None:
-        return next((toks[j] for j in wordlike if j > i), None)
+        k = bisect_right(wordlike, i)
+        return toks[wordlike[k]] if k < len(wordlike) else None
 
     def prev_word(i: int) -> Token | None:
-        return next((toks[j] for j in reversed(wordlike) if j < i), None)
+        k = bisect_left(wordlike, i)
+        return toks[wordlike[k - 1]] if k > 0 else None
 
-    def start_of(t: Token) -> tuple[int, str]:
+    def start_of(t: Token, keep_from: int) -> tuple[int, str]:
+        """Yeni cümlenin başı: t'nin ilk harfi büyür. keep_from ile t arasındaki açılış
+        tırnağı korunur: "… ve "eksiksiz" …" → "…. "Eksiksiz" …" (tırnak çifti bozulmasın)."""
         first = t.text[:1]
-        return t.start + 1, (_cap(first) if t.kind == "word" else first)
+        kept = doc.text[keep_from : t.start].strip()
+        if not kept or any(c not in _OPENING for c in kept):
+            kept = ""
+        return t.start + 1, kept + (_cap(first) if t.kind == "word" else first)
 
     for i, t in enumerate(toks):
         if t.start in embedded or (changes and t.start < changes[-1][1]):
@@ -1066,13 +1079,13 @@ def split_fix(doc: Document, s: Sentence) -> Fix | None:
                 add = "dir"
             elif left.lower.endswith("makta"):
                 add = "dır"
-            end, first = start_of(nxt)
+            end, first = start_of(nxt, t.end)
             changes.append((left.end, end, f"{add}. {first}"))
         elif t.kind == "word" and t.lower in _SPLIT_BEFORE | _SPLIT_DROP:
             if not _tensed_verb(left, nxt) or left.start in embedded or n_left < 2 or n_right < 2:
                 continue
             if t.lower in _SPLIT_DROP:
-                end, first = start_of(nxt)
+                end, first = start_of(nxt, t.end)
                 changes.append((left.end, end, f". {first}"))
             else:
                 changes.append((left.end, t.start + 1, f". {_cap(t.text[:1])}"))
@@ -1081,7 +1094,7 @@ def split_fix(doc: Document, s: Sentence) -> Fix | None:
                 continue  # bağlaçlı virgül bağlaçta bölünür
             if n_left < 2 or n_right < 2:
                 continue
-            end, first = start_of(nxt)
+            end, first = start_of(nxt, t.end)
             changes.append((t.start, end, f". {first}"))
         elif t.kind == "word" and t.lower != "olup" and t is not last:
             if nxt.analysis is not None and t.analysis is not None and nxt.analysis.root == t.analysis.root:
@@ -1089,7 +1102,7 @@ def split_fix(doc: Document, s: Sentence) -> Fix | None:
             finite = _converb_as_finite(t, last)
             if finite is None or n_right < 1:
                 continue
-            end, first = start_of(nxt)
+            end, first = start_of(nxt, t.end)
             changes.append((t.start, end, f"{finite}. {first}"))
         else:
             continue

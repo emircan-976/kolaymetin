@@ -29,7 +29,7 @@
 - {ifade: istihkak, oneri: "hak edilen ödeme"}
 - {ifade: tahakkuk, oneri: "borç çıkarma, hesaplanan borç"}
 - {ifade: tahakkuk etmek, oneri: "borç çıkmak"}
-- {ifade: tahsilat, oneri: "para alma, ödeme alma"}
+- {ifade: tahsilat, oneri: "para alma, ödeme alma", duzeltme: yok}  # "Tahsilatın yapılması" → "Para almanın yapılması"
 - {ifade: tahsil etmek, oneri: "almak (para)"}
 - {ifade: mükellef, oneri: "vergi ödeyen kişi"}
 - {ifade: muaf, oneri: "ödemez, … zorunda değil"}
@@ -68,8 +68,8 @@
 - {ifade: evvelce, oneri: "önceden"}
 - {ifade: mahal, oneri: yer}
 - {ifade: mahiyet, oneri: "nitelik, tür"}
-- {ifade: mahiyetinde, oneri: "gibi, türünde"}
-- {ifade: mevzuat, oneri: "yasalar ve kurallar"}
+- {ifade: mahiyetinde, oneri: "gibi, türünde", duzeltme: yok}  # "dilekçe mahiyetinde belge" ≠ "dilekçe gibi"
+- {ifade: mevzuat, oneri: "yasalar ve kurallar", duzeltme: yok}  # "mevzuat hükümleri" → "yasalar ve kurallar hükümleri"
 - {ifade: mevcut, oneri: "var olan, şimdiki", duzeltme: yok}
 - {ifade: mevcudiyet, oneri: varlık}
 - {ifade: müsaade, oneri: izin}
@@ -198,7 +198,7 @@
 - {ifade: hükmünde, oneri: "yerine geçer"}
 - {ifade: ita amiri, oneri: "harcama yetkilisi"}
 - {ifade: yüklenici, oneri: "işi yapan firma"}
-- {ifade: ilgili mevzuat, oneri: "yasalar"}
+- {ifade: ilgili mevzuat, oneri: "yasalar", duzeltme: yok}
 - {ifade: ilgili kurum, oneri: "(kurumun adını yazın)"}
 - {ifade: sadır olmak, oneri: çıkmak}
 - {ifade: suret, oneri: kopya}
@@ -224,9 +224,9 @@
 - {ifade: fer'i, oneri: ek, bicimler: [feri]}
 - {ifade: asgari, oneri: en az}
 - {ifade: azami, oneri: en çok}
-- {ifade: bizzat, oneri: kendiniz}
+- {ifade: bizzat, oneri: kendiniz, duzeltme: yok}  # "Müdür bizzat katılacak" → "Müdür kendiniz"
 - {ifade: ekseriyetle, oneri: çoğunlukla}
-- {ifade: kısmen, oneri: biraz}
+- {ifade: kısmen, oneri: biraz, duzeltme: yok}  # "kısmen ödendi" ≠ "biraz ödendi"
 - {ifade: külliyen, oneri: tamamen}
 - {ifade: aksi takdirde, oneri: yoksa}
 - {ifade: aksi halde, oneri: yoksa, bicimler: [aksi hâlde]}

@@ -162,7 +162,12 @@ def resolve(provider: str, model: str = "", key: str = "") -> tuple[str, str, st
         cfg = server_config()
         if cfg is None:
             raise RewriteError("Bu sunucuda dil modeli ayarlı değil.", 400)
-        return cfg[0], model or cfg[1], cfg[2]
+        # Sunucuyu kuran kişinin modeli kullanıcının seçiminden önce gelir: anahtar onun; ziyaretçi
+        # aynı anahtarla daha pahalı bir model seçemesin. Model ayarlanmamışsa kullanıcı seçer.
+        model = cfg[1] or model
+        if not model:
+            raise RewriteError("Model adını yazın.", 400)
+        return cfg[0], model, cfg[2]
     p = PROVIDERS.get(provider)
     if p is None:
         raise RewriteError("Bilinmeyen sağlayıcı.", 400)
@@ -653,9 +658,11 @@ def _session_args(cli: str, exe: str, model: str) -> list[str]:
                 "--verbose", "--system-prompt", _CLAUDE_SYSTEM, "--tools", "", "--strict-mcp-config",
                 "--setting-sources", "project", "--no-session-persistence", "--disable-slash-commands"]
     else:
-        # "--print=": değersiz -p sonraki bayrağı istem sanıyor.
+        # "--print=": değersiz -p sonraki bayrağı istem sanıyor. Antigravity'de araçları kapatan
+        # bayrak yok; --sandbox terminal komutlarını kısıtlar: metindeki bir talimat ("şu komutu
+        # çalıştır") modeli kandırsa da bilgisayarda komut çalışmasın.
         args = [exe, "--print=", "--input-format", "stream-json", "--output-format", "stream-json",
-                "--disable-slash-commands"]
+                "--disable-slash-commands", "--sandbox"]
     return args + (["--model", model] if model else [])
 
 

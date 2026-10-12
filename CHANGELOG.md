@@ -5,6 +5,56 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### Hata ayıklama: anlamı bozan düzeltmeler ve güvenlik (2026-10-12)
+
+Testler: `tests/test_duzeltme.py`, `tests/test_duzeltme_bicim.py`, `tests/test_yeniden_yaz.py`.
+
+#### Düzeltildi
+- Gereklilik kalıbında olumsuzluk düşüyordu, anlam tersine dönüyordu: "Ürünün kullanılmaması
+  gerekir." → "Ürünü kullanın." Artık "Ürünü kullanmayın.".
+- Etken çatıda ilgi hâlindeki her özne okura çevriliyordu: "Çocukların okula gitmesi
+  gerekmektedir." → "Okula gidin." Artık yalnızca okura seslenen özneler düşüyor
+  ("Velilerimizin", "Vatandaşlarımızın"). İşi yapan yazıyorsa ("… tarafından getirilmesi")
+  düzeltme yapılmıyor.
+- Bağlanan edilgen ad-fiillerde ilk ilgi hâli nesneye çevrilmiyordu: "Formların doldurun ve
+  belgeleri getirin." Artık "Formları doldurun ve …".
+- Yan yana sayı kelimeleri toplanıyordu: "Yirmi otuz kişi" → "50 kişi". Bu artık bir aralık
+  sayılıyor ve düzeltilmiyor. Yıla binlik ayırıcı konuyordu: "2.026 yılında" → "2026 yılında".
+- "Madde 12.30", "Sürüm 1.12.2026" ve "15.09 tarihinde" saat ya da tarih sanılıyordu. İki
+  haneli yıl ("1.12.26") sessizce 2026 yapılıyordu.
+- Sözlükte bağlamda yanlış karşılık veren girdiler artık otomatik düzeltilmiyor: bizzat,
+  kısmen, mahiyetinde, mevzuat, tahsilat. "Hak sahibi kişiler" → "Yardım alacak kişi kişiler"
+  tekrarı da giderildi.
+- "Dr. Ali" → "doktor Ali" oluyordu; artık "Doktor Ali".
+- Noktalı virgül düzeltmesi boşluk bırakıyordu: "Gitti ;geldi." → "Gitti . Geldi.".
+- Birkaç kelimelik düzeltmeler (cümle bölme, büyük harf, gereklilik) kıvrık tırnağı, uzun
+  tireyi, NBSP'yi ve Windows satır sonunu düzleştiriyordu. Değişmeyen parçalar artık özgün
+  yazımıyla kalıyor (`api._restore_original`). Cümle bölmede açılış tırnağı silinmiyor.
+- Büyük harf düzeltmesi kurum ve bölge adlarını küçültüyordu ("Türkiye büyük millet meclisi",
+  "iç Anadolu") ve ekli kısaltmanın ekini büyük bırakıyordu ("TÜİK'E"). Artık "Türkiye Büyük
+  Millet Meclisi", "İç Anadolu" ve "TÜİK'e".
+- Ünlü uyumu istisnaları: "saat", "dikkat" ince uyumla ("saate"), "isim" ünlü düşmesiyle
+  ("ismi") çekimleniyor. zeyrek'in iki biçimi de kabul ettiği kelimelerde ("kalbı"/"kalbi",
+  "halı"/"hali", "kayıtı"/"kaydı") yanlış biçim yazmak yerine düzeltme verilmiyor.
+- `kolaymetin denetle --duzelt -o` Windows'ta "\r\n" satır sonlarını "\r\r\n" yazıyordu.
+- Cümle bölme düzeltmesi cümle uzunluğunun karesiyle büyüyordu. Noktasız 64.000 karakterlik
+  tek bir cümle 24 sn sürüyordu, artık yaklaşık 1 sn.
+- Arayüz:
+  - "Kapalı" seçiliyken model, anahtar ve "hatırla" alanları görünüyordu (`.alan[hidden]`).
+  - Toplu yeniden yazma ya da çeviri sürerken metin veya sağlayıcı değişince istek yanlış
+    cümleye ya da başka modele gidiyordu.
+  - Kapatılan çeviri, kota beklemesinden sonra metni yeniden gönderiyordu. İş kapatılınca
+    yoldaki istekler de kesiliyor (`AbortController`).
+  - Bir cümlede 30'dan çok bulgu varsa yeniden yazma 422 hatası veriyordu.
+
+#### Güvenlik
+- Sunucuyu kuran kişinin modeli (`KOLAYMETIN_LLM_MODEL`) artık ziyaretçinin seçiminden önce
+  geliyor. Önceden ziyaretçi, sunucunun anahtarıyla istediği (pahalı) modeli seçebiliyordu.
+- Antigravity aboneliği `--sandbox` ile çalışıyor: araçları kapatan bayrak yok; metindeki bir
+  talimat modeli kandırsa da terminal komutları kısıtlı.
+- Yedek süreç tutulan (araç, model) sayısı 3 ile sınırlandı. Her model adı iki yeni süreç
+  açıyordu.
+
 ### Otomatik düzeltme (2026-10-08)
 
 Araç artık yalnızca işaretlemiyor, sonucu kesin olan düzeltmeleri metne kendisi uyguluyor.

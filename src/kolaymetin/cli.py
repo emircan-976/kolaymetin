@@ -142,7 +142,8 @@ def _write_fixed(report: object, path: str | None, out: TextIO, err: TextIO) -> 
     applied = len(applicable_fixes(report.findings, len(report.text)))
     content = report.fixed_text()
     if path:
-        Path(path).write_text(content, encoding="utf-8")
+        # newline="": metnin kendi satır sonları korunur; Windows'ta "\r\n" "\r\r\n" olmasın.
+        Path(path).write_text(content, encoding="utf-8", newline="")
         err.write(f"Düzeltilmiş metin yazıldı: {path}\n")
     else:
         out.write(content)

@@ -166,7 +166,7 @@
 
   function yzAyarGuncelle(kaydet) {
     var p = yzSaglayici();
-    $("yz-model-alani").hidden = !p;
+    $("yz-model-alani").hidden = !p || (p.id === "sunucu" && !!p.model);  // sunucunun modeli seçilemez
     $("yz-anahtar-alani").hidden = !p || !p.needs_key;
     $("yz-hatirla-alani").hidden = !p || !p.needs_key;
     $("yz-anahtar-bagi").hidden = !p || !p.key_url;
@@ -283,11 +283,20 @@
   // İşin başındaki rapor, metin ve sağlayıcı ayarı. Toplu iş saniyelerce sürer: kullanıcı bu arada
   // metni değiştirirse yeni raporun cümle numaraları başka cümleleri gösterir; sağlayıcıyı
   // değiştirirse kalan cümleler başka modele gider.
+  // İşi durdurur: yanıtlar yazılmaz, yoldaki istekler de kesilir (sağlayıcının kotası boşa
+  // gitmesin, kapatılan metin gönderilmeye devam etmesin).
+  function yzIptal(is) {
+    if (!is) { return; }
+    is.iptal = true;
+    if (is.ayar && is.ayar.denetci) { is.ayar.denetci.abort(); }
+  }
+
   function yzAnlik() {
     var p = yzSaglayici();
     return {
       r: durum.rapor, yazi: metin.value, profil: $("profil").value, provider: p ? p.id : "",
-      model: $("yz-model").value.trim(), key: $("yz-anahtar").value.trim()
+      model: $("yz-model").value.trim(), key: $("yz-anahtar").value.trim(),
+      denetci: typeof AbortController === "function" ? new AbortController() : null
     };
   }
 
@@ -307,7 +316,8 @@
       body: JSON.stringify({
         sentence: cumle, problems: sorunlar, before: komsu(k - 1), after: komsu(k + 1),
         profile: a.profil, provider: a.provider, model: a.model, key: a.key
-      })
+      }),
+      signal: a.denetci ? a.denetci.signal : undefined
     }).then(function (yanit) {
       if (!yanit.ok) {
         return sunucuHatasi(yanit).then(function (ileti) {
@@ -324,10 +334,10 @@
   function yzHepsi() {
     var cumleler = yzCumleleri();
     if (!cumleler.length || durum.raporMetni !== metin.value) { return; }
-    if (durum.yzIs) { durum.yzIs.iptal = true; }  // önceki işin yoldaki yanıtları ilerlemeyi ezmesin
-    var is = { iptal: false, ogeler: [] };
-    durum.yzIs = is;
+    yzIptal(durum.yzIs);  // önceki işin yoldaki yanıtları ilerlemeyi ezmesin
     var anlik = yzAnlik();
+    var is = { iptal: false, ogeler: [], ayar: anlik };
+    durum.yzIs = is;
     var liste = $("yz-ogeler");
     liste.textContent = "";
     $("yz-liste").hidden = false;
@@ -407,7 +417,7 @@
     });
     if (eskimis) { hataGoster(eskimis + " cümle siz yazarken değişti; onlar uygulanmadı."); }
     if (!fixler.length) { return; }
-    is.iptal = true;
+    yzIptal(is);
     $("yz-liste").hidden = true;
     duzeltmeleriUygula(fixler, true);  // her cümlenin metni yukarıda doğrulandı
   }
@@ -451,7 +461,8 @@
       body: JSON.stringify({
         text: bolum, first: ilk, context: onceki, profile: a.profil, provider: a.provider,
         model: a.model, key: a.key
-      })
+      }),
+      signal: a.denetci ? a.denetci.signal : undefined
     }).then(function (yanit) {
       if (yanit.ok) { return yanit.json(); }
       var bekle = parseInt(yanit.headers.get("Retry-After") || "", 10);
@@ -471,7 +482,7 @@
   function yzCevir() {
     var p = yzSaglayici(), kaynak = metin.value;
     if (!p || !kaynak.trim()) { return; }
-    if (durum.yzCeviri) { durum.yzCeviri.iptal = true; }
+    yzIptal(durum.yzCeviri);
     var is = { iptal: false, kaynak: kaynak, sonuc: [], ayar: yzAnlik() };
     durum.yzCeviri = is;
     var bolumler = bolumlereAyir(kaynak);
@@ -522,7 +533,7 @@
       hataGoster("Metin siz yazarken değişti. Çeviriyi yeniden başlatın.");
       return;
     }
-    is.iptal = true;
+    yzIptal(is);
     $("yz-ceviri").hidden = true;
     metniDegistir(is.sonuc.join("\n\n"));
     duyur("Metin Kolay Dil çevirisiyle değiştirildi. Geri almak için Ctrl+Z.");
@@ -1272,11 +1283,11 @@
     $("yz-cevir").addEventListener("click", yzCevir);
     $("yz-ceviri-uygula").addEventListener("click", yzCeviriUygula);
     $("yz-ceviri-kapat").addEventListener("click", function () {
-      if (durum.yzCeviri) { durum.yzCeviri.iptal = true; }
+      yzIptal(durum.yzCeviri);
       $("yz-ceviri").hidden = true;
     });
     $("yz-kapat").addEventListener("click", function () {
-      if (durum.yzIs) { durum.yzIs.iptal = true; }
+      yzIptal(durum.yzIs);
       $("yz-liste").hidden = true;
     });
     $("yz-hatirla").addEventListener("change", function () { yzAyarGuncelle(true); });

@@ -9,6 +9,7 @@ from __future__ import annotations
 import datetime as dt
 from collections.abc import Iterable, Mapping
 from dataclasses import replace
+from difflib import SequenceMatcher
 from itertools import pairwise
 from pathlib import Path
 from typing import Any
@@ -315,14 +316,37 @@ def run_rules(
     return out
 
 
+def _restore_original(doc: Document, start: int, end: int, text: str) -> str:
+    """Düzeltme normalleştirilmiş metinden kurulur: değişmeyen parçalar özgün metindeki
+    yazımıyla geri konur. Yoksa birkaç kelimeyi kapsayan düzeltme (cümle bölme, büyük harf)
+    aradaki kıvrık tırnağı, uzun tireyi ve Windows satır sonunu değiştirir."""
+    nt = doc.normalized
+    norm = nt.text[start:end]
+    a, b = nt.to_original(start, end)
+    if doc.original[a:b] == norm:
+        return text
+
+    def edge(i: int) -> int:
+        # Sınır, önceki karakterin özgün bitişidir: normalleştirmenin attığı "\r" gibi
+        # karakterler sonraki parçaya kalır, kaybolmaz.
+        return a if i == 0 else nt.to_original(start, start + i)[1]
+
+    out = []
+    for op, i1, i2, j1, j2 in SequenceMatcher(None, norm, text, autojunk=False).get_opcodes():
+        out.append(doc.original[edge(i1) : edge(i2)] if op == "equal" else text[j1:j2])
+    return "".join(out)
+
+
 def _to_original(doc: Document, findings: list[Finding], sentences: list[Sentence]) -> None:
     nt = doc.normalized
     for f in findings:
         f.start, f.end = nt.to_original(f.start, f.end)
         f.text = doc.original[f.start : f.end]
         if f.fix is not None:
-            f.fix.start, f.fix.end = nt.to_original(f.fix.start, f.fix.end)
-            # Düzeltme normalleştirilmiş metinden kurulur; yazarın kesmesi ("’da") korunsun.
+            start, end = f.fix.start, f.fix.end
+            f.fix.start, f.fix.end = nt.to_original(start, end)
+            f.fix.text = _restore_original(doc, start, end, f.fix.text)
+            # Yeni yazılan eklerde de yazarın kesmesi ("’da") kullanılsın.
             if "’" in doc.original[f.fix.start : f.fix.end]:
                 f.fix.text = f.fix.text.replace("'", "’")
     for s in sentences:

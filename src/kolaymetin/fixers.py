@@ -34,6 +34,7 @@ _WORD_RULES = ("KD-K04", "KD-C04", "KD-C03")  # öncelik sırası; bir kelimeye 
 # Okura dolaylı seslenen yardımcı söz: "… doldurulması gerekmektedir", "… rica olunur".
 _NECESSITY = frozenset({"gerekmektedir", "gerekir", "gerekiyor", "gerekmekte", "zorunludur",
                         "şarttır", "lazımdır", "gereklidir", "gerekli"})
+_READER_ROOTS = frozenset({"ilgili", "herkes", "siz"})
 _REQUEST = (("önemle", "rica", "olunur"), ("önemle", "rica", "ederiz"),  # uzun kalıp önce
             ("rica", "olunur"), ("rica", "ederiz"), ("rica", "ediyoruz"))
 
@@ -57,6 +58,24 @@ def simplify_verb(tok: Token) -> str | None:
             word = inflect_verb(_infinitive(turkish_lower(a.root)), a.suffixes[: -len(old)] + new)
             return _keep_case(tok.text, word) if word else None
     return None
+
+
+def _drop_passive(ids: tuple[str, ...]) -> tuple[str, ...]:
+    """Edilgen eki atılır, ardındaki ekler korunur: ("Pass", "Verb", "Neg") → ("Neg",).
+    Olumsuzluk atılırsa anlam tersine döner: "kullanılmaması gerekir" → "kullanın"."""
+    i = ids.index("Pass")
+    rest = ids[i + 1 :]
+    if rest[:1] == ("Verb",):
+        rest = rest[1:]
+    return (*ids[:i], *rest)
+
+
+def _addresses_reader(t: Token) -> bool:
+    """İlgi hâlindeki ad okuru mu gösteriyor? "Vatandaşlarımızın", "velilerimizin" (kurumun
+    seslendiği kişiler), "ilgililerin". "Çocukların okula gitmesi gerekir" okura emir değildir:
+    "Okula gidin." öznenin yerine okuru koyar."""
+    a = t.analysis
+    return a is not None and ("P1pl" in a.suffixes or turkish_lower(a.root) in _READER_ROOTS)
 
 
 def _adverbial(t: Token) -> bool:
@@ -95,7 +114,7 @@ def necessity_fix(doc: Document, s: Sentence) -> tuple[Token, Fix] | None:
     stem_ids = ids[: ids.index("Inf2")]
     passive = "Pass" in stem_ids
     if passive:
-        stem_ids = stem_ids[: stem_ids.index("Pass")]
+        stem_ids = _drop_passive(stem_ids)
     while stem_ids[-1:] == ("Verb",):
         stem_ids = stem_ids[:-1]
     imperative = inflect_verb(_infinitive(turkish_lower(a.root)), (*stem_ids, "Imp", "A2pl"))
@@ -103,6 +122,8 @@ def necessity_fix(doc: Document, s: Sentence) -> tuple[Token, Fix] | None:
         return None
     # İlgi hâlindeki ad: edilgende nesne ("Formların" → "Formları"), etkende özne (düşer).
     before = words[: len(words) - aux_len - 1]
+    if any(t.lower == "tarafından" for t in before):
+        return None  # işi yapan yazıyor: "aileleri tarafından getirilmesi" okura emir değil
     gen = None
     for t in reversed(before):
         ta = t.analysis
@@ -122,7 +143,7 @@ def necessity_fix(doc: Document, s: Sentence) -> tuple[Token, Fix] | None:
                 return None
             changes.append((gen.start, gen.end, acc))
     else:
-        if gen is None:
+        if gen is None or not _addresses_reader(gen):
             return None
         gi = words.index(gen)
         nxt = words[gi + 1]
@@ -143,15 +164,27 @@ def necessity_fix(doc: Document, s: Sentence) -> tuple[Token, Fix] | None:
             continue
         p_ids = pa.suffixes[: pa.suffixes.index("Inf2")]
         if passive:
-            p_ids = p_ids[: p_ids.index("Pass")]
+            p_ids = _drop_passive(p_ids)
         while p_ids[-1:] == ("Verb",):
             p_ids = p_ids[:-1]
         other = inflect_verb(_infinitive(turkish_lower(pa.root)), (*p_ids, "Imp", "A2pl"))
         if other is None:
             return None
         changes.append((prev.start, prev.end, other))
+        if passive:  # "Formların doldurulması ve …" → "Formları doldurun ve …"
+            for t in reversed(words[: j - 1]):
+                ta = t.analysis
+                if ta is None or ta.is_finite or t.lower == "ve" or "Inf2" in ta.suffixes:
+                    break
+                if ta.suffixes[-1:] == ("Gen",):
+                    acc = recase(t.text, ta.root, ta.suffixes, (*ta.suffixes[:-1], "Acc"))
+                    if acc is None:
+                        return None
+                    changes.append((t.start, t.end, acc))
+                    break
     end = words[-1].end
     changes.append((verb.start, end, imperative))
+    changes.sort()
     if request:
         a0, b0, t0 = changes[0]
         head = t0 or doc.text[a0:b0]

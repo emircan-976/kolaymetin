@@ -652,3 +652,17 @@ def test_cross_site_post_rejected() -> None:
 def test_cli_model_name_validated(cli: _FakeCli, model: str) -> None:
     r = client.post("/api/yeniden-yaz", json={"sentence": SENTENCE, "provider": "claude-abonelik", "model": model})
     assert r.status_code == 400 and "model" in r.json()["detail"]
+
+
+def test_server_model_cannot_be_overridden(fake_llm: type[_Fake], monkeypatch: pytest.MonkeyPatch) -> None:
+    """Sunucunun anahtarıyla ziyaretçi başka (pahalı) bir model seçemez."""
+    fake_llm.reply = "Başvurun."
+    client.post("/api/yeniden-yaz", json={"sentence": "Müracaat ediniz.", "provider": "sunucu",
+                                          "model": "pahali-model"})
+    assert fake_llm.seen[-1]["body"]["model"] == "deneme-model"
+    monkeypatch.setenv("KOLAYMETIN_LLM_MODEL", "")  # sahibi model ayarlamadıysa kullanıcı seçer
+    client.post("/api/yeniden-yaz", json={"sentence": "Müracaat ediniz.", "provider": "sunucu",
+                                          "model": "secilen-model"})
+    assert fake_llm.seen[-1]["body"]["model"] == "secilen-model"
+    r = client.post("/api/yeniden-yaz", json={"sentence": "Müracaat ediniz.", "provider": "sunucu"})
+    assert r.status_code == 400 and "Model" in r.json()["detail"]

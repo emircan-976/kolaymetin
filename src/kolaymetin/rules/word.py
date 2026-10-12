@@ -60,6 +60,10 @@ def _replacement_fix(sentence: Sentence, m: PhraseMatch, replacement: str, lemma
     after = next((t for t in sentence.tokens[m.end_token :] if t.kind != "punct"), None)
     if after is not None and after.analysis is not None and after.analysis.lemma in _LIGHT_VERBS:
         return None  # "revize edildi" → "değiştirilmiş edildi": yardımcı fiil de değişmeli
+    if after is not None and after.analysis is not None and turkish_lower(after.analysis.root) == turkish_lower(
+        replacement.split()[-1]
+    ):
+        return None  # "Hak sahibi kişiler" → "Yardım alacak kişi kişiler"
     entry_words = (lemma or m.entry.phrase).split()
     # Yalnızca son kelime çekimlenmiş olmalı: "Halkımızın bilgisine sunulur" girdinin
     # ("bilgilerinize sunulur") başka bir biçimi; karşılığı ("size bildiriyoruz") cümleyi bozar.
@@ -226,10 +230,13 @@ class Abbreviation(Rule):
                         # "vb.", "vs.": küçük harfli kısaltma açılımla yer değiştirir. Kısaltmanın
                         # noktası cümle sonunda cümlenin de noktasıdır, cümle içinde gider.
                         dot = toks[i + 1] if i + 1 < len(toks) else None
+                        expansion = entry.expansion
+                        if t.text[:1].isupper():  # "Dr. Ali" → "Doktor Ali", cümle başı da
+                            expansion = turkish_upper(expansion[:1]) + expansion[1:]
                         if dot is not None and dot.text == "." and dot.start == t.end and dot is not toks[-1]:
-                            fix = Fix(start=t.start, end=dot.end, text=entry.expansion)
+                            fix = Fix(start=t.start, end=dot.end, text=expansion)
                         else:
-                            fix = entry.expansion
+                            fix = expansion
                 else:
                     suggestion = "Kısaltmanın açık hâlini ilk geçtiği yerde parantez içinde yazın."
                 yield self.finding(

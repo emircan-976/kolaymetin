@@ -245,6 +245,25 @@ def inflect_verb(infinitive: str, tail: tuple[str, ...]) -> str | None:
     return _inflect_head(turkish_lower(infinitive), tuple(tail), True)
 
 
+_FRONT = {"a": "e", "ı": "i", "o": "ö", "u": "ü"}
+_HIGH = "ıiuü"
+
+
+def _variant_candidates(stem: str, tail: tuple[str, ...], verbal: bool) -> list[list[str]]:
+    """Aday aileleri: olağan ünlü uyumu; ince uyum ("saat" → "saati", "kalp" → "kalbi");
+    ünlü düşmesi ("kayıt" → "kaydı", "isim" → "ismi"). zeyrek bazı kelimelerde iki biçimi de
+    kabul ediyor ("kalbı" ve "kalbi"): hangi ailenin doğru olduğuna çağıran karar verir."""
+    families = [_candidates(stem, tail, verbal)]
+    i = next((k for k in range(len(stem) - 1, -1, -1) if stem[k] in VOWELS), -1)
+    if not verbal and i >= 0 and stem[i] in _FRONT:
+        proxy = stem[:i] + _FRONT[stem[i]] + stem[i + 1 :]  # yalnızca uyum için
+        families.append([c[:i] + stem[i] + c[i + 1 :] for c in _candidates(proxy, tail, verbal)])
+    if not verbal and 0 < i == len(stem) - 2 and stem[i] in _HIGH and stem[-1] not in VOWELS:
+        dropped = stem[:i] + stem[i + 1 :]
+        families.append([c for c in _candidates(dropped, tail, verbal) if c[len(dropped) - 1 :][1:2] in VOWELS])
+    return families
+
+
 def _inflect_head(head: str, tail: tuple[str, ...], verbal: bool) -> str | None:
     if tail in ((), ("A3sg",)):
         return head
@@ -254,7 +273,14 @@ def _inflect_head(head: str, tail: tuple[str, ...], verbal: bool) -> str | None:
         if prefix is None:
             continue
         expected = prefix + tail
-        for cand in _candidates(stem, tail, verbal):
-            if any(a.root == base.root and a.suffixes == expected for a in _readings(cand)):
-                return cand
+        found = [
+            next((c for c in family
+                  if any(a.root == base.root and a.suffixes == expected for a in _readings(c))), None)
+            for family in _variant_candidates(stem, tail, verbal)
+        ]
+        accepted = [c for c in found if c is not None]
+        if len(set(accepted)) > 1:
+            return None  # "kalbı" mı "kalbi" mi: çözümleyici ikisini de kabul ediyor
+        if accepted:
+            return accepted[0]
     return None

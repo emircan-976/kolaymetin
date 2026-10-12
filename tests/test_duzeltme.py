@@ -278,3 +278,116 @@ def test_sentence_fixes(text: str, expected: str) -> None:
 )
 def test_sentence_left_alone(text: str) -> None:
     assert analyze(text).fixed_text() == text
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        # Edilgendeki olumsuzluk korunur: anlam tersine dönmez.
+        ("Ürünün kullanılmaması gerekir.", "Ürünü kullanmayın."),
+        ("Bu işlemin yapılmaması rica olunur.", "Lütfen bu işlemi yapmayın."),
+        # Bağlanan edilgen ad-fiillerin ilgi hâli de nesne olur.
+        ("Formların doldurulması ve belgelerin getirilmesi gerekmektedir.",
+         "Formları doldurun ve belgeleri getirin."),
+        # Okura seslenen özne düşer.
+        ("Velilerimizin okula gelmesi gerekmektedir.", "Okula gelin."),
+        # Okur olmayan özne okura çevrilmez; işi yapan yazıyorsa da düzeltme yok.
+        ("Çocukların okula gitmesi gerekmektedir.", "Çocukların okula gitmesi gerekmektedir."),
+        ("Belediyenin yol yapması gerekmektedir.", "Belediyenin yol yapması gerekmektedir."),
+        ("Çocukların aileleri tarafından getirilmesi gerekir.",
+         "Çocukların aileleri tarafından getirilmesi gerekir."),
+        # Bağlamda yanlış karşılık verilen sözlük girdileri otomatik düzeltilmez.
+        ("Müdür bizzat katılacaktır.", "Müdür bizzat katılacaktır."),
+        ("Borç kısmen ödendi.", "Borç kısmen ödendi."),
+        ("Hak sahibi kişiler başvurur.", "Hak sahibi kişiler başvurur."),
+        ("Dr. Ali geldi.", "Doktor Ali geldi."),
+        ("Başvurular 15.09 tarihinde başlar.", "Başvurular 15.09 tarihinde başlar."),
+    ],
+)
+def test_fix_keeps_meaning(text: str, expected: str) -> None:
+    assert analyze(text).fixed_text() == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("Formların “yeni” doldurulması gerekmektedir.", "Formları “yeni” doldurun."),
+        ("Formların – yeni – doldurulması gerekmektedir.", "Formları – yeni – doldurun."),
+        ("Formların\r\ndoldurulması gerekmektedir.", "Formları\r\ndoldurun."),
+        ("Okul kapandı;\r\nöğrenciler eve gitti.", "Okul kapandı.\r\nÖğrenciler eve gitti."),
+        ("ÖNEMLİ – DUYURU “YARIN” OKULLAR KAPALI.", "Önemli – duyuru “yarın” okullar kapalı."),
+        ("Belgelerinizi hazırlayın ve “eksiksiz” getirin.", "Belgelerinizi hazırlayın. “Eksiksiz” getirin."),
+    ],
+)
+def test_multi_word_fix_keeps_original_characters(text: str, expected: str) -> None:
+    """Birkaç kelimelik düzeltme normalleştirilmiş metinden kurulur; değişmeyen tırnak, tire ve
+    satır sonları yazarın yazdığı gibi kalır."""
+    assert analyze(text).fixed_text() == expected
+
+
+def test_cli_duzelt_keeps_crlf(tmp_path: Path) -> None:
+    source = tmp_path / "metin.txt"
+    source.write_bytes("Formların\r\ndoldurulması gerekmektedir.\r\n".encode())
+    target = tmp_path / "duzeltilmis.txt"
+    out, err = io.StringIO(), io.StringIO()
+    main(["denetle", str(source), "--duzelt", "-o", str(target)], out=out, err=err)
+    assert b"\r\r\n" not in target.read_bytes() and b"\r\n" in target.read_bytes()
+
+
+def test_long_single_sentence_is_fast() -> None:
+    """Cümle bölme düzeltmesi cümle uzunluğuyla doğrusal büyür (önceden 60.000 karakter ~25 sn)."""
+    import time
+
+    text = " ".join(["Su kesilecek ve elektrik verilmeyecek"] * 1500) + "."
+    t0 = time.perf_counter()
+    analyze(text, max_chars=None)
+    assert time.perf_counter() - t0 < 10
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("TÜRKİYE BÜYÜK MİLLET MECLİSİ YARIN TOPLANACAK.", "Türkiye Büyük Millet Meclisi yarın toplanacak."),
+        ("BAŞVURUNUZU SOSYAL GÜVENLİK KURUMU'NA HEMEN YAPIN.", "Başvurunuzu Sosyal Güvenlik Kurumu'na hemen yapın."),
+        ("DİLEKÇENİZİ TÜİK'E HEMEN GÖNDERİN LÜTFEN.", "Dilekçenizi TÜİK'e hemen gönderin lütfen."),
+    ],
+)
+def test_all_caps_fix_keeps_institution_names(text: str, expected: str) -> None:
+    assert analyze(text).fixed_text() == expected
+
+
+@pytest.mark.parametrize(
+    ("new", "old", "expected"),
+    [
+        # İnce uyumlu alıntı kelimeler: zeyrek yalnızca doğru biçimi kabul ediyor.
+        ("saat", "müracaata", "saate"),
+        ("dikkat", "müracaatı", "dikkati"),
+        ("isim", "müracaatı", "ismi"),  # ünlü düşmesi
+        # zeyrek iki biçimi de kabul ediyor ("kalbı"/"kalbi", "halı"/"hali", "kayıtı"/"kaydı"):
+        # yanlışını yazmaktansa düzeltme verilmez.
+        ("kalp", "müracaatı", None),
+        ("hal", "müracaatı", None),
+        ("kayıt", "müracaata", None),
+    ],
+)
+def test_inflect_like_harmony_exceptions(new: str, old: str, expected: str | None) -> None:
+    assert inflect_like(new, old, "müracaat") == expected
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("YARIN İÇ ANADOLU BÖLGESİNDE KAR YAĞACAK.", "Yarın İç Anadolu bölgesinde kar yağacak."),
+        ("DOĞU KARADENİZ'DE YAĞMUR VAR BUGÜN.", "Doğu Karadeniz'de yağmur var bugün."),
+        ("EVİN İÇ KISMI ÇOK SOĞUK OLDU.", "Evin iç kısmı çok soğuk oldu."),
+    ],
+)
+def test_all_caps_fix_keeps_region_names(text: str, expected: str) -> None:
+    assert analyze(text).fixed_text() == expected
+
+
+def test_agy_runs_sandboxed() -> None:
+    """Antigravity'de araçlar kapatılamıyor; terminal komutları --sandbox ile kısıtlanır."""
+    from kolaymetin import rewrite
+
+    assert "--sandbox" in rewrite._session_args("agy", "agy", "")
