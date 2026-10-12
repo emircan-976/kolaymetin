@@ -12,9 +12,10 @@
 [![Rehber: CC BY 4.0](https://img.shields.io/badge/rehber-CC%20BY%204.0-B42D26?style=flat-square&labelColor=1B1A17)](docs/rehber/LICENSE)
 [![32 kural](https://img.shields.io/badge/kural-32-FFE14D?style=flat-square&labelColor=1B1A17)](docs/rehber/index.md)
 [![Tamamen çevrimdışı](https://img.shields.io/badge/a%C4%9F-%C3%A7evrimd%C4%B1%C5%9F%C4%B1-F3EEE3?style=flat-square&labelColor=1B1A17)](#gizlilik)
+[![Yapay zekâ: isteğe bağlı](https://img.shields.io/badge/yapay%20zek%C3%A2-iste%C4%9Fe%20ba%C4%9Fl%C4%B1-23408E?style=flat-square&labelColor=1B1A17)](#yapay-zekâyla-düzeltme-isteğe-bağlı)
 [![Yazı tipi: Atkinson Hyperlegible](https://img.shields.io/badge/yaz%C4%B1%20tipi-Atkinson%20Hyperlegible-F3EEE3?style=flat-square&labelColor=1B1A17)](#görsel-dil-düzeltmen-masası)
 
-**[Kurulum](#kurulum)** &nbsp;·&nbsp; **[Kullanım](#kullanım)** &nbsp;·&nbsp; **[Kurallar](#kurallar)** &nbsp;·&nbsp; **[Skorlar](#skorlar)** &nbsp;·&nbsp; **[Görsel dil](#görsel-dil-düzeltmen-masası)** &nbsp;·&nbsp; **[Belgeler](#belgeler)**
+**[Kurulum](#kurulum)** &nbsp;·&nbsp; **[Kullanım](#kullanım)** &nbsp;·&nbsp; **[Yapay zekâ](#yapay-zekâyla-düzeltme-isteğe-bağlı)** &nbsp;·&nbsp; **[Kurallar](#kurallar)** &nbsp;·&nbsp; **[Skorlar](#skorlar)** &nbsp;·&nbsp; **[Görsel dil](#görsel-dil-düzeltmen-masası)** &nbsp;·&nbsp; **[Belgeler](#belgeler)**
 
 </div>
 
@@ -24,6 +25,13 @@
 için anlaşılır hâle getirmenize yardım eder.** Metninizi cümle ve kelime düzeyinde inceler; uzun
 cümleleri, edilgen yapıları, resmî ve yabancı kelimeleri, belirsiz ifadeleri ve biçim sorunlarını
 işaretler. Her işaret için **nedenini** ve **somut bir öneri** yazar.
+
+Düzeltme iki katmanlıdır. Sonucu kesin olan düzeltmeleri (tarih, sayı, resmî kelime, bazı
+cümle bölmeleri) araç kurallarla **kendisi yapar**. Kuralların yetmediği edilgen ve iç içe
+cümleler için isteğe bağlı olarak bir **yapay zekâ** modeline cümleyi ya da bütün metni Kolay
+Dil'e yeniden yazdırabilirsiniz. Araç modelin her önerisini yeniden denetler; sayıların,
+tarihlerin, adların ve anlamın korunup korunmadığına bakar. Siz onaylamadan metne bir şey
+yazılmaz.
 
 Belediye basın birimleri, engelli dernekleri ve çevirmenler için tasarlandı. Kendi
 bilgisayarınıza kurarsanız tamamen çevrimdışı çalışır: metniniz bilgisayarınızdan hiç çıkmaz.
@@ -191,6 +199,8 @@ kolaymetin sunucu --port 8000
   Kelime ekleriyle değişir: "Müracaatlarınızı" → "Başvurularınızı", "müracaat ediniz" →
   "başvurun". **Hepsini düzelt** görünen bütün bu düzeltmeleri birden uygular. Ctrl+Z ile geri
   alırsınız. Cümle yapısı ve birden çok seçeneği olan kelimeler sizde kalır.
+- Kuralların düzeltemediği cümleler için **Yapay zekâyla düzelt** ve **Kolay Dil'e çevir**
+  düğmeleri var. Bkz. [Yapay zekâyla düzeltme](#yapay-zekâyla-düzeltme-isteğe-bağlı).
 - "Cümleler" sekmesi her cümlenin uzunluğunu bir çubukla gösterir.
 - Raporu HTML (yazdırılabilir; tarayıcıdan "PDF olarak kaydet"), Markdown ya da JSON olarak indirin.
 - Klavyeyle tam kullanılır; açık/koyu tema ve yazı büyütme düğmeleri var.
@@ -263,6 +273,93 @@ report.to_html()
 > `| more`) Python, Türkçe kod sayfasını (cp1254) kullanır. Önerilerdeki "→" gibi karakterler bu
 > kod sayfasında yoktur. `PYTHONUTF8=1` ortam değişkenini ayarlayın. `kolaymetin` komutu bunu
 > kendisi yapar.
+
+## Yapay zekâyla düzeltme (isteğe bağlı)
+
+Kurallar bazı cümleleri kendisi böler ve emre çevirir, ama edilgen ve iç içe geçmiş uzun
+cümleleri yeniden yazamaz. Bunun için bir dil modeli kullanabilirsiniz. Özellik varsayılan
+olarak **kapalıdır** ve yalnızca web arayüzünde vardır.
+
+### Açmak
+
+Bulgular panelindeki **Yapay zekâyla yeniden yazma** bölümünden bir sağlayıcı seçin ve
+anahtarınızı yapıştırın. Araç bağlantıyı denetler ve sağlayıcının model listesini getirir.
+
+### Üç yol
+
+1. **Tek cümle:** cümle bulgusunun kartındaki **Yapay zekâyla yeniden yaz** düğmesi. Öneri,
+   önce/sonra bulgu sayısı ve skoruyla gösterilir; **Uygula** demeden metne yazılmaz.
+2. **Bütün sorunlu cümleler:** önce **Hepsini düzelt** ile kesin düzeltmeleri uygulayın, sonra
+   **Yapay zekâyla düzelt (N cümle)**. Cümleler sırayla yeniden yazılır; öneriler işaretli bir
+   listede gelir. İstemediklerinizin işaretini kaldırıp **Seçilenleri uygula**ya basın.
+3. **Bütün metin:** **Kolay Dil'e çevir**, metni [kolaydil.tr](https://www.kolaydil.tr)
+   biçiminde yeniden yazar: başlık, her cümle ayrı satırda, en çok 4 cümlelik paragraflar,
+   soru biçiminde ara başlıklar, listeler. Uzun metin bölümlere ayrılır; her bölüm bir önceki
+   bölümün çevirisini bağlam olarak alır. Sonuç önce gösterilir; **Metnin yerine koy** ile
+   yazılır.
+
+Hepsi Ctrl+Z ile geri alınır.
+
+### Model denetlenir
+
+Model kurallara her zaman uymaz; bazen bilgi uydurur ya da anlamı kaydırır. Bu yüzden araç
+modelin önerisini olduğu gibi kabul etmez:
+
+| Adım | Ne yapılır |
+|---|---|
+| **Kural denetimi** | Öneri `analyze()` ile yeniden denetlenir; aracın kesin düzeltmeleri (haftanın günü, "saat", sözlük karşılıkları) uygulanır. Kalan bulgular satır numarasıyla modele geri gönderilir. |
+| **Bilgi denetimi** | Sayılar, tarihler, saatler, internet adresleri ve özel adlar özgün metinle karşılaştırılır. Eksik ya da uydurulmuş bilgi varsa öneri seçili gelmez ve uyarıyla gösterilir. |
+| **Anlam denetimi** | Öneri ayrı bir istekle özgün metinle karşılaştırılır: eksik ya da yanlış bilgi, kopan neden-sonuç, koşul ya da sıra bağı, neyi gösterdiği belli olmayan "bu/o", uydurma. Sorunlar onarım turuna girer; kalanlar notta yazar. |
+| **Seçim** | Öneriler arasından önce bilgisi eksiksiz olan, sonra anlamı korunan, en son bulgusu en az olan seçilir. Onarım bulguyu azaltıp anlamı bozarsa önceki öneri kalır. |
+
+İstem, kuralların birebir karşılığıdır: en çok 10 kelime, yan cümle ve edilgen yok, en çok 4
+heceli kelime, metni yazan kurum "biz" der, kesin bilgi uydurulmaz. Cümle bölününce bağ
+korunur: "Boru bozuldu. Bu yüzden suyu keseceğiz."
+
+### Sağlayıcılar
+
+| Sağlayıcı | Ücret | Metin nereye gider | Kurulum |
+|---|---|---|---|
+| Google Gemini (önerilen) | ücretsiz anahtar | Google | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
+| Groq | ücretsiz anahtar | Groq | [console.groq.com/keys](https://console.groq.com/keys) |
+| OpenRouter | `:free` modeller | OpenRouter | [openrouter.ai/keys](https://openrouter.ai/keys) |
+| Ollama | ücretsiz | bilgisayarınızda kalır | [ollama.com](https://ollama.com), sonra `ollama pull gemma3:4b` |
+| LM Studio | ücretsiz | bilgisayarınızda kalır | Bir model yükleyin, Developer → Start Server |
+| Claude aboneliği | aboneliğinizden düşer | Anthropic | Claude Code kurulu ve giriş yapılmış olmalı (`claude`) |
+| Gemini aboneliği | aboneliğinizden düşer | Google | Antigravity CLI kurulu ve giriş yapılmış olmalı (`agy`) |
+
+- **Google Gemini** (`gemini-3.5-flash`) denemelerde Türkçesi en iyi ücretsiz model oldu; bir
+  duyuru 92-94 uyum skoru aldı ve 30-50 saniye sürdü. Google yoğunken araç birkaç saniye
+  bekleyip yeniden dener; geçmezse `gemini-3.5-flash-lite`'ı seçin (çok hızlı, ama anlamı daha
+  sık bozar). Ücretsiz anahtarın günlük istek sınırı model başınadır; bir duyuru 1-3 istek tutar.
+- **Groq**'ta `openai/gpt-oss-120b` ortalama 91 skor alır; ücretsiz anahtar günde yaklaşık 30
+  duyuruya yeter. Dakikalık sınıra takılınca araç sağlayıcının önerdiği süre kadar bekleyip
+  yeniden dener; günlük kota dolunca ne zaman açılacağını söyler.
+- **Abonelikle kullanım** yalnızca kendi bilgisayarınıza kurduğunuz sürümde vardır; çevrim içi
+  sürümde listelenmez. Claude aboneliğinde model `haiku`, `sonnet` ya da `opus`; Gemini
+  aboneliğinde önerilen model `flash-low`. Araç bulunamazsa, giriş yapılmamışsa ya da limit
+  dolmuşsa Türkçe bir ileti çıkar. Araçlar açık tutulur ve arka planda ısıtılır; bir cümle
+  4-17 saniye sürer. Claude Code'da modelin araçları kapalıdır; Antigravity `--sandbox` ile
+  çalışır.
+
+### Sunucuyu kuranlar için
+
+Sunucuyu kuran kişi bir modeli herkes için ayarlayabilir:
+
+| Ortam değişkeni | Anlamı |
+|---|---|
+| `KOLAYMETIN_LLM_URL` | OpenAI uyumlu adres, ör. `http://localhost:11434/v1` |
+| `KOLAYMETIN_LLM_MODEL` | model adı; ziyaretçinin seçiminden önce gelir |
+| `KOLAYMETIN_LLM_KEY` | sağlayıcı anahtarı |
+| `KOLAYMETIN_YZ_GUNLUK=1` | her turu, metinle birlikte, sunucu konsoluna yazar; yalnızca hata ayıklarken açın |
+
+Çevrim içi sürümde yerel sağlayıcılar listelenmez ve sunucu yalnızca bilinen sağlayıcı
+adreslerine bağlanır; kullanıcı adres veremez. Uç noktalar: `GET /api/yz`,
+`POST /api/yz/modeller`, `POST /api/yeniden-yaz`, `POST /api/kolay-dile-cevir`.
+
+> [!CAUTION]
+> Yapay zekâ önerisi, araç denetlese de bir taslaktır. Her öneriyi uygulamadan önce okuyun;
+> özellikle tarih, tutar ve hak bildiren cümleleri özgün metinle karşılaştırın.
 
 ## Belediyeler için: kendi profilinizi ve sözlüğünüzü ekleyin
 
@@ -492,54 +589,18 @@ python scripts/readme_gorselleri.py
 ## Gizlilik
 
 > [!NOTE]
-> Metin hiçbir yerde saklanmaz; yalnızca denetim sırasında bellekte kalır ve günlüğe yazılmaz.
+> Metin hiçbir yerde saklanmaz; yalnızca denetim sırasında bellekte kalır ve günlüğe yazılmaz
+> (sunucuyu kuran kişi hata ayıklamak için `KOLAYMETIN_YZ_GUNLUK=1` açmadıkça).
 
 - Hiçbir dış servise bağlantı kurulmaz: telemetri, analitik, CDN, dış yazı tipi yok.
 - Testler dış bağlantıları engelleyerek bunu doğrular.
-- Tek istisna, isteğe bağlı **yapay zekâyla yeniden yazma**dır (varsayılan: kapalı). Yerel
-  model (Ollama, LM Studio) seçilirse metin yine bilgisayardan çıkmaz. Gemini, Groq ya da
+- Tek istisna, isteğe bağlı [yapay zekâyla düzeltme](#yapay-zekâyla-düzeltme-isteğe-bağlı)dir (varsayılan: kapalı).
+  Yerel model (Ollama, LM Studio) seçilirse metin bilgisayardan çıkmaz. Gemini, Groq ya da
   OpenRouter seçilirse yalnızca yeniden yazdırdığınız cümle ve komşu iki cümle o sağlayıcıya
-  gönderilir.
-
-### Yapay zekâyla yeniden yazma (isteğe bağlı)
-
-Kurallar bazı cümleleri kendisi böler ve emre çevirir, ama edilgen ve iç içe geçmiş uzun
-cümleleri yeniden yazamaz. Bulgular panelindeki **Yapay zekâyla yeniden yazma** bölümünden bir
-sağlayıcı seçin ve anahtarınızı yapıştırın; araç bağlantıyı denetler ve model listesini getirir.
-Sonra:
-
-1. **Hepsini düzelt** ile kesin düzeltmeleri uygulayın.
-2. **Yapay zekâyla düzelt (N cümle)** sorunlu cümleleri sırayla yeniden yazdırır. Öneriler bir
-   listede gelir; istemediklerinizin işaretini kaldırıp **Seçilenleri uygula**ya basın.
-   Tek bir cümle için kartındaki **Yapay zekâyla yeniden yaz** düğmesini de kullanabilirsiniz.
-3. Ya da **Kolay Dil'e çevir** ile bütün metni [kolaydil.tr](https://www.kolaydil.tr)
-   biçiminde yeniden yazdırın: başlık, her cümle ayrı satırda, kısa paragraflar, ara başlıklar,
-   listeler. Sonuç önce gösterilir; **Metnin yerine koy** ile yazılır (Ctrl+Z ile geri alınır).
-
-Model kurallara her zaman uymaz. Bu yüzden öneri yeniden denetlenir, aracın kesin düzeltmeleri
-uygulanır ve kalan bulgular modele en çok iki tur geri gönderilir. Önerideki sayılar, tarihler,
-saatler, internet adresleri ve özel adlar özgün metinle karşılaştırılır; eksik ya da uydurulmuş
-bilgi varsa öneri seçilemez ya da uyarıyla gösterilir.
-
-Önerilen sağlayıcı **Google Gemini** (`gemini-3.5-flash`): denemelerde Türkçesi en iyi ücretsiz
-model oldu, bir duyuru 92-94 uyum skoru aldı. Bir duyuru 30-50 saniye sürer. Google yoğunken
-araç birkaç saniye bekleyip yeniden dener; geçmezse `gemini-3.5-flash-lite`'ı seçin (çok hızlı,
-ama anlamı daha sık bozar). Ücretsiz anahtarın günlük istek sınırı model başınadır; bir duyuru
-1-3 istek tutar. Groq'ta `openai/gpt-oss-120b` ortalama 91 skor alır; ücretsiz anahtar günde
-yaklaşık 30 duyuruya yeter.
-
-| Sağlayıcı | Ücret | Metin nereye gider | Kurulum |
-|---|---|---|---|
-| Ollama | ücretsiz | bilgisayarınızda kalır | [ollama.com](https://ollama.com), sonra `ollama pull gemma3:4b` |
-| LM Studio | ücretsiz | bilgisayarınızda kalır | Bir model yükleyin, Developer → Start Server |
-| Google Gemini (önerilen) | ücretsiz anahtar | Google | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) |
-| Groq | ücretsiz anahtar | Groq | [console.groq.com/keys](https://console.groq.com/keys) |
-| OpenRouter | `:free` modeller | OpenRouter | [openrouter.ai/keys](https://openrouter.ai/keys) |
-
-Sunucuyu kuran kişi bir modeli herkes için ayarlayabilir: `KOLAYMETIN_LLM_URL` (OpenAI uyumlu
-adres, ör. `http://localhost:11434/v1`), `KOLAYMETIN_LLM_MODEL`, `KOLAYMETIN_LLM_KEY`. Çevrim
-içi sürümde yerel sağlayıcılar listelenmez ve sunucu yalnızca bilinen sağlayıcı adreslerine
-bağlanır.
+  gönderilir; **Kolay Dil'e çevir** bütün metni gönderir. Abonelik seçilirse metin Claude
+  Code ya da Antigravity üzerinden Anthropic'e ya da Google'a gider.
+- API anahtarı yalnızca "Anahtarı bu tarayıcıda hatırla" seçiliyse saklanır, o da yalnızca
+  sizin tarayıcınızda.
 
 ## Belgeler
 
