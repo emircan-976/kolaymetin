@@ -5,6 +5,32 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### Mobil düzen (2026-10-17)
+
+Telefonda sayfa 390 px genişlikte 12.500 px'i aşan tek bir sütundu; editör ilk ekranda hiç
+görünmüyordu. Artık metin görünümü tek ekrana sığar.
+
+#### Eklendi
+- Dar ekranda (≤ 900 px) alt gezinme: **Metin**, **Bulgular** (sayıyla) ve **Skor** (değerle)
+  ayrı görünümlerdir. Her görünüm kendi kaydırma konumunu hatırlar.
+- İşaretli bir yere dokununca bulgunun özeti editörün altında açılır (önem, kural, mesaj,
+  öneri, Düzelt, Ayrıntılar); sayfa artık bulgu kartına fırlamaz. Ekran klavyesi açıkken
+  özet klavyenin üstünde durur, alt gezinme gizlenir.
+
+#### Değişti
+- Dar ekranda künye tek satır: ad ve yalnızca ikonlu düğmeler; tarih, alt başlık ve manzara
+  gizli. Not şeridi küçük yazıyla.
+- Dar ekranda araç çubuğu tek satır: profil, seçenekler ve Denetle. Dosya, örnek metin ve
+  "Yazarken denetle" seçenekler düğmesiyle açılır. Süzgeçler de açılır panelde; kapalı
+  süzgeç sayısı düğmede yazar.
+- Editör ekranın kalanını doldurur (`100dvh`). Geniş ekran düzeni değişmedi.
+
+#### Düzeltildi
+- 360 px genişlikte 1 px yatay taşma.
+- Düzeltme ve metin değiştirme, editör odakta değilken `insertText` ile başka bir alana
+  yazmaz; doğrudan atamaya düşer.
+- "Yapay zekâyla yeniden yazma: kapalı" başlığında eksik boşluk.
+
 ### Temalar (2026-10-16)
 
 Testler: `tests/test_stil.py`, `tests/test_api_web.py`.

@@ -48,7 +48,8 @@ def _start_server(port: int) -> None:
 def _fill(page, text: str) -> None:  # type: ignore[no-untyped-def]
     page.fill("#metin", text)
     page.click("#denetle")
-    page.wait_for_selector("#bulgular li", timeout=30_000)
+    # Dar ekranda bulgular ayrı görünümdedir (gizli): görünür olmaları beklenmez.
+    page.wait_for_selector("#bulgular li", timeout=30_000, state="attached")
     page.wait_for_timeout(300)
     page.evaluate("document.getElementById('metin').scrollTop = 0;"
                   "document.getElementById('metin').dispatchEvent(new Event('scroll'))")

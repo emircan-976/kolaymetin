@@ -28,7 +28,9 @@
     yuklenenMetin: null,  // son yüklenen örnek ya da dosya
     zamanlayici: null,
     yuklemeZamanlayici: null,
-    saglayicilar: []      // yeniden yazma için kullanılabilen dil modeli sağlayıcıları
+    saglayicilar: [],     // yeniden yazma için kullanılabilen dil modeli sağlayıcıları
+    ipucu: -1,            // dar ekranda ipucusu açık bulgu
+    kaydirma: {}          // dar ekranda her görünümün son kaydırma konumu
   };
 
   // ------------------------------------------------------------------ yardımcılar
@@ -107,7 +109,10 @@
     metin.focus({ preventScroll: true });
     metin.select();
     var yazildi = false;
-    try { yazildi = document.execCommand("insertText", false, yeni); } catch (e) { yazildi = false; }
+    // Dar ekranda editör gizli bir görünümde olabilir: odak almaz ve insertText başka alana yazar.
+    if (document.activeElement === metin) {
+      try { yazildi = document.execCommand("insertText", false, yeni); } catch (e) { yazildi = false; }
+    }
     if (!yazildi || metin.value !== yeni) { metin.value = yeni; }
     metin.setSelectionRange(0, 0);
     durum.yuklenenMetin = yeni;
@@ -142,7 +147,9 @@
     metin.focus({ preventScroll: true });
     metin.setSelectionRange(bas, son);
     var yazildi = false;
-    try { yazildi = document.execCommand("insertText", false, parca); } catch (e) { yazildi = false; }
+    if (document.activeElement === metin) {
+      try { yazildi = document.execCommand("insertText", false, parca); } catch (e) { yazildi = false; }
+    }
     if (!yazildi || metin.value !== yeni) { metin.value = yeni; }
     metin.setSelectionRange(bas + parca.length, bas + parca.length);
     metin.scrollTop = kaydirma;
@@ -746,7 +753,7 @@
           d.appendChild(el("span", "kenar-isaret__kimlik", b.f.rule_id));
           kimlikYazildi = true;
         }
-        d.addEventListener("click", function () { kartAc(b.i, true); });
+        d.addEventListener("click", function () { bulguSec(b.i, true); });
         kutu.appendChild(d);
       });
       if (satir.liste.length > enFazla) { kutu.appendChild(el("span", "kenar-isaret kenar-isaret--fazla", "+" + (satir.liste.length - enFazla))); }
@@ -765,6 +772,7 @@
     $("uyum-baslik").textContent = skorBasligi(r);
     $("uyum").textContent = deger;
     $("uyum-sayi").textContent = deger;
+    $("gorunum-skor-degeri").textContent = deger;
     cubukAyarla($("uyum-cubuk"), c.value || 0);
     var not = $("uyum-not");
     // Yoksayılan bulgular skoru yükseltir; kullanıcı bunu görmeli (rapor da söyler).
@@ -841,6 +849,12 @@
     var gorunur = gorunurBulgular();
     var toplam = durum.rapor ? durum.rapor.findings.length : 0;
     $("bulgu-sayisi").textContent = durum.rapor ? "(" + gorunur.length + (gorunur.length !== toplam ? "/" + toplam : "") + ")" : "";
+    $("gorunum-bulgu-sayisi").textContent = durum.rapor ? String(gorunur.length) : "";
+    if (!durum.rapor) { $("gorunum-skor-degeri").textContent = ""; }
+    var kapali = document.querySelectorAll("input[name='onem']:not(:checked), input[name='kategori']:not(:checked)").length;
+    $("suzgec-ozet").textContent = kapali ? "(" + kapali + " kapalı)" : "";
+    // Rapor ya da süzgeç değişti: ipucudaki bulgu sırası artık başka bulguyu gösterebilir.
+    ipucuKapat();
     var duzeltilebilir = gorunur.filter(function (b) { return b.f.fix; }).length;
     $("hepsini-duzelt").hidden = !duzeltilebilir;
     $("hepsini-duzelt-metni").textContent = "Hepsini düzelt (" + duzeltilebilir + ")";
@@ -965,6 +979,7 @@
   }
 
   function kartAc(i, odakla) {
+    gorunumSec("bulgular");
     sekmeSec("sekme-bulgular");
     durum.acik[i] = true;
     var art = $("bulgu-" + i);
@@ -983,11 +998,82 @@
   // Editör ekranın dışındaysa (kartlarda aşağı inilmiş, dar ekranda sonuçlar altta) onu
   // ekrana getirir. Seçili metin görünmeden odakta kalırsa bir tuşa basmak onu siler.
   function editoruGoster() {
+    gorunumSec("metin");
     var kutu = masa.getBoundingClientRect();
     var ekran = window.innerHeight || document.documentElement.clientHeight;
     if (kutu.top < 0 || kutu.bottom > ekran) {
       masa.scrollIntoView({ block: kutu.height > ekran ? "start" : "nearest" });
     }
+  }
+
+  // ------------------------------------------------------------------ dar ekran: görünümler ve ipucu
+  // Dar ekranda metin, bulgular ve skor alt gezinmeyle seçilen ayrı görünümlerdir; sayfa uzayıp
+  // gitmez. Geniş ekranda üçü yan yana durur ve bu işlevler hiçbir şey yapmaz.
+  var darEkranSorgusu = window.matchMedia ? window.matchMedia("screen and (max-width: 900px)") : null;
+  function darEkran() { return !!(darEkranSorgusu && darEkranSorgusu.matches); }
+
+  function gorunumSec(ad) {
+    var kok = document.documentElement;
+    var onceki = kok.getAttribute("data-gorunum") || "metin";
+    if (!darEkran() || onceki === ad) { return; }
+    durum.kaydirma[onceki] = window.scrollY;
+    kok.setAttribute("data-gorunum", ad);
+    document.querySelectorAll(".mobil-gezinme__dugme").forEach(function (d) {
+      d.setAttribute("aria-pressed", d.getAttribute("data-gorunum") === ad ? "true" : "false");
+    });
+    ipucuKapat();
+    window.scrollTo(0, durum.kaydirma[ad] || 0);
+    // Gizliyken editör ölçülemez: kenar işaretleri ve seçim kutusu yeniden yerleşir.
+    if (ad === "metin") { kenarCiz(); secimCiz(); }
+  }
+
+  // Metinde ya da kenarda bir işarete dokunulunca: geniş ekranda yandaki kart açılır, dar ekranda
+  // editörün altında kısa bir ipucu. Kartı açmak dar ekranda Bulgular görünümüne geçirirdi.
+  function bulguSec(i, odakla) {
+    if (darEkran()) { ipucuGoster(i); } else { kartAc(i, odakla); }
+  }
+
+  function ipucuGoster(i) {
+    var f = durum.rapor && durum.rapor.findings[i];
+    if (!f) { return; }
+    var sinif = ONEM_SINIF[f.severity];
+    var kutu = $("ipucu");
+    kutu.className = "ipucu ipucu--" + sinif;
+    var onem = $("ipucu-onem");
+    onem.className = "onem onem--" + sinif;
+    onem.textContent = "";
+    onem.appendChild(ikon(ONEM_IKON[f.severity]));
+    onem.appendChild(document.createTextNode(ONEM_AD[f.severity]));
+    $("ipucu-kimlik").className = "kimlik kimlik--" + sinif;
+    $("ipucu-kimlik").textContent = f.rule_id;
+    $("ipucu-mesaj").textContent = f.message;
+    var oneri = $("ipucu-oneri");
+    oneri.textContent = "";
+    oneri.hidden = !f.suggestion;
+    if (f.suggestion) { oneri.appendChild(el("span", null, f.suggestion)); }
+    var duzelt = $("ipucu-duzelt");
+    duzelt.hidden = !f.fix;
+    if (f.fix) { duzelt.setAttribute("aria-label", "Düzelt: “" + f.text + "” yerine “" + f.fix.text + "” yaz"); }
+    durum.ipucu = i;
+    kutu.hidden = false;
+    sec(i, false);
+    duyur(ONEM_AD[f.severity] + ", " + f.rule_id + ": " + f.message);
+    // İpucu işaretli yerin üstüne binmesin: editör (gerekirse sayfa) yukarı kayar.
+    var ilk = arka.querySelector("[data-ilk-" + i + "]");
+    if (!ilk) { return; }
+    var fark = ilk.getBoundingClientRect().bottom + 12 - kutu.getBoundingClientRect().top;
+    if (fark > 0) {
+      var once = metin.scrollTop;
+      metin.scrollTop = once + fark;
+      arka.scrollTop = metin.scrollTop;
+      var kalan = fark - (metin.scrollTop - once);
+      if (kalan > 0) { window.scrollBy(0, kalan); }
+    }
+  }
+
+  function ipucuKapat() {
+    $("ipucu").hidden = true;
+    durum.ipucu = -1;
   }
 
   function metindeSec(bas, son) {
@@ -1221,6 +1307,7 @@
     $("bugun").textContent = bugun.toLocaleDateString("tr-TR", { day: "numeric", month: "long", year: "numeric", weekday: "long" });
 
     metin.addEventListener("input", function () {
+      ipucuKapat();
       arkaCiz();
       if ($("otomatik").checked) { denetle(false); }
     });
@@ -1230,9 +1317,9 @@
       var konum = metin.selectionStart;
       if (metin.selectionEnd !== konum) { return; }
       var aday = gorunurBulgular().filter(function (b) { return b.f.start <= konum && konum < b.f.end; });
-      if (!aday.length) { return; }
+      if (!aday.length) { ipucuKapat(); return; }
       aday.sort(function (x, y) { return ONEM_SIRA[x.f.severity] - ONEM_SIRA[y.f.severity] || (x.f.end - x.f.start) - (y.f.end - y.f.start); });
-      kartAc(aday[0].i, false);
+      bulguSec(aday[0].i, false);
     });
     window.addEventListener("resize", function () { kenarCiz(); secimCiz(); });
 
@@ -1305,6 +1392,49 @@
         }
       });
     });
+
+    // Dar ekran: alt gezinme, açılır paneller (seçenekler, süzgeçler) ve ipucu.
+    document.documentElement.setAttribute("data-gorunum", "metin");
+    document.querySelectorAll(".mobil-gezinme__dugme").forEach(function (d) {
+      d.addEventListener("click", function () { gorunumSec(d.getAttribute("data-gorunum")); });
+    });
+    document.querySelectorAll(".mobil-acici").forEach(function (d) {
+      d.addEventListener("click", function () {
+        var acik = d.getAttribute("aria-expanded") !== "true";
+        d.setAttribute("aria-expanded", acik ? "true" : "false");
+        $(d.getAttribute("aria-controls")).classList.toggle("acik", acik);
+      });
+    });
+    $("ipucu-kapat").addEventListener("click", ipucuKapat);
+    $("ipucu-ac").addEventListener("click", function () {
+      var i = durum.ipucu;
+      ipucuKapat();
+      kartAc(i, true);
+    });
+    $("ipucu-duzelt").addEventListener("click", function () {
+      var f = durum.rapor && durum.rapor.findings[durum.ipucu];
+      ipucuKapat();
+      if (f && f.fix) { duzeltmeleriUygula([f.fix]); }
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !$("ipucu").hidden) { ipucuKapat(); }
+    });
+    if (darEkranSorgusu && darEkranSorgusu.addEventListener) {
+      darEkranSorgusu.addEventListener("change", function () { ipucuKapat(); kenarCiz(); secimCiz(); });
+    }
+    // Ekran klavyesi açıkken alt gezinme gizlenir ve ipucu klavyenin üstünde durur. Klavye
+    // yüksekliği, görünen alanın (visualViewport) sayfa alanından ne kadar kısa olduğudur.
+    // Yakınlaştırmada da görünen alan küçülür; o zaman klavye sayılmaz.
+    if (window.visualViewport) {
+      var klavye = function () {
+        var vv = window.visualViewport, kok = document.documentElement;
+        var yukseklik = vv.scale > 1.05 ? 0 : Math.max(0, Math.round(kok.clientHeight - vv.height - vv.offsetTop));
+        kok.style.setProperty("--klavye", yukseklik + "px");
+        kok.classList.toggle("klavye-acik", yukseklik > 120);
+      };
+      window.visualViewport.addEventListener("resize", klavye);
+      window.visualViewport.addEventListener("scroll", klavye);
+    }
 
     // Temalar paneli (temalar.js) yazı tipini ve aralıkları değiştirebilir: kenar işaretleri yeniden ölçülür.
     document.addEventListener("kolaymetin:tema", function () { setTimeout(kenarCiz, 50); });

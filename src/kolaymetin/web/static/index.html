@@ -29,7 +29,7 @@
     <div class="arac-cubugu" role="toolbar" aria-label="Görünüm">
       <button type="button" class="dugme dugme--kucuk" id="tema-dugmesi" aria-haspopup="dialog" aria-controls="tema-paneli">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-tema"></use></svg>
-        <span>Temalar</span>
+        <span class="dugme__yazi">Temalar</span>
       </button>
       <button type="button" class="dugme dugme--kucuk dugme--ikon" id="yazi-kucult" aria-label="Yazıyı küçült">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yazi-kucult"></use></svg>
@@ -39,7 +39,7 @@
       </button>
       <a class="dugme dugme--kucuk" href="/rehber">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-rehber"></use></svg>
-        <span>Rehber</span>
+        <span class="dugme__yazi">Rehber</span>
       </a>
     </div>
   </div>
@@ -54,26 +54,34 @@
   <section class="izgara__sol" aria-labelledby="masa-baslik">
     <h2 id="masa-baslik" class="gorunmez">Metin</h2>
     <div class="denetim-cubugu">
-      <div class="alan">
-        <span class="etiket" id="yukle-etiket">Belge</span>
-        <button type="button" class="dugme" id="yukle-dugmesi" aria-describedby="yukle-etiket">
-          <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yukle"></use></svg>
-          <span>Dosya yükle</span>
-        </button>
-        <input type="file" id="dosya" class="gorunmez" accept=".txt,.md,.docx,.pdf" tabindex="-1" aria-hidden="true">
+      <!-- Dar ekranda belge, örnek ve "Yazarken denetle" bu düğmeyle açılan panelde durur;
+           geniş ekranda düğme gizlidir ve panel çubuğun bir parçasıdır. -->
+      <div class="denetim-secenekleri mobil-acilir" id="denetim-secenekleri">
+        <div class="alan">
+          <span class="etiket" id="yukle-etiket">Belge</span>
+          <button type="button" class="dugme" id="yukle-dugmesi" aria-describedby="yukle-etiket">
+            <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-yukle"></use></svg>
+            <span>Dosya yükle</span>
+          </button>
+          <input type="file" id="dosya" class="gorunmez" accept=".txt,.md,.docx,.pdf" tabindex="-1" aria-hidden="true">
+        </div>
+        <div class="alan">
+          <label for="ornek">Örnek metin</label>
+          <span class="secim"><select id="ornek"><option value="">Seçin…</option></select></span>
+        </div>
+        <label class="kutu"><input type="checkbox" id="otomatik" checked> Yazarken denetle</label>
       </div>
-      <div class="alan">
-        <label for="ornek">Örnek metin</label>
-        <span class="secim"><select id="ornek"><option value="">Seçin…</option></select></span>
-      </div>
-      <div class="alan">
+      <div class="alan alan--profil">
         <label for="profil">Profil</label>
         <span class="secim"><select id="profil">
           <option value="kolay-dil">Kolay Dil</option>
           <option value="sade-dil">Sade Dil</option>
         </select></span>
       </div>
-      <label class="kutu"><input type="checkbox" id="otomatik" checked> Yazarken denetle</label>
+      <button type="button" class="dugme dugme--ikon mobil-acici" aria-expanded="false" aria-controls="denetim-secenekleri"
+        aria-label="Diğer seçenekler: dosya, örnek metin, yazarken denetle">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-menu"></use></svg>
+      </button>
       <button type="button" class="dugme dugme--birincil" id="denetle">
         <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-denetle"></use></svg>
         <svg class="dortlu dortlu--16 dortlu--tek dortlu--doner" viewBox="0 0 16 16" aria-hidden="true"><use class="dortlu__im dortlu__im--hata" href="/static/ikonlar.svg#i-dortlu-hata"></use><use class="dortlu__im dortlu__im--uyari" href="/static/ikonlar.svg#i-dortlu-uyari"></use><use class="dortlu__im dortlu__im--bilgi" href="/static/ikonlar.svg#i-dortlu-bilgi"></use></svg>
@@ -97,7 +105,7 @@
         </div>
       </div>
     </div>
-    <p id="metin-yardim" class="etiket"><span class="surukle-ipucu">Dosyayı bu alana sürükleyip bırakabilirsiniz. </span>İşaretli bir yere tıklayınca ilgili not açılır.</p>
+    <p id="metin-yardim" class="etiket"><span class="surukle-ipucu">Dosyayı bu alana sürükleyip bırakabilirsiniz. </span>İşaretli bir yere dokunun ya da tıklayın: ilgili not açılır.</p>
   </section>
 
   <aside class="izgara__sag" aria-labelledby="sonuc-baslik">
@@ -108,6 +116,8 @@
     </div>
     <p class="gorunmez" id="duyuru" role="status" aria-live="polite"></p>
 
+    <!-- Dar ekranda .sonuc-ozet "Skor", .sonuc-inceleme "Bulgular" görünümüdür (alt gezinme). -->
+    <div class="sonuc-ozet">
     <div class="skorlar">
       <div class="skor skor--buyuk">
         <h3 class="skor__baslik" id="uyum-baslik">Kolay Dil Uyum Skoru</h3>
@@ -146,14 +156,20 @@
       <div><dt>Ortalama cümle</dt><dd id="s-ortalama">—</dd></div>
       <div><dt>En uzun cümle</dt><dd id="s-enuzun">—</dd></div>
     </dl>
+    </div>
 
+    <div class="sonuc-inceleme">
     <div class="sekmeler" role="tablist" aria-label="Sonuç görünümü">
       <button type="button" class="sekme" role="tab" id="sekme-bulgular" aria-selected="true" aria-controls="panel-bulgular">Bulgular <span id="bulgu-sayisi" class="mono"></span></button>
       <button type="button" class="sekme" role="tab" id="sekme-cumleler" aria-selected="false" aria-controls="panel-cumleler" tabindex="-1">Cümleler</button>
     </div>
 
     <div class="sekme-paneli" role="tabpanel" id="panel-bulgular" aria-labelledby="sekme-bulgular">
-      <div class="suzgecler">
+      <button type="button" class="dugme dugme--kucuk mobil-acici" aria-expanded="false" aria-controls="suzgecler">
+        <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-filtre"></use></svg>
+        <span>Süzgeçler</span> <span class="mono" id="suzgec-ozet"></span>
+      </button>
+      <div class="suzgecler mobil-acilir" id="suzgecler">
         <fieldset>
           <legend>Önem</legend>
           <label class="kutu"><input type="checkbox" name="onem" value="hata" checked>
@@ -236,6 +252,7 @@
         <span>Kesik çizgi: profilin uyarı eşiği.</span></p>
       <ol class="cumleler" id="cumleler" aria-label="Cümleler"></ol>
     </div>
+    </div>
 
     <div class="disa-aktar" role="group" aria-label="Dışa aktar">
       <span class="etiket tam-genislik">Raporu indir</span>
@@ -251,6 +268,41 @@
     </div>
   </aside>
 </main>
+
+<!-- Dar ekran: işaretli bir yere dokununca bulgunun özeti editörün altında açılır; sayfa kaymaz.
+     Ayrıntılar düğmesi Bulgular görünümündeki kartı açar. -->
+<section class="ipucu" id="ipucu" hidden aria-labelledby="ipucu-mesaj">
+  <div class="ipucu__ust">
+    <span class="onem" id="ipucu-onem"></span>
+    <span class="kimlik" id="ipucu-kimlik"></span>
+    <button type="button" class="dugme dugme--kucuk dugme--ikon ipucu__kapat" id="ipucu-kapat" aria-label="Notu kapat">
+      <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-kapat"></use></svg>
+    </button>
+  </div>
+  <p class="ipucu__mesaj" id="ipucu-mesaj"></p>
+  <p class="not-kagidi__oneri ipucu__oneri" id="ipucu-oneri" hidden></p>
+  <div class="not-kagidi__eylem">
+    <button type="button" class="dugme dugme--kucuk" id="ipucu-duzelt" hidden>Düzelt</button>
+    <button type="button" class="dugme dugme--kucuk" id="ipucu-ac">
+      <span>Ayrıntılar</span>
+      <svg class="ikon" aria-hidden="true"><use href="/static/ikonlar.svg#i-sonraki"></use></svg>
+    </button>
+  </div>
+</section>
+
+<nav class="mobil-gezinme" aria-label="Görünüm">
+  <button type="button" class="mobil-gezinme__dugme" id="gorunum-metin" data-gorunum="metin" aria-pressed="true">
+    <span class="mobil-gezinme__ad">Metin</span>
+  </button>
+  <button type="button" class="mobil-gezinme__dugme" id="gorunum-bulgular" data-gorunum="bulgular" aria-pressed="false">
+    <span class="mobil-gezinme__ad">Bulgular</span>
+    <span class="mobil-gezinme__deger" id="gorunum-bulgu-sayisi"></span>
+  </button>
+  <button type="button" class="mobil-gezinme__dugme" id="gorunum-skor" data-gorunum="skor" aria-pressed="false">
+    <span class="mobil-gezinme__ad">Skor</span>
+    <span class="mobil-gezinme__deger" id="gorunum-skor-degeri"></span>
+  </button>
+</nav>
 
 <footer class="altbilgi">
   <p>kolaymetin 1.0.0 · Kod: Apache-2.0 · Rehber ve sözlük: CC BY 4.0 · Yazı tipi: Atkinson Hyperlegible (SIL OFL)</p>
