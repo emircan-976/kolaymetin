@@ -1,7 +1,7 @@
 """Renk değişkenlerinin WCAG 2.2 kontrast denetimi.
 
-style.css içindeki açık tema (:root) ve koyu tema (:root[data-theme="dark"]) renk
-değişkenlerini okur, her metin/zemin çiftinin kontrast oranını WCAG formülüyle hesaplar.
+style.css içindeki açık tema (:root), koyu tema (:root[data-theme="dark"]) ve hazır temaların
+(:root[data-tema="…"]) renk değişkenlerini okur, her metin/zemin çiftinin kontrast oranını WCAG formülüyle hesaplar.
 Metin için 4.5:1, metin dışı öğeler (çizgi, ikon, odak halkası) için 3:1 altında kalan
 çift varsa çıkış kodu 1 olur.
 
@@ -48,10 +48,16 @@ def _block(css: str, selector_regex: str) -> dict[str, str]:
 
 
 def themes(css: str) -> dict[str, dict[str, str]]:
-    light = _block(css, r"(?m)^:root")
+    """Açık ve koyu tema ile Temalar panelindeki her hazır tema (:root[data-tema="…"])."""
+    light = _block(css, r"(?m)^:root(?!\[)[^{]*")
     dark = dict(light)
-    dark.update(_block(css, r':root\[data-theme="dark"\]'))
-    return {"açık": light, "koyu": dark}
+    dark.update(_block(css, r':root\[data-theme="dark"\][^{]*'))
+    out = {"açık": light, "koyu": dark}
+    for name, body in re.findall(r':root\[data-tema="([a-z0-9-]+)"\][^{]*\{([^}]*)\}', css):
+        colors = dict(light)
+        colors.update(VAR_RE.findall(body))
+        out[name] = colors
+    return out
 
 
 def luminance(hex_color: str) -> float:
@@ -90,7 +96,7 @@ def report(css_text: str) -> list[str]:
             if fg in colors and bg in colors:
                 ratio = contrast(colors[fg], colors[bg])
                 mark = "tamam" if ratio >= need else "YETERSİZ"
-                lines.append(f"{theme:5} {what:34} {ratio:5.2f}:1  (≥{need})  {mark}")
+                lines.append(f"{theme:8} {what:34} {ratio:5.2f}:1  (≥{need})  {mark}")
     return lines
 
 

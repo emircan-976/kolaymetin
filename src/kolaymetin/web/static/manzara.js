@@ -178,7 +178,7 @@
     planla();
   }
   function planla() {
-    if (!istek && gorunur && !document.hidden && !hareketsiz.matches) { istek = window.requestAnimationFrame(kare); }
+    if (!istek && gorunur && !document.hidden && !hareketsiz.matches && kok.getAttribute("data-hareket") !== "az") { istek = window.requestAnimationFrame(kare); }
   }
   function yenidenCiz() { boyutla(); ciz(); }
 
@@ -195,8 +195,9 @@
   }
   document.addEventListener("visibilitychange", planla);
   if (hareketsiz.addEventListener) { hareketsiz.addEventListener("change", function () { ciz(); planla(); }); }
-  // Tema değişince (düğme ya da sistem tercihi) renkleri yeniden oku.
-  new MutationObserver(ciz).observe(kok, { attributes: true, attributeFilter: ["data-theme"] });
+  // Tema değişince (Temalar paneli ya da sistem tercihi) renkleri yeniden oku.
+  new MutationObserver(ciz).observe(kok, { attributes: true, attributeFilter: ["data-theme", "data-tema"] });
+  document.addEventListener("kolaymetin:tema", function () { ciz(); planla(); });
   if (window.matchMedia) {
     var koyu = window.matchMedia("(prefers-color-scheme: dark)");
     if (koyu.addEventListener) { koyu.addEventListener("change", ciz); }

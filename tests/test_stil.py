@@ -17,7 +17,7 @@ JS_FILES = sorted(STATIC.glob("*.js"))
 ALL = CSS_FILES + HTML_FILES + JS_FILES
 
 ALLOWED_FONTS = {"atkinson hyperlegible next", "atkinson hyperlegible mono", "inherit",
-                 "var(--f-govde)", "var(--f-mono)"}
+                 "var(--f-govde)", "var(--f-baslik)", "var(--f-mono)"}
 GENERIC_FALLBACKS = {"sans-serif", "monospace"}
 
 
@@ -46,10 +46,28 @@ def test_no_gradients(path: Path) -> None:
     assert "gradient" not in path.read_text(encoding="utf-8").lower()
 
 
+def _root_tokens(css: str) -> str:
+    """Ölçü değişkenlerinin varsayılanlarını taşıyan :root bloğu (renk bloğundan sonraki)."""
+    m = re.search(r"(?m)^:root\s*\{([^}]*)\}", _strip_comments(css))
+    assert m, ":root ölçü bloğu yok"
+    return m.group(1)
+
+
 def test_no_border_radius_above_zero() -> None:
+    """Köşe yarıçapı ya 0'dır ya da --yaricap değişkeninden gelir; varsayılan tema köşesizdir.
+    Temalar panelinde kullanıcı kendi teması için köşeleri yuvarlatabilir (tema.js)."""
     for path, css in _css_texts():
         for value in re.findall(r"border-radius\s*:\s*([^;}\"]+)", _strip_comments(css)):
-            assert re.fullmatch(r"\s*0(px)?\s*(!important)?\s*", value), f"{path.name}: border-radius {value}"
+            ok = re.fullmatch(r"\s*0(px)?\s*(!important)?\s*", value) or "var(--yaricap)" in value
+            assert ok, f"{path.name}: border-radius {value}"
+    tokens = _root_tokens((STATIC / "style.css").read_text(encoding="utf-8"))
+    assert re.search(r"--yaricap:\s*0px;", tokens)
+
+
+def test_default_theme_has_no_soft_shadow() -> None:
+    tokens = _root_tokens((STATIC / "style.css").read_text(encoding="utf-8"))
+    assert re.search(r"--golge-kart:\s*none;", tokens)
+    assert re.search(r"--golge-dugme:\s*3px 3px 0 var\(--murekkep-soluk\);", tokens)
 
 
 def test_no_blurred_shadows_or_filters() -> None:
@@ -131,7 +149,7 @@ def test_no_icon_libraries_or_emoji() -> None:
 def test_dark_theme_blocks_match() -> None:
     css = (STATIC / "style.css").read_text(encoding="utf-8")
     media = re.search(r'@media \(prefers-color-scheme: dark\)\s*\{\s*:root:not\(\[data-theme="light"\]\)\s*\{([^}]*)\}', css)
-    manual = re.search(r':root\[data-theme="dark"\]\s*\{([^}]*)\}', css)
+    manual = re.search(r':root\[data-theme="dark"\][^{]*\{([^}]*)\}', css)
     assert media and manual
     assert media.group(1).split() == manual.group(1).split()
 
@@ -154,7 +172,21 @@ def test_dither_not_behind_text() -> None:
 def test_contrast_script_passes() -> None:
     css = (STATIC / "style.css").read_text(encoding="utf-8")
     assert kontrast_denetle.check(css) == []
-    assert len(kontrast_denetle.report(css)) == 2 * len(kontrast_denetle.PAIRS)
+    themes = kontrast_denetle.themes(css)
+    assert {"açık", "koyu", "ofis", "kamu", "kontrast", "kenar", "sepya", "gece", "okuma"} <= set(themes)
+    assert len(kontrast_denetle.report(css)) == len(themes) * len(kontrast_denetle.PAIRS)
+
+
+def test_every_preset_has_colors_and_swatch() -> None:
+    """tema.js'deki her hazır temanın style.css'te renk bloğu ve panel örneği vardır."""
+    css = (STATIC / "style.css").read_text(encoding="utf-8")
+    tema_js = (STATIC / "tema.js").read_text(encoding="utf-8")
+    ids = re.findall(r'\{ id: "([a-z]+)", ad:', tema_js)
+    assert ids[:2] == ["masa", "negatif"] and len(ids) >= 9
+    for theme_id in ids:
+        assert f'.tema-ornek[data-tema="{theme_id}"]' in css, theme_id
+        if theme_id not in ("masa", "negatif"):
+            assert f':root[data-tema="{theme_id}"]' in css, theme_id
 
 
 def test_contrast_script_detects_failure() -> None:

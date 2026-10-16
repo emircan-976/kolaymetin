@@ -203,7 +203,14 @@ kolaymetin sunucu --port 8000
   düğmeleri var. Bkz. [Yapay zekâyla düzeltme](#yapay-zekâyla-düzeltme-isteğe-bağlı).
 - "Cümleler" sekmesi her cümlenin uzunluğunu bir çubukla gösterir.
 - Raporu HTML (yazdırılabilir; tarayıcıdan "PDF olarak kaydet"), Markdown ya da JSON olarak indirin.
-- Klavyeyle tam kullanılır; açık/koyu tema ve yazı büyütme düğmeleri var.
+- Klavyeyle tam kullanılır; yazı büyütme düğmeleri var.
+- **Temalar** düğmesi dokuz hazır tema sunar: Düzeltmen Masası, Negatif Baskı, Sade Ofis, Kamu
+  Belgesi, Yüksek Kontrast, Kenar Notları, Sepya, Gece Mavisi ve Okuma Kolaylığı. Bir ayarı
+  değiştirince seçili temanın kopyası kendi temanız olur. Ayarlanabilenler: yedi renk (kontrast
+  denetimiyle), metin, başlık ve etiket yazı tipi, satır, harf ve kelime aralığı, boşluklar, köşe
+  yuvarlaklığı, çizgi kalınlığı, gölge, yerleşim (metin solda, metin sağda ya da tek sütun), süsler
+  ve canlandırmalar. Temalar yalnızca bu tarayıcıda saklanır. JSON dosyası olarak dışa ve içe
+  aktarılabilir. Yazdırırken tema ne olursa olsun beyaz kâğıda siyah basılır.
 
 ### Komut satırı
 

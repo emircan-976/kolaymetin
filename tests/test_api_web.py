@@ -19,7 +19,7 @@ def test_index_and_static() -> None:
     assert r.status_code == 200 and "kolaymetin" in r.text
     assert "Content-Security-Policy" in r.headers
     assert "default-src 'self'" in r.headers["Content-Security-Policy"]
-    for path in ("/static/style.css", "/static/app.js", "/static/ikonlar.svg",
+    for path in ("/static/style.css", "/static/app.js", "/static/tema.js", "/static/temalar.js", "/static/ikonlar.svg",
                  "/static/gorsel/bos-durum.png", "/static/desen/bayer4-08.png",
                  "/static/fonts/atkinson-hyperlegible-next-latin-ext-400-normal.woff2"):
         assert client.get(path).status_code == 200, path

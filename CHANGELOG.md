@@ -5,6 +5,29 @@ Biçim [Keep a Changelog](https://keepachangelog.com/tr/1.1.0/) önerisine, sür
 
 ## [Yayımlanmamış]
 
+### Temalar (2026-10-16)
+
+Testler: `tests/test_stil.py`, `tests/test_api_web.py`.
+
+#### Eklendi
+- Üst çubuktaki "Koyu tema" düğmesinin yerine **Temalar** paneli. Dokuz hazır tema var. "Sistemle
+  aynı" seçeneği eski davranışı sürdürür. Eski açık/koyu kaydı Düzeltmen Masası / Negatif Baskı
+  olarak okunur.
+- Özelleştirme: renkler (canlı WCAG kontrast denetimiyle), yazı tipleri, aralıklar, köşe,
+  çizgi, gölge, yerleşim, süsler ve canlandırmalar. Hazır temalar değişmez; değişiklik kopyaya
+  kaydedilir. En çok 30 kişisel tema; JSON ile dışa/içe aktarma.
+- `tema.js` temayı sayfa çizilmeden uygular. CSP satır içi stile izin vermediği için değerler
+  `adoptedStyleSheets` ile yazılır, yalnızca ekran için. İçe aktarılan temalar doğrulanır:
+  yalnızca `#RRGGBB` renkler, sınırlı sayılar ve tablodaki yazı tipleri CSS'e geçer.
+
+#### Değişti
+- Bileşenlerin köşe, çizgi, gölge ve aralık değerleri artık `style.css`'teki değişkenlerden
+  geliyor (`--yaricap`, `--cizgi`, `--golge-dugme`, `--golge-kart`, `--satir`, `--harf`,
+  `--kelime`, `--sikilik`, `--f-baslik`). Varsayılanlar Düzeltmen Masası'nın kurallarıdır:
+  köşe 0, bulanık gölge yok.
+- Hazır temaların renkleri `style.css`'te `:root[data-tema="…"]` bloklarında.
+  `scripts/kontrast_denetle.py` bunların hepsini de denetliyor.
+
 ### Hata ayıklama: anlamı bozan düzeltmeler ve güvenlik (2026-10-12)
 
 Testler: `tests/test_duzeltme.py`, `tests/test_duzeltme_bicim.py`, `tests/test_yeniden_yaz.py`.

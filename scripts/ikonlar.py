@@ -483,11 +483,14 @@ def _palet(css: str) -> tuple[dict[str, str], dict[str, str]]:
     """style.css'ten açık (:root) ve koyu (:root[data-theme="dark"]) renkleri okur."""
     var_re = re.compile(r"--([a-z0-9-]+)\s*:\s*(#[0-9a-fA-F]{6})\b")
 
-    def blok(bas: str) -> dict[str, str]:
-        parca = css[css.index(bas):]
-        return {k: v.upper() for k, v in var_re.findall(parca[: parca.index("}")])}
+    def blok(secici: str) -> dict[str, str]:
+        # Seçici listesinin ilki yeter: renk blokları Temalar panelindeki örneklerle paylaşılır.
+        m = re.search(r"(?m)^" + secici + r"[^{]*\{([^}]*)\}", css)
+        if not m:
+            raise ValueError(f"style.css içinde renk bloğu yok: {secici}")
+        return {k: v.upper() for k, v in var_re.findall(m.group(1))}
 
-    return blok(":root {"), blok(':root[data-theme="dark"] {')
+    return blok(r":root(?!\[)"), blok(r':root\[data-theme="dark"\]')
 
 
 def isaret(css: str) -> str:

@@ -1202,14 +1202,6 @@
   }
 
   // ------------------------------------------------------------------ görünüm tercihleri
-  function temaDugmesiGuncelle() {
-    var koyu = document.documentElement.getAttribute("data-theme") === "dark" ||
-      (!document.documentElement.getAttribute("data-theme") && window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches);
-    var d = $("tema-dugmesi");
-    d.setAttribute("aria-pressed", koyu ? "true" : "false");
-    d.querySelector("span").textContent = koyu ? "Açık tema" : "Koyu tema";
-  }
-
   function olcekDegistir(yon) {
     var simdiki = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--olcek")) || 1;
     var i = OLCEKLER.indexOf(simdiki);
@@ -1314,17 +1306,11 @@
       });
     });
 
-    $("tema-dugmesi").addEventListener("click", function () {
-      var koyu = $("tema-dugmesi").getAttribute("aria-pressed") === "true";
-      var yeni = koyu ? "light" : "dark";
-      document.documentElement.setAttribute("data-theme", yeni);
-      saklaYaz("kolaymetin.tema", yeni);
-      temaDugmesiGuncelle();
-    });
+    // Temalar paneli (temalar.js) yazı tipini ve aralıkları değiştirebilir: kenar işaretleri yeniden ölçülür.
+    document.addEventListener("kolaymetin:tema", function () { setTimeout(kenarCiz, 50); });
     $("yazi-buyut").addEventListener("click", function () { olcekDegistir(1); });
     $("yazi-kucult").addEventListener("click", function () { olcekDegistir(-1); });
 
-    temaDugmesiGuncelle();
     olcekDegistir(0);
     duyur("");
     // Çözümleyiciyi kullanıcı metni yazarken ısıtır; soğuk başlayan sunucuda ilk denetim beklemez.
